@@ -1,0 +1,16 @@
+[project]
+name = "finguard"
+version = "0.1.0"
+description = "Every number gets a receipt: Muse finds it on the filing page, code decides whether it matches."
+requires-python = ">=3.12"
+dependencies = ["pymupdf>=1.24", "httpx>=0.27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+render = ["playwright>=1.40"]
+
+[tool.setuptools]
+packages = ["finguard"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

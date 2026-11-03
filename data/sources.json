@@ -1,0 +1,21 @@
+{
+  "NBIS-Q2-2026.pdf": {
+    "company": "Nebius",
+    "document": "Q2 2026 results",
+    "url": "https://assets.nebius.com/assets/72a8c258-bbb7-4df7-ab9d-8698f6cb88fc/PR.pdf",
+    "sha256": "d3dd403297e2e1680317ba6597f79c35deb13d29188fc5647dcd132885510289"
+  },
+  "ASML-Q3-2026.pdf": {
+    "company": "ASML",
+    "document": "Q3 2026 financial statements, US GAAP",
+    "url": "https://www.investor.asml.com/static-files/d310262b-d037-485d-83b5-92c93cc462f0",
+    "sha256": "562ba8423b4cdb74f48c0d033f9c1571c314f525f252cffce245ad532b03e2a9"
+  },
+  "ANTH-S1-2026.pdf": {
+    "company": "Anthropic",
+    "document": "Form S-1 filed 26 October 2026, turned into a PDF by scripts/render_s1.py",
+    "url": "https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm",
+    "original_sha256": "2fa24ae7704dbb535d096ee7459b765fe899ac9118762e738183a94473c9905a",
+    "sha256": "e2647e725fe1531154e0f762d486a27d501948ea4faf75dda13014408e02aebd"
+  }
+}
