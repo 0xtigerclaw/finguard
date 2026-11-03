@@ -1,5 +1,7 @@
 # Finguard
 
+**Live demo:** https://finguard-157951168487.asia-south1.run.app
+
 Every number in a memo gets a receipt from the filing, or a refusal.
 
 Finguard is a finance harness built on Meta's Muse. A model can propose, only code can verify,
