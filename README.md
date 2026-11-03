@@ -1,6 +1,6 @@
 # Finguard
 
-![Finguard checking a memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read: the memo says a net loss of $8.7bn, and the filing shows -$80.7bn.](docs/img/check.png)
+![No source. No sign-off. Muse retrieves. Code verifies. Person approves. Finance Harness Powered by Meta Muse. A real S-1 table with the net loss cell, (80,748), marked in red.](docs/img/thumbnail.png)
 
 **A finance harness inspired by DeepSeek Harness, running on Meta Muse.**
 
@@ -11,6 +11,8 @@ Its first plugins do one job: every number in a memo gets a receipt from the fil
 **Try it:** https://finguard-157951168487.asia-south1.run.app
 
 **Built with:** Meta Muse Spark 1.3 at runtime. Claude Opus 5.5 wrote and reviewed the code. See [How it was built](#how-it-was-built).
+
+![Finguard checking a memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read: the memo says a net loss of $8.7bn, and the filing shows -$80.7bn.](docs/img/check.png)
 
 ## Inspired by DeepSeek Harness
 
