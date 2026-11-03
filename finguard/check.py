@@ -7,16 +7,18 @@ Plain code then reads the PDF's own text inside the box and gives the verdict.
 from __future__ import annotations
 
 import re
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 from decimal import Decimal
 
 from .errors import MuseError
 from .figures import Figure, money, numbers_in_memo, read_figure, same_size
 from .muse import Muse, image_part
-from .page import Filing
+from .page import Filing, squeeze
 from .record import Run
 
 MAX_PAGES = 6
+MAX_AT_ONCE = 4  # calls in flight; a memo of ten claims should not take minutes
 MATCH, WRONG, REFUSED, UNCHECKED = "match", "wrong", "refused", "unchecked"
 _STOP = {"the", "of", "and", "for", "in", "a", "an", "total", "to", "from", "by", "net", "attributable"}
 
@@ -85,6 +87,7 @@ class Receipt:
     filing_sha256: str = ""
     page: int | None = None  # zero-based page of the PDF
     box: list[int] = field(default_factory=list)  # where the source number is, 0-1000 grid
+    muse_box: list[float] = field(default_factory=list)  # where Muse pointed
     source_text: str = ""  # the cell exactly as printed, such as (80,748)
     source_money: str = ""  # the same figure in plain units, such as -$80.7bn
     row: str = ""
@@ -96,10 +99,6 @@ class Receipt:
 
 def _words(text: str) -> set[str]:
     return set(re.findall(r"[a-z]+", text.lower())) - _STOP
-
-
-def _squeeze(text: str) -> str:
-    return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
 
 
 def list_claims(memo: str, muse: Muse) -> list[Claim]:
@@ -198,18 +197,17 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int]) -> Rec
     if len(box) != 4 or box[0] >= box[2] or box[1] >= box[3]:
         return refuse("Muse's box was not a usable rectangle.")
     page = pages[index]
-    inside = filing.numbers_in_box(page, box)
-    if len(inside) != 1:
-        return refuse(f"The box holds {len(inside)} numbers, so the source is not clear.", page=page)
-    cell = filing.cell(page, inside[0])
+    row_label = located.get("row_label") or ""
+    near = filing.numbers_near(page, box, row_label)
+    if len(near) != 1:
+        return refuse(f'Muse pointed to the row "{row_label}", and {len(near)} numbers there fit its box, '
+                      "so the source is not clear.", page=page, muse_box=box)
+    cell = filing.cell(page, near[0])
     if cell is None:
-        return refuse("The number in the box could not be read.", page=page)
-    where = dict(page=page, box=filing.points_to_grid(page, cell.rect), source_text=cell.text,
+        return refuse("The number in the box could not be read.", page=page, muse_box=box)
+    where = dict(page=page, box=filing.points_to_grid(page, cell.rect), muse_box=box, source_text=cell.text,
                  row=cell.row, column=cell.column)
 
-    said = _squeeze(located.get("row_label") or "")
-    if not said or said not in _squeeze(cell.row):
-        return refuse(f'Muse named the row "{located.get("row_label")}", but the page says "{cell.row}".', **where)
     if not _words(claim.metric) & _words(cell.row):
         return refuse(f'The row "{cell.row}" does not plainly name "{claim.metric}".', **where)
     if not _period_fits(cell.column, claim):
@@ -221,12 +219,15 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int]) -> Rec
     if figure.percent:
         amount = cell.amount
     else:
-        per_share = "per share" in cell.row.lower()
+        row = cell.row.lower()
+        per_share = "per share" in row
+        if "share" in row and not per_share and "compensation" not in row and "based" not in row:
+            return refuse("Share counts use different units from money on this page.", **where)
         scale = 0 if per_share else filing.scale(page)
         if scale is None:
             return refuse("The page does not say what units its table is in.", **where)
         amount = cell.amount * Decimal(10) ** scale
-    shown = cell.text if figure.percent else money(amount, _page_currency(filing, page), cell.negative)
+    shown = cell.text.rstrip("%") + "%" if figure.percent else money(amount, _page_currency(filing, page), cell.negative)
     where["source_money"] = shown
     printed = f"{shown} (printed as {cell.text})" if shown != cell.text else shown
     problem = _money_unit_problem(figure, filing, page)
@@ -250,25 +251,29 @@ def locate(claim: Claim, filing: Filing, pages: list[int], muse: Muse) -> dict:
                     "MetricLocation", LOCATE_SCHEMA)
 
 
+def _check_one(claim: Claim, filing: Filing, pages: list[int], muse: Muse) -> Receipt:
+    base = (claim.value_text, claim.quote, claim.metric, filing.sha256)
+    if not pages:
+        return Receipt(REFUSED, "No page in this filing mentions the metric for that year.", *base)
+    try:
+        return decide(claim, filing, locate(claim, filing, pages, muse), pages)
+    except MuseError as e:
+        return Receipt(REFUSED, f"The check could not finish: {e.code}. Nothing was assumed.", *base)
+
+
 def check_memo(memo: str, filing: Filing, muse: Muse, run: Run) -> list[Receipt]:
     run.write("start", filing=filing.path.name, filing_sha256=filing.sha256, memo=memo, model=muse.model)
-    receipts: list[Receipt] = []
     claims = list_claims(memo, muse)
-    for claim in claims:
-        pages = candidate_pages(filing, claim)
-        if not pages:
-            receipts.append(Receipt(REFUSED, "No page in this filing mentions the metric for that year.",
-                                    claim.value_text, claim.quote, claim.metric, filing.sha256))
-        else:
-            try:
-                receipts.append(decide(claim, filing, locate(claim, filing, pages, muse), pages))
-            except MuseError as e:
-                receipts.append(Receipt(REFUSED, f"The check could not finish: {e.code}. Nothing was assumed.",
-                                        claim.value_text, claim.quote, claim.metric, filing.sha256))
-        run.write("receipt", **receipts[-1].to_dict())
-    for text in skipped_numbers(memo, claims):
-        receipts.append(Receipt(UNCHECKED, "This number was not checked. Muse did not list it as a claim.", text,
-                                filing_sha256=filing.sha256))
-        run.write("receipt", **receipts[-1].to_dict())
+    # Page search and rendering are not safe to share across threads, so they happen first.
+    plans = [candidate_pages(filing, c) for c in claims]
+    for pages in plans:
+        for page in pages:
+            filing.image(page)
+    with ThreadPoolExecutor(MAX_AT_ONCE) as pool:
+        receipts = list(pool.map(lambda c, pages: _check_one(c, filing, pages, muse), claims, plans))
+    receipts += [Receipt(UNCHECKED, "This number was not checked. Muse did not list it as a claim.", text,
+                         filing_sha256=filing.sha256) for text in skipped_numbers(memo, claims)]
+    for receipt in receipts:
+        run.write("receipt", **receipt.to_dict())
     run.write("end", counts={v: sum(r.verdict == v for r in receipts) for v in (MATCH, WRONG, REFUSED, UNCHECKED)})
     return receipts

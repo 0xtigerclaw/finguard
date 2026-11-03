@@ -16,9 +16,16 @@ direction, and gives the verdict.
 
 ## Status
 
-In progress. The check runs on real Anthropic, Nebius and ASML filings, and the tests use a
-scripted stand-in for Muse. It has not yet run against live Muse, and no accuracy score has
-been measured.
+In progress. Live Muse has run on one test memo about Anthropic's S-1, written for this
+purpose with two planted errors: all six numbers got the right verdict
+(`examples/anthropic_memo.txt`). That is one memo, not an accuracy score. Nebius and ASML
+have not run on live Muse yet, and the wider score has not been measured.
+
+Muse's boxes find the right column but can land a row out, so a box is treated as a
+pointer. Code finds the exact cell from the row name printed on the page.
+
+The tests use real filings. Most script Muse's replies, and `tests/test_live_replies.py`
+replays real ones saved from live runs. No test calls the API.
 
 ## Run the tests
 

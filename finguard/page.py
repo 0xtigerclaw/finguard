@@ -13,6 +13,7 @@ from .record import sha256
 
 GRID = 1000  # Muse reports boxes as [x_min, y_min, x_max, y_max] on a 0-1000 grid
 PADDING = 8  # forgive a box this many grid units too tight
+ROW_REACH = 32  # Muse's boxes land up to about a row and a half off, measured on live replies
 DPI = 150
 _NUMERIC = re.compile(r"^\(?-?\$?€?\d[\d,]*(?:\.\d+)?\)?%?$")
 _YEAR = re.compile(r"\b(19|20)\d{2}\b")
@@ -54,6 +55,7 @@ class Filing:
         data = self.path.read_bytes()
         self.sha256 = sha256(data)
         self.doc = pymupdf.open(stream=data, filetype="pdf")
+        self.images: dict[int, bytes] = {}
 
     @property
     def pages(self) -> int:
@@ -63,7 +65,9 @@ class Filing:
         return self.doc[page].get_text()
 
     def image(self, page: int) -> bytes:
-        return self.doc[page].get_pixmap(dpi=DPI).tobytes("png")
+        if page not in self.images:
+            self.images[page] = self.doc[page].get_pixmap(dpi=DPI).tobytes("png")
+        return self.images[page]
 
     def words(self, page: int) -> list[Word]:
         return [Word(*w[:5]) for w in self.doc[page].get_text("words")]
@@ -82,10 +86,21 @@ class Filing:
     def scale(self, page: int) -> int | None:
         return scale_of_page(self.text(page))
 
-    def numbers_in_box(self, page: int, box: list[float]) -> list[Word]:
-        x0, y0, x1, y1 = self.grid_to_points(page, box)
-        return [w for w in self.words(page)
-                if _NUMERIC.match(w.text) and x0 <= w.cx <= x1 and y0 <= w.cy <= y1]
+    def numbers_near(self, page: int, box: list[float], row_label: str) -> list[Word]:
+        """The numbers in the box's column, on a row printed with this label, near the box.
+
+        Muse's box is a pointer. The label on the page fixes the row, so a box a row out
+        cannot pick up the number from the row next door.
+        """
+        x0, _, x1, _ = self.grid_to_points(page, box)
+        height = self.doc[page].rect.height
+        middle = (box[1] + box[3]) / 2 * height / GRID
+        reach = ROW_REACH * height / GRID
+        said = squeeze(row_label)
+        words = self.words(page)
+        return [w for w in words
+                if _NUMERIC.match(w.text) and x0 <= w.cx <= x1 and abs(w.cy - middle) <= reach
+                and said and said in squeeze(_row_of(w, words))]
 
     def cell(self, page: int, word: Word) -> Cell | None:
         words = self.words(page)
@@ -95,6 +110,11 @@ class Filing:
         return Cell(word.text, figure.amount, figure.negative,
                     figure.percent or _percent_follows(word, words),
                     (word.x0, word.y0, word.x1, word.y1), _row_of(word, words), _column_of(word, words))
+
+
+def squeeze(text: str) -> str:
+    """Text reduced to lowercase words, so spacing and punctuation cannot fail a comparison."""
+    return " ".join(re.findall(r"[a-z0-9]+", text.lower()))
 
 
 def _same_line(a: Word, b: Word) -> bool:
@@ -145,13 +165,15 @@ def _column_of(word: Word, words: list[Word]) -> str:
     groups = _groups(line)
     own = min(groups, key=lambda g: abs(_centre(g) - word.cx))
     parts = [" ".join(w.text for w in own)]
-    # Spanning headings sit a line or two above. Prose or a units caption ends the heading.
+    # Spanning headings sit a line or two above. A units caption is skipped, and prose ends the search.
     tops = sorted({round(w.cy) for w in words if 0 < year.cy - w.cy < 32 and not _NUMERIC.match(w.text)}, reverse=True)
     for y in tops:
         groups = _groups([w for w in words if round(w.cy) == y])
         best = min(groups, key=lambda g: abs(_centre(g) - word.cx))
         text = " ".join(w.text for w in best)
-        if len(best) > 6 or "millions" in text.lower() or "thousands" in text.lower():
+        if "millions" in text.lower() or "thousands" in text.lower():
+            continue
+        if len(best) > 6:
             break
         parts.insert(0, text)
     return " ".join(parts)

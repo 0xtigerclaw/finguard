@@ -38,13 +38,14 @@ def test_rounding_follows_how_the_claim_was_written(claim, source, agrees):
     ("(in millions, except for percentages)", 6), ("In USD $ millions", 6), ("(Unaudited, €, in millions)", 6),
     ("(in thousands)", 3), ("no units here", None), ("in millions and in thousands", None),
     ("(in millions of U.S. dollars, except share and per share data)", 6),
+    ("(In millions, except share amounts which are in thousands, and per share data)", 6),
 ])
 def test_page_units(text, power):
     assert scale_of_page(text) == power
 
 
 def test_every_figure_in_a_memo_is_seen_but_dates_are_not():
-    found = [t for _, _, t in numbers_in_memo("On June 30, 2026 revenue was $16.3bn, up 14% from 1,163 in Q2.")]
+    found = [t for _, _, t in numbers_in_memo("The S-1 and 10-K say on June 30, 2026 revenue was $16.3bn, up 14% from 1,163 in Q2.")]
     assert found == ["$16.3bn", "14%", "1,163"]
 
 

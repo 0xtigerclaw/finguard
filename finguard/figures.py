@@ -80,7 +80,9 @@ _PAGE_SCALE = re.compile(r"\bin\s+(?:(?:usd|eur|u\.s\.|us)\s+)?(?:dollars?\s+)?(
 
 def scale_of_page(text: str) -> int | None:
     """The power of ten a page's tables are stated in, or None if it does not say or says two."""
-    powers = {SCALES[m.group(1).lower()] for m in _PAGE_SCALE.finditer(text)}
+    # "In millions, except share amounts which are in thousands" states one scale for money.
+    stated = re.sub(r"\bexcept\b[^)]*\)", ")", text, flags=re.IGNORECASE)
+    powers = {SCALES[m.group(1).lower()] for m in _PAGE_SCALE.finditer(stated)}
     return powers.pop() if len(powers) == 1 else None
 
 
@@ -92,7 +94,7 @@ _DATE = re.compile(
 )
 _YEAR = re.compile(r"^(?:19|20)\d{2}$")
 _MEMO_NUMBER = re.compile(
-    r"(?<![\w.,])[-−–(]?\s*[$€£]?\s*\d[\d,]*(?:\.\d+)?"
+    r"(?<![\w.,-])[-−–(]?\s*[$€£]?\s*\d[\d,]*(?:\.\d+)?(?!\d|-\w)"
     r"(?:\s*(?:trillion|billion|million|thousand|bn|mn|tn|[kmbt])(?![a-z]))?\s*%?\)?",
     re.IGNORECASE,
 )

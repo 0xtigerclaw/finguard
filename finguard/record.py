@@ -10,6 +10,7 @@ import base64
 import hashlib
 import json
 import re
+import threading
 from pathlib import Path
 
 GENESIS = "0" * 64
@@ -30,18 +31,20 @@ class Run:
         self.folder = Path(folder)
         (self.folder / "images").mkdir(parents=True, exist_ok=True)
         self.path = self.folder / "run.jsonl"
+        self.lock = threading.Lock()
         self.last, self.count = GENESIS, 0
         if self.path.exists():
             lines = read_lines(self.path)
             self.count, self.last = len(lines), lines[-1]["hash"] if lines else GENESIS
 
     def write(self, kind: str, **fields) -> dict:
-        entry = {"schema": SCHEMA_VERSION, "seq": self.count, "prev": self.last, "kind": kind, **fields}
-        entry["hash"] = _line_hash(entry)
-        with self.path.open("a", encoding="utf-8") as out:
-            out.write(json.dumps(entry, sort_keys=True, ensure_ascii=False) + "\n")
-        self.last, self.count = entry["hash"], self.count + 1
-        return entry
+        with self.lock:
+            entry = {"schema": SCHEMA_VERSION, "seq": self.count, "prev": self.last, "kind": kind, **fields}
+            entry["hash"] = _line_hash(entry)
+            with self.path.open("a", encoding="utf-8") as out:
+                out.write(json.dumps(entry, sort_keys=True, ensure_ascii=False) + "\n")
+            self.last, self.count = entry["hash"], self.count + 1
+            return entry
 
     def write_call(self, body: bytes, reply: bytes | None, error: str | None) -> dict:
         """Record exactly what Muse was sent and what came back, failures included."""

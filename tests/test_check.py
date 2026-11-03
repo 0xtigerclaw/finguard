@@ -68,7 +68,7 @@ def test_a_full_year_claim_cannot_pass_on_a_half_year_cell(s1):
 def test_muse_lying_about_the_row_is_refused(s1):
     r = decide(claim("$2.2bn", "Adjusted Operating Income"), s1,
                located(s1, BRIDGE, "2,185", "Adjusted Operating Income (Loss)"), [BRIDGE])
-    assert r.verdict == REFUSED and "Stock-based" in r.why
+    assert r.verdict == REFUSED and "0 numbers" in r.why
 
 
 def test_a_row_that_does_not_name_the_metric_is_refused(s1):
@@ -82,6 +82,19 @@ def test_a_box_around_a_whole_row_is_refused(s1):
     r = decide(claim(), s1, {"found": True, "page": 0, "box": [100, y0, x1, y1],
                              "row_label": "Adjusted Operating Income (Loss)"}, [BRIDGE])
     assert r.verdict == REFUSED and "numbers" in r.why
+
+
+def test_a_box_a_row_too_low_still_finds_the_named_row(s1):
+    x0, y0, x1, y1 = box_for(s1, BRIDGE, "(693)")
+    loc = {"found": True, "page": 0, "box": [x0, y0 + 20, x1, y1 + 20], "row_label": "Operating loss"}
+    r = decide(claim("$693m", "Operating loss", direction="loss"), s1, loc, [BRIDGE])
+    assert r.verdict == MATCH and r.source_text == "(693)" and r.muse_box == loc["box"]
+
+
+def test_a_box_far_from_the_named_row_is_refused(s1):
+    x0, y0, x1, y1 = box_for(s1, BRIDGE, "(693)")
+    loc = {"found": True, "page": 0, "box": [x0, y0 + 200, x1, y1 + 200], "row_label": "Operating loss"}
+    assert decide(claim("$693m", "Operating loss", direction="loss"), s1, loc, [BRIDGE]).verdict == REFUSED
 
 
 def test_an_empty_box_is_refused(s1):
