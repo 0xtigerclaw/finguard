@@ -131,6 +131,20 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .fig .ring{position:absolute;left:-7px;top:-5px;width:calc(100% + 14px);height:calc(100% + 10px);pointer-events:none;overflow:visible}
 .fig .ring path{stroke:var(--wrong);stroke-width:1.8;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .55s cubic-bezier(.6,.1,.3,1) forwards;animation-delay:var(--d,0s)}
 @keyframes draw{to{stroke-dashoffset:0}}
+/* one by one: a number stays neutral until its turn */
+.fig{transition:color .15s ease-out}
+.fig.pending{color:var(--ink);border-bottom-color:transparent}
+.fig.pending svg{display:none}
+/* the method switch changes the display only */
+.fig-house{display:none}
+.memo.method-on .fig.has-house{font-size:.82em;font-weight:500;color:var(--soft);text-decoration:line-through}
+.memo.method-on .fig-house{display:inline-block;margin-left:5px;padding:0 4px;border-radius:3px;font-size:1.22em;font-weight:700;color:var(--navy);background:var(--tint);text-decoration:none;animation:house-in .2s ease-out}
+@keyframes house-in{from{opacity:0;transform:translateY(3px)}}
+.method{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 10px}
+.method .tabs button{min-height:34px;padding:4px 12px}
+.method-note{flex-basis:100%;font-size:13px;line-height:1.4;color:var(--soft)}
+.house-note{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
+.house-note>details,.house-note>p.mono{flex-basis:100%}
 .memo.quiet{font-size:15px;line-height:1.95}
 
 /* tally and release */
@@ -195,6 +209,13 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 @keyframes rise{from{transform:translateY(6px)}}
 .page-wait{font-size:13px;color:var(--soft);margin:0 0 10px;line-height:1.4}
 .box{position:absolute;pointer-events:none}
+/* the crosshair: the page dims, the cell's row and column stay lit, and they meet at the solid box */
+.cross{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;animation:cross-in .22s ease-out}
+.page:not(.ready) .cross{display:none}
+.cross .band{fill:var(--wrong);opacity:.07}
+.cross.match .band{fill:var(--match)}
+.cross.read .band{fill:var(--navy)}
+@keyframes cross-in{from{opacity:0}}
 .page:not(.ready) .box{display:none}
 .box.code{border:2px solid var(--wrong);background:rgba(179,38,30,.13);box-shadow:0 0 0 3px rgba(179,38,30,.16)}
 .box.code.match{border-color:var(--match);background:rgba(23,105,74,.13);box-shadow:0 0 0 3px rgba(23,105,74,.16)}
@@ -520,7 +541,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .house-note details summary{min-height:44px}
   .answer{padding:14px}
   .linkish{min-height:44px}
-  .more>summary,.panel-toggle,.panel-all{min-height:44px}
+  .more>summary,.panel-toggle,.panel-all,.method .tabs button{min-height:44px}
   .operator p{padding-bottom:0}
   .site-foot a{display:inline-flex;align-items:center;min-height:44px}
   .site-foot{padding:8px 16px 24px}
@@ -951,13 +972,12 @@ function markedMemo(memo, receipts, onPick) {
   const placed = receipts.map((r, i) => ({r, i}))
     .filter(({r}) => Number.isInteger(r.start) && Number.isInteger(r.end) && r.start >= 0 && r.end > r.start && r.end <= text.length)
     .sort((a, b) => a.r.start - b.r.start);
-  let at = 0, order = 0;
+  let at = 0;
   for (const {r, i} of placed) {
     if (r.start < at) continue; // two receipts cannot mark the same words
     box.append(text.slice(at, r.start));
     const v = verdictOf(r), words = text.slice(r.start, r.end);
     const mark = onPick ? el("button", `fig ${v}`, words) : el("span", `fig ${v}`, words);
-    mark.style.setProperty("--d", `${order * 0.12}s`); order++;
     if (onPick) {
       mark.type = "button"; mark.dataset.i = i;
       mark.setAttribute("aria-label", `${words}: ${VERDICT[v]}`);
@@ -1062,10 +1082,11 @@ function inputButtons(inputs, onPick) {
   });
   return box;
 }
-function houseBlock(h, onInput) {
+function houseBlock(h, onInput, label) {
   const line = houseLine(h);
   if (!line) return null;
   const block = el("div", "house-note inputs-scope", el("p", "house-line", line));
+  if (label) block.append(stamp(label, "amber"));
   if (h.working && h.working !== h.reason) {
     const d = el("details", "", el("summary", "", "See the working"), el("p", "house-working", h.working));
     if (onInput && h.inputs && h.inputs.length) d.append(inputButtons(h.inputs, onInput));
@@ -1115,6 +1136,26 @@ function personWords(a) {
   return null;
 }
 /* The right column: proof first, then the timeline, reduced to the steps with data. Several benches can share one desk. */
+/* The cell's row and column, from the box alone. The API gives no heading position, so the column fades out upward. */
+let crossCount = 0;
+function crossNode(box, tone) {
+  const NS = "http://www.w3.org/2000/svg";
+  const make = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+  const [x0, y0, x1, y1] = box.map(Number);
+  const L = Math.max(0, x0 - 8), R = Math.min(1000, x1 + 8), T = Math.max(0, y0 - 5), B = Math.min(1000, y1 + 5);
+  const top = Math.max(0, T - 260), fade = Math.min(100, T - top);
+  const dim = "#172b46", dimAlpha = "0.3";
+  const cross = make("svg", {class: `cross ${tone}`, viewBox: "0 0 1000 1000", preserveAspectRatio: "none", "aria-hidden": "true"});
+  const id = `cross-fade-${++crossCount}`;
+  const defs = make("defs", {}), grad = make("linearGradient", {id, x1: "0", y1: "0", x2: "0", y2: "1"});
+  grad.append(make("stop", {offset: "0", "stop-color": dim, "stop-opacity": dimAlpha}), make("stop", {offset: "1", "stop-color": dim, "stop-opacity": "0"}));
+  defs.append(grad);
+  cross.append(defs,
+    make("path", {d: `M0 0H1000V1000H0Z M0 ${T}V${B}H1000V${T}H${R}V${top}H${L}V${T}Z`, "fill-rule": "evenodd", fill: dim, "fill-opacity": dimAlpha}),
+    make("path", {class: "band", d: `M0 ${T}V${B}H1000V${T}H${R}V${top + fade}H${L}V${T}Z`}));
+  if (fade > 0) cross.append(make("rect", {x: L, y: top, width: R - L, height: fade, fill: `url(#${id})`}));
+  return cross;
+}
 function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each number is checked", activeTitle = "How this number was checked"} = {}) {
   let current = null, opts = {}, owner = null, zoomFit = false, reveal = null, userCollapsed = null, showAll = false;
   const card = el("div", "card"); card.setAttribute("aria-live", "polite");
@@ -1167,7 +1208,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
     const head = r.codeRead ? `${r.value_text}: read by code` : `${r.value_text || "This number"}: ${VERDICT[v].toLowerCase()}`;
     card.replaceChildren(el("p", `kicker-v ${v}`, head), el("p", "why", r.why || ""));
     if (!r.codeRead) {
-      const note = houseBlock(r.house, opts.onInput);
+      const note = houseBlock(r.house, opts.onInput, opts.ruleLabel);
       if (note) card.append(note);
     }
     const bits = [f ? f.company : opts.filing];
@@ -1218,6 +1259,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
       o.style.width = `${(b[2] - b[0]) / 10 + 2 * pad}%`; o.style.height = `${(b[3] - b[1]) / 10 + pad}%`;
       p.append(o); return o;
     };
+    if (hasBox(r.box)) p.append(crossNode(r.box, r.codeRead ? "read" : ok ? "match" : "wrong"));
     if (hasBox(r.muse_box)) place(r.muse_box, "muse", 0);
     const target = hasBox(r.box) ? place(r.box, r.codeRead ? "code read" : ok ? "code match" : "code", 0.4) : (hasBox(r.muse_box) ? p.querySelector(".box.muse") : null);
     const wait = el("p", "page-wait", "Loading the page.");
@@ -1230,8 +1272,14 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
       const t = target.getBoundingClientRect(), o = viewer.getBoundingClientRect();
       viewer.scrollTo({
         top: viewer.scrollTop + t.top - o.top - viewer.clientHeight * .42,
-        left: zoomFit ? 0 : viewer.scrollLeft + t.left - o.left - viewer.clientWidth * .62,
+        // As far left as the number allows, so its row name stays in view too.
+        left: zoomFit ? 0 : Math.max(0, viewer.scrollLeft + t.right - o.left + 24 - viewer.clientWidth),
       });
+      // On a stacked layout a long card can push the cell below the screen.
+      if (opts.byUser && stacked()) {
+        const now = target.getBoundingClientRect();
+        if (now.bottom > innerHeight - 16) scrollBy({top: now.bottom - innerHeight + 96});
+      }
     };
     if (img.complete && img.naturalWidth) reveal(); else img.addEventListener("load", () => reveal && reveal(), {once: true});
     zoom.onclick = () => {
@@ -1258,7 +1306,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
       proof.hidden = false;
       root.classList.add("has-proof");
       drawCard(item); drawPage(item); drawSteps(item);
-      if (options.byUser && stacked()) proof.scrollIntoView({block: "start"});
+      if (options.byUser && stacked()) { proof.scrollIntoView({block: "start"}); if (reveal) reveal(); }
     },
     clear,
     clearFor(who) { if (owner === who) clear(); },
@@ -1268,7 +1316,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
 }
 function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = null} = {}) {
   const desk = deskOrEl instanceof Element ? makeDesk(deskOrEl) : deskOrEl;
-  let receipts = [], selected = null, filingId = null, runId = null, person = null, memoText = "";
+  let receipts = [], selected = null, filingId = null, runId = null, person = null, memoText = "", ruleLabel = "", stopReveal = null;
   const me = {
     deselect() {
       selected = null;
@@ -1286,6 +1334,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     desk.show(cellItem(input, {column: h && h.column, method}), {filing: filingId, owner: me, byUser: true, back: backToMemo});
   }
   function clear() {
+    if (stopReveal) stopReveal(false);
     desk.clearFor(me);
     receipts = []; selected = null; runId = null; person = null;
     memoSlot.replaceChildren(); resultSlot.replaceChildren();
@@ -1308,7 +1357,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     const r = receipts[i];
     memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
     resultSlot.querySelectorAll("[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); });
-    desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, onInput: input => showCell(input, r.house)});
+    desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, ruleLabel, onInput: input => showCell(input, r.house)});
   }
   function drawTable(box) {
     const table = el("table", "ledger");
@@ -1398,21 +1447,95 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       } catch (e) { go.disabled = false; note.textContent = e.message; }
     };
   }
+  /* As reported or Our method. Display only: no door call, nothing on the ledger, and the verdicts stay as they are. */
+  function methodSwitch(memoBox, result) {
+    const notes = receipts.map((r, i) => ({r, i, fig: memoBox.querySelector(`.fig[data-i="${i}"]`)}))
+      .filter(({r, fig}) => fig && r.house && r.house.status === "differs" && r.house.house_money);
+    if (!notes.length) return null;
+    for (const {r, fig} of notes) {
+      fig.classList.add("has-house");
+      fig.insertBefore(el("span", "fig-house", String(r.house.house_money)), fig.childNodes[1] || null);
+      fig.dataset.reported = fig.getAttribute("aria-label") || "";
+    }
+    const off = el("button", "", "As reported"), on = el("button", "", "Our method");
+    off.type = on.type = "button";
+    const tabs = el("div", "tabs", off, on);
+    tabs.setAttribute("role", "group"); tabs.setAttribute("aria-label", "How to read the numbers");
+    const ids = [...new Set(notes.map(({r}) => r.house.rule_id).filter(Boolean))].join(", ");
+    const note = el("p", "method-note", `Shown under ${ids || "the house rules"}. The filing's numbers and the verdicts do not change.`);
+    const box = el("div", "method", tabs, result.rules_label ? stamp(result.rules_label, "amber") : null, note);
+    const show = method => {
+      memoBox.classList.toggle("method-on", method);
+      off.setAttribute("aria-pressed", String(!method)); on.setAttribute("aria-pressed", String(method));
+      note.hidden = !method;
+      for (const {r, fig} of notes) fig.setAttribute("aria-label", method ? `${fig.dataset.reported}. ${houseLine(r.house)}` : fig.dataset.reported);
+    };
+    off.onclick = () => show(false);
+    on.onclick = () => { show(true); if (!notes.some(({i}) => i === selected)) select(notes[0].i, false); };
+    show(false);
+    return box;
+  }
+  /* One by one: the verdicts are already final, and this only paces how they appear. */
+  function playReveal(memoBox, tally, later, done) {
+    const figs = [...memoBox.querySelectorAll(".fig[data-i]")];
+    const bars = {};
+    for (const v of VERDICTS) { const span = tally.querySelector(`.${v}`); if (span) bars[v] = {span, b: span.querySelector("b")}; }
+    const c = {match: 0, wrong: 0, refused: 0, unchecked: 0};
+    const drawTally = () => { for (const v in bars) { bars[v].b.textContent = String(c[v]); bars[v].span.hidden = !c[v] && (v === "refused" || v === "unchecked"); } };
+    figs.forEach(f => f.classList.add("pending"));
+    later.forEach(n => { n.hidden = true; });
+    tally.setAttribute("aria-hidden", "true");
+    drawTally();
+    const step = figs.length > 8 ? 3300 / figs.length : 450;
+    let timer = null, at = 0;
+    const finish = (settle = true) => {
+      clearTimeout(timer);
+      document.removeEventListener("click", skip, true);
+      document.removeEventListener("keydown", skip, true);
+      stopReveal = null;
+      figs.forEach(f => f.classList.remove("pending"));
+      Object.assign(c, countOf(receipts));
+      drawTally();
+      tally.removeAttribute("aria-hidden");
+      later.forEach(n => { n.hidden = false; });
+      if (settle) done();
+    };
+    const skip = () => finish();
+    const next = () => {
+      if (at >= figs.length) { finish(); return; }
+      const f = figs[at++];
+      f.classList.remove("pending");
+      const v = verdictOf(receipts[+f.dataset.i]);
+      c[v]++;
+      drawTally();
+      timer = setTimeout(next, step);
+    };
+    stopReveal = finish;
+    document.addEventListener("click", skip, true);
+    document.addEventListener("keydown", skip, true);
+    timer = setTimeout(next, 200);
+  }
   /* labels: the plain words that say what kind of run this is */
-  function render({memo, result, id, filing, labels = [], release = true, focusAfter = false}) {
+  function render({memo, result, id, filing, labels = [], release = true, focusAfter = false, reveal = false}) {
+    if (stopReveal) stopReveal(false);
     receipts = Array.isArray(result.receipts) ? result.receipts : [];
     runId = id || null; filingId = filing || result.filing || null; selected = null; person = null; memoText = memo;
+    ruleLabel = result.rules_label || "";
     setModel(result.model);
     const memoBox = markedMemo(memo, receipts, select);
     memoSlot.replaceChildren(memoBox);
+    const method = methodSwitch(memoBox, result);
+    if (method) memoSlot.prepend(method);
     resultSlot.replaceChildren();
     if (labelSlot) labelSlot.replaceChildren(labels.length ? pillRow(labels) : "");
     else if (labels.length) memoSlot.prepend(pillRow(labels));
+    let tally = null;
     if (lines && !receipts.length) {
       resultSlot.append(el("p", "msg", "No numbers to check."));
     } else {
       if (lines && receipts.length) drawLines(resultSlot);
-      (lines ? resultSlot : memoSlot).append(tallyNode(receipts));
+      tally = tallyNode(receipts);
+      (lines ? resultSlot : memoSlot).append(tally);
       const holds = result.record ? result.record.holds : undefined;
       if (release) drawRelease(resultSlot, holds);
       if (!lines) {
@@ -1431,12 +1554,21 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     if (result.filing_sha256) detail.push(["Filing hash", el("span", "hash", String(result.filing_sha256))]);
     if (result.rules_sha256) detail.push(["House rules", el("span", "", result.rules_label ? `${result.rules_label} ` : "", el("span", "hash", String(result.rules_sha256)))]);
     if (detail.length) resultSlot.append(moreBox("Details", kv(detail)));
-    const first = receipts.find(r => verdictOf(r) === "wrong") || receipts[0];
-    if (first) select(receipts.indexOf(first), false); else desk.clearFor(me);
-    loadPerson();
     const c = countOf(receipts);
+    // Screen readers get the final state at once, whatever the marks are doing on screen.
     $("announce").textContent = `Checked. ${VERDICTS.filter(v => c[v]).map(v => `${c[v]} ${VERDICT_SHORT[v]}`).join(", ") || "No numbers found"}.`;
-    if (focusAfter) { const fig = memoSlot.querySelector('.fig[aria-pressed="true"]'); if (fig) fig.focus({preventScroll: true}); }
+    const settle = () => {
+      const first = receipts.find(r => verdictOf(r) === "wrong") || receipts[0];
+      if (first) select(receipts.indexOf(first), false); else desk.clearFor(me);
+      loadPerson();
+      const free = !document.activeElement || document.activeElement === document.body;
+      if (focusAfter && (free || !reveal)) { const fig = memoSlot.querySelector('.fig[aria-pressed="true"]'); if (fig) fig.focus({preventScroll: true}); }
+    };
+    if (reveal && tally && memoBox.querySelector(".fig[data-i]") && !reduced()) {
+      const later = [...resultSlot.children].filter(n => n !== tally);
+      if (method) later.push(method);
+      playReveal(memoBox, tally, later, settle);
+    } else settle();
   }
   return {
     render, clear,
@@ -1578,7 +1710,7 @@ async function runCheck() {
     $("memoInput").hidden = true; $("memoEdit").hidden = false; $("checkGo").hidden = true; $("memoHint").hidden = true;
     const isCorrected = f.corrected && memo === f.corrected.trim();
     $("memoLabel").textContent = isCorrected ? "Corrected memo" : isSaved ? "Test memo" : "Your memo";
-    check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true});
+    check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true, reveal: true});
     if (f.corrected && memo === f.memo.trim()) {
       const fix = el("button", "btn primary", "Load the corrected memo ", arrow()); fix.type = "button";
       fix.onclick = () => { showCheckInput(f.corrected); $("checkRun").focus(); };
@@ -1784,7 +1916,7 @@ async function runAsk(text) {
     const memoSlot = el("div", "answer-memo"), resultSlot = el("div", "answer-result");
     answer.append(memoSlot, resultSlot);
     const bench = makeBench(memoSlot, resultSlot, ask.desk, {lines: true});
-    bench.render({memo: r.memo || "", result: r, id: out.run_id, filing: f.id, labels: savedLabels({...r, drafted_by_muse: true}, false), focusAfter: true});
+    bench.render({memo: r.memo || "", result: r, id: out.run_id, filing: f.id, labels: savedLabels({...r, drafted_by_muse: true}, false), focusAfter: true, reveal: true});
     refreshPending();
   } catch (e) {
     drawNotRun(answer, e.status === 404 ? "Ask is not available on this server." : e.message);

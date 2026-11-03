@@ -168,14 +168,14 @@ Saved runs replay real Muse replies, and the page labels them. A new memo is a l
 1. **Check:** run the Anthropic test memo, which has errors planted on purpose. Two numbers get red rings. Pick one to see the cell code read and where Muse pointed.
 2. **Load the corrected memo.** All 6 match, and Request release appears.
 3. **Ask:** "Did Anthropic make money in the first half of 2026?" Muse writes an answer, and every number is checked like any memo. Follow its suggested next questions.
-4. **House rule:** the "Our method" chip asks for Anthropic's operating result, and gives -$567m, worked out by code with no Muse call.
+4. **House rule:** on the corrected memo, flip **As reported** to **Our method**, and $1.6bn reads -$567m in place. In Ask, the "Our method" chip gives the same -$567m, worked out by code with no Muse call.
 5. **Refusal:** the "Add back stock compensation." chip is refused with the rule's text.
 6. **Create your own plugin:** pick Net debt. Muse writes a definition, and code works out $503.6m with each cell boxed. Approve it, and it becomes a plugin you can run.
 7. **Rules, Record, Score:** every capability's declared rules, the hash-chained ledger, and the measured results.
 
 ## Screens
 
-**Check.** Wrong numbers are ringed, and the proof shows the cell code read beside where Muse pointed.
+**Check.** Wrong numbers are ringed. The filing's row and column light up and meet at the cell code read, beside where Muse pointed.
 
 ![The Check page with two wrong numbers ringed in red and the filing cell boxed](docs/img/check.png)
 
@@ -187,7 +187,9 @@ Saved runs replay real Muse replies, and the page labels them. A new memo is a l
 
 ![The Ask page with a question, Muse's answer with numbers marked, and suggested next questions](docs/img/ask.png)
 
-**House rules.** The same cell reads differently under a method a person approved.
+**House rules.** Flip the method, and the same cell reads differently. The verdict stays true to the filing.
+
+![The corrected memo under Our method, with $1.6bn reading -$567m in place](docs/img/method.png)
 
 ![The Ask page showing -$567m worked out by code under rule HR-1, with the cells it read](docs/img/house.png)
 
