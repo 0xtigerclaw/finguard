@@ -9,7 +9,8 @@ from pathlib import Path
 from .core.approvals import CannotDecide
 from .core.context import Context
 from .core.door import dispatch
-from .core.plugin import LoadError
+from .core.plugin import LoadError, Refused
+from .plugins.misses import all_cases, export_case, mark_fixed, replay_case
 from .plugins.release import verify_release
 
 ACTOR = "terminal"
@@ -116,6 +117,29 @@ def _release(ctx: Context, args) -> int:
     return _show_problems(verify_release(ctx, args.id))
 
 
+def _misses(ctx: Context, args) -> int:
+    try:
+        if args.action == "export" and args.id:
+            print(export_case(ctx, args.id))
+            return 0
+        if args.action == "fixed" and args.id and args.commit:
+            print(mark_fixed(ctx, args.id, args.commit))
+            return 0
+    except Refused as e:
+        print(e, file=sys.stderr)
+        return 1
+    if args.action:
+        print("Say which case, and for `fixed` which commit.", file=sys.stderr)
+        return 2
+    cases = all_cases(ctx)
+    if not cases:
+        print("No cases.")
+    for case in cases:
+        replayed = replay_case(case, ctx)
+        print(f"{case['id']}  {replayed['status']}  {case['value_text']} is {replayed['verdict']}, a person said {case['should_be']}: {case['reason']}")
+    return 0
+
+
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="finguard", description="A model can propose, only code can verify, and only a person can release.")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -137,6 +161,10 @@ def _parser() -> argparse.ArgumentParser:
     release = commands.add_parser("release", help="`release verify <id>` checks a bundle.")
     release.add_argument("action", choices=["verify"])
     release.add_argument("id")
+    misses = commands.add_parser("misses", help="Replay every case from use. `export <id>` or `fixed <id> <commit>` changes one.")
+    misses.add_argument("action", nargs="?", choices=["export", "fixed"])
+    misses.add_argument("id", nargs="?")
+    misses.add_argument("commit", nargs="?")
     return parser
 
 
@@ -151,7 +179,7 @@ def main(argv: list[str] | None = None) -> int:
         return _decide(ctx, args.id, "approve", args.reason)
     if args.command == "reject":
         return _decide(ctx, args.id, "reject", args.reason)
-    return {"rules": _rules, "do": _do, "approvals": _approvals, "ledger": _ledger, "release": _release}[args.command](ctx, args)
+    return {"rules": _rules, "do": _do, "approvals": _approvals, "ledger": _ledger, "release": _release, "misses": _misses}[args.command](ctx, args)
 
 
 if __name__ == "__main__":

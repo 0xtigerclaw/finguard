@@ -52,12 +52,12 @@ Open **Create**, pick a method or type your own, and press **Write the plugin**.
 | **Equity value** at an enterprise value of 100bn that you enter | $103.8bn | $99.5bn | €106.1bn |
 | **Net debt** | -$3.8bn | $503.6m | -€6.1bn |
 | **Free cash flow** | $3.4bn | Refused: it prints purchases combined with intangibles | €10.2bn |
-| **Gross margin check** | Refused: no cost of revenue | Refused: no printed margin | 55.05%, tying to the printed 55.0% |
-| **Capex intensity** | Refused: revenue prints more than one number for that period | Refused: no separate property row | 3.75% |
+| **Gross margin check** | Refused: no printed margin to compare with | Refused: no printed margin to compare with | 55.05%, tying to the printed 55.0% |
+| **Capex intensity** | Refused, and this one is a miss: the filing prints both numbers | Refused: no separate property row | 3.75% |
 
-The refusals are the point: when a filing does not print what a method needs, Finguard says so and estimates nothing.
+When a method cannot read what it needs, Finguard refuses and estimates nothing. Read by hand, all 10 computed results are right, 4 of the 5 refusals are right, and 1 is a miss. One more method was dropped from this list because Muse mapped it to a false row on ASML and code could not tell. See [the plugin eval](docs/evaluation.md#the-plugin-eval).
 
-Muse never gives these values, and it is never sent your number, so changing your number recalculates with no Muse call. The result is labelled "Arithmetic on your number, not advice". A formula may hold only input names, plain numbers, `+ - * /` and parentheses, and code parses it itself. Muse decides which rows a method uses, and the working shows them, so read it: for net debt, Anthropic's debt is its convertible notes, ASML's is long-term debt, and short-term investments are not counted as cash. A fund may draw those lines differently. These results are not part of the measured score.
+Muse never gives these values, and it is never sent your number, so changing your number recalculates with no Muse call. The result is labelled "Arithmetic on your number, not advice". A formula may hold only input names, plain numbers, `+ - * /` and parentheses, and code parses it itself. Muse decides which rows a method uses, and the working shows them, so read it: for net debt, Anthropic's debt is its convertible notes, ASML's is long-term debt, and short-term investments are not counted as cash. A fund may draw those lines differently. These results are not part of the measured score: 15 results on 3 filings is a small sample.
 
 ### Write it
 
@@ -219,6 +219,7 @@ The switch in the top bar picks the mode. **Demo** uses recorded Muse replies, i
 | Plugin | What it does | The rule it enforces |
 | --- | --- | --- |
 | `memo.check` | Every number in an investment memo gets a receipt | Code gives the verdict from the PDF's text. A number left off Muse's list shows as not checked. |
+| `memo.flag` | A person says a verdict is wrong. It becomes a case the score replays | Read: it changes no verdict. The case stays open until a replay gives what the person said |
 | `memo.draft` | Muse answers a question from the filing, with follow-ups | Its investment memo is stored exactly as written and checked like any other. Nothing carries over as verified. |
 | `memo.release` | Seals a checked investment memo as a bundle of hashes | Refused unless every number matches. A person must approve, and a changed rule needs a new check. |
 | `rules.list`, `rules.apply`, `rules.change` | House rules as data | Muse never sees a rule. A change needs a person's approval and goes on the ledger. |
@@ -272,6 +273,16 @@ Measured on live `muse-spark-1.3`, against printed values read on the filing pag
 
 The bad row is why the good one exists. An audit first proved 20 ways a false number could pass, and all are now closed with tests. The NVIDIA test then showed Finguard refusing almost everything, because Muse's box landed beside the number and our PDF conversion split tables. Both were fixed before the final test.
 
+A system allowed to refuse has two numbers. On the final test, **coverage** (how often it answers) is 19 of 25, or 76%. **Risk** (how often an answer is wrong) is 0 of 19, which on a sample this small could still be up to 14.6%. False passes are 0 of 644, with a 95% upper bound of 0.46%. Those 644 all come from 25 numbers on one filing, so the careful bound, counting each of the 25 once, is 11.3%.
+
+**Muse does not repeat itself, even at temperature 0.** The final test was run 4 times live: 19, 18, 18 and 19 matched. 22 of 25 numbers got the same verdict every time, and 17 of 25 matched every time. A number that moved always moved between match and refused. No true number was called wrong, and no altered number passed, in any run.
+
+**Each change is replayed against every past round.** `python eval/gate.py` runs in CI with no key, and fails on any false pass, any true number called wrong, or a drop in matches. It shows the code did not get worse on saved replies, and says nothing about a new filing.
+
+**A miss can become a test.** Flag a verdict, and it becomes a case that replays with no API and stays open until the code gets it right. It changes no verdict by itself. There are no real cases yet.
+
+**Plugins have their own small test,** read by hand: 15 results on 3 filings, all 10 computed results right, and 4 of 5 refusals right. One more method was dropped because Muse mapped it to a false row and code could not tell.
+
 The score measures the attacks it lists, not every possible error, and the final test is one public filing. Every step is in [docs/evaluation.md](docs/evaluation.md).
 
 ## Follow-ups and house rules
@@ -286,6 +297,9 @@ The score measures the attacks it lists, not every possible error, and the final
 - **HR-1 is illustrative.** A fund's real rules replace it.
 - **Fiscal periods are refused** when the column is a calendar date that does not end in December.
 - **Tables only, for numbers.** A number in running prose is refused, not read.
+- **A live run can differ from a saved one.** Muse's pointing varies, so a number a saved run matched can be refused live. It has not been seen to turn into a wrong match.
+- **Muse chooses a plugin method's rows, and no code checks that choice.** Code checks the cells. Read the working.
+- **Flags on the deployed site are temporary.** A case is lost at the next deploy unless it is saved into `eval/misses/`.
 - **One filing per check.** An investment memo drawing on two filings cannot be checked as one.
 - **Wording.** The word before a number must plainly state it, so harmless wording can be refused. It checks numbers, not the sense of a sentence.
 - **Shared years.** Where two columns share a year, an investment memo must say which date, or it is refused.

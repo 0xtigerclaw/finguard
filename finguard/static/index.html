@@ -221,6 +221,11 @@ button.fig::after{content:"";position:absolute;inset:-14px -4px}
 .more>summary::before{content:"";width:0;height:0;border-left:4.5px solid currentColor;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .12s}
 .more[open]>summary::before{transform:rotate(90deg)}
 .more>summary:hover{color:var(--ink)}
+.limits{margin-bottom:16px}
+.limits .kv{padding:0 30px 22px}
+.flag{display:grid;gap:8px;margin-top:8px}
+.flag .btn{justify-self:start}
+.flag .note:empty{display:none}
 .more .kv{margin-top:6px;font-size:13.5px}
 .more .t{margin-top:6px}
 .kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 16px;margin:0;font-size:14.5px;line-height:1.45}
@@ -1127,6 +1132,30 @@ function watchRun(capability, clock, stageWords) {
 }
 
 /* ---------- the proof desk and the receipts: one bench for Check, Ask and Record ---------- */
+/* A person says a verdict is wrong. It becomes a case the score replays, and changes no verdict. */
+function flagBox(r, {run, index}) {
+  const choices = Object.entries({match: "It matches the filing", wrong: "It is wrong", refused: "It should be refused"}).filter(([v]) => v !== verdictOf(r));
+  const should = el("select", "field"); should.setAttribute("aria-label", "What the verdict should be");
+  for (const [v, words] of choices) { const o = el("option", "", words); o.value = v; should.append(o); }
+  const right = el("input", "field"); right.placeholder = "The right number, if you know it"; right.maxLength = 64; right.setAttribute("aria-label", "The right number");
+  const reason = el("textarea", "field"); reason.placeholder = "Why is this verdict wrong?"; reason.maxLength = 500; reason.rows = 2; reason.setAttribute("aria-label", "Why this verdict is wrong");
+  const send = el("button", "btn", "Save as a case"); send.type = "button";
+  const said = el("p", "note"); said.setAttribute("role", "status");
+  send.onclick = async () => {
+    if (!reason.value.trim()) { said.textContent = "Say why the verdict is wrong."; return; }
+    send.disabled = true;
+    try {
+      const params = {check_run_id: run, index, should_be: should.value, reason: reason.value};
+      if (right.value.trim()) params.right_value = right.value;
+      const out = await door("memo.flag", params);
+      said.textContent = out.status === "done"
+        ? "Saved as a case. It changes no verdict. It stays open on the Score page until the code gets this right."
+        : (out.why || "This could not be saved.");
+    } catch (e) { said.textContent = e.message; }
+    send.disabled = false;
+  };
+  return moreBox("Flag this verdict", el("div", "flag", should, right, reason, send, said));
+}
 function tcard(title, body, aside) {
   const top = el("div", "tcard-top", el("h2", "", title), aside ? el("span", "tcard-aside", aside) : null);
   const box = el("section", "tcard", top);
@@ -1318,6 +1347,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
     ];
     tail.append(moreBox("Details", kv(detail)));
     card.append(tail);
+    if (opts.flag && !r.codeRead) card.append(flagBox(r, opts.flag));
     if (opts.back) {
       const back = el("button", "btn back", opts.backLabel || "Back to the investment memo"); back.type = "button";
       back.onclick = opts.back;
@@ -1454,7 +1484,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     if (byUser && (verdictOf(r) === "wrong" || verdictOf(r) === "refused")) guideMark("fool");
     memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
     resultSlot.querySelectorAll("[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); });
-    desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, ruleLabel, onInput: input => showCell(input, r.house)});
+    desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, ruleLabel, flag: runId ? {run: runId, index: i} : null, onInput: input => showCell(input, r.house)});
   }
   function drawTable(box) {
     const table = el("table", "ledger");
@@ -3023,6 +3053,43 @@ function trueWords(s) {
 function falseWords(s) {
   return `${s.false_passed} of ${s.false_numbers} altered numbers passed as true.`;
 }
+function pct(rate) { return isNum(rate) ? `${+(rate * 100).toFixed(rate < 0.01 ? 2 : 1)}%` : "?"; }
+/* A system allowed to refuse has two numbers: how often it answers, and how often an answer is wrong. */
+function limitsBlock(s) {
+  const c = s.coverage, k = s.risk, f = s.false_pass, t = s.trials;
+  if (!c || !k || !f) return null;
+  const rows = [
+    ["Coverage: how often it answers", `${c.answered} of ${c.of} true numbers, ${pct(c.rate)}. The other ${s.refused} were refused.`],
+    ["Risk: how often an answer is wrong", `${k.wrong} of ${k.of}. With a sample this size, the real rate could still be up to ${pct(k.upper_95)} (95% upper bound).`],
+    ["False passes", `${f.passed} of ${f.of}, up to ${pct(f.upper_95)} (95% upper bound). These are not independent: all come from ${f.source_numbers} numbers on one filing. Counting each of those once, the bound is ${pct(f.upper_95_counting_each_source_once)}.`],
+  ];
+  if (t) {
+    const runs = t.by_run || [], counts = runs.map(r => r.match);
+    rows.push(["Repeat trials", `The same test run ${t.runs} times live: ${Math.min(...counts)} to ${Math.max(...counts)} matched each time. ${runs.reduce((n, r) => n + r.wrong, 0)} called wrong and ${runs.reduce((n, r) => n + r.altered_passed, 0)} altered numbers passed across all ${t.runs}. ${t.matched_every_time} of ${t.numbers} matched every time. Muse's pointing varies, and a miss becomes a refusal.`]);
+  }
+  const g = s.plugins;
+  if (g) rows.push(["Plugin methods", `A separate, smaller test: ${g.results} results on ${g.filings} filings, read by hand. ${g.computed_right} of ${g.computed} computed results are right. Of ${g.refused} refusals, ${g.right_to_refuse} are right and ${g.missed} is a miss. ${g.dropped.length} more method was dropped because Muse mapped it to a false row and code could not tell.`]);
+  const box = tcard("What the score can support", kv(rows));
+  box.classList.add("limits");
+  return box;
+}
+async function missesBlock() {
+  let found;
+  try { found = await api("/api/misses"); } catch (e) { return el("p", "note", "The cases from use could not be loaded."); }
+  const cases = found.cases || [];
+  const box = el("div");
+  box.append(el("p", "note", cases.length
+    ? `${found.counts.open} open, ${found.counts.fixed} fixed. An open case stays here until the code gets it right.`
+    : "None yet. Open any number on a check and choose Flag this verdict. A flag changes no verdict. It becomes a case that every later change is replayed against."));
+  if (cases.length) {
+    const t = el("table", "t");
+    t.append(el("thead", "", el("tr", "", el("th", "", "Number"), el("th", "", "Verdict"), el("th", "", "A person says"), el("th", "", "Why"), el("th", "", "Status"))));
+    const b = el("tbody");
+    for (const c of cases) b.append(el("tr", "", cell("Number", el("span", "m", c.value_text)), cell("Verdict", c.verdict), cell("A person says", c.should_be), cell("Why", c.reason), cell("Status", c.fixed_in ? "fixed" : c.status_when_flagged)));
+    t.append(b); box.append(t);
+  }
+  return tcard("Misses from use", box);
+}
 async function loadScore() {
   const body = $("scoreBody");
   loading(body, "Loading the score.");
@@ -3047,6 +3114,8 @@ async function loadScore() {
   const e = s.earlier;
   if (e) head.append(el("p", "soft", `Earlier frozen test, NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number, and from tables our PDF conversion split. Code now uses the box differently, and web filings keep tables whole. We did not rerun this filing.`));
   frag.append(head);
+  const limits = limitsBlock(s);
+  if (limits) frag.append(limits);
   const tiles = el("div", "tiles");
   tiles.append(
     tile(s.false_passed, s.false_numbers, "altered numbers passed as true"),
@@ -3081,6 +3150,7 @@ async function loadScore() {
     t.append(b);
     frag.append(tcard("By filing", t));
   }
+  frag.append(await missesBlock());
   frag.append(el("p", "foot", "We chose these public filings and checked the answers by hand. This measures the method. It is not a guarantee."));
   if (s.engine_sha256) frag.append(moreBox("Details", kv([["Code hash", el("span", "hash", String(s.engine_sha256))]]), el("p", "note", "All of these are scored with one version of the code. Earlier runs use their recorded Muse replies.")));
   body.replaceChildren(frag);

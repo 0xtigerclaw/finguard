@@ -267,7 +267,33 @@
    }
   },
   "engine_sha256": "c927e4961c75f9e5cdc80d507c87330e525af16a5e9ea52b7f8fbb584ecfb036",
-  "memo_path_false_passed": 0
+  "memo_path_false_passed": 0,
+  "coverage": {
+   "answered": 60,
+   "of": 62,
+   "rate": 0.9677
+  },
+  "risk": {
+   "wrong": 0,
+   "of": 60,
+   "rate": 0.0,
+   "upper_95": 0.0487
+  },
+  "refused": 2,
+  "true_called_wrong": {
+   "wrong": 0,
+   "of": 62,
+   "upper_95": 0.0472
+  },
+  "false_pass": {
+   "passed": 0,
+   "of": 1896,
+   "rate": 0.0,
+   "upper_95": 0.0016,
+   "source_numbers": 62,
+   "upper_95_counting_each_source_once": 0.0472,
+   "note": "The altered numbers are not independent. They are made from the source numbers, so the bound counting each source once is the careful one."
+  }
  },
  "present": [
   {

@@ -74,7 +74,7 @@ def test_start_reads_the_score_if_present(monkeypatch, tmp_path):
     (tmp_path / "eval" / "results_roundfinal.json").write_text("half written")
     assert client.get("/api/start").json()["score"] is None
     (tmp_path / "eval" / "results_roundfinal.json").write_text(json.dumps({"summary": {"round": "final"}}))
-    assert client.get("/api/start").json()["score"] == {"round": "final", "repeat": None, "earlier": None}
+    assert client.get("/api/start").json()["score"] == {"round": "final", "repeat": None, "earlier": None, "trials": None, "plugins": None}
 
 
 def test_page_images_are_served_with_bounds():

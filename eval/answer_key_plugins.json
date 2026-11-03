@@ -1,0 +1,26 @@
+{
+ "note": "Each computed value and cell read by hand against the filing's pages. A refusal is judged too: right_to_refuse means the filing does not print what the method needs; miss means it does.",
+ "dropped": [{"method": "Adjusted gap", "why": "Muse mapped it to a false row on ASML and code could not tell. It was taken out of the gallery rather than fixed, so this eval does not count it."}],
+ "methods": [
+  {"name": "Net debt", "results": {
+   "anthropic": {"judged": "right", "display": "-$3.8bn", "cells": [["108,566", 351], ["112,389", 351]], "note": "Debt here is convertible notes only. Short-term investments are not counted as cash."},
+   "nebius": {"judged": "right", "display": "$503.6m", "cells": [["46.7", 6], ["8,499.0", 6], ["8,042.1", 6]]},
+   "asml": {"judged": "right", "display": "-€6.1bn", "cells": [["1,963.0", 5], ["8,030.9", 5]], "note": "Long-term debt only."}}},
+  {"name": "Free cash flow", "results": {
+   "anthropic": {"judged": "right", "display": "$3.4bn", "cells": [["3,929", 358], ["(482)", 358]]},
+   "nebius": {"judged": "right_to_refuse", "note": "Page 2 prints purchases of property and equipment and intangible assets as one row."},
+   "asml": {"judged": "right", "display": "€10.2bn", "cells": [["11,315.0", 6], ["(1,115.1)", 6]]}}},
+  {"name": "Gross margin check", "results": {
+   "anthropic": {"judged": "right_to_refuse", "note": "The S-1 prints no gross margin to compare with. Muse's reason also says it prints no cost of revenue, which is false: page 385 prints it."},
+   "nebius": {"judged": "right_to_refuse", "note": "The release prints cost of revenues and no gross margin to compare with."},
+   "asml": {"judged": "right", "display": "55.05%", "cells": [["29,755.4", 3], ["(13,375.1)", 3]], "note": "Ties to the printed 55.0%."}}},
+  {"name": "Capex intensity", "results": {
+   "anthropic": {"judged": "miss", "note": "The S-1 prints both: purchases of (482) on page 358 and revenue of 16,286. Code refused because the revenue row it was pointed to printed more than one number for that period."},
+   "nebius": {"judged": "right_to_refuse", "note": "Page 2 prints purchases of property and equipment and intangible assets as one row."},
+   "asml": {"judged": "right", "display": "3.75%", "cells": [["(1,115.1)", 6], ["29,755.4", 3]]}}},
+  {"name": "Equity value from an enterprise value", "assumption": "100bn", "results": {
+   "anthropic": {"judged": "right", "display": "$103.8bn", "cells": [["108,566", 351], ["112,389", 351]], "note": "Arithmetic on a number the person entered."},
+   "nebius": {"judged": "right", "display": "$99.5bn", "cells": [["46.7", 6], ["8,499.0", 6], ["8,042.1", 6]], "note": "Arithmetic on a number the person entered."},
+   "asml": {"judged": "right", "display": "€106.1bn", "cells": [["1,963.0", 5], ["8,030.9", 5]], "note": "Arithmetic on a number the person entered."}}}
+ ]
+}

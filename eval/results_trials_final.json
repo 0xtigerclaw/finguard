@@ -1,0 +1,357 @@
+{
+ "summary": {
+  "runs": 4,
+  "numbers": 25,
+  "all_trials_agree": 22,
+  "matched_every_time": 17,
+  "pass_k": 0.68,
+  "by_run": [
+   {
+    "round": "final",
+    "match": 19,
+    "refused": 6,
+    "wrong": 0,
+    "altered_passed": 0,
+    "altered": 644,
+    "absent_passed": 0,
+    "cost_usd": 0.75
+   },
+   {
+    "round": "final_trial1",
+    "match": 18,
+    "refused": 7,
+    "wrong": 0,
+    "altered_passed": 0,
+    "altered": 618,
+    "absent_passed": 0,
+    "cost_usd": 0.75
+   },
+   {
+    "round": "final_trial2",
+    "match": 18,
+    "refused": 7,
+    "wrong": 0,
+    "altered_passed": 0,
+    "altered": 618,
+    "absent_passed": 0,
+    "cost_usd": 0.76
+   },
+   {
+    "round": "final_trial3",
+    "match": 19,
+    "refused": 6,
+    "wrong": 0,
+    "altered_passed": 0,
+    "altered": 642,
+    "absent_passed": 0,
+    "cost_usd": 0.76
+   }
+  ],
+  "note": "Run live on the code named by each run's engine_sha256. The first run was on the frozen commit bf56ab0.",
+  "engines": [
+   "c927e4961c75f9e5cdc80d507c87330e525af16a5e9ea52b7f8fbb584ecfb036"
+  ]
+ },
+ "numbers": [
+  {
+   "metric": "Revenues",
+   "period": "quarter 2026",
+   "printed": "127,577",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Cost of revenues",
+   "period": "quarter 2026",
+   "printed": "51,419",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Research and development",
+   "period": "quarter 2026",
+   "printed": "20,640",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Sales and marketing",
+   "period": "quarter 2026",
+   "printed": "8,804",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "General and administrative",
+   "period": "quarter 2026",
+   "printed": "6,138",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Total costs and expenses",
+   "period": "quarter 2026",
+   "printed": "87,001",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Income from operations",
+   "period": "quarter 2026",
+   "printed": "40,576",
+   "verdicts": [
+    "match",
+    "refused",
+    "refused",
+    "match"
+   ],
+   "agree": false
+  },
+  {
+   "metric": "Other income (expense), net",
+   "period": "quarter 2026",
+   "printed": "(8,221)",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Income before income taxes",
+   "period": "quarter 2026",
+   "printed": "32,355",
+   "verdicts": [
+    "refused",
+    "refused",
+    "match",
+    "match"
+   ],
+   "agree": false
+  },
+  {
+   "metric": "Provision for income taxes",
+   "period": "quarter 2026",
+   "printed": "5,887",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Net income",
+   "period": "quarter 2026",
+   "printed": "26,468",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Diluted net income per common share",
+   "period": "quarter 2026",
+   "printed": "2.12",
+   "verdicts": [
+    "match",
+    "match",
+    "refused",
+    "refused"
+   ],
+   "agree": false
+  },
+  {
+   "metric": "Revenues",
+   "period": "quarter 2025",
+   "printed": "102,346",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Net income",
+   "period": "quarter 2025",
+   "printed": "34,979",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Revenues",
+   "period": "nine_months 2026",
+   "printed": "357,269",
+   "verdicts": [
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Net income",
+   "period": "nine_months 2026",
+   "printed": "201,239",
+   "verdicts": [
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Income from operations",
+   "period": "nine_months 2026",
+   "printed": "121,042",
+   "verdicts": [
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "period": "as_of 2026",
+   "printed": "56,334",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Total current assets",
+   "period": "as_of 2026",
+   "printed": "374,665",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Total assets",
+   "period": "as_of 2026",
+   "printed": "1,003,312",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Long-term debt",
+   "period": "as_of 2026",
+   "printed": "125,102",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Total liabilities",
+   "period": "as_of 2026",
+   "printed": "325,763",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Total assets",
+   "period": "as_of 2025",
+   "printed": "595,281",
+   "verdicts": [
+    "match",
+    "match",
+    "match",
+    "match"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Net cash provided by operating activities",
+   "period": "quarter 2026",
+   "printed": "42,290",
+   "verdicts": [
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+   ],
+   "agree": true
+  },
+  {
+   "metric": "Purchases of property and equipment",
+   "period": "quarter 2026",
+   "printed": "(51,355)",
+   "verdicts": [
+    "refused",
+    "refused",
+    "refused",
+    "refused"
+   ],
+   "agree": true
+  }
+ ]
+}

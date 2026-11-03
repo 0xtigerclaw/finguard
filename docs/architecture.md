@@ -20,6 +20,7 @@ verified. The CLI and the web page call the same door, so they cannot differ.
       plugins/filings.py  filings.list, filings.page, filings.add
       plugins/memos.py    memo.check
       plugins/release.py  memo.release
+      plugins/misses.py   memo.flag
       plugins/draft.py    memo.draft, and the threads that hold its follow-ups
       house.py            house rules: load them, apply them to cells, answer in code. No model
       plugins/rules.py    rules.list, rules.apply, rules.change

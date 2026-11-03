@@ -46,6 +46,7 @@ from .core.ledger import record_problems
 from .core.plugin import LoadError, Refused
 from .page import PDF_LOCK
 from .plugins.draft import public_thread, read_thread
+from .plugins.misses import all_cases, public_case
 from .plugins.release import bundle_exists, read_bundle
 from .record import read_lines
 
@@ -201,6 +202,11 @@ def _load_score() -> dict | None:
     if score:
         score["repeat"] = summary("round2")
         score["earlier"] = summary("roundfresh")
+        for field, name in (("trials", "results_trials_final"), ("plugins", "results_plugins")):
+            try:
+                score[field] = json.loads((ROOT / "eval" / f"{name}.json").read_text())["summary"]
+            except (OSError, ValueError, KeyError):
+                score[field] = None
     return score
 
 
@@ -298,6 +304,22 @@ def run(run_id: str) -> dict:
         holds = not record_problems(folder) and bool(lines) and (not info["last_hash"] or info["last_hash"] == last)
         record = {"lines": len(lines), "last_hash": last, "holds": holds}
     return {"run_id": run_id, "capability": info["capability"], "status": info["status"], "result": result, "record": record}
+
+
+@app.get("/api/misses")
+def misses() -> dict:
+    cases = all_cases(ctx)
+    fixed = sum(bool(c.get("fixed_in")) for c in cases)
+    return {"cases": [public_case(c) for c in cases], "counts": {"open": len(cases) - fixed, "fixed": fixed}}
+
+
+@app.get("/api/misses/{case_id}")
+def miss(case_id: str) -> dict:
+    """The whole case, replies included, so one flagged on a server can be saved into eval/misses/."""
+    found = next((c for c in all_cases(ctx) if c["id"] == case_id), None)
+    if found is None:
+        raise HTTPException(404, "No such case.")
+    return found
 
 
 @app.get("/api/threads/{thread_id}")

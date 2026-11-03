@@ -1,0 +1,157 @@
+{
+ "summary": {
+  "methods": 5,
+  "filings": 3,
+  "results": 15,
+  "computed": 10,
+  "computed_right": 10,
+  "refused": 5,
+  "right_to_refuse": 4,
+  "missed": 1,
+  "dropped": [
+   {
+    "method": "Adjusted gap",
+    "why": "Muse mapped it to a false row on ASML and code could not tell. It was taken out of the gallery rather than fixed, so this eval does not count it."
+   }
+  ],
+  "note": "Each computed value and cell read by hand against the filing's pages. A refusal is judged too: right_to_refuse means the filing does not print what the method needs; miss means it does."
+ },
+ "rows": [
+  {
+   "method": "Net debt",
+   "filing": "anthropic",
+   "status": "computed",
+   "display": "-$3.8bn",
+   "judged": "right",
+   "note": "Debt here is convertible notes only. Short-term investments are not counted as cash.",
+   "reason": ""
+  },
+  {
+   "method": "Net debt",
+   "filing": "nebius",
+   "status": "computed",
+   "display": "$503.6m",
+   "judged": "right",
+   "note": "",
+   "reason": ""
+  },
+  {
+   "method": "Net debt",
+   "filing": "asml",
+   "status": "computed",
+   "display": "-€6.1bn",
+   "judged": "right",
+   "note": "Long-term debt only.",
+   "reason": ""
+  },
+  {
+   "method": "Free cash flow",
+   "filing": "anthropic",
+   "status": "computed",
+   "display": "$3.4bn",
+   "judged": "right",
+   "note": "",
+   "reason": ""
+  },
+  {
+   "method": "Free cash flow",
+   "filing": "nebius",
+   "status": "unavailable",
+   "display": null,
+   "judged": "right_to_refuse",
+   "note": "Page 2 prints purchases of property and equipment and intangible assets as one row.",
+   "reason": "Muse found no rows for this on this filing, so nothing was computed. The filing only prints combined purchases of property and equipment and intangible assets."
+  },
+  {
+   "method": "Free cash flow",
+   "filing": "asml",
+   "status": "computed",
+   "display": "€10.2bn",
+   "judged": "right",
+   "note": "",
+   "reason": ""
+  },
+  {
+   "method": "Gross margin check",
+   "filing": "anthropic",
+   "status": "unavailable",
+   "display": null,
+   "judged": "right_to_refuse",
+   "note": "The S-1 prints no gross margin to compare with. Muse's reason also says it prints no cost of revenue, which is false: page 385 prints it.",
+   "reason": "Muse found no rows for this on this filing, so nothing was computed. Pages show revenue but no cost of revenue or printed gross margin."
+  },
+  {
+   "method": "Gross margin check",
+   "filing": "nebius",
+   "status": "unavailable",
+   "display": null,
+   "judged": "right_to_refuse",
+   "note": "The release prints cost of revenues and no gross margin to compare with.",
+   "reason": "Muse found no rows for this on this filing, so nothing was computed. Pages print revenue and cost of revenues but no printed gross margin row."
+  },
+  {
+   "method": "Gross margin check",
+   "filing": "asml",
+   "status": "computed",
+   "display": "55.05%",
+   "judged": "right",
+   "note": "Ties to the printed 55.0%.",
+   "reason": ""
+  },
+  {
+   "method": "Capex intensity",
+   "filing": "anthropic",
+   "status": "unavailable",
+   "display": null,
+   "judged": "miss",
+   "note": "The S-1 prints both: purchases of (482) on page 358 and revenue of 16,286. Code refused because the revenue row it was pointed to printed more than one number for that period.",
+   "reason": "The row \"Revenue\" prints more than one number under six months of Jun 2026, so nothing was computed."
+  },
+  {
+   "method": "Capex intensity",
+   "filing": "nebius",
+   "status": "unavailable",
+   "display": null,
+   "judged": "right_to_refuse",
+   "note": "Page 2 prints purchases of property and equipment and intangible assets as one row.",
+   "reason": "Muse found no rows for this on this filing, so nothing was computed. The filing combines property and equipment with intangible assets and shows no separate property and equipment spending row."
+  },
+  {
+   "method": "Capex intensity",
+   "filing": "asml",
+   "status": "computed",
+   "display": "3.75%",
+   "judged": "right",
+   "note": "",
+   "reason": ""
+  },
+  {
+   "method": "Equity value from an enterprise value",
+   "filing": "anthropic",
+   "status": "computed",
+   "display": "$103.8bn",
+   "judged": "right",
+   "note": "Arithmetic on a number the person entered.",
+   "reason": ""
+  },
+  {
+   "method": "Equity value from an enterprise value",
+   "filing": "nebius",
+   "status": "computed",
+   "display": "$99.5bn",
+   "judged": "right",
+   "note": "Arithmetic on a number the person entered.",
+   "reason": ""
+  },
+  {
+   "method": "Equity value from an enterprise value",
+   "filing": "asml",
+   "status": "computed",
+   "display": "€106.1bn",
+   "judged": "right",
+   "note": "Arithmetic on a number the person entered.",
+   "reason": ""
+  }
+ ],
+ "problems": []
+}

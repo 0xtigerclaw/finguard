@@ -20,6 +20,7 @@ import re
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from decimal import Decimal
+from math import exp, lgamma, log
 from pathlib import Path
 
 from finguard.check import (MATCH, REFUSED, WRONG, Claim, _found_count, _locate_again, candidate_pages, check_memo, decide, list_claims,
@@ -35,6 +36,39 @@ DATA = HERE.parent / "data"
 IN_PER_M, OUT_PER_M = 1.25, 4.25  # muse-spark-1.3 list price, dollars per million tokens
 OTHER_KIND = {"quarter": "full_year", "six_months": "quarter", "nine_months": "quarter",
               "full_year": "six_months", "as_of": "full_year"}
+
+
+def upper_95(hits: int, n: int) -> float | None:
+    """The highest true rate still 5% likely to show `hits` or fewer in n tries: a one-sided 95% upper bound."""
+    if n == 0:
+        return None
+    if hits >= n:
+        return 1.0
+    low, high = hits / n, 1.0
+    for _ in range(60):
+        rate = (low + high) / 2
+        chance = sum(exp(lgamma(n + 1) - lgamma(k + 1) - lgamma(n - k + 1) + k * log(rate) + (n - k) * log(1 - rate)) for k in range(hits + 1))
+        low, high = (rate, high) if chance > 0.05 else (low, rate)
+    return round(high, 4)
+
+
+def limits(present: list[dict], true_exact: dict, false_numbers: int, false_passed: int) -> dict:
+    """Coverage and risk, the standard terms for a system allowed to refuse, each with what the sample can support."""
+    answered = true_exact[MATCH] + true_exact[WRONG]
+    n = len(present)
+    sources_passed = sum(any(v == MATCH for v in [*p["false"].values(), *p["new_false"].values()]) for p in present)
+    return {
+        "coverage": {"answered": answered, "of": n, "rate": round(answered / n, 4) if n else None},
+        "risk": {"wrong": true_exact[WRONG], "of": answered, "rate": round(true_exact[WRONG] / answered, 4) if answered else None,
+                 "upper_95": upper_95(true_exact[WRONG], answered)},
+        "refused": true_exact[REFUSED],
+        "true_called_wrong": {"wrong": true_exact[WRONG], "of": n, "upper_95": upper_95(true_exact[WRONG], n)},
+        "false_pass": {"passed": false_passed, "of": false_numbers, "rate": round(false_passed / false_numbers, 6) if false_numbers else None,
+                       "upper_95": upper_95(false_passed, false_numbers),
+                       "source_numbers": n, "upper_95_counting_each_source_once": upper_95(sources_passed, n),
+                       "note": "The altered numbers are not independent. They are made from the source numbers, so the "
+                               "bound counting each source once is the careful one."},
+    }
 
 
 def plain(printed: str) -> tuple[Decimal, str, bool]:
@@ -295,17 +329,15 @@ def memo_path() -> dict:
                                                           "passed": len(v), "examples": v} for k, v in passes.items()}}
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--live", action="store_true")
-    parser.add_argument("--round", default="1", help="1, 2, heldout, fresh or final: names the saved replies and the results file")
-    args = parser.parse_args()
-    key_file = {"heldout": "answer_key_heldout.json", "fresh": "answer_key_fresh.json", "final": "answer_key_final.json"}.get(args.round, "answer_key.json")
+def score_round(name: str, live: bool = False, trial: int | None = None) -> dict:
+    """Score one round and return what the results file holds. A trial repeats a round live under its own names."""
+    key_file = {"heldout": "answer_key_heldout.json", "fresh": "answer_key_fresh.json", "final": "answer_key_final.json"}.get(name, "answer_key.json")
     key = json.loads((HERE / key_file).read_text())
-    saved = HERE / "recordings" / f"round{args.round}"
+    label = f"{name}_trial{trial}" if trial else name
+    saved = HERE / "recordings" / f"round{label}"
     folder = Path(tempfile.mkdtemp(prefix="finguard-score-"))
     run = Run(folder)
-    transport = RecordingTransport(LiveTransport(timeout=300), saved) if args.live else ReplayTransport(saved)
+    transport = RecordingTransport(LiveTransport(timeout=300), saved) if live else ReplayTransport(saved)
     muse = Muse(transport, run)
     filings = {name: Filing(DATA / name) for name in {i["filing"] for i in key["present"] + key["absent"]}}
 
@@ -369,7 +401,7 @@ def main() -> None:
     cost = (sum(u.get("prompt_tokens", 0) for u in usage) * IN_PER_M
             + sum(u.get("completion_tokens", 0) for u in usage) * OUT_PER_M) / 1e6
     summary = {
-        "round": args.round, "model": muse.model, "calls": len(calls) - unsaved,
+        "round": label, "model": muse.model, "calls": len(calls) - unsaved,
         "failed_calls": sum(1 for e in calls if e["error"]) - unsaved,
         "second_looks": looks,
         "true_numbers": len(present),
@@ -399,8 +431,21 @@ def main() -> None:
     summary["engine_sha256"] = hashlib.sha256(engine).hexdigest()
     memos = memo_path()
     summary["memo_path_false_passed"] = sum(v["passed"] for v in memos["built_to_slip_through"].values())
-    out = HERE / f"results_round{args.round}.json"
-    out.write_text(json.dumps({"summary": summary, "present": present, "absent": absent, "memo_path": memos}, indent=1, ensure_ascii=False) + "\n")
+    summary.update(limits(present, summary["true_exact"], len(false_all) + len(new_all), count(false_all, MATCH) + count(new_all, MATCH)))
+    return {"summary": summary, "present": present, "absent": absent, "memo_path": memos, "unused_replies": len(transport.unused) if not live else 0}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--live", action="store_true")
+    parser.add_argument("--round", default="1", help="1, 2, heldout, fresh or final: names the saved replies and the results file")
+    parser.add_argument("--trial", type=int, help="A repeat of the round, saved under its own names. Never touches the round's own files.")
+    args = parser.parse_args()
+    scored = score_round(args.round, args.live, args.trial)
+    unused = scored.pop("unused_replies")
+    summary, present, absent = scored["summary"], scored["present"], scored["absent"]
+    out = HERE / f"results_round{summary['round']}.json"
+    out.write_text(json.dumps(scored, indent=1, ensure_ascii=False) + "\n")
     print(json.dumps(summary, indent=1))
     for p in present:
         if p["true"]["exact"] != MATCH:
@@ -412,8 +457,8 @@ def main() -> None:
             print("NEW FALSE PASS", Path(p["filing"]).name[:4], p["metric"], p["period"], passed["class"], passed["value"], "|", passed["row"], "|", passed["column"])
     for a in absent:
         print("ABSENT", Path(a["filing"]).name[:4], a["metric"], a["verdict"], "|", a["why"][:90])
-    if not args.live and transport.unused:
-        print(f"Note: {len(transport.unused)} saved replies were not needed by this version of the code.")
+    if unused:
+        print(f"Note: {unused} saved replies were not needed by this version of the code.")
 
 
 if __name__ == "__main__":

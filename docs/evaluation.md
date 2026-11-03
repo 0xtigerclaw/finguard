@@ -13,6 +13,66 @@ are in `eval/`. Read the first row.
 The final test is one public filing and 25 true numbers. It measures the method on that filing and is
 no guarantee on others.
 
+## What the final test can support
+
+A system allowed to refuse has two numbers: **coverage**, how often it answers, and **risk**, how often an answer is wrong.
+
+| | Result | 95% upper bound |
+|---|---|---|
+| Coverage | 19 of 25 true numbers answered, 76%. 6 refused | |
+| Risk on answered numbers | 0 of 19 wrong | 14.6% |
+| True numbers called wrong, of all 25 | 0 of 25 | 11.3% |
+| Altered numbers passed as true | 0 of 644 | 0.46% |
+
+The bounds are one-sided exact binomial bounds. The 644 altered numbers are not independent, because they are made from 25 numbers on one filing, so 0.46% flatters the result. Counting each of the 25 once, the bound is 11.3%. Every results file now holds these figures, and the Score page shows them.
+
+## Repeat trials
+
+Temperature 0 does not make Muse repeat itself, so the final test was run 3 more times live, on the same filing and answer key. The first run stays in its own files. Each trial has `results_roundfinal_trial*.json` and its own recordings, and `eval/results_trials_final.json` compares them.
+
+| Run | Matched | Refused | Called wrong | Altered numbers passed | Invented metrics passed |
+|---|---|---|---|---|---|
+| Final test | 19 | 6 | 0 | 0 of 644 | 0 of 2 |
+| Trial 1 | 18 | 7 | 0 | 0 of 618 | 0 of 2 |
+| Trial 2 | 18 | 7 | 0 | 0 of 618 | 0 of 2 |
+| Trial 3 | 19 | 6 | 0 | 0 of 642 | 0 of 2 |
+
+- **The headline is the top of a range.** Coverage ran from 72% to 76%. Quote 18 to 19 of 25 when speaking of repeat runs.
+- **22 of 25 numbers got the same verdict in all 4 runs. 17 of 25 matched in all 4 (pass^4 = 68%).**
+- **Three numbers moved between match and refused:** Income from operations, Income before income taxes, and Diluted net income per share. Each refusal was Muse pointing to the 2025 column, which code would not accept. None moved to called wrong, and no altered number passed in any run.
+- **Muse's replies are not the same run to run.** At most 1 of the 27 shared requests got a byte-identical reply. This is why code gives the verdict, and why a live check can refuse a number a saved run matched.
+- **The altered count moves** because altered numbers are only built for true numbers the engine can read in that run.
+
+The trials ran on the code after the changes listed under "After the final test", with the same engine hash as the rescored results. They add no new accuracy claim: this filing is no longer unseen.
+
+## The gate
+
+`python eval/gate.py` replays every round and the plugin eval with no key, and CI runs it on every push. It fails on any false pass, any true number called wrong, matches below `eval/gate_floors.json`, a saved reply going missing, a gallery method leaving its answer key, or a case marked fixed coming back. It takes about 4 minutes on Linux. It was tested by planting a bug in a copy of the code that turned wrong verdicts into matches: it failed all 5 rounds, with 10 failure lines.
+
+A replay shows the code did not get worse on saved replies. It says nothing about a new filing.
+
+## Misses from use
+
+Open any number on a check and choose **Flag this verdict**, or call `memo.flag`. Through the door and on the ledger, the flag saves a case: the memo, the verdict, what the person says is right, why, and Muse's replies. It changes no verdict, release or approval.
+
+`finguard misses` replays every case with no API. A case is **open** until the replay gives what the person said, and **stale** if the code now asks Muse something the case did not save, so a missing reply is never read as a verdict. `finguard misses export <id>` copies a case into `eval/misses/`, where the gate replays it. `finguard misses fixed <id> <commit>` marks it fixed, and only if the replay agrees. After that, the gate fails if it comes back. An open case is reported and does not fail the gate, so a flag cannot block other work.
+
+A flag does not fix anything by itself. A person still has to change the code. A case flagged on the deployed site lives in that server's temporary state and is lost at the next deploy unless it is saved first, from `/api/misses/<id>`. There are no real cases yet.
+
+## The plugin eval
+
+Create's results are not part of the measured score. `python eval/plugins.py` replays every gallery method on all 3 filings against `eval/answer_key_plugins.json`, read by hand against the pages.
+
+| | Count |
+|---|---|
+| Methods, on 3 filings | 5 methods, 15 results |
+| Computed, and right when read by hand | 10 of 10 |
+| Refused, and right to refuse | 4 of 5 |
+| Refused, and a miss | 1 of 5: capex intensity on Anthropic. The S-1 prints both numbers |
+| Dropped before this eval | 1 method: adjusted gap. Muse mapped it to a false row on ASML, and code could not tell |
+
+The dropped method matters most. Code checks the cell it reads, but Muse chooses which rows a method uses, and no code checks that choice. A method's working shows its rows so a person can. Muse's stated reasons can also be wrong: it said the Anthropic S-1 prints no cost of revenue, and page 385 prints it. The refusal stands because the S-1 prints no gross margin to compare with.
+
 ## What happened, in order
 
 1. **The held-out round.** Three filings, first used after the code was frozen, gave 23 of 31 true
