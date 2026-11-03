@@ -1,0 +1,33 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  # Tests replay saved replies and must never call the live API.
+  # Keep the key empty so no secret or inherited value can reach them.
+  MODEL_API_KEY: ""
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install the project
+        run: python -m pip install -e ".[dev]"
+
+      - name: Run the tests
+        run: python -m pytest -q
