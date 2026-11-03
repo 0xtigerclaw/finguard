@@ -36,7 +36,7 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel, Field
 
 from .core.approvals import CannotDecide
-from .core.context import MAX_MEMO, ROOT, Context
+from .core.context import FILINGS, open_filing, MAX_MEMO, ROOT, Context
 from .core.door import dispatch
 from .core.ledger import record_problems
 from .core.plugin import LoadError, Refused
@@ -197,6 +197,18 @@ def _load_score() -> dict | None:
         score["repeat"] = summary("round2")
         score["earlier"] = summary("roundfresh")
     return score
+
+
+@app.on_event("startup")
+def _warm_saved_pages() -> None:
+    """Read the saved demos' tables once at start. The first read of a page is slow, then it is cached."""
+    if not os.environ.get("FINGUARD_WARM"):
+        return
+    for pdf, *_ in FILINGS.values():
+        filing = open_filing(ROOT / "data" / pdf)
+        for pinned in sorted((ROOT / "data" / "pinned_pages" / filing.sha256[:16]).glob("*.png")):
+            filing.text(int(pinned.stem))
+            filing.cells_on(int(pinned.stem))
 
 
 def _token_is_right(given: str) -> bool:

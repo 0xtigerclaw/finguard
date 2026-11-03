@@ -391,3 +391,11 @@ def test_behind_a_proxy_only_the_last_forwarded_address_counts(monkeypatch):
     assert send("8.8.8.8, 203.0.113.7") != 429
     assert send("7.7.7.7, 203.0.113.7") == 429  # changing the part a caller controls does not help
     assert send("203.0.113.8") != 429
+
+
+def test_warming_reads_the_saved_pages_and_changes_no_verdict(monkeypatch):
+    monkeypatch.setenv("FINGUARD_WARM", "1")
+    web._warm_saved_pages()
+    from finguard.core.context import FILINGS, open_filing
+    filing = open_filing(web.ROOT / "data" / FILINGS["anthropic"][0])
+    assert 166 in filing.page_cells
