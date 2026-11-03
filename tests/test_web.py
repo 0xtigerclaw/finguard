@@ -22,6 +22,9 @@ TOKEN = "a-test-operator-token"
 def ctx(tmp_path, monkeypatch):
     monkeypatch.delenv("MODEL_API_KEY", raising=False)
     monkeypatch.delenv("FINGUARD_OPERATOR_TOKEN", raising=False)
+    for name in ("FINGUARD_RATE_LIMIT", "FINGUARD_RATE_WINDOW_SECONDS", "FINGUARD_MAX_RUNS", "FINGUARD_MAX_THREADS"):
+        monkeypatch.delenv(name, raising=False)
+    web._reset_rate_limit()
     made = build(tmp_path)
     made.transport = None
     monkeypatch.setattr(web, "ctx", made)
@@ -291,6 +294,68 @@ def test_a_wrong_memo_cannot_be_released_over_the_web():
 def test_an_unknown_release_is_404():
     assert client.get("/api/releases/rel_0000000000000000").status_code == 404
     assert client.get("/api/releases/..%2F..%2Fledger").status_code == 404
+
+
+# Rate limit and storage caps
+
+def test_a_post_under_the_rate_limit_works(monkeypatch):
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "3")
+    monkeypatch.setenv("FINGUARD_RATE_WINDOW_SECONDS", "60")
+    assert client.post("/api/do/filings.list", json={"params": {}}).status_code == 200
+    body = do("memo.check", {"memo": MEMO, "filing": "anthropic"})
+    assert body["status"] == "done" and body["result"]["saved"]
+
+
+def test_a_post_over_the_rate_limit_gets_429(ctx, monkeypatch):
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "2")
+    monkeypatch.setenv("FINGUARD_RATE_WINDOW_SECONDS", "60")
+    assert client.post("/api/do/filings.list", json={"params": {}}).status_code == 200
+    assert client.post("/api/do/filings.list", json={"params": {}}).status_code == 200
+    kept = ctx.ledger.lines()
+    over = client.post("/api/do/filings.list", json={"params": {}})
+    assert over.status_code == 429 and over.json() == {"detail": "Too many requests. Try again later."}
+    assert 1 <= int(over.headers["retry-after"]) <= 60
+    assert ctx.ledger.lines() == kept  # the blocked call grew nothing
+    assert client.post("/api/approvals/apr_0000000000000000/decide", json={}).status_code == 429
+    assert client.get("/api/runs").status_code == 200  # reads are not throttled
+
+
+def test_a_different_ip_is_not_throttled_by_another_ip(monkeypatch):
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "1")
+    monkeypatch.setenv("FINGUARD_RATE_WINDOW_SECONDS", "60")
+    assert client.post("/api/do/filings.list", json={"params": {}}).status_code == 200
+    assert client.post("/api/do/filings.list", json={"params": {}}).status_code == 429
+    other = TestClient(app, client=("198.51.100.9", 50000))
+    assert other.post("/api/do/filings.list", json={"params": {}}).status_code == 200
+    assert other.post("/api/do/filings.list", json={"params": {}}).status_code == 429
+
+
+def test_the_run_cap_refuses_new_runs_and_keeps_old_ones(ctx, monkeypatch):
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "100")
+    monkeypatch.setenv("FINGUARD_MAX_RUNS", "2")
+    first = do("memo.check", {"memo": MEMO, "filing": "anthropic"})  # a saved replay still works
+    assert first["status"] == "done" and first["result"]["saved"]
+    assert do("filings.list")["status"] == "done"
+    kept = ctx.ledger.lines()
+    over = client.post("/api/do/filings.list", json={"params": {}})
+    assert over.status_code == 503 and "Run storage is full" in over.json()["detail"]
+    assert ctx.ledger.lines() == kept and len(ctx.ledger.runs()) == 2
+    rows = client.get("/api/runs").json()["runs"]
+    assert len(rows) == 2
+    assert client.get(f"/api/runs/{first['run_id']}").status_code == 200  # old runs stay readable
+
+
+def test_the_thread_cap_refuses_new_approvals_and_keeps_old_ones(ctx, monkeypatch):
+    # A thread here is one stored approval request.
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "100")
+    monkeypatch.setenv("FINGUARD_MAX_RUNS", "100")
+    monkeypatch.setenv("FINGUARD_MAX_THREADS", "1")
+    asked = do("filings.add", {"url": "https://x.example.com/a.pdf"})
+    assert asked["status"] == "needs_approval"
+    over = client.post("/api/do/filings.add", json={"params": {"url": "https://x.example.com/b.pdf"}})
+    assert over.status_code == 503 and "Approval storage is full" in over.json()["detail"]
+    assert [r["id"] for r in client.get("/api/approvals").json()["approvals"]] == [asked["approval"]["id"]]
+    assert do("filings.list")["status"] == "done"  # a call that asks for nothing new still works
 
 
 # Marking numbers in the memo

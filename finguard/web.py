@@ -1,9 +1,33 @@
-"""The API and the page. Every capability goes through the same door as the CLI."""
+"""The API and the page. Every capability goes through the same door as the CLI.
+
+Limits, all plain code and all set by env vars with safe defaults:
+
+- Rate: FINGUARD_RATE_LIMIT POST calls (default 60) per
+  FINGUARD_RATE_WINDOW_SECONDS (default 60) from one IP. Over that, a POST
+  gets 429 and a Retry-After header, and nothing reaches the door. The IP
+  is the connection IP. Forwarded headers are not trusted, since a caller
+  could write any value in them.
+- Runs: FINGUARD_MAX_RUNS (default 1000) runs stored on the ledger. At the
+  cap, POST /api/do gets 503 and nothing reaches the door.
+- Threads: FINGUARD_MAX_THREADS (default 200) stored approval requests.
+  In this file a thread means one stored approval request file. A POST
+  that would ask for a new approval at the cap gets 503.
+
+Both caps refuse new work. They never evict. Deleting the oldest run or
+approval would leave ledger lines that point at a folder or request that
+is gone, so the chain would no longer hold. Old runs and approvals stay
+readable through the GET routes, and saved memos still replay with no key
+while there is room.
+"""
 from __future__ import annotations
 
 import hmac
 import json
+import math
 import os
+import threading
+import time
+from collections import deque
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Request
@@ -34,6 +58,108 @@ app = FastAPI(title="Finguard", docs_url=None, redoc_url=None)
 def plain_bad_request(request: Request, error: RequestValidationError) -> JSONResponse:
     """FastAPI's own message echoes the input, which could hold a token."""
     return JSONResponse({"detail": "That request is not in the right form."}, status_code=400)
+
+
+DEFAULT_RATE_LIMIT = 60
+DEFAULT_RATE_WINDOW_SECONDS = 60
+DEFAULT_MAX_RUNS = 1000
+DEFAULT_MAX_THREADS = 200
+MAX_TRACKED_IPS = 10000
+
+
+def _limit_from_env(name: str, default: int) -> int:
+    """A whole number of 1 or more from the env, or the default if unset or bad."""
+    try:
+        value = int(os.environ.get(name, ""))
+    except ValueError:
+        return default
+    return value if value >= 1 else default
+
+
+class _RateLimiter:
+    """One sliding window of POST times per client IP, held in memory.
+
+    The window restarts when the limits change, so a test that sets low
+    limits does not inherit counts made under the old ones. The IP map is
+    capped too: expired windows are dropped first, then the IP with the
+    oldest last hit.
+    """
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._hits: dict[str, deque[float]] = {}
+        self._config: tuple[int, int] | None = None
+
+    def reset(self) -> None:
+        with self._lock:
+            self._hits.clear()
+            self._config = None
+
+    def check(self, ip: str, limit: int, window: int, now: float | None = None) -> int | None:
+        """Record one POST and return None, or return seconds to wait and record nothing."""
+        now = time.monotonic() if now is None else now
+        with self._lock:
+            if self._config != (limit, window):
+                self._hits.clear()
+                self._config = (limit, window)
+            hits = self._hits.get(ip)
+            if hits is None:
+                if len(self._hits) >= MAX_TRACKED_IPS:
+                    self._drop_old(now, window)
+                hits = self._hits.setdefault(ip, deque())
+            while hits and hits[0] <= now - window:
+                hits.popleft()
+            if len(hits) >= limit:
+                return max(1, math.ceil(hits[0] + window - now))
+            hits.append(now)
+            return None
+
+    def _drop_old(self, now: float, window: int) -> None:
+        """Make room for one new IP, dropping only whole windows."""
+        for ip in [ip for ip, hits in self._hits.items() if not hits or hits[-1] <= now - window]:
+            del self._hits[ip]
+        while len(self._hits) >= MAX_TRACKED_IPS:
+            oldest = min(self._hits, key=lambda ip: self._hits[ip][-1] if self._hits[ip] else 0.0)
+            del self._hits[oldest]
+
+
+_rate_limiter = _RateLimiter()
+
+
+def _reset_rate_limit() -> None:
+    """Clear all rate counts. Tests use this to start from a clean window."""
+    _rate_limiter.reset()
+
+
+@app.middleware("http")
+async def rate_limit(request: Request, call_next):
+    """Throttle every POST route by client IP before it can grow the ledger."""
+    if request.method != "POST":
+        return await call_next(request)
+    limit = _limit_from_env("FINGUARD_RATE_LIMIT", DEFAULT_RATE_LIMIT)
+    window = _limit_from_env("FINGUARD_RATE_WINDOW_SECONDS", DEFAULT_RATE_WINDOW_SECONDS)
+    ip = request.client.host if request.client else "unknown"
+    wait = _rate_limiter.check(ip, limit, window)
+    if wait is not None:
+        return JSONResponse({"detail": "Too many requests. Try again later."},
+                            status_code=429, headers={"Retry-After": str(wait)})
+    return await call_next(request)
+
+
+def _storage_refusal(capability: str, approval_id: str | None) -> str | None:
+    """Why a POST /api/do must not reach the door, or None if there is room.
+
+    The check is deterministic: stored runs are counted on the ledger in
+    ledger order, threads are the stored approval requests, and at either
+    cap the new call is refused. Nothing is deleted.
+    """
+    if len(ctx.ledger.runs()) >= _limit_from_env("FINGUARD_MAX_RUNS", DEFAULT_MAX_RUNS):
+        return "Run storage is full. No new runs are being taken."
+    cap = ctx.registry.get(capability)
+    if cap is not None and cap.approval == "person" and approval_id is None:
+        if len(ctx.approvals.all()) >= _limit_from_env("FINGUARD_MAX_THREADS", DEFAULT_MAX_THREADS):
+            return "Approval storage is full. No new requests are being taken."
+    return None
 
 
 class DoRequest(BaseModel):
@@ -103,6 +229,9 @@ def rules() -> dict:
 
 @app.post("/api/do/{capability}")
 def do(capability: str, req: DoRequest) -> dict:
+    refusal = _storage_refusal(capability, req.approval_id)
+    if refusal is not None:
+        raise HTTPException(503, refusal)
     return dispatch(capability, req.params, "web", ctx, approval_id=req.approval_id).to_dict()
 
 
