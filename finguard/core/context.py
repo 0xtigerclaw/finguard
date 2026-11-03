@@ -61,6 +61,21 @@ def corrected_replies(name: str) -> Path:
     return ROOT / "tests" / "recordings" / CORRECTED[name][1]
 
 
+def draft_replies(name: str) -> Path:
+    return ROOT / "tests" / "recordings" / f"draft_{name}"
+
+
+def saved_conversation(name: str) -> list[dict]:
+    """The saved turns for a filing, in order, if they and their replies exist."""
+    path = ROOT / "examples" / f"draft_{name}.json"
+    if not (path.exists() and draft_replies(name).exists()):
+        return []
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))["turns"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return []
+
+
 def open_filing(path: Path) -> Filing:
     with _open_lock:
         if path not in _open:
@@ -103,7 +118,8 @@ class Filings:
             with PDF_LOCK:
                 pages = filing.pages
             rows.append({"id": name, "company": company, "document": document, "sha256": filing.sha256,
-                         "pages": pages, "memo": saved_memo(name), "corrected": corrected_memo(name)})
+                         "pages": pages, "memo": saved_memo(name), "corrected": corrected_memo(name),
+                         "conversation": [turn["question"] for turn in saved_conversation(name)]})
         return rows
 
 
@@ -145,8 +161,11 @@ class Context:
         except ValueError:
             raise LoadError("FINGUARD_LIVE_LIMIT must be a whole number.") from None
         ledger = Ledger(folder)
-        return cls(state=folder, registry=discover(package), ledger=ledger, approvals=Approvals(folder, ledger),
-                   filings=Filings(folder), live=LiveBudget(limit), **extra)
+        ctx = cls(state=folder, registry=discover(package), ledger=ledger, approvals=Approvals(folder, ledger),
+                  filings=Filings(folder), live=LiveBudget(limit), **extra)
+        for start in ctx.registry.at_start:  # a plugin may add capabilities kept in the state folder
+            start(ctx)
+        return ctx
 
     @property
     def run_folder(self) -> Path:

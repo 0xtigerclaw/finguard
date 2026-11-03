@@ -8,6 +8,7 @@ import re
 import secrets
 from pathlib import Path
 
+from .. import house
 from ..check import MATCH, REFUSED, UNCHECKED, WRONG
 from ..core.context import Context
 from ..core.ledger import chain_problems, now, record_problems
@@ -26,6 +27,12 @@ def _read_record(raw: bytes) -> tuple[str | None, list[dict], list[dict]]:
     memo = starts[0].get("memo") if len(starts) == 1 else None
     receipts = [{k: v for k, v in e.items() if k not in _CHAIN_FIELDS} for e in lines if e.get("kind") == "receipt"]
     return memo, receipts, lines
+
+
+def _house_line(lines: list[dict]) -> dict:
+    """What the record says about the rules the check ran under. Empty for a run with no such line."""
+    found = [e for e in lines if e.get("kind") == "house"]
+    return found[0] if len(found) == 1 else {}
 
 
 def _subject(memo: str, receipts: list[dict]) -> str:
@@ -55,7 +62,11 @@ def _releasable(ctx: Context, run_id: str) -> dict:
     if counts[MATCH] != len(receipts):
         raise Refused(f"Only a memo where every number matches can be released. This one has "
                       f"{counts[WRONG]} wrong, {counts[REFUSED]} refused and {counts[UNCHECKED]} unchecked.")
+    checked_under = _house_line(lines)
+    if checked_under.get("rules_sha256") != house.active_rules(ctx).sha256:
+        raise Refused("The house rules changed after this memo was checked. Check it again under the current rules.")
     return {"memo": memo, "receipts": receipts, "raw": raw, "last_hash": info["last_hash"], "counts": counts,
+            "rules_sha256": checked_under["rules_sha256"], "house_notes": checked_under.get("notes", []),
             "filing": info["filing"], "filing_sha256": next((e.get("filing_sha256") for e in lines if e.get("kind") == "start"), None),
             "model": next((e.get("model") for e in lines if e.get("kind") == "start"), None)}
 
@@ -81,6 +92,7 @@ def _release(ctx: Context, params: dict) -> dict:
         "filing_sha256": found["filing_sha256"], "model": found["model"], "counts": found["counts"],
         "subject_sha256": subject, "run_last_hash": found["last_hash"], "approval_id": ctx.approval["id"],
         "approved_by": ctx.approval["decided_by"], "released_at": now(),
+        "rules_sha256": found["rules_sha256"], "house_notes": found["house_notes"],
         "files": {name: hashlib.sha256(data).hexdigest() for name, data in contents.items()},
     }
     manifest_bytes = json.dumps(manifest, sort_keys=True, ensure_ascii=False, indent=1).encode("utf-8")
@@ -92,7 +104,7 @@ def _release(ctx: Context, params: dict) -> dict:
     os.replace(spare, home / release_id)
     manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
     ctx.ledger.append("release_sealed", run_id=ctx.run_id, release_id=release_id, manifest_sha256=manifest_sha256,
-                      subject_sha256=subject, approval_id=ctx.approval["id"])
+                      subject_sha256=subject, approval_id=ctx.approval["id"], rules_sha256=found["rules_sha256"])
     return {"release_id": release_id, "check_run_id": params["check_run_id"], "manifest": manifest,
             "manifest_sha256": manifest_sha256, "filing": found["filing"], "counts": found["counts"],
             "holds": not verify_release(ctx, release_id)}
@@ -143,6 +155,9 @@ def verify_release(ctx: Context, release_id: str) -> list[str]:
             problems.append("not every number in this bundle matches")
         if memo is None or _subject(memo, receipts) != manifest.get("subject_sha256"):
             problems.append("the memo and receipts are not what was approved")
+        said = _house_line(lines)
+        if said.get("rules_sha256") != manifest.get("rules_sha256") or said.get("notes") != manifest.get("house_notes"):
+            problems.append("the manifest's rules and notes are not the ones the check ran under")
     except (OSError, ValueError, AttributeError):
         problems.append("the bundle's files cannot be read")
     sealed = [e for e in ctx.ledger.lines() if e.get("kind") == "release_sealed" and e.get("release_id") == release_id]

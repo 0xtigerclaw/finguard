@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from .. import house
 from ..check import MATCH, REFUSED, UNCHECKED, WRONG, check_memo
 from ..core.context import MAX_MEMO, Context, corrected_memo, corrected_replies, saved_memo, saved_replies
 from ..core.ledger import record_problems
@@ -76,8 +77,12 @@ def _share_images(folder: Path, store: Path) -> None:
 
 def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Transport, run: Run, saved: bool) -> dict:
     """Run the check on a run already open, and build the memo.check result. memo.draft uses this too."""
+    rules = house.active_rules(ctx)  # before any Muse call, so rules that do not hold cost nothing
     muse = Muse(transport, run)
     receipts = [r.to_dict() for r in check_memo(memo, filing, muse, run)]
+    notes = house.apply_to_receipts(rules, filing, receipts)
+    # On the run's own record, so a release reads which rules this check ran under from the hash chain.
+    run.write("house", rules_sha256=rules.sha256, rules_label=rules.label, notes=notes)
     _share_images(run.folder, ctx.state / "images")
     problems = record_problems(run.folder)
     return {
@@ -89,6 +94,9 @@ def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Trans
         "memo": memo,
         "counts": {v: sum(r["verdict"] == v for r in receipts) for v in (MATCH, WRONG, REFUSED, UNCHECKED)},
         "record": {"lines": run.count, "last_hash": run.last, "holds": not problems},
+        "rules_sha256": rules.sha256,
+        "rules_label": rules.label,
+        "house_notes": notes,
     }
 
 

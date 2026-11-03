@@ -20,7 +20,7 @@ def test_live_replies_lead_to_the_right_cells(s1, run):
     transport = ReplayTransport(SAVED)
     muse = Muse(transport, run)
     for metric, value, kind, year, direction, printed in CASES:
-        c = Claim(f"x {value}", value, metric, kind, year, direction)
+        c = Claim(f"It was {value}.", value, metric, kind, year, direction)
         r = decide(c, s1, locate(c, s1, [BRIDGE], muse), [BRIDGE])
         assert (r.verdict, r.source_text) == (MATCH, printed), r.why
     transport.assert_all_used()

@@ -1,9 +1,15 @@
 {
  "summary": {
-  "round": 1,
+  "round": "1",
   "model": "muse-spark-1.3",
   "calls": 67,
   "failed_calls": 0,
+  "second_looks": {
+   "asked": 2,
+   "replied": 0,
+   "not_saved": 2,
+   "failed": 0
+  },
   "true_numbers": 62,
   "true_exact": {
    "match": 60,
@@ -20,6 +26,229 @@
   "false_passed": 0,
   "false_called_wrong": 438,
   "false_refused": 138,
+  "old_false_by_class": {
+   "flipped": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 18
+   },
+   "last_digit": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 60
+   },
+   "other_column_0": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 60
+   },
+   "other_column_1": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 55
+   },
+   "other_column_2": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 49
+   },
+   "other_column_3": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 16
+   },
+   "other_column_4": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 2
+   },
+   "ten_percent_more": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 60
+   },
+   "ten_times": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 60
+   },
+   "wrong_currency": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 58
+   },
+   "wrong_period": {
+    "match": 0,
+    "refused": 62,
+    "wrong": 0
+   },
+   "wrong_year": {
+    "match": 0,
+    "refused": 62,
+    "wrong": 0
+   }
+  },
+  "new_false_numbers": 1320,
+  "new_false_passed": 0,
+  "new_false_called_wrong": 355,
+  "new_false_refused": 965,
+  "new_false_by_class": {
+   "another_row_name": {
+    "match": 0,
+    "refused": 60,
+    "wrong": 0
+   },
+   "currency_canadian": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 58
+   },
+   "currency_code": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 58
+   },
+   "currency_pound": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 58
+   },
+   "currency_yen": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 58
+   },
+   "loss_on_a_positive_row": {
+    "match": 0,
+    "refused": 34,
+    "wrong": 0
+   },
+   "memo_says_a_bound": {
+    "match": 0,
+    "refused": 60,
+    "wrong": 0
+   },
+   "memo_says_a_forecast": {
+    "match": 0,
+    "refused": 60,
+    "wrong": 0
+   },
+   "memo_says_fiscal": {
+    "match": 0,
+    "refused": 55,
+    "wrong": 0
+   },
+   "memo_says_growth": {
+    "match": 0,
+    "refused": 60,
+    "wrong": 0
+   },
+   "memo_says_other_date": {
+    "match": 0,
+    "refused": 14,
+    "wrong": 0
+   },
+   "memo_says_other_half": {
+    "match": 0,
+    "refused": 25,
+    "wrong": 0
+   },
+   "memo_says_other_quarter": {
+    "match": 0,
+    "refused": 14,
+    "wrong": 0
+   },
+   "money_as_percent": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 58
+   },
+   "no_currency": {
+    "match": 0,
+    "refused": 58,
+    "wrong": 0
+   },
+   "opposite_word": {
+    "match": 0,
+    "refused": 23,
+    "wrong": 0
+   },
+   "percent_as_money": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 2
+   },
+   "qualifier_added": {
+    "match": 0,
+    "refused": 58,
+    "wrong": 0
+   },
+   "qualifier_dropped": {
+    "match": 0,
+    "refused": 2,
+    "wrong": 0
+   },
+   "rough_rounding": {
+    "match": 0,
+    "refused": 14,
+    "wrong": 0
+   },
+   "sign_flipped": {
+    "match": 0,
+    "refused": 45,
+    "wrong": 0
+   },
+   "thousands_for_millions": {
+    "match": 0,
+    "refused": 56,
+    "wrong": 0
+   },
+   "wrong_cell_next_column": {
+    "match": 0,
+    "refused": 28,
+    "wrong": 0
+   },
+   "wrong_cell_next_column_own_label": {
+    "match": 0,
+    "refused": 28,
+    "wrong": 0
+   },
+   "wrong_cell_next_row": {
+    "match": 0,
+    "refused": 26,
+    "wrong": 29
+   },
+   "wrong_cell_next_row_own_label": {
+    "match": 0,
+    "refused": 55,
+    "wrong": 0
+   },
+   "wrong_cell_previous_column": {
+    "match": 0,
+    "refused": 59,
+    "wrong": 0
+   },
+   "wrong_cell_previous_column_own_label": {
+    "match": 0,
+    "refused": 59,
+    "wrong": 0
+   },
+   "wrong_cell_previous_row": {
+    "match": 0,
+    "refused": 15,
+    "wrong": 34
+   },
+   "wrong_cell_previous_row_own_label": {
+    "match": 0,
+    "refused": 49,
+    "wrong": 0
+   },
+   "zero": {
+    "match": 0,
+    "refused": 8,
+    "wrong": 0
+   }
+  },
   "absent_metrics": 5,
   "absent_passed": 0,
   "estimated_cost_usd": 2.04,
@@ -36,7 +265,9 @@
     "true": 17,
     "matched": 16
    }
-  }
+  },
+  "engine_sha256": "ebe34ac154960ace1a845105140ade211f284d71468184eda3a0be20e36dff38",
+  "memo_path_false_passed": 0
  },
  "present": [
   {
@@ -74,7 +305,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Revenue",
@@ -111,7 +367,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Compute and infrastructure",
@@ -148,7 +428,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Personnel",
@@ -185,7 +490,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Sales, marketing, and partnerships",
@@ -222,7 +554,35 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Other operating and administrative",
@@ -259,7 +619,35 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total operating expenses",
@@ -271,7 +659,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows $17bn (printed as 16,979) in the row Total operating expenses, under Six Months Ended June 30, 2026.",
+   "why": "The filing shows $17.0bn (printed as 16,979) in the row Total operating expenses, under Six Months Ended June 30, 2026.",
    "right_cell": true,
    "muse_box": [
     832,
@@ -297,7 +685,32 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Operating loss",
@@ -336,7 +749,32 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Operating loss",
@@ -375,7 +813,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Interest income",
@@ -412,7 +874,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Loss before provision for income taxes",
@@ -451,7 +940,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net loss",
@@ -490,7 +1003,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net loss",
@@ -502,7 +1039,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows -$42bn (printed as (41,965)) in the row Net loss, under Year Ended December 31, 2025.",
+   "why": "The filing shows -$42.0bn (printed as (41,965)) in the row Net loss, under Year Ended December 31, 2025.",
    "right_cell": true,
    "muse_box": [
     475,
@@ -529,7 +1066,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net loss per share",
@@ -568,7 +1129,28 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Cash and cash equivalents",
@@ -604,7 +1186,30 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total assets",
@@ -640,7 +1245,32 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total assets",
@@ -676,7 +1306,33 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total liabilities",
@@ -712,7 +1368,32 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Convertible notes payable",
@@ -748,7 +1429,32 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net cash provided by operating activities",
@@ -786,7 +1492,33 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Purchases of property and equipment",
@@ -824,7 +1556,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net cash used in investing activities",
@@ -862,7 +1618,31 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net cash provided by financing activities",
@@ -900,7 +1680,33 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Stock-based compensation expense",
@@ -938,7 +1744,34 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Adjusted Operating Income",
@@ -977,7 +1810,33 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_dropped": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Adjusted Operating Margin",
@@ -1014,7 +1873,26 @@
     "other_column_1": "wrong",
     "other_column_2": "wrong",
     "other_column_3": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_dropped": "refused",
+    "percent_as_money": "wrong",
+    "zero": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Operating margin",
@@ -1046,7 +1924,9 @@
     "other_column_1": "refused",
     "other_column_2": "refused",
     "other_column_3": "refused"
-   }
+   },
+   "new_false": {},
+   "new_passed": []
   },
   {
    "metric": "Revenues",
@@ -1085,7 +1965,33 @@
     "other_column_2": "wrong",
     "other_column_3": "wrong",
     "other_column_4": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Revenues",
@@ -1124,7 +2030,34 @@
     "other_column_2": "wrong",
     "other_column_3": "wrong",
     "other_column_4": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total operating costs and expenses",
@@ -1161,7 +2094,35 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total operating costs and expenses",
@@ -1198,7 +2159,33 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Loss from operations",
@@ -1236,7 +2223,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Loss from operations",
@@ -1274,7 +2288,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Interest income",
@@ -1306,7 +2345,9 @@
     "other_column_0": "refused",
     "other_column_1": "refused",
     "other_column_2": "refused"
-   }
+   },
+   "new_false": {},
+   "new_passed": []
   },
   {
    "metric": "Net income / (loss)",
@@ -1344,7 +2385,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net income / (loss)",
@@ -1382,7 +2447,30 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net cash provided by operating activities",
@@ -1419,7 +2507,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Purchases of property and equipment and intangible assets",
@@ -1456,7 +2569,30 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net cash used in investing activities",
@@ -1493,7 +2629,27 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_half": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Cash and cash equivalents",
@@ -1505,7 +2661,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows $8bn (printed as 8,042.1) in the row Assets Cash and cash equivalents, under As of June 30, 2026.",
+   "why": "The filing shows $8.0bn (printed as 8,042.1) in the row Assets Cash and cash equivalents, under As of June 30, 2026.",
    "right_cell": true,
    "muse_box": [
     860,
@@ -1528,7 +2684,30 @@
     "wrong_period": "refused",
     "wrong_currency": "wrong",
     "other_column_0": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total assets",
@@ -1540,7 +2719,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows $28bn (printed as 27,961.5) in the row Total assets, under As of June 30, 2026.",
+   "why": "The filing shows $28.0bn (printed as 27,961.5) in the row Total assets, under As of June 30, 2026.",
    "right_cell": true,
    "muse_box": [
     832,
@@ -1563,7 +2742,32 @@
     "wrong_period": "refused",
     "wrong_currency": "wrong",
     "other_column_0": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total assets",
@@ -1598,7 +2802,31 @@
     "wrong_period": "refused",
     "wrong_currency": "wrong",
     "other_column_0": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total liabilities",
@@ -1633,7 +2861,32 @@
     "wrong_period": "refused",
     "wrong_currency": "wrong",
     "other_column_0": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Debt, non-current",
@@ -1668,7 +2921,33 @@
     "wrong_period": "refused",
     "wrong_currency": "wrong",
     "other_column_0": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total net sales",
@@ -1705,7 +2984,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total net sales",
@@ -1742,7 +3048,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net system sales",
@@ -1779,7 +3109,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net service and field option sales",
@@ -1816,7 +3171,35 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Gross profit",
@@ -1854,7 +3237,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Gross profit",
@@ -1892,7 +3302,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Research and development costs",
@@ -1929,7 +3363,33 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "rough_rounding": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Selling, general and administrative costs",
@@ -1966,7 +3426,33 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Income from operations",
@@ -2004,7 +3490,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Income from operations",
@@ -2042,7 +3555,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net income",
@@ -2054,7 +3591,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows €5bn (printed as 4,960.4) in the row Net income, under Three months ended Sep 27, 2026.",
+   "why": "The filing shows €5.0bn (printed as 4,960.4) in the row Net income, under Three months ended Sep 27, 2026.",
    "right_cell": true,
    "muse_box": [
     821,
@@ -2080,7 +3617,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Net income",
@@ -2118,7 +3682,31 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Basic net income per ordinary share",
@@ -2156,7 +3744,33 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Gross margin",
@@ -2192,7 +3806,26 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "percent_as_money": "wrong",
+    "zero": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total assets",
@@ -2204,7 +3837,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows €59bn (printed as 58,981.2) in the row Total assets, under Sep 27, 2026.",
+   "why": "The filing shows €59.0bn (printed as 58,981.2) in the row Total assets, under Sep 27, 2026.",
    "right_cell": true,
    "muse_box": [
     451,
@@ -2228,7 +3861,32 @@
     "wrong_currency": "wrong",
     "other_column_0": "wrong",
     "other_column_1": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Total liabilities",
@@ -2265,7 +3923,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Long-term debt",
@@ -2277,7 +3960,7 @@
     "exact": "match",
     "natural": "match"
    },
-   "why": "The filing shows €2bn (printed as 1,963.0) in the row Long-term debt, under Sep 27, 2026.",
+   "why": "The filing shows €2.0bn (printed as 1,963.0) in the row Long-term debt, under Sep 27, 2026.",
    "right_cell": true,
    "muse_box": [
     945,
@@ -2302,7 +3985,32 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   },
   {
    "metric": "Inventories",
@@ -2339,7 +4047,34 @@
     "other_column_0": "wrong",
     "other_column_1": "wrong",
     "other_column_2": "wrong"
-   }
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
   }
  ],
  "absent": [
@@ -2373,5 +4108,81 @@
    "verdict": "refused",
    "why": "The filing pages searched do not report this metric."
   }
- ]
+ ],
+ "memo_path": {
+  "saved": {
+   "anthropic_memo": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "wrong",
+     "$8.7bn": "wrong",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "anthropic_memo_corrected": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "match",
+     "$80.7bn": "match",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "asml_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "€11.7bn": "match",
+     "€6.7bn": "match",
+     "$5.0bn": "wrong",
+     "€1.2bn": "match",
+     "€10.8bn": "wrong"
+    }
+   },
+   "nebius_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "$582.3m": "match",
+     "$175.9m": "match",
+     "$190.4m": "wrong",
+     "$2.8bn": "wrong",
+     "$8.0bn": "match"
+    }
+   }
+  },
+  "built_to_slip_through": {
+   "number_hidden_from_the_finder": {
+    "cases": 13,
+    "passed": 0,
+    "examples": []
+   },
+   "quote_twice_second_copy_not_flagged": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "value_slice_kept": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "period_from_a_later_sentence": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   }
+  }
+ }
 }

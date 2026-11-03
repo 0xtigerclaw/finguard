@@ -17,6 +17,7 @@ from .core.door import dispatch
 from .core.ledger import record_problems
 from .core.plugin import LoadError, Refused
 from .page import PDF_LOCK
+from .plugins.draft import public_thread, read_thread
 from .plugins.release import bundle_exists, read_bundle
 from .record import read_lines
 
@@ -133,6 +134,14 @@ def run(run_id: str) -> dict:
         holds = not record_problems(folder) and bool(lines) and (not info["last_hash"] or info["last_hash"] == last)
         record = {"lines": len(lines), "last_hash": last, "holds": holds}
     return {"run_id": run_id, "capability": info["capability"], "status": info["status"], "result": result, "record": record}
+
+
+@app.get("/api/threads/{thread_id}")
+def thread(thread_id: str) -> dict:
+    found = read_thread(ctx, thread_id)  # only a well formed id reaches the disk
+    if found is None:
+        raise HTTPException(404, "No such conversation.")
+    return public_thread(found)
 
 
 @app.get("/api/approvals")

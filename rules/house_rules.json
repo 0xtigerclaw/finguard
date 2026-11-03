@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "label": "ILLUSTRATIVE",
+  "note": "An example, written to show how house rules work. It is not any fund's real method. A fund replaces it with its own.",
+  "rules": [
+    {
+      "id": "HR-1",
+      "text": "Stock-based compensation is an operating cost and is never added back",
+      "enabled": true,
+      "result_label": "house operating result",
+      "interprets": {
+        "label": "adjusted operating income",
+        "names": ["adjusted operating income (loss)", "adjusted operating income", "adjusted operating loss"]
+      },
+      "removes": {
+        "label": "stock-based compensation",
+        "names": [
+          "stock-based compensation expense", "stock-based compensation",
+          "share-based compensation expense", "share-based compensation",
+          "equity-based compensation expense", "equity-based compensation"
+        ]
+      },
+      "starts_from": {
+        "label": "operating result",
+        "names": [
+          "operating loss", "operating income", "operating income (loss)", "operating profit", "operating profit (loss)",
+          "loss from operations", "income from operations", "income (loss) from operations"
+        ]
+      },
+      "method_patterns": [
+        "\\b(?:under|by|using|per|on)\\s+(?:our|the house|the fund'?s)\\s+(?:house\\s+)?(?:method|rules?|policy)\\b",
+        "\\bhouse (?:method|rules?|operating result)\\b"
+      ],
+      "refuse_patterns": [
+        "\\badd(?:s|ed|ing)?[- ]?backs?\\b.*\\b(?:(?:stock|share|equity)\\b.*\\bcomp|sbc\\b)",
+        "\\b(?:(?:stock|share|equity)\\b.*\\bcomp\\w*|sbc)\\b.*\\badd(?:s|ed|ing)?[- ]?backs?\\b",
+        "\\b(?:excluding|exclude|excludes|before|ex|ignoring|ignore|without)[- ]+(?:the\\s+)?(?:(?:stock|share|equity)[- ]?(?:based)?[- ]?comp|sbc\\b)"
+      ],
+      "allowed_patterns": [
+        "\\b(?:without|not|never|no|don'?t|doesn'?t|didn'?t)\\s+(?:\\w+\\s+)?add(?:s|ed|ing)?[- ]?backs?\\b(?:\\s+(?:the\\s+)?(?:(?:stock|share|equity)[- ]?(?:based)?[- ]?comp\\w*(?:\\s+expense)?|sbc\\b))?",
+        "\\b(?:excluding|without|removing|less)\\s+(?:the\\s+)?(?:(?:stock|share|equity)[- ]?(?:based)?[- ]?comp\\w*|sbc)\\s+add[- ]?backs?\\b"
+      ]
+    }
+  ]
+}

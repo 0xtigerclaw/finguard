@@ -111,6 +111,7 @@ def problem_with_params(schema: dict, value: Any, name: str = "params") -> str |
 class Registry:
     def __init__(self) -> None:
         self.capabilities: dict[str, Capability] = {}
+        self.at_start: list[Callable[["Context"], None]] = []  # run once the state folder is open
 
     def add(self, cap: Capability) -> None:
         """Add a capability, or stop the program if it breaks a load-time rule."""

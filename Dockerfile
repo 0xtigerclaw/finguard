@@ -4,6 +4,7 @@ COPY pyproject.toml README.md ./
 COPY finguard ./finguard
 RUN pip install --no-cache-dir -e .
 COPY data ./data
+COPY rules ./rules
 COPY examples ./examples
 COPY eval ./eval
 COPY tests/recordings ./tests/recordings

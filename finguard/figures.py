@@ -5,6 +5,7 @@ import re
 from dataclasses import dataclass
 from decimal import ROUND_HALF_UP, Decimal
 
+ROUGH = Decimal("0.05")
 SCALES = {
     "k": 3, "thousand": 3, "thousands": 3,
     "m": 6, "mn": 6, "million": 6, "millions": 6,
@@ -12,12 +13,42 @@ SCALES = {
     "t": 12, "tn": 12, "trillion": 12,
 }
 _FIGURE = re.compile(
-    r"(?P<open>\()?\s*(?P<minus>[-−–])?\s*(?P<cur>[$€£])?\s*(?P<minus2>[-−–])?\s*"
+    r"(?P<open>\()?\s*(?P<minus>[-−–])?\s*(?P<cur>[$€£¥₹₩])?\s*(?P<minus2>[-−–])?\s*"
     r"(?P<num>\d[\d,]*(?:\.\d+)?)\s*"
     r"(?P<scale>trillion|billions?|millions?|thousands?|bn|mn|tn|[kmbt])?(?![a-z])\s*"
     r"(?P<pct>%)?\s*(?P<close>\))?",
     re.IGNORECASE,
 )
+
+
+# Longest first, so C$ is never read as plain dollars. A figure with none of these has no stated currency.
+CURRENCIES = (
+    ("C$", r"\b(?:ca?)\$|\bcad(?![a-z])|\bcanadian dollars?\b"),
+    ("A$", r"\b(?:au?)\$|\baud(?![a-z])|\baustralian dollars?\b"),
+    ("HK$", r"\bhk\$|\bhkd(?![a-z])|\bhong kong dollars?\b"),
+    ("S$", r"\bs\$|\bsgd(?![a-z])|\bsingapore dollars?\b"),
+    ("NZ$", r"\bnz\$|\bnzd(?![a-z])"),
+    ("NT$", r"\bnt\$|\btwd(?![a-z])"),
+    ("R$", r"\br\$|\bbrl(?![a-z])|\breais\b"),
+    ("MX$", r"\bmx\$|\bmxn(?![a-z])"),
+    ("£", r"£|\bgbp(?![a-z])|\bpounds?\b|\bsterling\b"),
+    ("¥", r"¥|\bjpy(?![a-z])|\byen\b"),
+    ("RMB", r"\brmb(?![a-z])|\bcny(?![a-z])|\byuan\b|\brenminbi\b"),
+    ("₹", r"₹|\binr(?![a-z])|\brupees?\b"),
+    ("₩", r"₩|\bkrw(?![a-z])"),
+    ("CHF", r"\bchf(?![a-z])|\bswiss francs?\b"),
+    ("kr", r"\bsek(?![a-z])|\bnok(?![a-z])|\bdkk(?![a-z])|\bkronor\b|\bkroner\b"),
+    ("€", r"€|\beur(?![a-z])|\beuros?\b"),
+    ("$", r"\$|\busd(?![a-z])|\bdollars?\b"),
+)
+
+
+def currency_in(text: str) -> str | None:
+    """The currency a piece of text names, if it names one."""
+    for name, pattern in CURRENCIES:
+        if re.search(pattern, text, re.IGNORECASE):
+            return name
+    return None
 
 
 @dataclass(frozen=True)
@@ -46,17 +77,27 @@ def read_figure(text: str) -> Figure | None:
     negative = bool(m.group("minus") or m.group("minus2")) or bool(m.group("open") and m.group("close"))
     decimals = len(digits.split(".")[1]) if "." in digits else 0
     return Figure(Decimal(digits).scaleb(power), power, decimals, negative,
-                  m.group("cur"), bool(m.group("pct")), m.group(0).strip())
+                  currency_in(text), bool(m.group("pct")), m.group(0).strip())
 
 
 def same_size(claim: Figure, source_amount: Decimal) -> bool:
     """True when the source rounds to the claim at the precision the claim was written in.
 
-    "$1.6bn" agrees with 1,618 million. "$1.7bn" and "$1,600m" do not.
+    "$1.6bn" agrees with 1,618 million. "$1.7bn" and "$1,600m" do not. Nothing that is not zero agrees with zero.
     """
+    if claim.amount == 0 and source_amount != 0:
+        return False
     unit = Decimal(1).scaleb(claim.power - claim.decimals)
     rounded = (abs(source_amount) / unit).quantize(Decimal(1), rounding=ROUND_HALF_UP) * unit
     return rounded == abs(claim.amount)
+
+
+def too_rough(claim: Figure, source_amount: Decimal) -> bool:
+    """True when money rounds to the claim but sits over 5% from it, such as "$1bn" for 1,412 million.
+
+    Percentages are left out: whole-number percentages are how people write them.
+    """
+    return not claim.percent and abs(abs(source_amount) - claim.amount) > abs(source_amount) * ROUGH
 
 
 def money(amount: Decimal, currency: str, negative: bool = False) -> str:
@@ -86,18 +127,29 @@ def scale_of_page(text: str) -> int | None:
     return powers.pop() if len(powers) == 1 else None
 
 
-# A year or day of a date is not a figure anyone needs to check.
+_SCALE_WORD = r"(?:trillion|billion|million|thousand|bn|mn|tn)"
+# A year or day of a date is not a figure anyone needs to check. "May 16.3bn" and "June 12 million" are figures.
+_NOT_A_DAY = rf"(?!\s*(?:{_SCALE_WORD}|[kmbt])(?![a-z]))(?!\s*%)(?!\.\d)(?!,\d{{3}}(?!\d))"
 _DATE = re.compile(
-    r"\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{1,2}\b"
-    r"|\b\d{1,2}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b",
+    rf"\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+\d{{1,2}}\b{_NOT_A_DAY}"
+    rf"|\b\d{{1,2}}\s+(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b",
     re.IGNORECASE,
 )
 _YEAR = re.compile(r"^(?:19|20)\d{2}$")
+_CODES = r"usd|eur|gbp|jpy|cad|aud|rmb|cny|hkd|sgd|chf|c\.|x"
+_NOT_A_COUNT = r"(?!-(?:k|q|f|month|months|year|years|week|weeks|day|days|quarter|quarters|hour|point|points|page|pages|for|fold|to)\b)"
 _MEMO_NUMBER = re.compile(
-    r"(?<![\w.,-])[-−–(]?\s*[$€£]?\s*\d[\d,]*(?:\.\d+)?(?!\d|-\w)"
-    r"(?:\s*(?:trillion|billion|million|thousand|bn|mn|tn|[kmbt])(?![a-z]))?\s*%?\)?",
+    rf"(?:(?<![a-z])(?:{_CODES})\s*|(?<![\w.,-])|(?<=\d-)|(?<=%-)|(?<=[mnk]-))"  # after a currency code, or after "5-" in "5-6%"
+    r"[-−–(]?\s*[$€£¥₹₩]?\s*(?:\d[\d,]*(?:\.\d+)?|\.\d+)(?!\d)"
+    + _NOT_A_COUNT
+    + rf"(?:[\s-]*{_SCALE_WORD}s?(?![a-z])|\s*[kmbt](?![a-z]))?\s*%?\)?",
     re.IGNORECASE,
 )
+_NUMBER_WORD = r"(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|half(?: a)?|a)"
+_WORD_NUMBER = re.compile(rf"\b{_NUMBER_WORD}(?:[\s-]+{_NUMBER_WORD})*[\s-]+(?:trillion|billion|million)\b(?:\s+(?:dollars|euros|pounds))?", re.IGNORECASE)
+
+
+_MONEY_WORD = re.compile(r"\s*(?:dollars|euros|pounds)\b", re.IGNORECASE)
 
 
 def numbers_in_memo(memo: str) -> list[tuple[int, int, str]]:
@@ -106,7 +158,8 @@ def numbers_in_memo(memo: str) -> list[tuple[int, int, str]]:
     out = []
     for m in _MEMO_NUMBER.finditer(blanked):
         text = m.group(0).strip().rstrip(",.")
-        if _YEAR.fullmatch(text):
+        if _YEAR.fullmatch(text) and not _MONEY_WORD.match(blanked, m.end()):
             continue
         out.append((m.start(), m.end(), text))
-    return out
+    out += [(m.start(), m.end(), m.group(0)) for m in _WORD_NUMBER.finditer(memo)]
+    return sorted(out)

@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from finguard.check import period_stated, MATCH, REFUSED, UNCHECKED, WRONG, Claim, candidate_pages, check_memo, decide, list_claims, skipped_numbers
+from finguard.check import period_stated, MATCH, REFUSED, UNCHECKED, WRONG, Claim, _crop_bounds, _found_count, candidate_pages, check_memo, decide, list_claims, skipped_numbers
 from finguard.errors import MuseError
 from finguard.page import row_names
 from finguard.record import read_lines, verify
@@ -185,8 +185,19 @@ def test_per_ordinary_share_is_per_share_not_a_share_count(asml):
     assert decide(c, asml, located(asml, 2, "12.95", "Basic net income per ordinary share"), [2]).verdict == MATCH
 
 
-def test_a_negative_percentage_is_still_a_percentage(s1):
+def test_a_positive_percentage_cannot_pass_on_a_negative_cell(s1):
     c = claim("4%", "Operating margin", direction="neutral")
+    r = decide(c, s1, located(s1, BRIDGE, "(4)%", "Operating margin"), [BRIDGE])
+    assert r.verdict == WRONG and "sign" in r.why
+
+
+def test_a_negative_memo_figure_cannot_pass_on_a_positive_cell(s1):
+    c = claim("-$16.3bn", "Revenue", direction="neutral")
+    assert decide(c, s1, located(s1, BRIDGE, "16,286", "Revenue"), [BRIDGE]).verdict == WRONG
+
+
+def test_a_negative_percentage_is_still_a_percentage(s1):
+    c = claim("-4%", "Operating margin", direction="neutral")
     r = decide(c, s1, located(s1, BRIDGE, "(4)%", "Operating margin"), [BRIDGE])
     assert r.verdict == MATCH and r.source_text == "(4)%"
 
@@ -212,6 +223,14 @@ def test_a_vague_memo_is_refused_before_muse_points(s1, run, muse_with):
     muse, transport = muse_with({"claims": [extracted]})
     r = check_memo(memo, s1, muse, run)[0]
     assert r.verdict == REFUSED and "period" in r.why and len(transport.sent) == 1
+
+
+@pytest.mark.parametrize("value,year,kind,verdict", [("$541m", 2025, "full_year", MATCH), ("$541m", 2025, "six_months", REFUSED)])
+def test_a_number_cannot_pass_under_the_next_columns_heading(s1, value, year, kind, verdict):
+    """541 prints under full year 2025. Six months 2025 prints a dash, and the numbers sit close together."""
+    c = claim(value, "Non-cash charitable contributions", kind=kind, year=year, direction="neutral")
+    r = decide(c, s1, located(s1, BRIDGE, "541", "Non-cash charitable contributions(2)", nth=1), [BRIDGE])
+    assert r.verdict == verdict and "Year Ended December 31, 2025" in r.column
 
 
 def test_candidate_pages_include_the_statements(s1):
@@ -250,6 +269,64 @@ def test_muse_is_never_told_the_memos_number_when_pointing(s1, run, muse_with):
     pointing = json.loads(transport.sent[1])
     words = json.dumps([p for p in pointing["messages"][1]["content"] if p["type"] == "text"])
     assert "1.6" not in words and "Anthropic posted" not in words
+
+
+def _in_crop(filing, page, text, first_box):
+    """The box Muse would report for `text` when shown only the crop around `first_box`."""
+    bounds = _crop_bounds(first_box)
+    full = box_for(filing, page, text)
+    return [(full[0] - bounds[0]) * 1000 / (bounds[2] - bounds[0]),
+            (full[1] - bounds[1]) * 1000 / (bounds[3] - bounds[1]),
+            (full[2] - bounds[0]) * 1000 / (bounds[2] - bounds[0]),
+            (full[3] - bounds[1]) * 1000 / (bounds[3] - bounds[1])]
+
+
+def test_a_second_look_recovers_when_the_first_box_finds_several(s1, run, muse_with):
+    c = Claim(**EXTRACTED)
+    x0, y0, x1, y1 = box_for(s1, BRIDGE, "1,618")
+    first = {"found": True, "page": _page_position(s1, c), "box": [100, y0, x1, y1],
+             "row_label": "Adjusted Operating Income (Loss)"}
+    assert _found_count(s1, [BRIDGE], dict(first, page=0)) > 1
+    again = {"found": True, "page": 0, "box": _in_crop(s1, BRIDGE, "1,618", first["box"]),
+             "row_label": "Adjusted Operating Income (Loss)"}
+    muse, transport = muse_with({"claims": [EXTRACTED]}, first, again)
+    receipts = check_memo(MEMO, s1, muse, run)
+    assert [r.verdict for r in receipts] == [MATCH] and receipts[0].source_text == "1,618"
+    assert len(transport.sent) == 3  # list the claims, point, then the one second look
+    second = json.loads(transport.sent[2])
+    parts = second["messages"][1]["content"]
+    assert sum(p["type"] == "image_url" for p in parts) == 1  # the crop alone, enlarged
+    words = json.dumps([p for p in parts if p["type"] == "text"])
+    assert "Adjusted Operating Income" in words and "1.6" not in words and "Anthropic posted" not in words
+    assert [e["kind"] for e in read_lines(run.path)] == ["start", "muse_call", "muse_call", "muse_call", "receipt", "end"]
+
+
+def test_a_second_look_runs_once_when_it_still_finds_none(s1, run, muse_with):
+    c = Claim(**EXTRACTED)
+    first = {"found": True, "page": _page_position(s1, c), "box": box_for(s1, BRIDGE, "1,618"),
+             "row_label": "Operating loss"}  # the box is on another row, so it finds no number
+    assert _found_count(s1, [BRIDGE], dict(first, page=0)) == 0
+    again = {"found": True, "page": 0, "box": _in_crop(s1, BRIDGE, "1,618", first["box"]),
+             "row_label": "Operating loss"}
+    muse, transport = muse_with({"claims": [EXTRACTED]}, first, again)
+    r = check_memo(MEMO, s1, muse, run)[0]
+    assert r.verdict == REFUSED and "0 numbers" in r.why
+    assert len(transport.sent) == 3  # no third pointing call, however the second look went
+
+
+def test_a_failed_second_look_keeps_the_first_refusal(s1, run, muse_with):
+    c = Claim(**EXTRACTED)
+    first = {"found": True, "page": _page_position(s1, c), "box": box_for(s1, BRIDGE, "1,618"),
+             "row_label": "Operating loss"}
+    muse, transport = muse_with({"claims": [EXTRACTED]}, first, MuseError("timeout", "slow"))
+    r = check_memo(MEMO, s1, muse, run)[0]
+    assert r.verdict == REFUSED and "0 numbers" in r.why and len(transport.sent) == 3
+
+
+def test_no_second_look_when_the_first_reply_found_nothing(s1, run, muse_with):
+    muse, transport = muse_with({"claims": [EXTRACTED]}, {"found": False, "page": 0, "box": [], "row_label": ""})
+    r = check_memo(MEMO, s1, muse, run)[0]
+    assert r.verdict == REFUSED and len(transport.sent) == 2
 
 
 def test_a_whole_run_is_on_the_record_and_holds(s1, run, muse_with):

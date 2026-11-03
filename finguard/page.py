@@ -9,17 +9,27 @@ from pathlib import Path
 
 import pymupdf
 
-from .figures import read_figure, scale_of_page
+from .figures import SCALES, read_figure, scale_of_page
 from .record import sha256
 
 GRID = 1000  # Muse reports boxes as [x_min, y_min, x_max, y_max] on a 0-1000 grid
 PADDING = 8  # forgive a box this many grid units too tight
-QUALIFIERS = {"adjusted", "pro", "forma", "non", "gaap", "core", "underlying", "normalized", "normalised"}
+QUALIFIERS = {"adjusted", "pro", "forma", "non", "gaap", "core", "underlying", "normalized", "normalised",
+              "continuing", "discontinued"}
 ROW_REACH = 32  # Muse's boxes land up to about a row and a half off, measured on live replies
 DPI = 150
 _NUMERIC = re.compile(r"^\(?-?\$?€?\d[\d,]*(?:\.\d+)?\)?%?$")
 _YEAR = re.compile(r"\b(19|20)\d{2}\b")
+_MONTH = re.compile(r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?", re.I)
 _HEADING = re.compile(r"months|year|quarter|ended|as of|\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b", re.I)
+_KIND_SAID = re.compile(r"months|year ended|quarter", re.I)
+_BARE_YEAR = re.compile(r"^(?:19|20)\d{2}$")
+_BARE_ROW = {"basic", "diluted", "basic and diluted"}
+PROSE_RUN = 9  # this many words set close together on one line are a sentence, not a table
+PROSE_GAP = 8.0
+
+
+_CAPTION = re.compile(r"\bin\s+(?:(?:usd|eur|u\.s\.|us)\s+)?(?:dollars?\s+)?(?:[$€]\s*)?(?:thousands|millions|billions)\b", re.I)
 
 
 # PyMuPDF is not safe across threads, and live calls overlap, so every read of a PDF takes this.
@@ -54,6 +64,7 @@ class Cell:
     rect: tuple[float, float, float, float]
     row: str
     column: str
+    section: str = ""  # the heading over a bare row such as "Basic"
 
 
 class Filing:
@@ -65,6 +76,7 @@ class Filing:
         self.images: dict[int, bytes] = {}
         self.texts: dict[int, str] = {}
         self.page_words: dict[int, list[Word]] = {}
+        self.page_cells: dict[int, list[tuple[Word, Cell]]] = {}
 
     @property
     def pages(self) -> int:
@@ -107,6 +119,20 @@ class Filing:
     def scale(self, page: int) -> int | None:
         return scale_of_page(self.text(page))
 
+    def scale_at(self, page: int, word: Word) -> int | None:
+        """The page's units, if they are stated above this number. A caption below it is about another table."""
+        scale = self.scale(page)
+        if scale is None:
+            return None
+        spots, joined = [], ""
+        for w in sorted(self.words(page), key=lambda w: (round(w.cy), w.x0)):
+            spots.append((len(joined), w))
+            joined += w.text + " "
+        for m in _CAPTION.finditer(joined):
+            if next(w for at, w in reversed(spots) if at <= m.start()).cy <= word.cy:
+                return scale
+        return None
+
     def numbers_near(self, page: int, box: list[float], row_label: str) -> list[Word]:
         """The numbers in the box's column, on a row printed with this label, near the box.
 
@@ -120,16 +146,35 @@ class Filing:
         words = self.words(page)
         return [w for w in words
                 if _NUMERIC.match(w.text) and x0 <= w.cx <= x1 and abs(w.cy - middle) <= reach
-                and row_names(_row_of(w, words), row_label)]
+                and row_names(_row_of(w, words), row_label) and _names_whole_line(w, words, row_label)]
 
     def cell(self, page: int, word: Word) -> Cell | None:
         words = self.words(page)
         figure = read_figure(_with_neighbours(word, words))
-        if figure is None or figure.power:
+        if figure is None or figure.power or _BARE_YEAR.match(word.text) or _scale_follows(word, words):
             return None
+        row = _row_of(word, words)
         return Cell(word.text, figure.amount, figure.negative,
-                    figure.percent or "%" in word.text or _percent_follows(word, words),
-                    (word.x0, word.y0, word.x1, word.y1), _row_of(word, words), _column_of(word, words))
+                    figure.percent or "%" in word.text or _percent_follows(word, words) or _percent_table(word, words),
+                    (word.x0, word.y0, word.x1, word.y1), row, _column_of(word, words),
+                    _section_of(word, words) if _unfooted(row) in _BARE_ROW else "")
+
+    def cells_on(self, page: int) -> list[Cell]:
+        return [c for _, c in self._cells(page)]
+
+    def _cells(self, page: int) -> list[tuple[Word, Cell]]:
+        if page not in self.page_cells:
+            found = [(w, self.cell(page, w)) for w in self.words(page) if _NUMERIC.match(w.text)]
+            self.page_cells[page] = [(w, c) for w, c in found if c is not None]
+        return self.page_cells[page]
+
+    def same_named(self, page: int, word: Word, cell: Cell) -> list[str]:
+        """Other numbers printed on this page under the same row name and column, in the same unit."""
+        name, column = _unfooted(f"{cell.section} {cell.row}"), cell.column.lower()
+        return [c.text for w, c in self._cells(page)
+                if w is not word and c.column.lower() == column and c.percent == cell.percent
+                and _unfooted(f"{c.section} {c.row}") == name and (c.amount, c.negative) != (cell.amount, cell.negative)
+                and not _is_note_on(word, w, self.words(page))]
 
 
 def squeeze(text: str) -> str:
@@ -146,6 +191,24 @@ def row_names(printed: str, said: str) -> bool:
     if not name or not row.endswith(name) or (len(row) > len(name) and row[-len(name) - 1] != " "):
         return False
     return not QUALIFIERS & set(row[:-len(name)].split())
+
+
+def _is_note_on(word: Word, other: Word, words: list[Word]) -> bool:
+    """True when `other` sits in the footnote this row points to: "Cost of revenues (1)" and, lower down, a line opening "(1)".
+
+    The note breaks the row down, so it does not compete with the row. The note's own cell gets no such pass.
+    """
+    marks = {m for w in words if _same_line(w, word) and w.x1 <= word.x0 for m in re.findall(r"\((\d+)\)$", w.text)}
+    for w in words:
+        if word.cy < w.cy < other.cy and any(w.text == f"({m})" for m in marks) \
+                and not any(o.x1 <= w.x0 for o in words if _same_line(o, w)):
+            return True
+    return False
+
+
+def _names_whole_line(word: Word, words: list[Word], said: str) -> bool:
+    """A name must hold all the words printed beside the number. "Revenues" does not name "Cost of revenues"."""
+    return _unfooted(said).endswith(_unfooted(" ".join(w.text for w in _line_label(word, words))))
 
 
 def _unfooted(text: str) -> str:
@@ -172,19 +235,115 @@ def _percent_follows(word: Word, words: list[Word]) -> bool:
     return any(w.text.startswith(("%", ")%")) and 0 <= w.x0 - word.x1 < 12 for w in words if _same_line(w, word))
 
 
+def _scale_follows(word: Word, words: list[Word]) -> bool:
+    """True when the next word is a scale, as in "$108.0 billion". The page's units then do not apply."""
+    after = (w for w in words if _same_line(w, word) and 0 <= w.x0 - word.x1 < 12)
+    return any(w.text.lower().rstrip(",.;:)") in SCALES and len(w.text) > 1 for w in after)
+
+
+def _run_around(word: Word, words: list[Word]) -> int:
+    """How many words on this line sit in one unbroken run with this one."""
+    line = sorted((w for w in words if _same_line(w, word)), key=lambda w: w.x0)
+    at = line.index(word)
+    left = at
+    while left > 0 and line[left].x0 - line[left - 1].x1 <= PROSE_GAP:
+        left -= 1
+    right = at
+    while right + 1 < len(line) and line[right + 1].x0 - line[right].x1 <= PROSE_GAP:
+        right += 1
+    return right - left + 1
+
+
+def _in_prose(word: Word, words: list[Word]) -> bool:
+    return _run_around(word, words) >= PROSE_RUN
+
+
 def _is_label(w: Word) -> bool:
     return not _NUMERIC.match(w.text) and w.text not in ("$", "€", "£", "—", "–", "-", ")", "(", ")%", "%")
 
 
-def _row_of(word: Word, words: list[Word]) -> str:
-    """The row's label: the words left of the first number on this line, and any line it wrapped from."""
+def _line_label(word: Word, words: list[Word]) -> list[Word]:
+    """The label words on the number's own line: walk left, past this row's other numbers, to the nearest label."""
     line = sorted((w for w in words if _same_line(w, word) and w.x1 <= word.x0 + 1), key=lambda w: w.x0, reverse=True)
     label: list[Word] = []
-    for w in line:  # walk left from the number, past this row's other numbers, to the nearest label
+    for w in line:
         if _is_label(w):
             label.insert(0, w)
         elif label:
             break
+    return label
+
+
+def _section_of(word: Word, words: list[Word]) -> str:
+    """The heading just above a bare row such as "Basic", which says what the row counts."""
+    first = (_line_label(word, words) or [word])[0]
+    reach = (word.y1 - word.y0) * 2.4
+    lines: list[str] = []
+    y = first.cy
+    while len(lines) < 2:
+        above = [w for w in words if 0 < y - w.cy < reach and w.x1 < word.x0 - 40]
+        if not above:
+            break
+        y = max(w.cy for w in above)
+        line = sorted((w for w in above if abs(w.cy - y) < 3), key=lambda w: w.x0)
+        if any(_NUMERIC.match(w.text) for w in words if _same_line(w, line[0])):
+            if not lines and _unfooted(" ".join(w.text for w in line)) in _BARE_ROW:
+                continue  # "Basic" over "Diluted": keep climbing to their heading
+            break
+        lines.insert(0, " ".join(w.text for w in line))
+    return " ".join(lines)
+
+
+def _heading_year(word: Word, words: list[Word]) -> bool:
+    """A year that heads a column. "October 1, 2026," in a sentence does not."""
+    return bool(_YEAR.search(word.text)) and not word.text.endswith((",", ".", ";", ":")) and not _in_prose(word, words)
+
+
+def _year_line_above(word: Word, words: list[Word]) -> list[Word]:
+    years = [w for w in words if w.cy < word.y0 and _heading_year(w, words)]
+    if not years:
+        return []
+    lowest = max(years, key=lambda w: w.cy)
+    return sorted((w for w in years if _same_line(w, lowest)), key=lambda w: w.x0)
+
+
+def _year_over(line: list[Word], word: Word) -> Word | None:
+    """The year this number sits under: it touches that year, or is plainly nearest it. None if neither."""
+    touching = [w for w in line if w.x1 >= word.x0 - 10 and w.x0 <= word.x1 + 10]
+    if touching:
+        return min(touching, key=lambda w: abs(w.cx - word.cx))
+    if len(line) < 2:
+        return None
+    reach = min(b.cx - a.cx for a, b in zip(line, line[1:])) * 0.45
+    nearest = min(line, key=lambda w: abs(w.cx - word.cx))
+    return nearest if abs(nearest.cx - word.cx) <= reach else None
+
+
+def _percent_table(word: Word, words: list[Word]) -> bool:
+    """A table of percentages may print % on its first and last rows only. Those two decide the whole column."""
+    line = _year_line_above(word, words)
+    year = _year_over(line, word) if line else None
+    if year is None:
+        return False
+    below = [w for w in words if w.cy > year.cy and (_NUMERIC.match(w.text) or w.text in ("—", "–")) and not _BARE_YEAR.match(w.text)
+             and not _in_prose(w, words) and _year_over(line, w) is year]
+    next_years = [w.cy for w in words if w.cy > year.cy + 2 and _heading_year(w, words)]
+    if next_years:
+        below = [w for w in below if w.cy < min(next_years)]
+    below.sort(key=lambda w: w.cy)
+    rows: list[Word] = []
+    for w in below:
+        if rows and w.cy - rows[-1].cy > 40:
+            break
+        rows.append(w)
+    if len(rows) < 3 or word not in rows:
+        return False
+    return all("%" in w.text or _percent_follows(w, words) for w in (rows[0], rows[-1]))
+
+
+def _row_of(word: Word, words: list[Word]) -> str:
+    """The row's label: the words left of the first number on this line, and any line it wrapped from."""
+    label = _line_label(word, words)
     height = word.y1 - word.y0
     if not label:
         # The label sits only on the line above, ending at this row.
@@ -205,35 +364,41 @@ def _row_of(word: Word, words: list[Word]) -> str:
 
 def _column_of(word: Word, words: list[Word]) -> str:
     """The column's heading: the nearest year above this number, plus the heading over that year."""
-    x0, x1 = word.x0 - 10, word.x1 + 10
-    above = [w for w in words if w.cy < word.y0 and w.x1 >= x0 and w.x0 <= x1 and _YEAR.search(w.text)]
-    if not above:
+    if _in_prose(word, words):
         return ""
-    year = max(above, key=lambda w: w.cy)
-    own = min(_groups([w for w in words if _same_line(w, year)]), key=lambda g: abs(_centre(g) - word.cx))
+    line = _year_line_above(word, words)
+    # Numbers sit right of a centred year, so the year is the anchor for every heading above it.
+    year = _year_over(line, word) if line else None
+    if year is None:  # stop here: a higher year belongs to another table or a sentence
+        return ""
+    own = next(g for g in _groups([w for w in words if _same_line(w, year)]) if year in g)
     parts = [" ".join(w.text for w in own)]
     # Spanning headings sit a line or two above. A units caption is skipped, and prose ends the search.
     tops = sorted({round(w.cy) for w in words if 0 < year.cy - w.cy < 32 and not _NUMERIC.match(w.text)}, reverse=True)
     for y in tops:
         groups = _groups([w for w in words if round(w.cy) == y])
-        best = min(groups, key=lambda g: abs(_centre(g) - word.cx))
+        best = min(groups, key=lambda g: abs(_centre(g) - year.cx))
         text = " ".join(w.text for w in best)
         if "millions" in text.lower() or "thousands" in text.lower():
             continue
-        if len(best) > 6:
+        if len(best) > 6 or _in_prose(best[0], words):
             break
         if _HEADING.search(text):
             parts.insert(0, text)
+        if _KIND_SAID.search(text):  # the column's kind is known. A kind higher up belongs to the next column over
+            break
     return " ".join(parts)
 
 
 def _groups(line: list[Word], gap: float = 14.0) -> list[list[Word]]:
-    """Split a line into runs of words, at a wide gap or where a new "As of" begins."""
+    """Split a line into runs of words: at a wide gap, after a year, or where a new date or "As of" begins."""
     out: list[list[Word]] = []
     ordered = sorted(line, key=lambda w: w.x0)
     for i, w in enumerate(ordered):
         new_as_of = w.text.lower() == "as" and i + 1 < len(ordered) and ordered[i + 1].text.lower() == "of"
-        if out and w.x0 - out[-1][-1].x1 <= gap and not new_as_of:
+        new_date = bool(out and _MONTH.fullmatch(w.text) and any(_MONTH.fullmatch(p.text) for p in out[-1]))
+        after_year = bool(out and _YEAR.search(out[-1][-1].text))
+        if out and w.x0 - out[-1][-1].x1 <= gap and not (new_as_of or new_date or after_year):
             out[-1].append(w)
         else:
             out.append([w])

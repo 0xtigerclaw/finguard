@@ -1,0 +1,34 @@
+{
+  "prompts": [
+    {
+      "id": "free_cash_flow",
+      "title": "Free cash flow",
+      "prompt": "Free cash flow for the six months ended June 30, 2026: net cash from operating activities minus capital spending on property and equipment.",
+      "filing": "anthropic"
+    },
+    {
+      "id": "net_debt",
+      "title": "Net debt",
+      "prompt": "Net debt as of June 30, 2026: all debt, current and non-current, minus cash and cash equivalents on the balance sheet date.",
+      "filing": "nebius"
+    },
+    {
+      "id": "gross_margin_check",
+      "title": "Gross margin check",
+      "prompt": "Gross margin check for the nine months ended September 27, 2026: recompute gross margin from total net sales and total cost of sales, and compare it with the printed gross margin.",
+      "filing": "asml"
+    },
+    {
+      "id": "capex_intensity",
+      "title": "Capex intensity",
+      "prompt": "Capex intensity for the six months ended June 30, 2026: capital spending on property and equipment as a share of revenues.",
+      "filing": "nebius"
+    },
+    {
+      "id": "adjusted_vs_reported_gap",
+      "title": "Adjusted vs reported gap",
+      "prompt": "Adjusted vs reported gap for the six months ended June 30, 2026: the difference between adjusted operating income and the reported operating loss it starts from.",
+      "filing": "anthropic"
+    }
+  ]
+}

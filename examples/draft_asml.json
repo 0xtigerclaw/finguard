@@ -1,10 +1,34 @@
 {
- "question": "How did ASML do in the third quarter of 2026?",
- "memo": "In the three months ended September 27, 2026, total net sales were €11,662.0m, net income was €4,960.4m, and gross margin was 57.5%.",
- "counts": {
-  "match": 3,
-  "wrong": 0,
-  "refused": 0,
-  "unchecked": 0
- }
+ "turns": [
+  {
+   "question": "How did ASML do in the third quarter of 2026?",
+   "memo": "ASML performed strongly in the quarter. Total net sales of €11,662.0m, gross profit of €6,699.8m, income from operations of €5,172.8m and net income of €4,960.4m were reported for the three months ended September 27, 2026.",
+   "counts": {
+    "match": 4,
+    "wrong": 0,
+    "refused": 0,
+    "unchecked": 0
+   },
+   "next_questions": [
+    "What drove growth in system versus service sales?",
+    "How did lithography unit shipments trend?",
+    "What affected operating cash flow in the quarter?"
+   ]
+  },
+  {
+   "question": "What drove growth in system versus service sales?",
+   "memo": "The pages shown do not explain what drove growth in system versus service sales. They present sales results and related operating data without any narrative on causes, so the driver cannot be determined from these pages alone.",
+   "counts": {
+    "match": 0,
+    "wrong": 0,
+    "refused": 0,
+    "unchecked": 0
+   },
+   "next_questions": [
+    "What were system and service sales in recent periods?",
+    "How did lithography system unit volumes change?",
+    "What affected gross margin this quarter?"
+   ]
+  }
+ ]
 }

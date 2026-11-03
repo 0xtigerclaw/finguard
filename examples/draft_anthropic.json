@@ -1,10 +1,49 @@
 {
- "question": "Did Anthropic make money in the first half of 2026?",
- "memo": "No, Anthropic did not make money, reporting Net loss of $80,748m for the six months ended June 30, 2026.",
- "counts": {
-  "match": 1,
-  "wrong": 0,
-  "refused": 0,
-  "unchecked": 0
- }
+ "turns": [
+  {
+   "question": "Did Anthropic make money in the first half of 2026?",
+   "memo": "No on a GAAP basis, yes on an adjusted basis for the six months ended June 30, 2026. The filing reports an operating loss of $693m for the six months ended June 30, 2026. It reports a net loss of $80,748m for the six months ended June 30, 2026. It separately reports Adjusted Operating Income of $1,618m for the six months ended June 30, 2026. It separately reports Adjusted Net Income of $2,671m for the six months ended June 30, 2026.",
+   "counts": {
+    "match": 3,
+    "wrong": 0,
+    "refused": 1,
+    "unchecked": 0
+   },
+   "next_questions": [
+    "Why is GAAP net loss so large?",
+    "What adjustments turn losses to profit?",
+    "How did revenue change year over year?"
+   ]
+  },
+  {
+   "question": "Why is GAAP net loss so large?",
+   "memo": "The filing reports net loss of $80,748m for the six months ended June 30, 2026. The size mainly reflects change in fair value of convertible notes, derivative liabilities, and SAFEs of $72,388m for the six months ended June 30, 2026. It also reflects other income (expense), net expense of $8,757m for the six months ended June 30, 2026. The filing says the fair-value change was primarily driven by an increase in the fair value of outstanding convertible promissory notes from higher enterprise valuation.",
+   "counts": {
+    "match": 2,
+    "wrong": 0,
+    "refused": 1,
+    "unchecked": 0
+   },
+   "next_questions": [
+    "How does Adjusted Net Income differ from GAAP?",
+    "What happens to convertible notes on offering?",
+    "What drove revenue growth?"
+   ]
+  },
+  {
+   "question": "How does Adjusted Net Income differ from GAAP?",
+   "memo": "The filing reports net loss of $80,748m for the six months ended June 30, 2026. It reports Adjusted Net Income (Loss) of $2,671m for the six months ended June 30, 2026. The difference adds back stock-based compensation expense of $2,185m for the six months ended June 30, 2026 and non-cash charitable contributions of $126m for the six months ended June 30, 2026. It also adds back change in fair value of convertible notes, derivative liabilities, and SAFEs of $72,388m for the six months ended June 30, 2026 and change in fair value of certain mark-to-market financial instruments of $8,720m for the six months ended June 30, 2026.",
+   "counts": {
+    "match": 6,
+    "wrong": 0,
+    "refused": 0,
+    "unchecked": 0
+   },
+   "next_questions": [
+    "What is the Bartz settlement?",
+    "What drove the mark-to-market change?",
+    "How is Adjusted Operating Income defined?"
+   ]
+  }
+ ]
 }

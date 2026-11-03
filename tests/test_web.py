@@ -56,7 +56,7 @@ def test_start_has_the_contract_shape(monkeypatch):
     assert set(start) == {"filings", "live", "max_memo", "operator_required", "score"}
     assert {f["id"] for f in start["filings"]} == {"anthropic", "nebius", "asml"}
     row = next(f for f in start["filings"] if f["id"] == "anthropic")
-    assert set(row) == {"id", "company", "document", "sha256", "pages", "memo", "corrected"} and row["memo"] == MEMO
+    assert set(row) == {"id", "company", "document", "sha256", "pages", "memo", "corrected", "conversation"} and row["memo"] == MEMO
     assert start["max_memo"] == 4000 and start["live"] is False and start["operator_required"] is False
     monkeypatch.setenv("MODEL_API_KEY", "not-used")
     monkeypatch.setenv("FINGUARD_OPERATOR_TOKEN", TOKEN)

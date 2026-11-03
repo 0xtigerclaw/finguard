@@ -177,12 +177,14 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .proof{background:var(--white);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-height:0;flex:1 1 auto;overflow:hidden;box-shadow:0 2px 10px rgba(23,43,70,.05);scroll-margin-top:calc(var(--top) + 8px)}
 .card{padding:14px 18px 12px;border-bottom:1px solid var(--line);flex:none}
 .card .kicker-v{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.kicker-v.read{color:var(--navy)}
 .kicker-v.match{color:var(--match)}.kicker-v.wrong{color:var(--wrong)}.kicker-v.refused{color:var(--refused)}.kicker-v.unchecked{color:var(--slate)}
 .card .why{font-size:14.5px;line-height:1.4;margin-bottom:6px}
 .facts{font-size:12.5px;line-height:1.5;color:var(--soft)}
 .back{display:none;margin-top:10px}
 .legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:12.5px;color:var(--ink);padding:7px 18px;border-bottom:1px solid var(--line);background:var(--white)}
 .legend i{display:inline-block;width:18px;height:10px;margin-right:6px;vertical-align:-1px}
+.legend .n{border:2px solid var(--navy);background:rgba(33,77,131,.14)}
 .legend .c{border:2px solid var(--wrong);background:rgba(179,38,30,.14)}.legend .g{border:2px solid var(--match);background:rgba(23,105,74,.14)}.legend .d{border:2px dashed #2979c9}
 .zoom{margin-left:auto;background:var(--white);border:1px solid var(--line-2);border-radius:7px;color:var(--navy);font-size:12.5px;font-weight:600;padding:4px 10px;min-height:30px;cursor:pointer}
 .zoom:hover{border-color:var(--navy)}
@@ -196,6 +198,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .page:not(.ready) .box{display:none}
 .box.code{border:2px solid var(--wrong);background:rgba(179,38,30,.13);box-shadow:0 0 0 3px rgba(179,38,30,.16)}
 .box.code.match{border-color:var(--match);background:rgba(23,105,74,.13);box-shadow:0 0 0 3px rgba(23,105,74,.16)}
+.box.code.read{border-color:var(--navy);background:rgba(33,77,131,.14);box-shadow:0 0 0 3px rgba(33,77,131,.16)}
 .box.muse{border:2px dashed #2979c9}
 .empty{max-width:380px;margin:0 auto;text-align:center;color:var(--soft);padding:32px 16px;font-size:14.5px}
 .empty strong{display:block;font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);margin-bottom:6px}
@@ -223,6 +226,58 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .step.on.refused .step-value{color:var(--refused);font-weight:600}
 .step.on.unchecked .step-value{color:var(--slate);font-weight:600}
 .step.on:not(:last-child)::before{border-left-color:var(--navy)}
+
+/* ask */
+.turns:not(:empty){margin-bottom:6px}
+.turn{margin-bottom:22px;scroll-margin-top:calc(var(--top) + 12px)}
+.bubble-row{display:flex;justify-content:flex-end;margin-bottom:10px}
+.bubble{background:var(--navy-deep);color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;max-width:80%;font-size:15px;line-height:1.4}
+.answer{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.answer .clock{margin:0;border-top:0;border-right:0;border-bottom:0;border-radius:0;padding:4px 0 4px 12px}
+.answer .memo{background:none;border:0;padding:0;border-radius:0}
+.answer-result .release{margin-bottom:0}
+.answer .tally{margin:14px 0 6px}
+.answer .labels{margin-bottom:10px}
+.lines-title{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin:16px 0 6px}
+.lines{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.line{border-bottom:1px solid var(--line);padding-left:10px;box-shadow:inset 3px 0 0 var(--slate)}
+.line.match{box-shadow:inset 3px 0 0 var(--match)}.line.wrong{box-shadow:inset 3px 0 0 var(--wrong)}.line.refused{box-shadow:inset 3px 0 0 var(--refused)}
+.line[aria-current=true]{background:var(--tint)}
+.line-pick{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;width:100%;white-space:normal;padding:8px 8px 8px 0;font-weight:600;font-size:14px;min-height:44px;align-items:center}
+.line-val{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;font-weight:400}
+.line-money{font-family:var(--mono);font-size:13px}
+.line-page{font-size:12.5px;color:var(--soft)}
+.chips-kicker{margin:14px 0 6px}
+.chips-hint{margin:-6px 0 12px}
+.chip-tag{display:inline-block;margin-left:8px;font-size:11px;font-weight:600;color:var(--soft)}
+.ask-new{margin-top:10px;min-height:28px}
+.ask-new .linkish{min-height:44px}
+/* house rules */
+.house-note{margin:6px 0 8px;padding:8px 12px;background:var(--cream);border:1px solid var(--cream-line);border-radius:8px;font-size:14px;line-height:1.4;white-space:normal}
+.house-line{font-weight:600}
+.house-working{font-size:14px;line-height:1.5;color:var(--ink);margin-top:6px}
+.house-note details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--navy);margin-top:4px;min-height:28px;display:flex;align-items:center}
+.house-rule{font-size:14.5px;line-height:1.45}
+.house-sent{font-size:14.5px;font-weight:700;margin-top:6px}
+.house-money{font-family:var(--serif);font-size:38px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+.inputs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.input-btn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:44px;padding:6px 12px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;font-size:13px;line-height:1.3;text-align:left;cursor:pointer}
+.input-btn:hover{border-color:var(--navy)}
+.input-btn[aria-pressed=true]{background:var(--tint);border-color:var(--navy)}
+.input-row{font-weight:600}
+.input-val{color:var(--soft)}
+.note-row{cursor:pointer}
+.note-row td{padding-top:0!important;padding-bottom:10px!important}
+.ledger tr.has-note td{border-bottom:0}
+.rule-state{font-family:var(--mono);font-size:12.5px;font-weight:600}
+.rule-state.on{color:var(--match)}.rule-state.off{color:var(--slate)}
+.rule-act{margin-top:6px;font-size:13.5px;line-height:1.4;color:var(--soft)}
+/* create */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px}
+.gallery-card{display:block;text-align:left;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.4;cursor:pointer;min-height:44px}
+.gallery-card:hover{border-color:var(--navy)}
+.gallery-card b{display:block;margin-bottom:2px}
+.plain-list{list-style:none;margin:0;padding:0}
 
 /* how it works */
 .how{margin-top:36px}
@@ -266,6 +321,8 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .counts{display:flex;flex-wrap:wrap;gap:6px 24px;font-size:13px;color:var(--soft)}
 .counts b{font-size:20px;font-weight:600;margin-right:5px;color:var(--ink)}
 .rule-name{font-weight:700;font-size:14.5px;display:block}
+.rule-name.nowrap{white-space:nowrap}
+.t .btn{white-space:nowrap}
 .rule-area{font-family:var(--mono);font-size:12px;color:var(--soft);display:block;margin-top:2px}
 .rule-val{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
 .rule-val.yes{color:var(--wrong);font-weight:600}
@@ -299,7 +356,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 @keyframes pulse{50%{opacity:.25}}
 
 @media (min-width:1100px){
-  .has-proof .panel{max-height:46%;flex:0 0 auto}
+  .has-proof .panel{max-height:48%;flex:0 0 auto}
   .has-proof .step.on .step-text{display:none}
   .has-proof .step{padding-bottom:6px;grid-template-columns:24px minmax(0,1fr)}
   .has-proof .step:not(:last-child)::before{left:11px;top:26px}
@@ -318,13 +375,26 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .back{display:inline-flex}
   .how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@media (min-width:861px) and (max-width:1020px){
+  .model{display:none}
+}
 @media (max-width:860px){
   .top{flex-wrap:wrap;padding:6px 14px}
   .menu{display:inline-flex;order:3}
   .model{order:2}
+  .bubble{max-width:90%}
   .nav{display:none;order:4;width:100%;flex-direction:column;padding:4px 0 8px}
   .nav.open{display:flex}
   .nav a{min-height:44px;font-size:14px}
+}
+@media (max-width:900px){
+  .t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .t,.t tbody{display:block}
+  .t tr{display:block;padding:10px 16px;border-bottom:1px solid var(--line)}
+  .t tr:last-child{border-bottom:0}
+  .t td,.t td:first-child,.t td:last-child{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:0 10px;padding:3px 0;border:0}
+  .t td.blank{display:none}
+  .t td::before{content:attr(data-label);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);padding-top:2px}
 }
 @media (max-width:760px){
   body{font-size:15px}
@@ -333,6 +403,8 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .tabs{width:100%}
   .tabs button{flex:1 1 0;min-height:44px;padding:5px 4px;min-width:0}
   .chip{min-height:44px;padding:8px 14px}
+  .house-note details summary{min-height:44px}
+  .answer{padding:14px}
   .linkish{min-height:44px}
   .btn{min-height:44px}
   .prompt{padding:14px 14px 12px}
@@ -356,13 +428,6 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .decide .field{flex-basis:100%}
   .slip-top .when{margin-left:0;width:100%}
   .how-grid{grid-template-columns:minmax(0,1fr)}
-  .t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
-  .t,.t tbody{display:block}
-  .t tr{display:block;padding:10px 16px;border-bottom:1px solid var(--line)}
-  .t tr:last-child{border-bottom:0}
-  .t td,.t td:first-child,.t td:last-child{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:0 10px;padding:3px 0;border:0}
-  .t td.blank{display:none}
-  .t td::before{content:attr(data-label);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);padding-top:2px}
   .t a.open{min-height:44px}
   main a:not(.btn):not(.open){display:inline-flex;align-items:center;min-height:44px}
   .tcard-aside{margin-left:0;width:100%}
@@ -394,7 +459,8 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   </button>
   <nav class="nav" aria-label="Pages" id="nav">
     <a href="#/check" data-r="check">Check</a>
-    <a href="#/draft" data-r="draft">Draft</a>
+    <a href="#/ask" data-r="ask">Ask</a>
+    <a href="#/create" data-r="create">Create</a>
     <a href="#/approvals" data-r="approvals">Approvals<span class="badge" id="pendingBadge" hidden></span></a>
     <a href="#/record" data-r="record">Record</a>
     <a href="#/rules" data-r="rules">Rules</a>
@@ -454,37 +520,73 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   </div>
 </section>
 
-<!-- 2. Draft -->
-<section class="view" id="v-draft" hidden>
+<!-- 2. Ask -->
+<section class="view" id="v-ask" hidden>
   <div class="wrap">
     <div class="bench">
       <div class="col">
         <header class="head">
           <p class="kicker">Muse writes, code checks</p>
-          <h1 tabindex="-1">Ask for a draft</h1>
-          <p class="lede">Muse writes a short memo from the filing. Code then checks it like any other. Muse does not mark its own work.</p>
+          <h1 tabindex="-1">Ask about a filing</h1>
+          <p class="lede">Muse answers in a short memo, and code checks every number in it. Muse does not mark its own work.</p>
         </header>
-        <div class="msg" id="draftMissing" hidden></div>
+        <div class="msg" id="askMissing" hidden></div>
         <div class="controls">
-          <div class="tabs" id="draftTabs" role="group" aria-label="Filing to ask about"></div>
-          <span class="doc" id="draftDoc"></span>
+          <div class="tabs" id="askTabs" role="group" aria-label="Filing to ask about"></div>
+          <span class="doc" id="askDoc"></span>
         </div>
+        <div class="turns" id="askTurns"></div>
+        <div id="askChips"></div>
         <div class="prompt">
-          <div class="memo-label"><label for="draftInput">Your question</label></div>
-          <textarea id="draftInput" style="min-height:96px" spellcheck="false" placeholder="Ask about this filing."></textarea>
+          <div class="memo-label"><label for="askInput">Your question</label></div>
+          <textarea id="askInput" style="min-height:84px" spellcheck="false" placeholder="Ask about this filing."></textarea>
           <div class="prompt-foot">
             <div class="prompt-note">
-              <p class="hint" id="draftHint" hidden></p>
-              <p class="state" id="draftState" role="status"></p>
+              <p class="hint" id="askHint" hidden></p>
+              <p class="state" id="askState" role="status"></p>
             </div>
-            <button class="btn primary" id="draftRun" type="button">Ask Muse <span aria-hidden="true">→</span></button>
+            <button class="btn primary" id="askRun" type="button">Ask <span aria-hidden="true">→</span></button>
           </div>
         </div>
-        <div class="clock" id="draftClock" hidden></div>
-        <div id="draftMemoSlot" style="margin-top:18px"></div>
-        <div id="draftResult"></div>
+        <p class="ask-new"><button class="linkish" id="askNew" type="button" hidden>Start a new conversation</button></p>
       </div>
-      <aside class="side" id="draftDesk" aria-label="How the number was checked, and the proof"></aside>
+      <aside class="side" id="askDesk" aria-label="How the number was checked, and the proof"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- Create -->
+<section class="view" id="v-create" hidden>
+  <div class="wrap">
+    <div class="bench">
+      <div class="col">
+        <header class="head">
+          <p class="kicker">Plugins on request</p>
+          <h1 tabindex="-1">Create a finance plugin</h1>
+          <p class="lede">Muse writes a definition, not code. Plain code runs it, and a person approves it.</p>
+        </header>
+        <div class="msg" id="createMissing" hidden></div>
+        <div id="createGallery"></div>
+        <div class="controls">
+          <div class="tabs" id="createTabs" role="group" aria-label="Filing to try it on"></div>
+          <span class="doc" id="createDoc"></span>
+        </div>
+        <div class="prompt">
+          <div class="memo-label"><label for="createInput">What should it work out?</label></div>
+          <textarea id="createInput" style="min-height:84px" spellcheck="false" placeholder="Say what the plugin should work out from a filing."></textarea>
+          <div class="prompt-foot">
+            <div class="prompt-note">
+              <p class="hint" id="createHint" hidden></p>
+              <p class="state" id="createState" role="status"></p>
+            </div>
+            <button class="btn primary" id="createRun" type="button">Write the definition <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div class="clock" id="createClock" hidden></div>
+        <div id="createResult" style="margin-top:14px"></div>
+        <div id="createInstalled"></div>
+      </div>
+      <aside class="side" id="createDesk" aria-label="The proof from the filing"></aside>
     </div>
   </div>
 </section>
@@ -545,6 +647,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
       <h1 tabindex="-1">Rules</h1>
       <p class="lede">Each row is one capability, declared by a plugin in code. It states if it reads or acts, if a person must approve, and how code checks the result. The page and the command line use the same door.</p>
     </header>
+    <div id="houseBody"></div>
     <div id="rulesBody"></div>
     <p class="note">The program will not start if an action has no person approval, or if a capability does not say how it is checked.</p>
   </div>
@@ -721,7 +824,8 @@ function startClock(box, stage, hint, slow) {
   const began = Date.now();
   const time = el("span", "clock-time", "0:00"); time.setAttribute("aria-hidden", "true");
   const words = el("span", "clock-stage", stage); words.setAttribute("role", "status");
-  box.replaceChildren(time, el("div", "", words, hint ? el("span", "clock-hint", hint) : null));
+  const hintLine = el("span", "clock-hint", hint || "");
+  box.replaceChildren(time, el("div", "", words, hintLine));
   box.hidden = false;
   const tick = () => {
     const s = Math.floor((Date.now() - began) / 1000);
@@ -729,7 +833,7 @@ function startClock(box, stage, hint, slow) {
     if (slow && s >= slow.after && !box.dataset.slow) { box.dataset.slow = "1"; words.textContent = slow.words; }
   };
   const id = setInterval(tick, 1000);
-  return { stage(t) { words.textContent = t; }, stop() { clearInterval(id); box.hidden = true; delete box.dataset.slow; box.replaceChildren(); } };
+  return { stage(t) { words.textContent = t; }, hint(t) { hintLine.textContent = t; }, stop() { clearInterval(id); box.hidden = true; delete box.dataset.slow; box.replaceChildren(); } };
 }
 
 /* While a live run is going, its record grows. This reads the real line count, and nothing else. */
@@ -755,7 +859,7 @@ function watchRun(capability, clock, stageWords) {
   return () => { stopped = true; clearTimeout(timer); };
 }
 
-/* ---------- the proof desk and the receipts: one bench for Check, Draft and Record ---------- */
+/* ---------- the proof desk and the receipts: one bench for Check, Ask and Record ---------- */
 function tcard(title, body, aside) {
   const top = el("div", "tcard-top", el("h2", "", title), aside ? el("span", "tcard-aside", aside) : null);
   const box = el("section", "tcard", top);
@@ -767,21 +871,74 @@ const STEPS = [
   ["Pointer", "Muse points to the cell, and is not told the memo's number."],
   ["Code", "Code reads the PDF's own text."],
   ["Verdict", "A match, wrong, or a refusal."],
+  ["Method", "A house rule can read a true number another way, and never changes the verdict."],
   ["Person", "Nobody releases without a person."],
 ];
 const hasBox = b => Array.isArray(b) && b.length === 4;
-/* What each step can truly say about one receipt. A step with no data stays null, and stays neutral. */
+/* A note beside a true number. Only the rule's own values. */
+function houseLine(h) {
+  if (!h) return "";
+  if (h.status === "differs" && h.house_money) return `True to the filing. Under ${h.rule_id} this reads ${h.house_money}`;
+  const why = h.reason || h.working;
+  return why ? `Under ${h.rule_id}: ${why}` : "";
+}
+/* The cells a rule or a plugin read, each one opens the proof. */
+function inputButtons(inputs, onPick) {
+  const box = el("div", "inputs");
+  (inputs || []).filter(i => Number.isInteger(i.page) && hasBox(i.box)).forEach(input => {
+    const b = el("button", "input-btn", el("span", "input-row", input.row || input.key || "Cell"),
+      el("span", "input-val", el("span", "mono", String(input.printed ?? "")), input.money ? ` ${input.money}` : ""));
+    b.type = "button";
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", `${input.row || input.key || "Cell"}, printed ${input.printed ?? ""}. Show it on the filing page.`);
+    b.onclick = e => {
+      e.stopPropagation();
+      box.closest(".inputs-scope")?.querySelectorAll(".input-btn").forEach(n => n.setAttribute("aria-pressed", "false"));
+      b.setAttribute("aria-pressed", "true");
+      onPick(input);
+    };
+    box.append(b);
+  });
+  return box;
+}
+function houseBlock(h, onInput) {
+  const line = houseLine(h);
+  if (!line) return null;
+  const block = el("div", "house-note inputs-scope", el("p", "house-line", line));
+  if (h.working && h.working !== h.reason) {
+    const d = el("details", "", el("summary", "", "See the working"), el("p", "house-working", h.working));
+    if (onInput && h.inputs && h.inputs.length) d.append(inputButtons(h.inputs, onInput));
+    d.addEventListener("click", e => e.stopPropagation());
+    block.append(d);
+  }
+  return block;
+}
+/* A cell read by code alone, shaped for the proof card. Claims and Pointer stay neutral: Muse did not do this. */
+function cellItem(input, {column, why, method} = {}) {
+  const where = [input.row, input.column || column].filter(Boolean).join(", ");
+  return {
+    codeRead: true, page: input.page, box: input.box, muse_box: [],
+    value_text: input.row || input.key || "This cell",
+    source_text: input.printed, source_money: input.money, row: input.row, column: input.column || column,
+    why: why || `Code read ${input.printed ?? "this cell"}${input.money ? ` (${input.money})` : ""}${where ? ` in ${where}` : ""}.`,
+    method,
+  };
+}
+/* What each step can truly say. A step with no data stays null, and stays neutral. */
 function stepValues(r, person) {
-  const v = verdictOf(r);
-  const listed = r.quote || r.metric;
-  const page = Number.isInteger(r.page) ? `PDF page ${r.page + 1}, ` : "";
   const where = [r.row, r.column].filter(Boolean).join(", ");
+  const code = r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null;
+  if (r.codeRead) return [null, null, code, null, r.method ? {text: r.method} : null, null];
+  const v = verdictOf(r);
+  const page = Number.isInteger(r.page) ? `PDF page ${r.page + 1}, ` : "";
   const verdictWords = {match: "Match", wrong: "Wrong", refused: "Refused", unchecked: "Not checked"}[v];
+  const note = houseLine(r.house);
   return [
-    listed ? {text: `${r.value_text || "A number"}${r.metric ? `, ${r.metric}` : ""}`} : null,
+    r.quote ? {text: `${r.value_text || "A number"}${r.metric ? `, ${r.metric}` : ""}`} : null,
     hasBox(r.muse_box) ? {text: `${page}box ${r.muse_box.map(n => Math.round(n)).join(", ")}`, code: true} : null,
-    r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null,
+    code,
     {text: `${verdictWords}${r.source_money ? `: the filing has ${r.source_money}` : ""}`, tone: v},
+    note ? {text: note} : null,
     person ? {text: person} : null,
   ];
 }
@@ -793,8 +950,9 @@ function personWords(a) {
   if (a.status === "rejected") return who ? `Rejected by ${who.replace(/^The /, "the ")}.` : "Rejected.";
   return null;
 }
-function makeBench(memoSlot, resultSlot, desk) {
-  let receipts = [], selected = null, filingId = null, zoomFit = false, runId = null, person = null;
+/* The right column: the proof card and the timeline. Several benches can share one desk. */
+function makeDesk(root) {
+  let current = null, opts = {}, owner = null, zoomFit = false, reveal = null;
   const card = el("div", "card"); card.setAttribute("aria-live", "polite");
   const legend = el("div", "legend");
   const viewer = el("div", "viewer");
@@ -810,10 +968,10 @@ function makeBench(memoSlot, resultSlot, desk) {
     return {li, value};
   });
   const panel = el("section", "panel", el("h2", "panel-title", "How each number is checked"), forLine, list);
-  desk.replaceChildren(proof, panel);
+  root.replaceChildren(proof, panel);
 
   function drawSteps(r) {
-    const values = r ? stepValues(r, person) : STEPS.map(() => null);
+    const values = r ? stepValues(r, opts.person) : STEPS.map(() => null);
     rows.forEach(({li, value}, i) => {
       const d = values[i];
       li.className = d ? `step on${d.tone ? ` ${d.tone}` : ""}` : "step";
@@ -824,15 +982,127 @@ function makeBench(memoSlot, resultSlot, desk) {
     forLine.textContent = r ? `Showing ${r.value_text || "this number"}.` : "";
     forLine.hidden = !r;
   }
-  function emptyDesk() {
-    proof.hidden = true;
-    desk.classList.remove("has-proof");
-    drawSteps(null);
+  function drawCard(r) {
+    const v = r.codeRead ? "read" : verdictOf(r), f = filingById(opts.filing);
+    const head = r.codeRead ? `${r.value_text}: read by code` : `${r.value_text || "This number"}: ${VERDICT[v].toLowerCase()}`;
+    card.replaceChildren(el("p", `kicker-v ${v}`, head), el("p", "why", r.why || ""));
+    if (!r.codeRead) {
+      const note = houseBlock(r.house, opts.onInput);
+      if (note) card.append(note);
+    }
+    const facts = el("p", "facts");
+    const bits = [f ? `${f.company}, ${f.document}` : opts.filing];
+    if (Number.isInteger(r.page)) bits.push(`PDF page ${r.page + 1}`);
+    facts.append(bits.filter(Boolean).join(" · "));
+    if (r.filing_sha256) facts.append(" · sha256 ", el("span", "mono", short(r.filing_sha256)));
+    card.append(facts);
+    if (opts.back) {
+      const back = el("button", "btn back", "Back to the memo"); back.type = "button";
+      back.onclick = opts.back;
+      card.append(back);
+    }
+  }
+  function drawPage(r) {
+    viewer.replaceChildren();
+    legend.hidden = true;
+    reveal = null;
+    if (!Number.isInteger(r.page) || !opts.filing) {
+      const v = verdictOf(r);
+      viewer.append(el("div", "empty",
+        el("strong", "", v === "unchecked" ? "No receipt." : "No source found."),
+        v === "unchecked" ? "Muse did not list this number as a claim, so nobody checked it." : "Finguard does not guess. This number has no page to show."));
+      return;
+    }
+    const ok = !r.codeRead && verdictOf(r) === "match";
+    legend.replaceChildren();
+    legend.hidden = false;
+    if (hasBox(r.box)) legend.append(el("span", "", el("i", r.codeRead ? "n" : ok ? "g" : "c"), "Code read this cell"));
+    if (hasBox(r.muse_box)) legend.append(el("span", "", el("i", "d"), "Muse pointed here"));
+    const zoom = el("button", "zoom", zoomFit ? "Zoom to the number" : "See the whole page"); zoom.type = "button";
+    legend.append(zoom);
+    const p = el("div", zoomFit ? "page fit" : "page");
+    const img = el("img");
+    img.alt = `Page ${r.page + 1} of the filing`;
+    img.onerror = () => { legend.hidden = true; viewer.replaceChildren(el("div", "empty", el("strong", "", "No page image."), "The filing page could not load. Try again in a moment.")); };
+    img.src = `/page/${enc(opts.filing)}/${r.page}.png`;
+    p.append(img);
+    const place = (b, cls, pad) => {
+      const o = el("div", `box ${cls}`);
+      o.style.left = `${b[0] / 10 - pad}%`; o.style.top = `${b[1] / 10 - pad / 2}%`;
+      o.style.width = `${(b[2] - b[0]) / 10 + 2 * pad}%`; o.style.height = `${(b[3] - b[1]) / 10 + pad}%`;
+      p.append(o); return o;
+    };
+    if (hasBox(r.muse_box)) place(r.muse_box, "muse", 0);
+    const target = hasBox(r.box) ? place(r.box, r.codeRead ? "code read" : ok ? "code match" : "code", 0.4) : (hasBox(r.muse_box) ? p.querySelector(".box.muse") : null);
+    const wait = el("p", "page-wait", "Loading the filing page.");
+    if (!(img.complete && img.naturalWidth)) viewer.append(wait);
+    const ready = () => { wait.remove(); p.classList.add("ready"); };
+    if (img.complete && img.naturalWidth) ready(); else img.addEventListener("load", ready, {once: true});
+    viewer.append(p);
+    reveal = () => {
+      if (!target || !viewer.clientHeight) return;
+      const t = target.getBoundingClientRect(), o = viewer.getBoundingClientRect();
+      viewer.scrollTo({
+        top: viewer.scrollTop + t.top - o.top - viewer.clientHeight * .42,
+        left: zoomFit ? 0 : viewer.scrollLeft + t.left - o.left - viewer.clientWidth * .62,
+      });
+    };
+    if (img.complete && img.naturalWidth) reveal(); else img.addEventListener("load", () => reveal && reveal(), {once: true});
+    zoom.onclick = () => {
+      zoomFit = !zoomFit;
+      p.classList.toggle("fit", zoomFit);
+      zoom.textContent = zoomFit ? "Zoom to the number" : "See the whole page";
+      if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else if (reveal) reveal();
+    };
   }
   function clear() {
+    current = null; opts = {};
+    if (owner && owner.deselect) owner.deselect();
+    owner = null;
+    proof.hidden = true;
+    root.classList.remove("has-proof");
+    drawSteps(null);
+  }
+  clear();
+  return {
+    show(item, options) {
+      if (owner && owner !== options.owner && owner.deselect) owner.deselect();
+      owner = options.owner || null;
+      current = item; opts = options;
+      proof.hidden = false;
+      root.classList.add("has-proof");
+      drawCard(item); drawPage(item); drawSteps(item);
+      if (options.byUser && stacked()) proof.scrollIntoView({block: "start"});
+    },
+    clear,
+    clearFor(who) { if (owner === who) clear(); },
+    setPerson(who, person) { if (owner === who && current) { opts.person = person; drawSteps(current); } },
+    onShow() { if (current && reveal) reveal(); },
+  };
+}
+function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
+  const desk = deskOrEl instanceof Element ? makeDesk(deskOrEl) : deskOrEl;
+  let receipts = [], selected = null, filingId = null, runId = null, person = null, memoText = "";
+  const me = {
+    deselect() {
+      selected = null;
+      memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", "false"));
+      resultSlot.querySelectorAll("[data-i]").forEach(t => t.removeAttribute("aria-current"));
+      resultSlot.querySelectorAll(".input-btn").forEach(b => b.setAttribute("aria-pressed", "false"));
+    },
+  };
+  const backToMemo = () => {
+    const fig = memoSlot.querySelector(`.fig[data-i="${selected}"]`) || resultSlot.querySelector(`[data-i="${selected}"] .pick`);
+    if (fig) { fig.focus({preventScroll: true}); fig.scrollIntoView({block: "center"}); }
+  };
+  function showCell(input, h) {
+    const method = h && houseLine(h) ? houseLine(h) : undefined;
+    desk.show(cellItem(input, {column: h && h.column, method}), {filing: filingId, owner: me, byUser: true, back: backToMemo});
+  }
+  function clear() {
+    desk.clearFor(me);
     receipts = []; selected = null; runId = null; person = null;
     memoSlot.replaceChildren(); resultSlot.replaceChildren();
-    emptyDesk();
   }
   async function loadPerson() {
     const id = runId;
@@ -842,87 +1112,16 @@ function makeBench(memoSlot, resultSlot, desk) {
       if (id !== runId) return;
       const a = (d.approvals || []).find(x => x.capability === "memo.release" && x.params && x.params.check_run_id === id);
       person = a ? personWords(a) : null;
-      if (selected != null) drawSteps(receipts[selected]);
+      desk.setPerson(me, person);
     } catch { /* the step stays neutral: no data, no claim */ }
   }
   function select(i, byUser) {
+    me.deselect();
     selected = i;
     const r = receipts[i];
     memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
-    resultSlot.querySelectorAll("tbody tr[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
-    proof.hidden = false;
-    desk.classList.add("has-proof");
-    drawCard(r); drawPage(r); drawSteps(r);
-    if (byUser && stacked()) proof.scrollIntoView({block: "start"});
-  }
-  function drawCard(r) {
-    const v = verdictOf(r), f = filingById(filingId);
-    card.replaceChildren(el("p", `kicker-v ${v}`, `${r.value_text || "This number"}: ${VERDICT[v].toLowerCase()}`), el("p", "why", r.why || ""));
-    const facts = el("p", "facts");
-    const bits = [f ? `${f.company}, ${f.document}` : filingId];
-    if (Number.isInteger(r.page)) bits.push(`PDF page ${r.page + 1}`);
-    facts.append(bits.filter(Boolean).join(" · "));
-    if (r.filing_sha256) facts.append(" · sha256 ", el("span", "mono", short(r.filing_sha256)));
-    card.append(facts);
-    const back = el("button", "btn back", "Back to the memo"); back.type = "button";
-    back.onclick = () => {
-      const fig = memoSlot.querySelector(`.fig[data-i="${selected}"]`) || resultSlot.querySelector(`tr[data-i="${selected}"] .pick`);
-      if (fig) { fig.focus({preventScroll: true}); fig.scrollIntoView({block: "center"}); }
-    };
-    card.append(back);
-  }
-  function drawPage(r) {
-    viewer.replaceChildren();
-    legend.hidden = true;
-    if (!Number.isInteger(r.page) || !filingId) {
-      const v = verdictOf(r);
-      viewer.append(el("div", "empty",
-        el("strong", "", v === "unchecked" ? "No receipt." : "No source found."),
-        v === "unchecked" ? "Muse did not list this number as a claim, so nobody checked it." : "Finguard does not guess. This number has no page to show."));
-      return;
-    }
-    const ok = verdictOf(r) === "match";
-    legend.replaceChildren();
-    legend.hidden = false;
-    if (hasBox(r.box)) legend.append(el("span", "", el("i", ok ? "g" : "c"), "Code read this cell"));
-    if (hasBox(r.muse_box)) legend.append(el("span", "", el("i", "d"), "Muse pointed here"));
-    const zoom = el("button", "zoom", zoomFit ? "Zoom to the number" : "See the whole page"); zoom.type = "button";
-    legend.append(zoom);
-    const p = el("div", zoomFit ? "page fit" : "page");
-    const img = el("img");
-    img.alt = `Page ${r.page + 1} of the filing`;
-    img.onerror = () => { legend.hidden = true; viewer.replaceChildren(el("div", "empty", el("strong", "", "No page image."), "The filing page could not load. Try again in a moment.")); };
-    img.src = `/page/${enc(filingId)}/${r.page}.png`;
-    p.append(img);
-    const place = (b, cls, pad) => {
-      const o = el("div", `box ${cls}`);
-      o.style.left = `${b[0] / 10 - pad}%`; o.style.top = `${b[1] / 10 - pad / 2}%`;
-      o.style.width = `${(b[2] - b[0]) / 10 + 2 * pad}%`; o.style.height = `${(b[3] - b[1]) / 10 + pad}%`;
-      p.append(o); return o;
-    };
-    if (hasBox(r.muse_box)) place(r.muse_box, "muse", 0);
-    const target = hasBox(r.box) ? place(r.box, ok ? "code match" : "code", 0.4) : (hasBox(r.muse_box) ? p.querySelector(".box.muse") : null);
-    const wait = el("p", "page-wait", "Loading the filing page.");
-    if (!(img.complete && img.naturalWidth)) viewer.append(wait);
-    const ready = () => { wait.remove(); p.classList.add("ready"); };
-    if (img.complete && img.naturalWidth) ready(); else img.addEventListener("load", ready, {once: true});
-    viewer.append(p);
-    const reveal = () => {
-      if (!target || !viewer.clientHeight) return;
-      const t = target.getBoundingClientRect(), o = viewer.getBoundingClientRect();
-      viewer.scrollTo({
-        top: viewer.scrollTop + t.top - o.top - viewer.clientHeight * .42,
-        left: zoomFit ? 0 : viewer.scrollLeft + t.left - o.left - viewer.clientWidth * .62,
-      });
-    };
-    viewer._reveal = reveal;
-    if (img.complete && img.naturalWidth) reveal(); else img.addEventListener("load", reveal, {once: true});
-    zoom.onclick = () => {
-      zoomFit = !zoomFit;
-      p.classList.toggle("fit", zoomFit);
-      zoom.textContent = zoomFit ? "Zoom to the number" : "See the whole page";
-      if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else reveal();
-    };
+    resultSlot.querySelectorAll("[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); });
+    desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, onInput: input => showCell(input, r.house)});
   }
   function drawTable(box) {
     const table = el("table", "ledger");
@@ -943,9 +1142,39 @@ function makeBench(memoSlot, resultSlot, desk) {
         el("td", "", el("span", `tag ${v}`, VERDICT_SHORT[v])));
       tr.onclick = () => select(i, true);
       rowsBody.append(tr);
+      const note = houseBlock(r.house, input => showCell(input, r.house));
+      if (note) {
+        tr.classList.add("has-note");
+        const noteRow = el("tr", "note-row"); noteRow.dataset.i = i;
+        const td = el("td", "", note); td.colSpan = 4;
+        noteRow.append(td);
+        noteRow.onclick = () => select(i, true);
+        rowsBody.append(noteRow);
+      }
     });
     table.append(rowsBody);
     box.append(tcard("Receipts", table, plural(receipts.length, "number", "numbers")));
+  }
+  /* The answer's short list: one line per receipt, in the verdict's colour. */
+  function drawLines(box) {
+    box.append(el("h3", "lines-title", "What the filing shows"));
+    const list = el("ul", "lines");
+    receipts.forEach((r, i) => {
+      const v = verdictOf(r);
+      const li = el("li", `line ${v}`); li.dataset.i = i;
+      const pick = el("button", "pick line-pick",
+        el("span", "line-row", r.row || r.metric || r.value_text || "A number"),
+        el("span", "line-val", el("span", "line-money", r.source_money || "no source read"),
+          Number.isInteger(r.page) ? el("span", "line-page", `PDF page ${r.page + 1}`) : null,
+          el("span", `tag ${v}`, VERDICT_SHORT[v])));
+      pick.type = "button";
+      pick.onclick = () => select(i, true);
+      li.append(pick);
+      const note = houseBlock(r.house, input => showCell(input, r.house));
+      if (note) li.append(note);
+      list.append(li);
+    });
+    box.append(list);
   }
   function drawRelease(box, holds) {
     const c = countOf(receipts);
@@ -975,7 +1204,7 @@ function makeBench(memoSlot, resultSlot, desk) {
         } else if (out.status === "done") {
           row.replaceChildren(stamp("Released", "green"), el("p", "", "Released."));
         } else {
-          go.disabled = false; note.textContent = out.why || "The request was turned away.";
+          drawRefusedRelease(row, out.why, memoText, filingId);
         }
       } catch (e) { go.disabled = false; note.textContent = e.message; }
     };
@@ -983,7 +1212,7 @@ function makeBench(memoSlot, resultSlot, desk) {
   /* labels: the plain words that say what kind of run this is */
   function render({memo, result, id, filing, labels = [], release = true, focusAfter = false}) {
     receipts = Array.isArray(result.receipts) ? result.receipts : [];
-    runId = id || null; filingId = filing || result.filing || null; selected = null; person = null;
+    runId = id || null; filingId = filing || result.filing || null; selected = null; person = null; memoText = memo;
     setModel(result.model);
     const memoBox = markedMemo(memo, receipts, select);
     memoSlot.replaceChildren(memoBox);
@@ -991,11 +1220,18 @@ function makeBench(memoSlot, resultSlot, desk) {
     const lab = el("div", "labels");
     for (const [s, tone, words] of labels) lab.append(stamp(s, tone), words ? el("span", "", words) : null);
     if (labels.length) memoSlot.prepend(lab);
-    resultSlot.append(tallyNode(receipts));
-    const holds = result.record ? result.record.holds : undefined;
-    if (release) drawRelease(resultSlot, holds);
-    if (receipts.length) drawTable(resultSlot);
-    else resultSlot.append(el("p", "msg", "No numbers were found in this memo, so there is nothing to mark."));
+    if (lines && !receipts.length) {
+      resultSlot.append(el("p", "msg", "No numbers to check."));
+    } else {
+      if (lines && receipts.length) drawLines(resultSlot);
+      resultSlot.append(tallyNode(receipts));
+      const holds = result.record ? result.record.holds : undefined;
+      if (release) drawRelease(resultSlot, holds);
+      if (!lines) {
+        if (receipts.length) drawTable(resultSlot);
+        else resultSlot.append(el("p", "msg", "No numbers were found in this memo, so there is nothing to mark."));
+      }
+    }
     const rec = result.record;
     const bits = [];
     if (result.model) bits.push(`Model ${result.model}.`);
@@ -1004,19 +1240,39 @@ function makeBench(memoSlot, resultSlot, desk) {
       bits.push(`Record: ${isNum(n) ? plural(n, "line", "lines") + ", " : ""}chain ${rec.holds ? "holds" : "BROKEN"}${rec.last_hash ? `, ends ${short(rec.last_hash)}` : ""}.`);
     }
     if (result.filing_sha256) bits.push(`Filing fingerprint ${short(result.filing_sha256)}.`);
+    if (result.rules_sha256) bits.push(`House rules ${result.rules_label ? `${result.rules_label}, ` : ""}hash ${short(result.rules_sha256)}.`);
     if (bits.length) resultSlot.append(el("p", "foot record", bits.join(" ")));
     const first = receipts.find(r => verdictOf(r) === "wrong") || receipts[0];
-    if (first) select(receipts.indexOf(first), false); else emptyDesk();
+    if (first) select(receipts.indexOf(first), false); else desk.clearFor(me);
     loadPerson();
     const c = countOf(receipts);
     $("announce").textContent = `Checked. ${VERDICTS.filter(v => c[v]).map(v => `${c[v]} ${VERDICT_SHORT[v]}`).join(", ") || "No numbers found"}.`;
     if (focusAfter) { const fig = memoSlot.querySelector('.fig[aria-pressed="true"]'); if (fig) fig.focus({preventScroll: true}); }
   }
-  emptyDesk();
   return {
     render, clear,
-    onShow() { if (selected != null && viewer._reveal) viewer._reveal(); loadPerson(); },
+    onShow() { desk.onShow(); loadPerson(); },
   };
+}
+/* A release turned away. If the rules changed, say so and offer the way out. */
+function drawRefusedRelease(row, why, memo, filing) {
+  const words = why || "The request was turned away.";
+  row.classList.remove("ok");
+  row.replaceChildren(stamp("Refused", "red"), el("p", "", words));
+  if (/rules changed/i.test(words) && memo && filing) {
+    const again = el("button", "btn primary", "Check again ", arrow()); again.type = "button";
+    again.onclick = () => recheckMemo(memo, filing);
+    row.append(again);
+  }
+}
+/* Run the same memo again, under the rules that are on now. */
+function recheckMemo(memo, filingId) {
+  const f = filingById(filingId);
+  if (!f) return;
+  location.hash = "#/check";
+  chooseCheckFiling(f);
+  showCheckInput(memo);
+  runCheck();
 }
 
 function savedLabels(result, isTestMemo) {
@@ -1153,79 +1409,374 @@ function setCheckBusy(busy) {
   [...$("checkChips").children].forEach(b => b.disabled = busy);
 }
 
-/* ---------- 2. Draft ---------- */
-const draft = {bench: null, filing: null, running: false};
-const EXAMPLES = {
-  anthropic: "Did Anthropic make money in the first half of 2026?",
-  nebius: "How did Nebius do in the second quarter of 2026?",
-  asml: "How did ASML do in the third quarter of 2026?",
+/* ---------- 2. Ask ---------- */
+const ask = {desk: null, filing: null, running: false, threadId: null, asked: [], savedOk: true, suggested: []};
+const HOUSE_CHIPS = {
+  anthropic: ["Under our method, what was Anthropic's operating result in the six months ended June 30, 2026?", "Add back stock compensation."],
 };
-function chooseDraftFiling(f) {
-  draft.filing = f;
-  markTabs($("draftTabs"), f.id);
-  $("draftDoc").textContent = docLine(f);
-  // Start from a real question, but never write over one the person typed.
-  const ex = EXAMPLES[f.id], typed = $("draftInput").value.trim();
-  if (ex && (!typed || Object.values(EXAMPLES).includes(typed))) $("draftInput").value = ex;
-  $("draftState").textContent = ""; $("draftState").className = "state";
-  draft.bench.clear();
-  drawDraftHint();
+const nextSaved = () => {
+  const list = (ask.filing && ask.filing.conversation) || [];
+  return ask.savedOk ? list[ask.asked.length] : undefined;
+};
+function chooseAskFiling(f) {
+  ask.filing = f;
+  markTabs($("askTabs"), f.id);
+  $("askDoc").textContent = docLine(f);
+  newConversation();
 }
-function drawDraftHint() {
-  const h = $("draftHint"), f = draft.filing;
-  h.hidden = false;
-  if (f && $("draftInput").value.trim() === EXAMPLES[f.id]) h.textContent = "This question has a saved reply, so it replays with no API call.";
-  else h.textContent = START && START.live
-    ? "This calls Muse live. It takes about two minutes."
-    : "Live calls are off here, so a new question will be turned away.";
+function newConversation() {
+  ask.threadId = null; ask.asked = []; ask.savedOk = true; ask.suggested = [];
+  $("askTurns").replaceChildren();
+  $("askInput").value = "";
+  $("askState").textContent = ""; $("askState").className = "state";
+  $("askNew").hidden = true;
+  ask.desk.clear();
+  drawAskChips();
+  drawAskHint();
 }
-async function drawDraftAvailable() {
-  const yes = await hasCapability("memo.draft");
-  const box = $("draftMissing");
-  if (yes === false) {
-    box.hidden = false;
-    box.textContent = "Draft is not on this server yet. The capability memo.draft does not exist, so nothing can run here.";
-    $("draftRun").disabled = true;
-  } else {
-    box.hidden = true;
-    if (!draft.running) $("draftRun").disabled = false;
+function questionChip(q, tag) {
+  const b = el("button", "chip", q, tag ? el("span", "chip-tag", tag) : null); b.type = "button";
+  b.disabled = ask.running;
+  b.onclick = () => runAsk(q);
+  return b;
+}
+function drawAskChips() {
+  const f = ask.filing, box = $("askChips");
+  box.replaceChildren();
+  if (!f) return;
+  if (ask.suggested.length) {
+    const saved = nextSaved();
+    const row = el("div", "chips");
+    ask.suggested.forEach(q => row.append(questionChip(q, q === saved ? "saved reply" : "live check")));
+    const liveOnes = ask.suggested.some(q => q !== saved);
+    const words = "Suggested by Muse. Nothing runs until you click." + (liveOnes
+      ? ` A chip marked live check calls Muse${START && !START.live ? ", and live calls are off here" : ""}.` : "");
+    box.append(el("p", "kicker chips-kicker", "Ask next"), row, el("p", "hint chips-hint", words));
+  } else if (nextSaved()) {
+    const row = el("div", "chips");
+    row.append(questionChip(nextSaved(), "saved reply"));
+    box.append(el("p", "kicker chips-kicker", "Saved question"), row);
+  }
+  const house = HOUSE_CHIPS[f.id];
+  if (house) {
+    const row = el("div", "chips");
+    house.forEach(q => row.append(questionChip(q)));
+    box.append(el("p", "kicker chips-kicker", "House rule questions"), row);
   }
 }
-async function runDraft() {
-  if (draft.running) return;
-  const f = draft.filing, question = $("draftInput").value.trim(), state = $("draftState");
+function drawAskHint() {
+  const h = $("askHint"), typed = $("askInput").value.trim();
+  h.hidden = false;
+  if (typed && typed === nextSaved()) h.textContent = "This question has a saved reply, so it replays with no API call.";
+  else h.textContent = START && START.live
+    ? "A new question is a live check, unless a house rule answers it. It takes about two minutes."
+    : "Live calls are off here, so a new question is turned away unless a house rule answers it.";
+}
+async function drawAskAvailable() {
+  const yes = await hasCapability("memo.draft");
+  const box = $("askMissing");
+  box.hidden = yes !== false;
+  if (yes === false) box.textContent = "Ask is not on this server yet. The capability memo.draft does not exist, so nothing can run here.";
+  if (!ask.running) $("askRun").disabled = yes === false;
+}
+function setAskBusy(busy) {
+  ask.running = busy;
+  $("askRun").disabled = busy;
+  $("askInput").readOnly = busy;
+  [...$("askTabs").children].forEach(b => b.disabled = busy);
+  $("askChips").querySelectorAll("button").forEach(b => b.disabled = busy);
+  $("askNew").disabled = busy;
+}
+function addTurn(question) {
+  const answer = el("div", "answer");
+  const turn = el("article", "turn", el("div", "bubble-row", el("p", "bubble", question)), answer);
+  $("askTurns").append(turn);
+  $("askNew").hidden = false;
+  turn.scrollIntoView({block: "start"});
+  return answer;
+}
+/* A house rule's answer: worked out by code, never by Muse. */
+function drawHouseTurn(answer, r, f) {
+  const parts = Array.isArray(r.answers) && r.answers.length ? r.answers : [r];
+  const owner = {deselect() { answer.querySelectorAll(".input-btn").forEach(b => b.setAttribute("aria-pressed", "false")); }};
+  let first = null;
+  for (const a of parts) {
+    const id = a.rule_id || r.rule_id || "a house rule";
+    const lab = el("div", "labels row");
+    lab.append(stamp(`${a.house_money ? "Worked out by code" : "Answered by code"} under ${id}, no Muse call`, "ink"));
+    if (r.rules_label) lab.append(stamp(r.rules_label, "amber"));
+    answer.append(lab);
+    if (a.text) answer.append(el("p", "house-rule", `${id}: ${a.text}`));
+    if (a.house_money) answer.append(el("p", "house-money", a.house_money));
+    const working = a.working || a.answer || r.answer;
+    if (working) answer.append(el("p", "house-working", working));
+    const scope = el("div", "inputs-scope");
+    const method = a.house_money ? `Under ${id} this reads ${a.house_money}` : undefined;
+    const open = (input, byUser) => ask.desk.show(cellItem(input, {column: a.column, method}), {filing: f.id, owner, byUser});
+    const buttons = inputButtons(a.inputs, input => open(input, true));
+    if (buttons.children.length) {
+      scope.append(el("p", "lines-title", "The cells code read"), buttons);
+      answer.append(scope);
+      if (!first) first = () => { buttons.firstChild.setAttribute("aria-pressed", "true"); open(a.inputs.find(i => Number.isInteger(i.page) && hasBox(i.box)), false); };
+    }
+  }
+  if (r.rules_sha256) answer.append(el("p", "foot record", `House rules ${r.rules_label ? `${r.rules_label}, ` : ""}hash ${short(r.rules_sha256)}. Nothing was sent to Muse.`));
+  if (first) first(); else ask.desk.clear();
+  $("announce").textContent = "Answered by code under a house rule. No Muse call.";
+}
+function drawRefusedTurn(answer, why) {
+  answer.append(el("div", "labels row", stamp("Refused by a house rule", "red")));
+  const words = why || "This question was refused.";
+  const rest = words.replace(/\s*Nothing was sent to Muse\.?\s*$/, "");
+  answer.append(el("p", "house-rule", rest), el("p", "house-sent", "Nothing was sent to Muse."));
+  ask.desk.clear();
+  $("announce").textContent = "Refused by a house rule. Nothing was sent to Muse.";
+}
+function drawNotRun(answer, why) {
+  answer.append(el("div", "labels row", stamp("Not run", "red")), el("p", "house-rule", why));
+  $("announce").textContent = why;
+}
+async function runAsk(text) {
+  if (ask.running) return;
+  const f = ask.filing, question = String(text ?? $("askInput").value).trim(), state = $("askState");
   state.className = "state"; state.textContent = "";
   if (!f) return;
-  if (!question) { state.textContent = "Ask a question first."; state.className = "state bad"; $("draftInput").focus(); return; }
-  draft.running = true; $("draftRun").disabled = true;
-  [...$("draftTabs").children].forEach(b => b.disabled = true);
-  draft.bench.clear();
-  const savedQuestion = question === EXAMPLES[f.id];
-  const clock = startClock($("draftClock"),
-    savedQuestion ? "Stage: opening the saved replay." : "Stage: Muse is writing, then code checks.",
-    savedQuestion ? "No API call. This is a recording." : "Muse writes from the filing. Then its numbers go through the same check as any memo.",
-    savedQuestion ? null : {after: 180, words: "Stage: Muse is writing, then code checks. Slower than usual."});
-  const unwatch = savedQuestion ? () => {} : watchRun("memo.draft", clock, "Stage: Muse is writing, then code checks.");
+  if (!question) { state.textContent = "Ask a question first."; state.className = "state bad"; $("askInput").focus(); return; }
+  setAskBusy(true);
+  $("askInput").value = "";
+  const answer = addTurn(question);
+  const clockBox = el("div", "clock");
+  answer.append(clockBox);
+  const clock = startClock(clockBox, "Stage: code is looking for a house rule.", "This step does not call Muse.");
+  let unwatch = () => {};
   try {
-    const out = await door("memo.draft", {question, filing: f.id});
-    if (out.status !== "done" || !out.result) {
-      const why = outcomeWords(out);
-      if (out.status === "refused" && /unknown|no such|not exist|not found/i.test(why)) throw new ApiError("Draft is not on this server yet. The capability memo.draft does not exist.");
-      throw new ApiError(why);
-    }
-    clock.stage("Stage: marking the memo.");
-    const heading = el("p", "soft small", "Question: ", el("em", "", out.result.question || question));
-    heading.style.marginBottom = "8px";
-    draft.bench.render({memo: out.result.memo || "", result: out.result, id: out.run_id, filing: f.id, labels: savedLabels({...out.result, drafted_by_muse: true}, false), focusAfter: true});
-    $("draftMemoSlot").prepend(heading);
+    let rule = null;
+    try { rule = await door("rules.apply", {filing: f.id, question}); }
+    catch (e) { if (e.status !== 404) throw e; }
+    const noCapability = rule && rule.status === "refused" && /no such capability/i.test(rule.why || "");
+    if (rule && !noCapability && rule.status === "refused") { drawRefusedTurn(answer, rule.why); return; }
+    if (rule && rule.status === "failed") throw new ApiError(rule.why || "The house rules could not be read.");
+    if (rule && !noCapability && rule.result && rule.result.status !== "no_rule") { drawHouseTurn(answer, rule.result, f); return; }
+    const isSaved = question === nextSaved();
+    clock.stage(isSaved ? "Stage: opening the saved replay." : "Stage: Muse is writing, then code checks.");
+    clock.hint(isSaved ? "No API call. This is a recording." : "Muse writes from the filing. Then its numbers go through the same check as any memo. Usually about two minutes.");
+    if (!isSaved) unwatch = watchRun("memo.draft", clock, "Stage: Muse is writing, then code checks.");
+    const params = {filing: f.id, question};
+    if (ask.threadId) params.thread_id = ask.threadId;
+    const out = await door("memo.draft", params);
+    if (out.status !== "done" || !out.result) { drawNotRun(answer, outcomeWords(out)); return; }
+    const r = out.result;
+    ask.threadId = r.thread_id || ask.threadId;
+    ask.asked.push(question);
+    ask.savedOk = ask.savedOk && !!r.saved;
+    ask.suggested = Array.isArray(r.next_questions) ? r.next_questions : [];
+    const memoSlot = el("div", "answer-memo"), resultSlot = el("div", "answer-result");
+    answer.append(memoSlot, resultSlot);
+    const bench = makeBench(memoSlot, resultSlot, ask.desk, {lines: true});
+    bench.render({memo: r.memo || "", result: r, id: out.run_id, filing: f.id, labels: savedLabels({...r, drafted_by_muse: true}, false), focusAfter: true});
     refreshPending();
   } catch (e) {
-    state.textContent = e.status === 404 ? "Draft is not on this server yet. The capability memo.draft does not exist." : e.message;
-    state.className = "state bad";
+    drawNotRun(answer, e.status === 404 ? "Ask is not on this server yet. The capability memo.draft does not exist." : e.message);
   } finally {
-    unwatch(); clock.stop(); draft.running = false; $("draftRun").disabled = false;
-    [...$("draftTabs").children].forEach(b => b.disabled = false);
-    drawDraftAvailable();
+    unwatch(); clock.stop(); clockBox.remove();
+    setAskBusy(false);
+    drawAskChips();
+    drawAskHint();
+    drawAskAvailable();
+  }
+}
+
+/* ---------- Create ---------- */
+const create = {desk: null, filing: null, running: false, last: null};
+const CREATE_MISSING = "Create is not on this server yet. The capability plugins.list does not exist, so nothing can run here.";
+function chooseCreateFiling(f) {
+  create.filing = f;
+  markTabs($("createTabs"), f.id);
+  $("createDoc").textContent = docLine(f);
+}
+const galleryPrompt = g => typeof g === "string" ? g : (g && (g.prompt || g.text)) || "";
+async function loadCreate() {
+  const gallery = $("createGallery"), installed = $("createInstalled"), missing = $("createMissing");
+  const known = await hasCapability("plugins.list");
+  if (known === false) {
+    missing.hidden = false; missing.textContent = CREATE_MISSING;
+    $("createRun").disabled = true;
+    gallery.replaceChildren(); installed.replaceChildren();
+    return;
+  }
+  missing.hidden = true;
+  if (!create.running) $("createRun").disabled = false;
+  if (!gallery.children.length) loading(gallery, "Loading the gallery.");
+  let out;
+  try { out = await door("plugins.list", {}); }
+  catch (e) { showError(gallery, e.message, loadCreate); return; }
+  if (out.status !== "done" || !out.result) { showError(gallery, outcomeWords(out), loadCreate); return; }
+  const r = out.result;
+  const prompts = r.gallery || r.prompts || [];
+  gallery.replaceChildren();
+  if (prompts.length) {
+    const grid = el("div", "gallery");
+    prompts.forEach(g => {
+      const text = galleryPrompt(g);
+      if (!text) return;
+      const b = el("button", "gallery-card", g.title ? el("b", "", g.title) : null, el("span", "", text)); b.type = "button";
+      b.onclick = () => {
+        $("createInput").value = text;
+        const f = g.filing && filingById(g.filing);
+        if (f) chooseCreateFiling(f);
+        $("createInput").focus();
+        drawCreateHint(g);
+      };
+      grid.append(b);
+    });
+    gallery.append(el("p", "kicker chips-kicker", "Start from an example"), grid);
+  }
+  drawInstalled(r.installed || r.plugins || []);
+}
+function drawCreateHint(g) {
+  const h = $("createHint");
+  h.hidden = false;
+  h.textContent = g && g.saved ? "This prompt has a saved reply, so it replays with no API call."
+    : START && START.live ? "Muse writes the definition. Code then runs it on the filing. This can take a few minutes."
+    : "Live calls are off here, so only a saved prompt can run.";
+}
+function drawInstalled(list) {
+  const box = $("createInstalled");
+  if (!list.length) { box.replaceChildren(tcard("Installed plugins", el("p", "msg", "Nothing is installed yet. A plugin appears here after a person approves it."))); return; }
+  const t = el("table", "t");
+  t.append(el("thead", "", el("tr", "", el("th", "", "Plugin"), el("th", "", "What it works out"), el("th", "", "Status"), el("th", "", el("span", "vh", "Run")))));
+  const b = el("tbody");
+  const out = el("div", "tcard-body inputs-scope"); out.hidden = true;
+  list.forEach(p => {
+    if (!p.name) { // a file on disk with no approved name: the server says why, and it cannot run
+      b.append(el("tr", "", cell("Plugin", el("span", "rule-name", "Unknown file")), cell("Works out", String(p.reason || "")), cell("Status", el("span", "rule-val", String(p.status || ""))), cell("Run", "")));
+      return;
+    }
+    const capability = p.capability || `custom.${p.name}`;
+    const active = p.status === "active";
+    let action = "";
+    if (active) {
+      const run = el("button", "btn", "Run on this filing ", arrow()); run.type = "button";
+      run.onclick = async () => {
+        if (!create.filing) return;
+        run.disabled = true; out.hidden = false; loading(out, `Running ${capability}.`);
+        try {
+          const o = await door(capability, {filing: create.filing.id});
+          out.replaceChildren();
+          if (o.status !== "done" || !o.result) out.append(el("p", "msg bad", outcomeWords(o)));
+          else drawDryRun(out, o.result, `${p.title || p.name} on ${create.filing.company}`);
+        } catch (e) { out.replaceChildren(el("p", "msg bad", e.message)); }
+        run.disabled = false;
+      };
+      action = run;
+    }
+    b.append(el("tr", "",
+      cell("Plugin", el("span", "", el("span", "rule-name", String(p.title || p.name)), el("span", "rule-area", capability))),
+      cell("Works out", String(p.summary || "")),
+      cell("Status", el("div", "", el("span", "rule-val", String(p.status || "")), p.reason ? el("p", "rule-act", String(p.reason)) : null)),
+      cell("Run", action)));
+  });
+  t.append(b);
+  const card = tcard("Installed plugins", t, plural(list.length, "plugin", "plugins"));
+  card.append(out);
+  box.replaceChildren(card);
+}
+const plainValue = v => v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
+const PERIOD_WORDS = {quarter: "one quarter", six_months: "six months", nine_months: "nine months", full_year: "a full year", as_of: "as of a date"};
+function definitionCard(def) {
+  const d = def || {};
+  const inputs = Array.isArray(d.inputs) ? d.inputs : [];
+  const inputList = el("ul", "plain-list");
+  inputs.forEach(i => inputList.append(el("li", "", el("span", "mono", String(i.key || "")), i.row ? `: ${i.row}` : "")));
+  const period = [PERIOD_WORDS[d.period_kind] || d.period_kind, d.period_year].filter(v => v != null && v !== "").join(", ");
+  return kv([
+    ["Name", d.title ? el("span", "", el("span", "rule-name", String(d.title)), el("span", "rule-area", String(d.name || ""))) : plainValue(d.name)],
+    ["What it does", plainValue(d.summary)],
+    ["Inputs", inputs.length ? inputList : ""],
+    ["Formula", d.formula ? el("span", "mono", plainValue(d.formula)) : ""],
+    ["Unit", plainValue(d.unit)],
+    ["Period", period],
+    ["Compares with", plainValue(d.compare_row)],
+    ["Verifies", plainValue(d.verifies)],
+  ]);
+}
+/* A plugin's dry run. Only what the server computed. */
+function drawDryRun(box, run, title) {
+  const r = run || {};
+  box.append(el("h3", "lines-title", title));
+  if (r.status !== "computed") box.append(el("div", "labels row", stamp("Nothing was computed", "amber")));
+  const shown = r.display ?? r.money ?? r.value;
+  if (shown != null && shown !== "") box.append(el("p", "house-money", String(shown)));
+  if (r.working) box.append(el("p", "house-working", String(r.working)));
+  if (r.reason && r.reason !== r.working) box.append(el("p", "house-working", String(r.reason)));
+  (Array.isArray(r.warnings) ? r.warnings : []).forEach(w => box.append(el("p", "note", String(typeof w === "string" ? w : plainValue(w)))));
+  const filing = create.filing && create.filing.id;
+  const owner = {deselect() { box.querySelectorAll(".input-btn").forEach(b => b.setAttribute("aria-pressed", "false")); }};
+  const open = (input, byUser) => create.desk.show(cellItem(input), {filing, owner, byUser});
+  const scope = el("div", "inputs-scope");
+  box.append(scope);
+  const buttons = inputButtons(r.inputs, input => open(input, true));
+  if (buttons.children.length) {
+    scope.append(el("p", "lines-title", "The cells code read"), buttons);
+    buttons.firstChild.setAttribute("aria-pressed", "true");
+    open(r.inputs.find(i => Number.isInteger(i.page) && hasBox(i.box)), false);
+  }
+  const c = r.compare;
+  if (c && typeof c === "object") {
+    scope.append(el("p", "lines-title", `Compared with ${c.row || "the filing"}`));
+    if (c.reason) scope.append(el("p", "house-working", String(c.reason)));
+    const cb = inputButtons([c], input => open(input, true));
+    if (cb.children.length) scope.append(cb);
+  }
+}
+async function runCreate() {
+  if (create.running) return;
+  const f = create.filing, prompt = $("createInput").value.trim(), state = $("createState"), slot = $("createResult");
+  state.className = "state"; state.textContent = "";
+  if (!f) return;
+  if (!prompt) { state.textContent = "Say what the plugin should work out."; state.className = "state bad"; $("createInput").focus(); return; }
+  create.running = true; $("createRun").disabled = true;
+  [...$("createTabs").children].forEach(b => b.disabled = true);
+  slot.replaceChildren(); create.desk.clear();
+  const clock = startClock($("createClock"), "Stage: Muse is writing the definition.", "Muse writes a definition, not code. Plain code then runs it on the filing.");
+  try {
+    const out = await door("plugins.create", {prompt, filing: f.id});
+    if (out.status !== "done" || !out.result) throw new ApiError(/no such capability/i.test(out.why || "") ? CREATE_MISSING : outcomeWords(out));
+    const r = out.result;
+    const card = el("article", "answer");
+    const labels = el("div", "labels row");
+    if (r.drafted_by_muse) labels.append(stamp("Definition written by Muse", "ink"));
+    labels.append(stamp(r.saved ? "Saved replay" : "Live run", r.saved ? "slate" : "green"));
+    labels.append(stamp("Not part of the measured score", "amber"));
+    card.append(labels);
+    card.append(el("h3", "lines-title", "The definition"), definitionCard(r.definition));
+    if (r.definition_sha256) card.append(el("p", "foot record", "Definition hash ", el("span", "mono", String(r.definition_sha256)), ". An approval binds to exactly this."));
+    drawDryRun(card, r.dry_run, "Dry run on this filing");
+    const row = el("div", "release ok");
+    const computed = r.dry_run && r.dry_run.status === "computed";
+    const go = el("button", "btn primary", "Request install ", arrow()); go.type = "button";
+    const note = el("p", "", computed ? "Nothing is installed until a person approves it." : "This cannot be installed for this filing, because the dry run computed nothing.");
+    row.append(computed ? go : stamp("Blocked", "red"), note);
+    go.onclick = async () => {
+      go.disabled = true; note.textContent = "Asking.";
+      try {
+        go.disabled = true;
+        const o = await door("plugins.install", {definition: r.definition, filing: f.id});
+        if (o.status === "needs_approval") {
+          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent for approval. Nothing is installed until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
+          refreshPending();
+        } else if (o.status === "done") { row.replaceChildren(stamp("Installed", "green"), el("p", "", "Installed.")); loadCreate(); }
+        else { go.disabled = false; note.textContent = outcomeWords(o); }
+      } catch (e) { go.disabled = false; note.textContent = e.message; }
+    };
+    card.append(row);
+    slot.append(card);
+    $("announce").textContent = "Muse wrote a definition. Code ran it. A person must approve before it is installed.";
+  } catch (e) {
+    state.textContent = e.status === 404 ? CREATE_MISSING : e.message; state.className = "state bad";
+  } finally {
+    clock.stop(); create.running = false; $("createRun").disabled = false;
+    [...$("createTabs").children].forEach(b => b.disabled = false);
   }
 }
 
@@ -1319,13 +1870,26 @@ function decideRow(a) {
 }
 function runRow(a) {
   const row = el("div", "decide");
-  const go = el("button", "btn primary", a.capability === "memo.release" ? "Release now " : "Run it now ", arrow()); go.type = "button";
+  const go = el("button", "btn primary", {"memo.release": "Release now ", "rules.change": "Apply the change ", "plugins.install": "Install now "}[a.capability] || "Run it now ", arrow()); go.type = "button";
   const words = el("p", "state", "Approved. It runs once, and only if the content still matches."); words.setAttribute("role", "status");
   go.onclick = async () => {
     go.disabled = true; words.className = "state"; words.textContent = "Running.";
     try {
       const out = await door(a.capability, a.params || {}, a.id);
-      if (out.status !== "done") throw new ApiError(outcomeWords(out));
+      if (out.status !== "done") {
+        const why = outcomeWords(out);
+        words.className = "state bad"; words.textContent = why;
+        if (/rules changed/i.test(why) && a.params && a.params.check_run_id) {
+          const again = el("button", "btn primary", "Check again ", arrow()); again.type = "button";
+          again.onclick = async () => {
+            try { const run = await api(`/api/runs/${enc(a.params.check_run_id)}`); recheckMemo(run.result.memo, run.result.filing); }
+            catch (e) { words.textContent = e.message; }
+          };
+          row.replaceChildren(again, words);
+        } else go.disabled = false;
+        return;
+      }
+      RULES = null;
       const rid = releaseIdOf(out.result);
       if (rid) location.hash = `#/record/release/${enc(rid)}`; else await loadApprovals();
     } catch (e) { go.disabled = false; words.className = "state bad"; words.textContent = e.message; }
@@ -1340,6 +1904,16 @@ function releaseIdOf(result) {
 async function drawSubject(a, box) {
   const params = a.params || {};
   const runId = params.check_run_id;
+  if (a.capability === "rules.change") {
+    box.append(el("p", "house-line", `Turn ${params.rule_id} ${params.enabled ? "on" : "off"}.`));
+    box.append(el("p", "note", "Any memo checked under the old rules must be checked again before it can be released."));
+    return;
+  }
+  if (a.capability === "plugins.install" && params.definition) {
+    box.append(definitionCard(params.definition));
+    box.append(el("p", "note", "Not part of the measured score."));
+    return;
+  }
   if (a.capability !== "memo.release" || !runId) {
     const keys = Object.keys(params);
     box.append(keys.length ? kv(keys.map(k => [k, typeof params[k] === "string" ? params[k] : JSON.stringify(params[k])])) : el("p", "note", "No details."));
@@ -1359,10 +1933,23 @@ async function drawSubject(a, box) {
       box.append(receiptTable(receipts));
     }
     if (res.saved) box.append(el("p", "note", "This check was a saved replay."));
+    drawHouseAgreement(box, res.house_notes, res.rules_sha256, res.rules_label);
   } catch (e) {
     box.replaceChildren(el("p", "msg bad", `Could not load the run behind this request. ${e.message}`));
     box.append(kv([["Check run", el("span", "hash", String(runId))]]));
   }
+}
+/* What the approver agrees to: the method's notes, and the exact rules. */
+function drawHouseAgreement(box, notes, sha, label) {
+  const list = Array.isArray(notes) ? notes : [];
+  if (list.length) {
+    box.append(el("span", "label", `House notes you are agreeing to (${list.length})`));
+    list.forEach(h => {
+      const block = houseBlock(h);
+      if (block) { block.prepend(el("p", "mono small", String(h.value_text || ""))); box.append(block); }
+    });
+  }
+  if (sha) box.append(el("span", "label", "Checked under these house rules"), kv([["Label", label], ["Rules", el("span", "hash", String(sha))]]));
 }
 function receiptTable(receipts) {
   const t = el("table", "tiny-table");
@@ -1560,8 +2147,14 @@ async function openRelease(id) {
       ["Model", m.model],
       ["Numbers", countsWords(m.counts)],
       pair("Content hash", "subject_sha256"),
+      pair("House rules hash", "rules_sha256"),
       pair("Run's last hash", "run_last_hash"),
     ]));
+    if (Array.isArray(m.house_notes) && m.house_notes.length) {
+      const notes = el("div", "tcard-body");
+      m.house_notes.forEach(h => { const b = houseBlock(h); if (b) { b.prepend(el("p", "mono small", String(h.value_text || ""))); notes.append(b); } });
+      body.append(tcard("House notes in this release", notes));
+    }
     const files = manifestFiles(m);
     if (files.length) {
       const t = el("table", "t");
@@ -1587,7 +2180,55 @@ function manifestFiles(m) {
 }
 
 /* ---------- 5. Rules ---------- */
+async function loadHouseRules() {
+  const box = $("houseBody");
+  if (!box.children.length) box.replaceChildren(tcard("House rules", el("p", "skeleton", "Loading the house rules.")));
+  let out;
+  try { out = await door("rules.list", {}); }
+  catch (e) { box.replaceChildren(tcard("House rules", el("p", "msg bad", e.message))); return; }
+  if (out.status !== "done" || !out.result) {
+    if (/no such capability/i.test(out.why || "")) box.replaceChildren();
+    else box.replaceChildren(tcard("House rules", el("p", "msg bad", outcomeWords(out))));
+    return;
+  }
+  const r = out.result;
+  const t = el("table", "t");
+  t.append(el("thead", "", el("tr", "", el("th", "", "Rule"), el("th", "", "What it says"), el("th", "", "State"), el("th", "", "Version"), el("th", "", el("span", "vh", "Change")))));
+  const b = el("tbody");
+  (r.rules || []).forEach(rule => {
+    const words = el("p", "rule-act");
+    words.hidden = true; words.setAttribute("role", "status");
+    const flip = el("button", "btn", rule.enabled ? "Turn off" : "Turn on"); flip.type = "button";
+    flip.onclick = async () => {
+      flip.disabled = true; words.hidden = false; words.textContent = "Asking.";
+      try {
+        const o = await door("rules.change", {rule_id: rule.id, enabled: !rule.enabled});
+        if (o.status === "needs_approval") {
+          words.replaceChildren("Sent for approval. Nothing changes until a person says yes. ", linkTo("#/approvals", "Open Approvals"));
+          refreshPending();
+        } else if (o.status === "done") { words.textContent = "Changed."; loadHouseRules(); }
+        else { words.textContent = outcomeWords(o); flip.disabled = false; }
+      } catch (e) { words.textContent = e.message; flip.disabled = false; }
+    };
+    const said = el("span", "", String(rule.text || ""));
+    b.append(el("tr", "",
+      cell("Rule", el("span", "rule-name nowrap", String(rule.id || ""))),
+      cell("Says", said),
+      cell("State", el("span", `rule-state ${rule.enabled ? "on" : "off"}`, rule.enabled ? "on" : "off")),
+      cell("Version", el("span", "rule-val", r.version != null ? String(r.version) : "")),
+      cell("Change", el("div", "", flip, words))));
+  });
+  t.append(b);
+  const card = tcard("House rules", t, r.label ? el("span", "stamp amber", r.label) : null);
+  const foot = el("div", "tcard-body");
+  if (r.note) foot.append(el("p", "small soft", r.note));
+  if (r.rules_sha256) foot.append(el("p", "small soft", "Rules hash ", el("span", "hash", r.rules_sha256)));
+  if (r.holds === false) foot.append(el("p", "msg bad", r.problem || "These rules do not match the last approved change."));
+  card.append(foot);
+  box.replaceChildren(card);
+}
 async function loadRulesPage() {
+  loadHouseRules();
   const body = $("rulesBody");
   if (!body.children.length) loading(body, "Loading the rules.");
   let data;
@@ -1722,7 +2363,7 @@ async function loadScore() {
 }
 
 /* ---------- routes ---------- */
-const TITLES = {check: "Check", draft: "Draft", approvals: "Approvals", record: "Record", rules: "Rules", score: "Score"};
+const TITLES = {check: "Check", ask: "Ask", create: "Create", approvals: "Approvals", record: "Record", rules: "Rules", score: "Score"};
 let firstRoute = true;
 function parseHash() {
   const raw = location.hash.replace(/^#\/?/, "");
@@ -1730,6 +2371,7 @@ function parseHash() {
 }
 function route() {
   const parts = parseHash();
+  if (parts[0] === "draft") { location.replace("#/ask"); return; }
   const name = TITLES[parts[0]] ? parts[0] : "check";
   document.querySelectorAll(".view").forEach(v => { v.hidden = v.id !== `v-${name}`; });
   document.querySelectorAll("#nav a").forEach(a => {
@@ -1738,7 +2380,8 @@ function route() {
   document.title = `${TITLES[name]} · Finguard`;
   closeMenu();
   if (name === "check" && check.bench) check.bench.onShow();
-  if (name === "draft" && draft.bench) { draft.bench.onShow(); if (START) drawDraftAvailable(); }
+  if (name === "ask" && ask.desk) { ask.desk.onShow(); if (START) { RULES = null; drawAskAvailable(); } }
+  if (name === "create" && create.desk) { create.desk.onShow(); RULES = null; loadCreate(); }
   if (name === "approvals") { drawOperatorNote(); loadApprovals(); }
   if (name === "rules") loadRulesPage();
   if (name === "score") loadScore();
@@ -1771,7 +2414,8 @@ function focusHeading() {
 /* ---------- start ---------- */
 async function boot() {
   check.bench = makeBench($("checkMemoSlot"), $("checkResult"), $("checkDesk"));
-  draft.bench = makeBench($("draftMemoSlot"), $("draftResult"), $("draftDesk"));
+  ask.desk = makeDesk($("askDesk"));
+  create.desk = makeDesk($("createDesk"));
   runBench.bench = makeBench($("recordRunMemoSlot"), $("recordRunResult"), $("recordRunDesk"));
   $("skip").onclick = e => { e.preventDefault(); focusHeading(); };
   $("menuBtn").onclick = () => {
@@ -1783,8 +2427,11 @@ async function boot() {
     if (e.key === "Escape" && $("nav").classList.contains("open")) { closeMenu(); $("menuBtn").focus(); }
   });
   $("checkRun").onclick = runCheck;
-  $("draftRun").onclick = runDraft;
-  $("draftInput").addEventListener("input", drawDraftHint);
+  $("askRun").onclick = () => runAsk();
+  $("askInput").addEventListener("input", drawAskHint);
+  $("askNew").onclick = () => { newConversation(); $("askInput").focus(); };
+  $("createRun").onclick = runCreate;
+  $("createInput").addEventListener("input", () => drawCreateHint());
   $("memoInput").addEventListener("input", updateMemoHint);
   $("memoEdit").onclick = () => { const f = $("memoInput").value; showCheckInput(f); $("memoInput").focus(); };
   $("operatorToken").addEventListener("input", e => { operatorToken = e.target.value; });
@@ -1795,7 +2442,7 @@ async function boot() {
 }
 async function startData() {
   const state = $("checkState");
-  $("checkRun").disabled = $("draftRun").disabled = true;
+  $("checkRun").disabled = $("askRun").disabled = true;
   state.className = "state"; state.textContent = "Loading the filings.";
   try { await loadStart(); }
   catch (e) {
@@ -1805,18 +2452,21 @@ async function startData() {
     return;
   }
   state.textContent = "";
-  $("checkRun").disabled = $("draftRun").disabled = false;
+  $("checkRun").disabled = $("askRun").disabled = false;
   if (!START.filings || !START.filings.length) {
     state.className = "state bad"; state.textContent = "No filings are loaded on this server.";
-    $("checkRun").disabled = $("draftRun").disabled = true;
+    $("checkRun").disabled = $("askRun").disabled = true;
     return;
   }
   fillTabs($("checkTabs"), null, chooseCheckFiling);
-  fillTabs($("draftTabs"), null, chooseDraftFiling);
+  fillTabs($("askTabs"), null, chooseAskFiling);
+  fillTabs($("createTabs"), null, chooseCreateFiling);
   if (isNum(START.max_memo)) $("memoInput").maxLength = START.max_memo;
   chooseCheckFiling(START.filings[0]);
-  chooseDraftFiling(START.filings[0]);
-  drawDraftAvailable();
+  chooseAskFiling(START.filings[0]);
+  chooseCreateFiling(START.filings[0]);
+  drawCreateHint();
+  drawAskAvailable();
   refreshPending();
   drawOperatorNote();
   if (START.score) setModel(START.score.model);

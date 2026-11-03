@@ -149,3 +149,10 @@ def test_the_script_entry_is_declared():
     project = tomllib.loads((ROOT / "pyproject.toml").read_text())
     assert project["project"]["scripts"]["finguard"] == "finguard.cli:main"
     assert {"finguard.core", "finguard.plugins"} <= set(project["tool"]["setuptools"]["packages"])
+
+
+def test_do_takes_true_and_false_by_the_schema(ctx, capsys):
+    _, out = do(capsys, "rules.change", "rule_id=HR-1", "enabled=false")
+    assert out["status"] == "needs_approval"
+    code, stdout, stderr = run(capsys, "do", "rules.change", "rule_id=HR-1", "enabled=maybe")
+    assert code != 0 and "true or false" in stdout + stderr

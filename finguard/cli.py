@@ -29,6 +29,11 @@ def _parse_pairs(ctx: Context, name: str, pairs: list[str]) -> dict:
         if not eq or not key:
             raise ValueError(f'"{pair}" is not in the form key=value.')
         kind = props.get(key, {}).get("type")
+        if kind == "boolean":
+            if value not in ("true", "false"):
+                raise ValueError(f"{key} must be true or false.")
+            params[key] = value == "true"
+            continue
         if value.startswith("@") and kind in (None, "string"):
             try:
                 value = Path(value[1:]).read_text(encoding="utf-8")
