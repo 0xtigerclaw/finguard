@@ -233,6 +233,31 @@ def test_a_number_cannot_pass_under_the_next_columns_heading(s1, value, year, ki
     assert r.verdict == verdict and "Year Ended December 31, 2025" in r.column
 
 
+def test_a_box_beside_the_number_finds_it_when_the_column_is_clear(s1):
+    x0, y0, x1, y1 = box_for(s1, BRIDGE, "1,618")
+    loc = {"found": True, "page": 0, "box": [x0 - 25, y0, x0 - 5, y1], "row_label": "Adjusted Operating Income (Loss)"}
+    r = decide(claim(), s1, loc, [BRIDGE])
+    assert r.verdict == MATCH and r.source_text == "1,618"
+
+
+def test_a_box_between_two_columns_stays_unclear(s1):
+    words = s1.words(BRIDGE)
+    a = next(w for w in words if w.text == "(1,849)")
+    b = next(w for w in words if w.text == "1,618")
+    w = s1.size(BRIDGE)[0]
+    mid = (a.cx + b.cx) / 2 * 1000 / w
+    _, y0, _, y1 = box_for(s1, BRIDGE, "1,618")
+    loc = {"found": True, "page": 0, "box": [mid - 3, y0, mid + 3, y1], "row_label": "Adjusted Operating Income (Loss)"}
+    assert decide(claim(), s1, loc, [BRIDGE]).verdict == REFUSED
+
+
+def test_a_box_landing_on_the_wrong_year_cannot_pass(s1):
+    """The closest number is 2025's. Its own heading says so, so a 2026 claim is refused."""
+    x0, y0, x1, y1 = box_for(s1, BRIDGE, "(1,849)")
+    loc = {"found": True, "page": 0, "box": [x0 - 20, y0, x0 - 4, y1], "row_label": "Adjusted Operating Income (Loss)"}
+    assert decide(claim("$1.8bn"), s1, loc, [BRIDGE]).verdict != MATCH
+
+
 def test_candidate_pages_include_the_statements(s1):
     pages = candidate_pages(s1, claim("$693m", "Operating loss", direction="loss"))
     assert BRIDGE in pages and len(pages) <= 6

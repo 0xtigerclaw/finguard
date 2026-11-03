@@ -16,6 +16,8 @@ GRID = 1000  # Muse reports boxes as [x_min, y_min, x_max, y_max] on a 0-1000 gr
 PADDING = 8  # forgive a box this many grid units too tight
 QUALIFIERS = {"adjusted", "pro", "forma", "non", "gaap", "core", "underlying", "normalized", "normalised",
               "continuing", "discontinued"}
+COLUMN_REACH = 130  # how far left or right of a number a box may land, measured on live replies
+CLEARLY_CLOSER = 0.8  # the closest number must be this much nearer than the next, or the column is unclear
 ROW_REACH = 32  # Muse's boxes land up to about a row and a half off, measured on live replies
 DPI = 150
 _NUMERIC = re.compile(r"^\(?-?\$?€?\d[\d,]*(?:\.\d+)?\)?%?$")
@@ -134,19 +136,29 @@ class Filing:
         return None
 
     def numbers_near(self, page: int, box: list[float], row_label: str) -> list[Word]:
-        """The numbers in the box's column, on a row printed with this label, near the box.
+        """The numbers on a row printed with this label, near Muse's box.
 
-        Muse's box is a pointer. The label on the page fixes the row, so a box a row out
-        cannot pick up the number from the row next door.
+        Muse's box is a pointer, and live runs show it lands on the right row area but often
+        left of the number. The label on the page fixes the row. A box that covers no number on
+        that row picks the closest one, unless two are about as close, which stays unclear.
+        Whichever it picks, its own column heading must still fit the claim's period.
         """
         x0, _, x1, _ = self.grid_to_points(page, box)
-        height = self.size(page)[1]
+        width, height = self.size(page)
         middle = (box[1] + box[3]) / 2 * height / GRID
         reach = ROW_REACH * height / GRID
         words = self.words(page)
-        return [w for w in words
-                if _NUMERIC.match(w.text) and x0 <= w.cx <= x1 and abs(w.cy - middle) <= reach
-                and row_names(_row_of(w, words), row_label) and _names_whole_line(w, words, row_label)]
+        on_row = [w for w in words if _NUMERIC.match(w.text) and abs(w.cy - middle) <= reach
+                  and row_names(_row_of(w, words), row_label) and _names_whole_line(w, words, row_label)]
+        inside = [w for w in on_row if x0 <= w.cx <= x1]
+        if inside:
+            return inside
+        centre = (box[0] + box[2]) / 2 * width / GRID
+        nearby = sorted((w for w in on_row if abs(w.cx - centre) <= COLUMN_REACH * width / GRID),
+                        key=lambda w: abs(w.cx - centre))
+        if len(nearby) > 1 and abs(nearby[0].cx - centre) > CLEARLY_CLOSER * abs(nearby[1].cx - centre):
+            return nearby[:2]
+        return nearby[:1]
 
     def cell(self, page: int, word: Word) -> Cell | None:
         words = self.words(page)

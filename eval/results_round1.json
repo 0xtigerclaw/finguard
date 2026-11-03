@@ -90,8 +90,8 @@
   },
   "new_false_numbers": 1320,
   "new_false_passed": 0,
-  "new_false_called_wrong": 355,
-  "new_false_refused": 965,
+  "new_false_called_wrong": 357,
+  "new_false_refused": 963,
   "new_false_by_class": {
    "another_row_name": {
     "match": 0,
@@ -215,8 +215,8 @@
    },
    "wrong_cell_next_row": {
     "match": 0,
-    "refused": 26,
-    "wrong": 29
+    "refused": 25,
+    "wrong": 30
    },
    "wrong_cell_next_row_own_label": {
     "match": 0,
@@ -235,8 +235,8 @@
    },
    "wrong_cell_previous_row": {
     "match": 0,
-    "refused": 15,
-    "wrong": 34
+    "refused": 14,
+    "wrong": 35
    },
    "wrong_cell_previous_row_own_label": {
     "match": 0,
@@ -266,7 +266,7 @@
     "matched": 16
    }
   },
-  "engine_sha256": "ebe34ac154960ace1a845105140ade211f284d71468184eda3a0be20e36dff38",
+  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -1701,9 +1701,9 @@
     "loss_on_a_positive_row": "refused",
     "wrong_cell_previous_column": "refused",
     "wrong_cell_previous_column_own_label": "refused",
-    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row": "wrong",
     "wrong_cell_next_row_own_label": "refused",
-    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row": "wrong",
     "wrong_cell_previous_row_own_label": "refused"
    },
    "new_passed": []

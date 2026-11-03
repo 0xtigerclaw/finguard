@@ -5,27 +5,27 @@
   "calls": 67,
   "failed_calls": 0,
   "second_looks": {
-   "asked": 4,
+   "asked": 3,
    "replied": 0,
-   "not_saved": 4,
+   "not_saved": 3,
    "failed": 0
   },
   "true_numbers": 62,
   "true_exact": {
-   "match": 58,
-   "refused": 4,
+   "match": 59,
+   "refused": 3,
    "wrong": 0
   },
   "true_natural": {
-   "match": 58,
-   "refused": 4,
+   "match": 59,
+   "refused": 3,
    "wrong": 0
   },
-  "right_cell": 58,
+  "right_cell": 59,
   "false_numbers": 575,
   "false_passed": 0,
-  "false_called_wrong": 419,
-  "false_refused": 156,
+  "false_called_wrong": 426,
+  "false_refused": 149,
   "old_false_by_class": {
    "flipped": {
     "match": 0,
@@ -34,23 +34,23 @@
    },
    "last_digit": {
     "match": 0,
-    "refused": 4,
-    "wrong": 58
+    "refused": 3,
+    "wrong": 59
    },
    "other_column_0": {
     "match": 0,
-    "refused": 4,
-    "wrong": 58
+    "refused": 3,
+    "wrong": 59
    },
    "other_column_1": {
     "match": 0,
-    "refused": 4,
-    "wrong": 52
+    "refused": 3,
+    "wrong": 53
    },
    "other_column_2": {
     "match": 0,
-    "refused": 4,
-    "wrong": 46
+    "refused": 3,
+    "wrong": 47
    },
    "other_column_3": {
     "match": 0,
@@ -64,18 +64,18 @@
    },
    "ten_percent_more": {
     "match": 0,
-    "refused": 4,
-    "wrong": 58
+    "refused": 3,
+    "wrong": 59
    },
    "ten_times": {
     "match": 0,
-    "refused": 4,
-    "wrong": 58
+    "refused": 3,
+    "wrong": 59
    },
    "wrong_currency": {
     "match": 0,
-    "refused": 4,
-    "wrong": 55
+    "refused": 3,
+    "wrong": 56
    },
    "wrong_period": {
     "match": 0,
@@ -88,59 +88,59 @@
     "wrong": 0
    }
   },
-  "new_false_numbers": 1269,
+  "new_false_numbers": 1295,
   "new_false_passed": 0,
-  "new_false_called_wrong": 340,
-  "new_false_refused": 929,
+  "new_false_called_wrong": 349,
+  "new_false_refused": 946,
   "new_false_by_class": {
    "another_row_name": {
     "match": 0,
-    "refused": 58,
+    "refused": 59,
     "wrong": 0
    },
    "currency_canadian": {
     "match": 0,
     "refused": 0,
-    "wrong": 55
+    "wrong": 56
    },
    "currency_code": {
     "match": 0,
     "refused": 0,
-    "wrong": 55
+    "wrong": 56
    },
    "currency_pound": {
     "match": 0,
     "refused": 0,
-    "wrong": 55
+    "wrong": 56
    },
    "currency_yen": {
     "match": 0,
     "refused": 0,
-    "wrong": 55
+    "wrong": 56
    },
    "loss_on_a_positive_row": {
     "match": 0,
-    "refused": 32,
+    "refused": 33,
     "wrong": 0
    },
    "memo_says_a_bound": {
     "match": 0,
-    "refused": 58,
+    "refused": 59,
     "wrong": 0
    },
    "memo_says_a_forecast": {
     "match": 0,
-    "refused": 58,
+    "refused": 59,
     "wrong": 0
    },
    "memo_says_fiscal": {
     "match": 0,
-    "refused": 53,
+    "refused": 54,
     "wrong": 0
    },
    "memo_says_growth": {
     "match": 0,
-    "refused": 58,
+    "refused": 59,
     "wrong": 0
    },
    "memo_says_other_date": {
@@ -155,22 +155,22 @@
    },
    "memo_says_other_quarter": {
     "match": 0,
-    "refused": 14,
+    "refused": 15,
     "wrong": 0
    },
    "money_as_percent": {
     "match": 0,
     "refused": 0,
-    "wrong": 55
+    "wrong": 56
    },
    "no_currency": {
     "match": 0,
-    "refused": 55,
+    "refused": 56,
     "wrong": 0
    },
    "opposite_word": {
     "match": 0,
-    "refused": 22,
+    "refused": 23,
     "wrong": 0
    },
    "percent_as_money": {
@@ -180,7 +180,7 @@
    },
    "qualifier_added": {
     "match": 0,
-    "refused": 56,
+    "refused": 57,
     "wrong": 0
    },
    "qualifier_dropped": {
@@ -195,12 +195,12 @@
    },
    "sign_flipped": {
     "match": 0,
-    "refused": 43,
+    "refused": 44,
     "wrong": 0
    },
    "thousands_for_millions": {
     "match": 0,
-    "refused": 54,
+    "refused": 55,
     "wrong": 0
    },
    "unsigned_on_a_negative_row": {
@@ -210,47 +210,47 @@
    },
    "wrong_cell_next_column": {
     "match": 0,
-    "refused": 26,
+    "refused": 27,
     "wrong": 0
    },
    "wrong_cell_next_column_own_label": {
     "match": 0,
-    "refused": 26,
+    "refused": 27,
     "wrong": 0
    },
    "wrong_cell_next_row": {
     "match": 0,
-    "refused": 27,
-    "wrong": 27
+    "refused": 26,
+    "wrong": 29
    },
    "wrong_cell_next_row_own_label": {
     "match": 0,
-    "refused": 54,
+    "refused": 55,
     "wrong": 0
    },
    "wrong_cell_previous_column": {
     "match": 0,
-    "refused": 57,
+    "refused": 58,
     "wrong": 0
    },
    "wrong_cell_previous_column_own_label": {
     "match": 0,
-    "refused": 57,
+    "refused": 58,
     "wrong": 0
    },
    "wrong_cell_previous_row": {
     "match": 0,
-    "refused": 12,
-    "wrong": 35
+    "refused": 11,
+    "wrong": 37
    },
    "wrong_cell_previous_row_own_label": {
     "match": 0,
-    "refused": 47,
+    "refused": 48,
     "wrong": 0
    },
    "zero": {
     "match": 0,
-    "refused": 9,
+    "refused": 10,
     "wrong": 0
    }
   },
@@ -268,10 +268,10 @@
    },
    "NBIS-Q2-2026.pdf": {
     "true": 17,
-    "matched": 15
+    "matched": 16
    }
   },
-  "engine_sha256": "ebe34ac154960ace1a845105140ade211f284d71468184eda3a0be20e36dff38",
+  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -1648,9 +1648,9 @@
     "loss_on_a_positive_row": "refused",
     "wrong_cell_previous_column": "refused",
     "wrong_cell_previous_column_own_label": "refused",
-    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row": "wrong",
     "wrong_cell_next_row_own_label": "refused",
-    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row": "wrong",
     "wrong_cell_previous_row_own_label": "refused"
    },
    "new_passed": []
@@ -1972,7 +1972,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Revenues\", and 0 numbers there fit its box, so the source is not clear.",
+   "why": "Muse pointed to the row \"Revenues\", and 2 numbers there fit its box, so the source is not clear.",
    "right_cell": false,
    "muse_box": [
     740,
@@ -2263,31 +2263,63 @@
    "printed": "24.1",
    "error": null,
    "true": {
-    "exact": "refused",
-    "natural": "refused"
+    "exact": "match",
+    "natural": "match"
    },
-   "why": "Muse pointed to the row \"Interest income\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The filing shows $24.1m (printed as 24.1) in the row Interest income, under Three months ended June 30, 2026.",
+   "right_cell": true,
    "muse_box": [
     645,
     275,
     685,
     290
    ],
-   "box": [],
+   "box": [
+    686,
+    267,
+    712,
+    278
+   ],
    "page": 6,
    "false": {
-    "ten_times": "refused",
-    "ten_percent_more": "refused",
-    "last_digit": "refused",
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
     "wrong_year": "refused",
     "wrong_period": "refused",
-    "wrong_currency": "refused",
-    "other_column_0": "refused",
-    "other_column_1": "refused",
-    "other_column_2": "refused"
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
    },
-   "new_false": {},
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "zero": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
    "new_passed": []
   },
   {
