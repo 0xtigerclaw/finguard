@@ -1,0 +1,538 @@
+{
+ "note": "Each printed value was read against the rendered statement page image. Metrics in 'absent' appear nowhere in that filing's text.",
+ "present": [
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Revenue",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "16,286",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Revenue",
+   "period_kind": "full_year",
+   "period_year": 2025,
+   "printed": "4,585",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Compute and infrastructure",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "8,945",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Personnel",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "3,152",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Sales, marketing, and partnerships",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "3,168",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Other operating and administrative",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "1,714",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Total operating expenses",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "16,979",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Operating loss",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(693)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Operating loss",
+   "period_kind": "full_year",
+   "period_year": 2025,
+   "printed": "(8,060)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Interest income",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "1,111",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Loss before provision for income taxes",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(80,727)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net loss",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(80,748)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net loss",
+   "period_kind": "full_year",
+   "period_year": 2025,
+   "printed": "(41,965)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net loss per share",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(39.88)",
+   "direction": "loss"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Cash and cash equivalents",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "112,389",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "147,358",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2025,
+   "printed": "24,661",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "117,467",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Convertible notes payable",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "108,566",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net cash provided by operating activities",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "3,929",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Purchases of property and equipment",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(482)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net cash used in investing activities",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(17,181)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Net cash provided by financing activities",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "110,774",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Stock-based compensation expense",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "2,185",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Adjusted Operating Income",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "1,618",
+   "direction": "gain"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Adjusted Operating Margin",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "10%",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Operating margin",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(4)%",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "582.3",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "981.3",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Total operating costs and expenses",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "758.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Total operating costs and expenses",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "1,285.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Loss from operations",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(175.9)",
+   "direction": "loss"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Loss from operations",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(303.9)",
+   "direction": "loss"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Interest income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "24.1",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Net income / (loss)",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(190.4)",
+   "direction": "loss"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Net income / (loss)",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "430.8",
+   "direction": "gain"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Net cash provided by operating activities",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "4,504.1",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Purchases of property and equipment and intangible assets",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(8,130.3)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Net cash used in investing activities",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "(8,288.8)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Cash and cash equivalents",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "8,042.1",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "27,961.5",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2025,
+   "printed": "12,430.6",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "17,621.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Debt, non-current",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "8,499.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Total net sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "11,662.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Total net sales",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "29,755.4",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Net system sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "8,373.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Net service and field option sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "3,288.8",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Gross profit",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "6,699.8",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Gross profit",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "16,380.3",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Research and development costs",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(1,174.4)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Selling, general and administrative costs",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(352.6)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Income from operations",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "5,172.8",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Income from operations",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "11,786.8",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "4,960.4",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "10,634.7",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Basic net income per ordinary share",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "12.95",
+   "direction": "gain"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Gross margin",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "57.5%",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "58,981.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "36,917.3",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Long-term debt",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "1,963.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Inventories",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "11,907.3",
+   "direction": "neutral"
+  }
+ ],
+ "absent": [
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Free cash flow",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "value": "$1.0bn"
+  },
+  {
+   "filing": "ANTH-S1-2026.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "value": "$1.0bn"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Net system sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$100.0m"
+  },
+  {
+   "filing": "NBIS-Q2-2026.pdf",
+   "metric": "Free cash flow",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$100.0m"
+  },
+  {
+   "filing": "ASML-Q3-2026.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "\u20ac1.0bn"
+  }
+ ]
+}

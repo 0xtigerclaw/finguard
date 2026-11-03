@@ -1,0 +1,10 @@
+{
+ "question": "Did Anthropic make money in the first half of 2026?",
+ "memo": "No, Anthropic did not make money, reporting Net loss of $80,748m for the six months ended June 30, 2026.",
+ "counts": {
+  "match": 1,
+  "wrong": 0,
+  "refused": 0,
+  "unchecked": 0
+ }
+}

@@ -1,0 +1,10 @@
+{
+ "question": "How did Nebius do in the second quarter of 2026?",
+ "memo": "Nebius reported strong top-line growth with continued losses in the quarter. Revenues were $582.3m for the three months ended June 30, 2026. Adjusted EBITDA was $236.2m for the three months ended June 30, 2026. Net loss from continuing operations was $190.4m for the three months ended June 30, 2026. Total operating costs and expenses were $758.2m for the three months ended June 30, 2026.",
+ "counts": {
+  "match": 3,
+  "wrong": 0,
+  "refused": 1,
+  "unchecked": 0
+ }
+}

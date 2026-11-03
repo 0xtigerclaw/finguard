@@ -17,5 +17,23 @@
     "url": "https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm",
     "original_sha256": "2fa24ae7704dbb535d096ee7459b765fe899ac9118762e738183a94473c9905a",
     "sha256": "e2647e725fe1531154e0f762d486a27d501948ea4faf75dda13014408e02aebd"
+  },
+  "heldout/ASML-Q2-2026.pdf": {
+    "company": "ASML",
+    "document": "Q2 2026 financial statements, US GAAP",
+    "url": "https://www.investor.asml.com/static-files/5dc79e92-9e59-4a06-af63-22eb4408af16",
+    "sha256": "71717aab1e6c76eaac0eb64d2c54f02954d0e162429d4f3b7fca4e188375cf3f"
+  },
+  "heldout/NBIS-Q1-2026.pdf": {
+    "company": "Nebius",
+    "document": "Q1 2026 results",
+    "url": "https://assets.nebius.com/assets/6fc0ea6c-0884-4a1f-bed8-1f797eb9628f/Financial%20results_Q1%202026.pdf",
+    "sha256": "72d293b8d9c16dd33c6a12864a03dac391bbd52430d0619d69cae2951b83c7b9"
+  },
+  "heldout/NVDA-Q2-FY2027.pdf": {
+    "company": "NVIDIA",
+    "document": "Q2 fiscal 2027 results press release, turned into a PDF",
+    "sha256": "06b4d43f227464aed166c9e53dba1812824a5c2e60164e43d64573dd57b445e5",
+    "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/default.aspx"
   }
 }

@@ -14,7 +14,7 @@ from decimal import Decimal
 from .errors import MuseError
 from .figures import Figure, money, numbers_in_memo, read_figure, same_size
 from .muse import Muse, image_part
-from .page import Filing, squeeze
+from .page import QUALIFIERS, Filing, row_names
 from .record import Run
 
 MAX_PAGES = 6
@@ -148,11 +148,26 @@ def candidate_pages(filing: Filing, claim: Claim, limit: int = MAX_PAGES) -> lis
 
 def _period_fits(column: str, claim: Claim) -> bool:
     low = column.lower()
-    if str(claim.period_year) not in low:
+    years = re.findall(r"\b(?:19|20)\d{2}\b", low)
+    if not years or years[-1] != str(claim.period_year):  # the column's own year is the last one in its heading
         return False
     if claim.period_kind == "as_of":
         return "months" not in low and "year ended" not in low
     return any(w in low for w in _KIND_WORDS[claim.period_kind])
+
+
+_STATED = {
+    "quarter": r"\bquarter|three[- ]months?\b|\bq[1-4]\b",
+    "six_months": r"six[- ]months?\b|\bfirst half\b|\bsecond half\b|\bh[12]\b|\bhalf[- ]year",
+    "nine_months": r"nine[- ]months?\b",
+    "full_year": r"\bfull[- ]year\b|\bfiscal\b|\byear ended\b|\bannual\b|\bfy\b|\bin (?:19|20)\d{2}\b",
+    "as_of": r"\bas of\b|\bat (?:the end of|year[- ]end|\w+\.? \d)|\bon \w+\.? \d",
+}
+
+
+def period_stated(memo: str, claim: Claim) -> bool:
+    """True when the memo's own words give the period. Muse's reading of a vague memo does not count."""
+    return str(claim.period_year) in memo and bool(re.search(_STATED[claim.period_kind], memo, re.IGNORECASE))
 
 
 def _money_unit_problem(figure: Figure, filing: Filing, page: int) -> str | None:
@@ -206,21 +221,25 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int]) -> Rec
     if cell is None:
         return refuse("The number in the box could not be read.", page=page, muse_box=box)
     where = dict(page=page, box=filing.points_to_grid(page, cell.rect), muse_box=box, source_text=cell.text,
-                 row=cell.row, column=cell.column)
+                 row=row_label, column=cell.column)  # numbers_near confirmed the page prints this name
 
+    if (QUALIFIERS & _words(cell.row)) != (QUALIFIERS & _words(claim.metric)):
+        return refuse(f'The row "{cell.row}" and the claim "{claim.metric}" are not the same measure: '
+                      "one is adjusted and the other is not.", **where)
     if not _words(claim.metric) & _words(cell.row):
         return refuse(f'The row "{cell.row}" does not plainly name "{claim.metric}".', **where)
     if not _period_fits(cell.column, claim):
         return refuse(f'The column "{cell.column}" is not {claim.period_kind} {claim.period_year}.', **where)
 
-    if figure.percent != cell.percent:
+    is_percent = cell.percent or "percentage" in cell.row.lower()
+    if figure.percent != is_percent:
         return Receipt(WRONG, f"One side is a percentage and the other is not: the filing shows {cell.text}.",
                        **base, **where)
     if figure.percent:
         amount = cell.amount
     else:
         row = cell.row.lower()
-        per_share = "per share" in row
+        per_share = bool(re.search(r"\bper\b.*\bshare\b", row))
         if "share" in row and not per_share and "compensation" not in row and "based" not in row:
             return refuse("Share counts use different units from money on this page.", **where)
         scale = 0 if per_share else filing.scale(page)
@@ -238,8 +257,9 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int]) -> Rec
                        **base, **where)
     source_direction = _direction_of(cell.row, cell.negative)
     if claim.direction != "neutral" and source_direction != "neutral" and claim.direction != source_direction:
-        return Receipt(WRONG, f"The size matches, but the memo calls it a {claim.direction} and the filing shows a "
-                              f"{source_direction}: {printed} in the row {cell.row}.", **base, **where)
+        said_as = {"gain": "a profit", "loss": "a loss"}
+        return Receipt(WRONG, f"The size matches, but the memo calls it {said_as[claim.direction]} and the filing shows "
+                              f"{said_as[source_direction]}: {printed} in the row {cell.row}.", **base, **where)
     return Receipt(MATCH, f"The filing shows {printed} in the row {cell.row}, under {cell.column}.", **base, **where)
 
 
@@ -251,8 +271,10 @@ def locate(claim: Claim, filing: Filing, pages: list[int], muse: Muse) -> dict:
                     "MetricLocation", LOCATE_SCHEMA)
 
 
-def _check_one(claim: Claim, filing: Filing, pages: list[int], muse: Muse) -> Receipt:
+def _check_one(memo: str, claim: Claim, filing: Filing, pages: list[int], muse: Muse) -> Receipt:
     base = (claim.value_text, claim.quote, claim.metric, filing.sha256)
+    if not period_stated(memo, claim):
+        return Receipt(REFUSED, "The memo does not say which period this number covers.", *base)
     if not pages:
         return Receipt(REFUSED, "No page in this filing mentions the metric for that year.", *base)
     try:
@@ -270,7 +292,7 @@ def check_memo(memo: str, filing: Filing, muse: Muse, run: Run) -> list[Receipt]
         for page in pages:
             filing.image(page)
     with ThreadPoolExecutor(MAX_AT_ONCE) as pool:
-        receipts = list(pool.map(lambda c, pages: _check_one(c, filing, pages, muse), claims, plans))
+        receipts = list(pool.map(lambda c, pages: _check_one(memo, c, filing, pages, muse), claims, plans))
     receipts += [Receipt(UNCHECKED, "This number was not checked. Muse did not list it as a claim.", text,
                          filing_sha256=filing.sha256) for text in skipped_numbers(memo, claims)]
     for receipt in receipts:

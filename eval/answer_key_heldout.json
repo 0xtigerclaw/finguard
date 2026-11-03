@@ -1,0 +1,276 @@
+{
+ "note": "Held out: these three filings were first used after the checking code was frozen. Each printed value was read against the rendered page image.",
+ "present": [
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Total net sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "9,326.5",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Total net sales",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "18,093.4",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Gross profit",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "5,035.4",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Research and development costs",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(1,276.6)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Income from operations",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "6,613.9",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "2,917.6",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "5,674.3",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Net system sales",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "12,844.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Income tax expense",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(609.6)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Diluted net income per ordinary share",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "7.58",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "399.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Total operating costs and expenses",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "527.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Loss from operations",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(128.0)",
+   "direction": "loss"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Interest income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "14.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Net income / (loss)",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "621.2",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Cash and cash equivalents",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "9,298.2",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "22,303.3",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2025,
+   "printed": "12,430.6",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "15,061.4",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Debt, non-current",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "8,432.0",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Revenue",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "96,221",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Revenue",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "177,837",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Revenue",
+   "period_kind": "quarter",
+   "period_year": 2025,
+   "printed": "46,743",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Cost of revenue",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "24,079",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Gross profit",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "72,142",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Research and development",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "7,054",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Operating income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "63,734",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Operating income",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "117,270",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Income tax expense",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "11,819",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "59,688",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Net income",
+   "period_kind": "six_months",
+   "period_year": 2026,
+   "printed": "118,010",
+   "direction": "gain"
+  }
+ ],
+ "absent": [
+  {
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$1.0bn"
+  },
+  {
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "metric": "Net system sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$100.0m"
+  },
+  {
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "\u20ac1.0bn"
+  }
+ ]
+}

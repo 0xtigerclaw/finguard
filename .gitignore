@@ -4,3 +4,7 @@ __pycache__/
 .env
 runs/
 .pytest_cache/
+state/
+*.egg-info/
+.worktrees/
+.env.local

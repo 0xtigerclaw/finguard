@@ -1,0 +1,10 @@
+{
+ "question": "How did ASML do in the third quarter of 2026?",
+ "memo": "In the three months ended September 27, 2026, total net sales were €11,662.0m, net income was €4,960.4m, and gross margin was 57.5%.",
+ "counts": {
+  "match": 3,
+  "wrong": 0,
+  "refused": 0,
+  "unchecked": 0
+ }
+}

@@ -1,0 +1,1827 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check · Finguard</title>
+<meta name="description" content="Every number in a memo gets a receipt from the filing, or a refusal.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23214d83' d='M4 2.5h16a1 1 0 0 1 1 1V21l-3-1.8-3 1.8-3-1.8L9 21l-3-1.8L3 21V3.500a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M7.500 10.500l3 3 6-6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f8fb;--ink:#172b46;--soft:#52627a;--line:#e2e8f0;--line-2:#b9c5d4;--white:#fff;
+  --navy:#214d83;--navy-deep:#173a66;--tint:#eaf0f8;--kick:#a93226;
+  --cream:#fdfbf6;--cream-line:#eadfca;
+  --match:#17694a;--match-bg:#e6f3ed;--wrong:#b3261e;--wrong-bg:#fbeae8;--refused:#855508;--refused-bg:#faf0dc;--slate:#4f5a65;--slate-bg:#edf0f3;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --top:56px;--focus:var(--navy);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px)}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+button,select,textarea,input{font:inherit;color:inherit}
+[hidden]{display:none!important}
+h1,h2,h3,p{margin:0}
+a{color:var(--navy)}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+h1:focus{outline:none}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* top bar */
+.skip{position:absolute;left:12px;top:-70px;z-index:40;background:var(--white);padding:10px 14px;min-height:44px;border:1px solid var(--line);border-radius:8px}
+.skip:focus{top:6px}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px 22px;min-height:var(--top);padding:0 24px;background:var(--white);border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--ink);text-decoration:none;min-height:44px;letter-spacing:-.01em}
+.brand svg{width:22px;height:22px;flex:none}
+.nav{display:flex;gap:2px}
+.nav a{display:flex;align-items:center;gap:6px;min-height:34px;padding:0 11px;border-radius:7px;font-size:13px;font-weight:600;color:var(--soft);text-decoration:none}
+.nav a:hover{background:var(--bg);color:var(--ink)}
+.nav a[aria-current=page]{color:var(--navy);background:var(--tint)}
+.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--kick);color:#fff;font-size:11px;font-weight:600}
+.model{margin-left:auto;font-size:12px;color:var(--soft);white-space:nowrap}
+.menu{display:none;margin-left:0;min-height:44px;padding:0 14px;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer}
+.menu svg{width:16px;height:16px}
+
+/* page */
+.wrap{max-width:1480px;margin:0 auto;padding:28px 24px 56px}
+.wrap.narrow{max-width:1120px}
+.kicker{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--kick);margin-bottom:6px}
+h1{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+h2{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.25;margin:0 0 10px}
+.head{margin-bottom:20px}
+.head>.linkish{display:inline-block;margin-bottom:10px}
+.lede{color:var(--soft);font-size:15.5px;line-height:1.45;margin-top:6px;max-width:64ch}
+.mono{font-family:var(--mono)}
+.small{font-size:14px;line-height:1.45}
+.soft{color:var(--soft)}
+.note{font-size:14px;color:var(--soft);line-height:1.45;margin-top:8px}
+.hash{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere;line-height:1.45}
+.section{margin-top:26px}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 12px}
+.tabs{display:flex;background:var(--white);border:1px solid var(--line-2);border-radius:8px;overflow:hidden;max-width:100%}
+.tabs button{background:none;border:0;border-right:1px solid var(--line);padding:6px 14px;font-size:13px;font-weight:600;color:var(--soft);cursor:pointer;min-height:38px}
+.tabs button:last-child{border-right:0}
+.tabs button:hover{color:var(--ink);background:var(--bg)}
+.tabs button[aria-pressed=true]{background:var(--tint);color:var(--navy)}
+.tabs button:focus-visible{outline-offset:-3px}
+.tabs button:disabled{cursor:not-allowed}
+.doc{font-size:12.5px;color:var(--soft);line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.chip{background:var(--white);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;min-height:34px;font-size:13px;color:var(--ink);cursor:pointer;line-height:1.25;text-align:left}
+.chip:hover{border-color:var(--navy);color:var(--navy)}
+.chip[aria-pressed=true]{border-color:var(--navy);background:var(--tint);color:var(--navy);font-weight:600}
+.memo-label{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12.5px;font-weight:600;color:var(--soft);margin-bottom:8px;min-height:24px}
+.linkish{background:none;border:0;padding:0;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:var(--navy);min-height:28px;text-align:left}
+.prompt{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 28px rgba(23,43,70,.08);padding:18px 20px 16px}
+.prompt textarea{display:block;width:100%;min-height:210px;border:0;border-radius:8px;background:none;padding:2px 0;font-size:15.5px;line-height:1.65;resize:vertical}
+.prompt textarea:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.prompt textarea::placeholder{color:#6b7a90}
+.prompt-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:flex-end;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
+.prompt-note{flex:1 1 220px;min-width:0}
+.field{width:100%;min-height:44px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;font-size:15px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;font-weight:600;font-size:14px;border-radius:8px;cursor:pointer;border:1px solid var(--line-2);background:var(--white);color:var(--ink);text-decoration:none;text-align:center;line-height:1.25}
+.btn:hover{border-color:var(--navy);color:var(--navy)}
+.btn.primary{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff}
+.btn.primary:hover{background:#102c50;border-color:#102c50;color:#fff}
+.btn.danger{background:var(--white);border-color:var(--wrong);color:var(--wrong)}
+.btn.danger:hover{background:var(--wrong-bg);color:var(--wrong)}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.go{display:flex;gap:12px 16px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.state{font-size:13.5px;line-height:1.45;color:var(--soft)}
+.state.bad{color:var(--wrong)}
+.state:empty{display:none}
+.hint{font-size:13px;line-height:1.45;color:var(--soft)}
+.fixrow{margin-top:14px}
+
+/* a live clock */
+.clock{display:flex;gap:6px 16px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:12px 16px;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:10px}
+.clock-time{font-weight:600;font-size:26px;line-height:1;font-variant-numeric:tabular-nums;min-width:3em;color:var(--navy)}
+.clock-stage{font-size:14px;font-weight:600;line-height:1.4;display:block}
+.clock-hint{font-size:13px;line-height:1.4;color:var(--soft);display:block;margin-top:2px}
+.clock>div{flex:1;min-width:190px}
+
+/* labels */
+.stamp{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;line-height:1.35;white-space:nowrap}
+.stamp.ink{color:var(--navy);background:var(--tint)}.stamp.soft{color:var(--soft);background:var(--slate-bg)}.stamp.red{color:var(--wrong);background:var(--wrong-bg)}.stamp.green{color:var(--match);background:var(--match-bg)}.stamp.amber{color:var(--refused);background:var(--refused-bg)}.stamp.slate{color:var(--slate);background:var(--slate-bg)}
+.stamp.big{font-size:12.5px;padding:5px 11px}
+.labels{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:baseline;justify-items:start;margin:0 0 12px;font-size:13.5px;line-height:1.4;color:var(--soft)}
+.labels.row{display:flex;flex-wrap:wrap}
+
+/* a figure in the memo */
+.memo{font-size:16px;line-height:2.1;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px 18px;white-space:pre-wrap;max-width:100%}
+.prompt .memo{background:none;border:0;padding:0;border-radius:0}
+.keep{white-space:nowrap}
+.fig{position:relative;display:inline-block;line-height:1.25;background:none;border:0;padding:0 2px;margin:0;font-family:inherit;font-size:1em;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;border-radius:3px}
+button.fig{cursor:pointer}
+button.fig::after{content:"";position:absolute;inset:-13px -4px}
+.fig.match{color:var(--match)}
+.fig.wrong{color:var(--wrong)}
+.fig.refused{color:var(--refused);border-bottom:2px dotted var(--refused)}
+.fig.unchecked{color:var(--slate);border-bottom:2px dashed var(--slate)}
+.fig[aria-pressed=true]{background:var(--tint)}
+.fig .tick{position:absolute;right:-8px;top:-10px;width:15px;height:13px;pointer-events:none}
+.fig .tick path{stroke:var(--match);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .35s ease-out forwards;animation-delay:var(--d,0s)}
+.fig .ring{position:absolute;left:-7px;top:-5px;width:calc(100% + 14px);height:calc(100% + 10px);pointer-events:none;overflow:visible}
+.fig .ring path{stroke:var(--wrong);stroke-width:1.8;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .55s cubic-bezier(.6,.1,.3,1) forwards;animation-delay:var(--d,0s)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.memo.quiet{font-size:15px;line-height:1.95}
+
+/* tally and release */
+.tally{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 8px;font-size:13.5px;color:var(--soft)}
+.tally b{font-size:24px;font-weight:600;margin-right:5px;font-variant-numeric:tabular-nums}
+.tally .match b{color:var(--match)}.tally .wrong b{color:var(--wrong)}.tally .refused b{color:var(--refused)}.tally .unchecked b{color:var(--slate)}
+.release{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:10px 0 4px;padding:12px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px}
+.release p{flex:1 1 240px;font-size:14.5px;line-height:1.4}
+.release.ok{border-color:#b5d6c6}
+
+/* table cards */
+.tcard{background:var(--white);border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
+.tcard-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.tcard-top h2,.tcard-top h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0;line-height:1.3}
+.tcard-aside{font-size:13px;color:var(--soft);margin-left:auto}
+.tcard-body{padding:14px 18px;font-size:14.5px}
+.tcard-body .kv{margin:0}
+.t,.ledger{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.4}
+.t th,.ledger th{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--soft);padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
+.t td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
+.ledger td{padding:5px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.t tr:last-child td,.ledger tr:last-child td{border-bottom:0}
+.t th:first-child,.t td:first-child,.ledger th:first-child,.ledger td:first-child{padding-left:18px}
+.t th:last-child,.t td:last-child,.ledger th:last-child,.ledger td:last-child{padding-right:18px}
+.t .m{font-family:var(--mono);font-size:12.5px}
+.t a.open{display:inline-flex;align-items:center;min-height:30px;font-size:13.5px;font-weight:600;text-underline-offset:3px}
+.ledger tbody tr{cursor:pointer}
+.ledger tbody tr:hover{background:var(--bg)}
+.ledger tr[aria-current=true]{background:var(--tint)}
+.pick{background:none;border:0;padding:6px 0;min-height:36px;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap;font-variant-numeric:tabular-nums}
+.num{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.sub{display:none;font-size:13px;color:var(--soft);line-height:1.25;padding-bottom:6px}
+.tag{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.tag.match{color:var(--match)}.tag.wrong{color:var(--wrong)}.tag.refused{color:var(--refused)}.tag.unchecked{color:var(--slate)}
+.foot{font-size:13.5px;line-height:1.5;color:var(--soft);margin-top:18px}
+.foot.record{font-size:12.5px;overflow-wrap:anywhere}
+
+/* two columns */
+.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.side{position:sticky;top:calc(var(--top) + 16px);display:flex;flex-direction:column;gap:12px;min-width:0}
+.side.has-proof{height:calc(100dvh - var(--top) - 32px)}
+
+/* the proof card */
+.proof{background:var(--white);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-height:0;flex:1 1 auto;overflow:hidden;box-shadow:0 2px 10px rgba(23,43,70,.05);scroll-margin-top:calc(var(--top) + 8px)}
+.card{padding:14px 18px 12px;border-bottom:1px solid var(--line);flex:none}
+.card .kicker-v{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.kicker-v.match{color:var(--match)}.kicker-v.wrong{color:var(--wrong)}.kicker-v.refused{color:var(--refused)}.kicker-v.unchecked{color:var(--slate)}
+.card .why{font-size:14.5px;line-height:1.4;margin-bottom:6px}
+.facts{font-size:12.5px;line-height:1.5;color:var(--soft)}
+.back{display:none;margin-top:10px}
+.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:12.5px;color:var(--ink);padding:7px 18px;border-bottom:1px solid var(--line);background:var(--white)}
+.legend i{display:inline-block;width:18px;height:10px;margin-right:6px;vertical-align:-1px}
+.legend .c{border:2px solid var(--wrong);background:rgba(179,38,30,.14)}.legend .g{border:2px solid var(--match);background:rgba(23,105,74,.14)}.legend .d{border:2px dashed #2979c9}
+.zoom{margin-left:auto;background:var(--white);border:1px solid var(--line-2);border-radius:7px;color:var(--navy);font-size:12.5px;font-weight:600;padding:4px 10px;min-height:30px;cursor:pointer}
+.zoom:hover{border-color:var(--navy)}
+.viewer{flex:1;overflow:auto;padding:14px;background:#eef2f7;min-height:200px}
+.page{position:relative;background:#fff;box-shadow:0 4px 18px rgba(23,43,70,.16);width:max(100%,1000px);line-height:0;animation:rise .28s ease-out}
+.page.fit{width:100%}
+.page img{width:100%;height:auto;display:block}
+@keyframes rise{from{transform:translateY(6px)}}
+.page-wait{font-size:13px;color:var(--soft);margin:0 0 10px;line-height:1.4}
+.box{position:absolute;pointer-events:none}
+.page:not(.ready) .box{display:none}
+.box.code{border:2px solid var(--wrong);background:rgba(179,38,30,.13);box-shadow:0 0 0 3px rgba(179,38,30,.16)}
+.box.code.match{border-color:var(--match);background:rgba(23,105,74,.13);box-shadow:0 0 0 3px rgba(23,105,74,.16)}
+.box.muse{border:2px dashed #2979c9}
+.empty{max-width:380px;margin:0 auto;text-align:center;color:var(--soft);padding:32px 16px;font-size:14.5px}
+.empty strong{display:block;font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);margin-bottom:6px}
+
+/* the cream timeline */
+.panel{background:var(--cream);border:1px solid var(--cream-line);border-radius:10px;padding:18px 20px 16px;flex:0 1 auto;min-height:0;overflow:auto}
+.panel-title{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.25;margin:0;padding-bottom:9px;border-bottom:2px solid var(--navy)}
+.panel-for{font-size:13px;color:var(--soft);margin-top:8px}
+.steps{list-style:none;margin:14px 0 0;padding:0}
+.step{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 12px;padding-bottom:16px}
+.step:last-child{padding-bottom:0}
+.step:not(:last-child)::before{content:"";position:absolute;left:14px;top:32px;bottom:2px;border-left:2px dotted #c9bda5}
+.step-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1.5px solid #c9bda5;background:var(--white);color:var(--soft);font-size:13px;font-weight:600}
+.step-name{font-weight:700;font-size:14.5px;line-height:1.3;padding-top:4px}
+.step-text{font-size:14px;line-height:1.4;color:var(--soft)}
+.step-value{font-size:13.5px;line-height:1.4;color:var(--ink);margin-top:2px}
+.step-value.code{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere}
+.step.on .step-mark{background:var(--navy);border-color:var(--navy);color:#fff}
+.step.on.match .step-mark{background:var(--match);border-color:var(--match)}
+.step.on.wrong .step-mark{background:var(--wrong);border-color:var(--wrong)}
+.step.on.refused .step-mark{background:var(--refused);border-color:var(--refused)}
+.step.on.unchecked .step-mark{background:var(--slate);border-color:var(--slate)}
+.step.on.match .step-value{color:var(--match);font-weight:600}
+.step.on.wrong .step-value{color:var(--wrong);font-weight:600}
+.step.on.refused .step-value{color:var(--refused);font-weight:600}
+.step.on.unchecked .step-value{color:var(--slate);font-weight:600}
+.step.on:not(:last-child)::before{border-left-color:var(--navy)}
+
+/* how it works */
+.how{margin-top:36px}
+.how-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.how-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.how-card b{display:block;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--kick);margin-bottom:6px}
+.how-card p{font-size:14.5px;line-height:1.45}
+
+/* messages */
+.msg{padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px;font-size:14.5px;line-height:1.45;margin:10px 0}
+.msg.bad{border-color:#e6b5b1;background:var(--wrong-bg);color:var(--wrong)}
+.msg .btn{margin-top:10px}
+.tcard .msg{border:0;border-radius:0;margin:0;background:none}
+
+/* approvals */
+.operator{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:end;max-width:640px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:12px;margin-bottom:6px}
+.operator.off{display:block}
+.operator label{font-size:12.5px;font-weight:600;color:var(--soft);display:block;margin-bottom:4px}
+.operator p{grid-column:1/-1;font-size:13.5px;line-height:1.4;color:var(--soft)}
+.slip{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(23,43,70,.05);padding:16px 18px;margin:12px 0 16px}
+.slip-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:8px}
+.slip-top .cap{font-weight:700;font-size:15px}
+.slip-top .when{font-size:13.5px;color:var(--soft);margin-left:auto}
+.label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin:14px 0 6px;display:block}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:0;font-size:14.5px;line-height:1.4}
+.kv dt{font-size:13px;color:var(--soft)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.bound{border-left:3px solid var(--navy);padding:2px 0 2px 12px;margin-top:6px}
+.decide{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.decide .field{flex:1 1 240px;width:auto}
+.tiny-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;line-height:1.35}
+.tiny-table th{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--soft);padding:4px 8px 6px 0;border-bottom:1px solid var(--line)}
+.tiny-table td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12.5px;vertical-align:baseline}
+.tiny-table td .tag{font-family:var(--sans)}
+
+/* record */
+.chain{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:4px 0}
+.tag-step{font-family:var(--mono);font-size:12.5px;font-weight:600}
+
+/* rules */
+.counts{display:flex;flex-wrap:wrap;gap:6px 24px;font-size:13px;color:var(--soft)}
+.counts b{font-size:20px;font-weight:600;margin-right:5px;color:var(--ink)}
+.rule-name{font-weight:700;font-size:14.5px;display:block}
+.rule-area{font-family:var(--mono);font-size:12px;color:var(--soft);display:block;margin-top:2px}
+.rule-val{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.rule-val.yes{color:var(--wrong);font-weight:600}
+.rule-val.act{color:var(--wrong);font-weight:600}
+
+/* score */
+.headline{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.headline p{font-size:15.5px;line-height:1.5}
+.headline p+p{margin-top:6px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:0 0 8px}
+.tile{padding:14px 18px;background:var(--white);border:1px solid var(--line);border-radius:12px}
+.tile b{display:block;font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.01em;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile b small{font-size:18px;font-weight:600;letter-spacing:0;color:var(--soft)}
+.tile span{display:block;font-size:14px;line-height:1.35;margin-top:4px;color:var(--soft)}
+.barblock{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-top:14px}
+.barblock h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
+.bar{display:flex;gap:2px;height:12px;margin:10px 0 8px}
+.bar i{display:block;height:100%;min-width:3px}
+.bar i:first-child{border-radius:4px 0 0 4px}.bar i:last-child{border-radius:0 4px 4px 0}.bar i:only-child{border-radius:4px}
+.bar .match{background:var(--match)}.bar .wrong{background:var(--wrong)}.bar .refused{background:#c98f22}.bar .passed{background:var(--ink)}
+.barkey{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:14px;line-height:1.35}
+.barkey i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.barkey b{font-size:14px;font-weight:700;margin-right:4px;font-variant-numeric:tabular-nums}
+.barkey .match{background:var(--match)}.barkey .wrong{background:var(--wrong)}.barkey .refused{background:#c98f22}.barkey .passed{background:var(--ink)}
+.meter{height:7px;background:var(--line);border-radius:4px;overflow:hidden;min-width:70px;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--match)}
+
+.skeleton{font-size:13.5px;color:var(--soft);padding:12px 0}
+.tcard .skeleton{padding:14px 18px}
+.skeleton::after{content:"";display:inline-block;width:7px;height:7px;background:var(--navy);border-radius:50%;margin-left:8px;animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+@media (min-width:1100px){
+  .has-proof .panel{max-height:46%;flex:0 0 auto}
+  .has-proof .step.on .step-text{display:none}
+  .has-proof .step{padding-bottom:6px;grid-template-columns:24px minmax(0,1fr)}
+  .has-proof .step:not(:last-child)::before{left:11px;top:26px}
+  .has-proof .step-mark{width:24px;height:24px;font-size:12px}
+  .has-proof .step-name{padding-top:2px;font-size:14px}
+  .has-proof .steps{margin-top:8px}
+  .has-proof .panel{padding:10px 16px}
+  .has-proof .panel-title{font-size:17px;padding-bottom:6px}
+  .has-proof .panel-for{display:none}
+}
+@media (max-width:1099px){
+  .bench{grid-template-columns:minmax(0,1fr);gap:20px}
+  .side{position:static}
+  .side.has-proof{height:auto}
+  .viewer{max-height:72vh}
+  .back{display:inline-flex}
+  .how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .top{flex-wrap:wrap;padding:6px 14px}
+  .menu{display:inline-flex;order:3}
+  .model{order:2}
+  .nav{display:none;order:4;width:100%;flex-direction:column;padding:4px 0 8px}
+  .nav.open{display:flex}
+  .nav a{min-height:44px;font-size:14px}
+}
+@media (max-width:760px){
+  body{font-size:15px}
+  .wrap{padding:20px 16px 44px}
+  h1{font-size:30px}
+  .tabs{width:100%}
+  .tabs button{flex:1 1 0;min-height:44px;padding:5px 4px;min-width:0}
+  .chip{min-height:44px;padding:8px 14px}
+  .linkish{min-height:44px}
+  .btn{min-height:44px}
+  .prompt{padding:14px 14px 12px}
+  .prompt textarea{font-size:16px}
+  .prompt-foot .btn{width:100%}
+  .memo{font-size:16px;line-height:2.8}
+  .prompt .memo{line-height:2.8}
+  .memo.quiet{line-height:2.1;font-size:15px}
+  .ledger td{padding:2px 8px}
+  .ledger th{padding:8px}
+  .ledger th:first-child,.ledger td:first-child{padding-left:14px}
+  .ledger th:last-child,.ledger td:last-child{padding-right:14px}
+  .ledger .col-row{display:none}
+  .pick{min-height:44px;min-width:44px;padding:10px 0 2px}
+  .sub{display:block}
+  .zoom{min-height:44px}
+  .legend{padding:8px 14px}
+  .card{padding:14px}
+  .operator{grid-template-columns:minmax(0,1fr)}
+  .operator .btn,.decide .btn,.fixrow .btn,.release .btn{width:100%}
+  .decide .field{flex-basis:100%}
+  .slip-top .when{margin-left:0;width:100%}
+  .how-grid{grid-template-columns:minmax(0,1fr)}
+  .t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .t,.t tbody{display:block}
+  .t tr{display:block;padding:10px 16px;border-bottom:1px solid var(--line)}
+  .t tr:last-child{border-bottom:0}
+  .t td,.t td:first-child,.t td:last-child{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:0 10px;padding:3px 0;border:0}
+  .t td.blank{display:none}
+  .t td::before{content:attr(data-label);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);padding-top:2px}
+  .t a.open{min-height:44px}
+  main a:not(.btn):not(.open){display:inline-flex;align-items:center;min-height:44px}
+  .tcard-aside{margin-left:0;width:100%}
+}
+@media (max-width:520px){
+  .model{display:none}
+  .menu{margin-left:auto}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .fig .ring path,.fig .tick path{stroke-dashoffset:0}
+}
+@media (forced-colors:active){
+  .nav a[aria-current=page]{outline:2px solid CanvasText}
+}
+</style>
+</head>
+<body>
+<a class="skip" id="skip" href="#/">Skip to the page</a>
+<div class="vh" id="announce" role="status"></div>
+<header class="top">
+  <a class="brand" href="#/check">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#214d83" d="M4 2.500h16a1 1 0 0 1 1 1V21l-3-1.800-3 1.800-3-1.800L9 21l-3-1.800L3 21V3.500a1 1 0 0 1 1-1z"/><path fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" d="M7.500 10.500l3 3 6-6"/></svg>
+    Finguard
+  </a>
+  <button class="menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M2 4h12M2 8h12M2 12h12"/></svg>
+    Menu
+  </button>
+  <nav class="nav" aria-label="Pages" id="nav">
+    <a href="#/check" data-r="check">Check</a>
+    <a href="#/draft" data-r="draft">Draft</a>
+    <a href="#/approvals" data-r="approvals">Approvals<span class="badge" id="pendingBadge" hidden></span></a>
+    <a href="#/record" data-r="record">Record</a>
+    <a href="#/rules" data-r="rules">Rules</a>
+    <a href="#/score" data-r="score">Score</a>
+  </nav>
+  <span class="model" id="modelName" hidden></span>
+</header>
+
+<main id="main">
+
+<!-- 1. Check -->
+<section class="view" id="v-check" hidden>
+  <div class="wrap">
+    <div class="bench">
+      <div class="col">
+        <header class="head">
+          <p class="kicker">Finance harness for Meta Muse</p>
+          <h1 tabindex="-1">Check a memo</h1>
+          <p class="lede">Every number gets a receipt from the filing, or a refusal.</p>
+        </header>
+        <div class="controls">
+          <div class="tabs" id="checkTabs" role="group" aria-label="Filing to check against"></div>
+          <span class="doc" id="checkDoc"></span>
+        </div>
+        <div class="chips" id="checkChips" role="group" aria-label="Saved memos for this filing"></div>
+        <div class="prompt">
+          <div class="memo-label">
+            <label for="memoInput" id="memoLabel">Memo</label>
+            <button class="linkish" id="memoEdit" type="button" hidden>Edit memo</button>
+          </div>
+          <textarea id="memoInput" spellcheck="false" placeholder="Paste a memo with numbers from this filing."></textarea>
+          <div id="checkMemoSlot"></div>
+          <div class="prompt-foot" id="checkGo">
+            <div class="prompt-note">
+              <p class="hint" id="memoHint" hidden></p>
+              <p class="state" id="checkState" role="status"></p>
+            </div>
+            <button class="btn primary" id="checkRun" type="button">Check every number <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div class="clock" id="checkClock" hidden></div>
+        <div class="fixrow" id="checkFix" hidden></div>
+        <div id="checkResult"></div>
+      </div>
+      <aside class="side" id="checkDesk" aria-label="How the number was checked, and the proof"></aside>
+    </div>
+    <section class="how" aria-labelledby="howTitle">
+      <h2 id="howTitle">How it works</h2>
+      <div class="how-grid">
+        <div class="how-card"><b>LIST</b><p>Muse lists each claim in the memo. It copies the words exactly and does not fix anything.</p></div>
+        <div class="how-card"><b>POINT</b><p>Muse points to where the filing reports the metric. It is not told the memo's number, so it cannot lean toward it.</p></div>
+        <div class="how-card"><b>READ</b><p>Plain code reads the PDF's own text at that spot and gives the verdict. Muse never decides.</p></div>
+        <div class="how-card"><b>RELEASE</b><p>Only a memo where every number matches can be sent on. A person must approve it first.</p></div>
+      </div>
+      <p class="foot">Built for the Meta Global AI Developer Hackathon. <a href="https://github.com/0xtigerclaw/finguard">Source</a>.</p>
+    </section>
+  </div>
+</section>
+
+<!-- 2. Draft -->
+<section class="view" id="v-draft" hidden>
+  <div class="wrap">
+    <div class="bench">
+      <div class="col">
+        <header class="head">
+          <p class="kicker">Muse writes, code checks</p>
+          <h1 tabindex="-1">Ask for a draft</h1>
+          <p class="lede">Muse writes a short memo from the filing. Code then checks it like any other. Muse does not mark its own work.</p>
+        </header>
+        <div class="msg" id="draftMissing" hidden></div>
+        <div class="controls">
+          <div class="tabs" id="draftTabs" role="group" aria-label="Filing to ask about"></div>
+          <span class="doc" id="draftDoc"></span>
+        </div>
+        <div class="prompt">
+          <div class="memo-label"><label for="draftInput">Your question</label></div>
+          <textarea id="draftInput" style="min-height:96px" spellcheck="false" placeholder="Ask about this filing."></textarea>
+          <div class="prompt-foot">
+            <div class="prompt-note">
+              <p class="hint" id="draftHint" hidden></p>
+              <p class="state" id="draftState" role="status"></p>
+            </div>
+            <button class="btn primary" id="draftRun" type="button">Ask Muse <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+        <div class="clock" id="draftClock" hidden></div>
+        <div id="draftMemoSlot" style="margin-top:18px"></div>
+        <div id="draftResult"></div>
+      </div>
+      <aside class="side" id="draftDesk" aria-label="How the number was checked, and the proof"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Approvals -->
+<section class="view" id="v-approvals" hidden>
+  <div class="wrap narrow">
+    <header class="head">
+      <p class="kicker">A person releases</p>
+      <h1 tabindex="-1">Approvals</h1>
+      <p class="lede">Nothing is released until a person says yes. Each yes is tied to the exact content it saw.</p>
+    </header>
+    <div class="operator" id="operatorBox">
+      <div id="operatorField">
+        <label for="operatorToken">Operator token</label>
+        <input class="field" id="operatorToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true">
+      </div>
+      <button class="btn" id="operatorForget" type="button">Forget token</button>
+      <p id="operatorNote">Only the operator can approve or reject. The token stays in this page's memory. It is gone when you reload.</p>
+    </div>
+    <div id="approvalsBody"></div>
+  </div>
+</section>
+
+<!-- 4. Record -->
+<section class="view" id="v-record" hidden>
+  <div class="wrap narrow" id="recordList">
+    <header class="head">
+      <p class="kicker">Hash-chained ledger</p>
+      <h1 tabindex="-1">Record</h1>
+      <p class="lede">Every step goes on a ledger. Each line holds the hash of the line before, so a changed line breaks the chain.</p>
+    </header>
+    <div id="recordChain"></div>
+    <div id="recordRuns"></div>
+    <div id="recordReleases"></div>
+    <div id="recordLines"></div>
+  </div>
+  <div class="wrap narrow" id="recordRelease" hidden>
+    <div id="recordReleaseBody"></div>
+  </div>
+  <div class="wrap" id="recordRun" hidden>
+    <div class="bench">
+      <div class="col" id="recordRunSheet">
+        <div id="recordRunHead"></div>
+        <div id="recordRunMemoSlot" style="margin-top:14px"></div>
+        <div id="recordRunResult"></div>
+      </div>
+      <aside class="side" id="recordRunDesk" aria-label="How the number was checked, and the proof"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Rules -->
+<section class="view" id="v-rules" hidden>
+  <div class="wrap narrow">
+    <header class="head">
+      <p class="kicker">Plugins and capabilities</p>
+      <h1 tabindex="-1">Rules</h1>
+      <p class="lede">Each row is one capability, declared by a plugin in code. It states if it reads or acts, if a person must approve, and how code checks the result. The page and the command line use the same door.</p>
+    </header>
+    <div id="rulesBody"></div>
+    <p class="note">The program will not start if an action has no person approval, or if a capability does not say how it is checked.</p>
+  </div>
+</section>
+
+<!-- 6. Score -->
+<section class="view" id="v-score" hidden>
+  <div class="wrap narrow">
+    <header class="head">
+      <p class="kicker">Measured on known answers</p>
+      <h1 tabindex="-1">Score</h1>
+      <p class="lede">What the checker did on numbers we already knew the answer to.</p>
+    </header>
+    <div id="scoreBody"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+"use strict";
+/* Every value from the API or the memo goes in through text nodes. This file never sets innerHTML. */
+const $ = id => document.getElementById(id);
+function el(tag, cls, ...kids) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  for (const k of kids) if (k != null && k !== false) n.append(k);
+  return n;
+}
+const VERDICTS = ["match", "wrong", "refused", "unchecked"];
+const VERDICT = {match: "Matches the filing", wrong: "Wrong", refused: "Refused", unchecked: "Not checked"};
+const VERDICT_SHORT = {match: "match", wrong: "wrong", refused: "refused", unchecked: "not checked"};
+const verdictOf = r => VERDICTS.includes(r.verdict) ? r.verdict : "unchecked";
+const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const stacked = () => matchMedia("(max-width: 1099px)").matches;
+const short = (s, n = 12) => (s == null ? "" : String(s).slice(0, n));
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const isNum = v => typeof v === "number" && Number.isFinite(v);
+
+function when(v) {
+  if (v == null || v === "") return "";
+  const d = new Date(typeof v === "number" && v < 1e12 ? v * 1000 : v);
+  if (isNaN(d)) return String(v);
+  return d.toLocaleString("en-GB", {day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"});
+}
+
+/* ---------- talking to the server ---------- */
+class ApiError extends Error {
+  constructor(message, status, detail) { super(message); this.status = status; this.detail = detail; }
+}
+function statusWords(status) {
+  if (status === 404) return "The server does not have that.";
+  if (status === 403) return "That is not allowed without the operator.";
+  if (status === 422) return "The server turned that request away.";
+  if (status === 429) return "Too many requests. Try again later.";
+  if (status === 503) return "The server cannot do that right now.";
+  return "The server could not finish that.";
+}
+async function api(path, options) {
+  let res;
+  try { res = await fetch(path, options); }
+  catch { throw new ApiError("Could not reach the server. Check the connection and try again.", 0); }
+  let body = null;
+  try { body = await res.json(); } catch { /* handled below */ }
+  if (!res.ok) {
+    const d = body && body.detail;
+    throw new ApiError(typeof d === "string" && d ? d : statusWords(res.status), res.status, d);
+  }
+  if (body === null) throw new ApiError("The server sent something this page cannot read.", res.status);
+  return body;
+}
+const post = (path, body) => api(path, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+const door = (name, params, approval_id) => post(`/api/do/${encodeURIComponent(name)}`, approval_id ? {params, approval_id} : {params});
+const enc = encodeURIComponent;
+
+let START = null, RULES = null;
+async function loadStart() { if (!START) START = await api("/api/start"); return START; }
+async function loadRules() { if (!RULES) RULES = await api("/api/rules"); return RULES; }
+/* true, false, or null when we could not find out */
+async function hasCapability(name) {
+  try { const r = await loadRules(); return (r.capabilities || []).some(c => c.name === name); }
+  catch { return null; }
+}
+function setModel(model) {
+  if (!model) return;
+  const m = /^muse-spark-([\d.]+)$/i.exec(String(model));
+  const box = $("modelName");
+  box.textContent = m ? `Muse Spark ${m[1]} on Meta` : String(model);
+  box.hidden = false;
+}
+const filingById = id => (START && START.filings || []).find(f => f.id === id) || null;
+
+/* ---------- small shared pieces ---------- */
+function loading(box, words) { box.replaceChildren(el("p", "skeleton", words)); }
+function showError(box, words, retry) {
+  const m = el("div", "msg bad", el("span", "", words));
+  if (retry) {
+    const b = el("button", "btn", "Try again"); b.type = "button"; b.onclick = retry;
+    m.append(el("div", "", b));
+  }
+  box.replaceChildren(m);
+}
+function arrow() { const a = el("span", "", "→"); a.setAttribute("aria-hidden", "true"); return a; }
+function stamp(text, tone = "ink", big = false) { return el("span", `stamp ${tone}${big ? " big" : ""}`, text); }
+function linkTo(hash, text, cls) { const a = el("a", cls, text); a.href = hash; return a; }
+function kv(pairs) {
+  const d = el("dl", "kv");
+  for (const [k, v] of pairs) if (v != null && v !== "") d.append(el("dt", "", k), v instanceof Node ? el("dd", "", v) : el("dd", "", String(v)));
+  return d;
+}
+function cell(label, ...kids) {
+  const td = el("td", "", ...kids);
+  td.setAttribute("data-label", label);
+  if (!td.textContent.trim()) td.classList.add("blank");
+  return td;
+}
+function svg(cls, view, d, stretch) {
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("class", cls); s.setAttribute("viewBox", view); s.setAttribute("aria-hidden", "true");
+  if (stretch) s.setAttribute("preserveAspectRatio", "none");
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("d", d); if (stretch) p.setAttribute("pathLength", "1");
+  s.append(p); return s;
+}
+function pencil(node, verdict) {
+  if (verdict === "wrong") node.append(svg("ring", "0 0 100 40", "M 62 3 C 28 -1 3 7 3 20 C 3 33 30 39 58 37 C 84 35 98 28 97 18 C 96 7 74 1 48 3", true));
+  if (verdict === "match") node.append(svg("tick", "0 0 17 15", "M 2 8 L 6 13 L 15 2"));
+}
+function countOf(receipts) {
+  const c = {match: 0, wrong: 0, refused: 0, unchecked: 0};
+  for (const r of receipts) c[verdictOf(r)]++;
+  return c;
+}
+function tallyNode(receipts) {
+  const c = countOf(receipts), t = el("div", "tally");
+  for (const v of VERDICTS) {
+    if (!c[v] && (v === "refused" || v === "unchecked")) continue;
+    t.append(el("span", v, el("b", "", String(c[v])), VERDICT_SHORT[v]));
+  }
+  return t;
+}
+/* The memo with its numbers marked in place. With onPick the numbers are buttons. */
+function markedMemo(memo, receipts, onPick) {
+  const box = el("div", onPick ? "memo" : "memo quiet");
+  const text = String(memo || "");
+  const placed = receipts.map((r, i) => ({r, i}))
+    .filter(({r}) => Number.isInteger(r.start) && Number.isInteger(r.end) && r.start >= 0 && r.end > r.start && r.end <= text.length)
+    .sort((a, b) => a.r.start - b.r.start);
+  let at = 0, order = 0;
+  for (const {r, i} of placed) {
+    if (r.start < at) continue; // two receipts cannot mark the same words
+    box.append(text.slice(at, r.start));
+    const v = verdictOf(r), words = text.slice(r.start, r.end);
+    const mark = onPick ? el("button", `fig ${v}`, words) : el("span", `fig ${v}`, words);
+    mark.style.setProperty("--d", `${order * 0.12}s`); order++;
+    if (onPick) {
+      mark.type = "button"; mark.dataset.i = i;
+      mark.setAttribute("aria-label", `${words}: ${VERDICT[v]}`);
+      mark.setAttribute("aria-pressed", "false");
+      mark.onclick = () => onPick(i, true);
+    }
+    pencil(mark, v);
+    // Keep closing punctuation on the same line as its number.
+    const tail = (text.slice(r.end).match(/^[.,;:)]+/) || [""])[0];
+    box.append(el("span", "keep", mark, tail));
+    at = r.end + tail.length;
+  }
+  box.append(text.slice(at));
+  return box;
+}
+
+/* A live clock. The server does not report steps, so the stage says only what this page knows. */
+function startClock(box, stage, hint, slow) {
+  const began = Date.now();
+  const time = el("span", "clock-time", "0:00"); time.setAttribute("aria-hidden", "true");
+  const words = el("span", "clock-stage", stage); words.setAttribute("role", "status");
+  box.replaceChildren(time, el("div", "", words, hint ? el("span", "clock-hint", hint) : null));
+  box.hidden = false;
+  const tick = () => {
+    const s = Math.floor((Date.now() - began) / 1000);
+    time.textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+    if (slow && s >= slow.after && !box.dataset.slow) { box.dataset.slow = "1"; words.textContent = slow.words; }
+  };
+  const id = setInterval(tick, 1000);
+  return { stage(t) { words.textContent = t; }, stop() { clearInterval(id); box.hidden = true; delete box.dataset.slow; box.replaceChildren(); } };
+}
+
+/* While a live run is going, its record grows. This reads the real line count, and nothing else. */
+function watchRun(capability, clock, stageWords) {
+  const since = Date.now() - 60000;
+  let stopped = false, id = null, timer = null;
+  const look = async () => {
+    try {
+      if (!id) {
+        const {runs} = await api("/api/runs");
+        const mine = (runs || []).find(r => r.status === "running" && r.capability === capability && new Date(r.created_at).getTime() >= since);
+        if (mine) id = mine.run_id;
+      }
+      if (id) {
+        const run = await api(`/api/runs/${enc(id)}`);
+        const n = run.record && run.record.lines;
+        if (!stopped && run.status === "running" && isNum(n) && n > 0) clock.stage(`${stageWords} ${plural(n, "line", "lines")} on this run's record so far.`);
+      }
+    } catch { /* the clock keeps going; this line is a nicety */ }
+    if (!stopped) timer = setTimeout(look, 5000);
+  };
+  timer = setTimeout(look, 2000);
+  return () => { stopped = true; clearTimeout(timer); };
+}
+
+/* ---------- the proof desk and the receipts: one bench for Check, Draft and Record ---------- */
+function tcard(title, body, aside) {
+  const top = el("div", "tcard-top", el("h2", "", title), aside ? el("span", "tcard-aside", aside) : null);
+  const box = el("section", "tcard", top);
+  if (body) box.append(body);
+  return box;
+}
+const STEPS = [
+  ["Claims", "Muse lists the numbers."],
+  ["Pointer", "Muse points to the cell, and is not told the memo's number."],
+  ["Code", "Code reads the PDF's own text."],
+  ["Verdict", "A match, wrong, or a refusal."],
+  ["Person", "Nobody releases without a person."],
+];
+const hasBox = b => Array.isArray(b) && b.length === 4;
+/* What each step can truly say about one receipt. A step with no data stays null, and stays neutral. */
+function stepValues(r, person) {
+  const v = verdictOf(r);
+  const listed = r.quote || r.metric;
+  const page = Number.isInteger(r.page) ? `PDF page ${r.page + 1}, ` : "";
+  const where = [r.row, r.column].filter(Boolean).join(", ");
+  const verdictWords = {match: "Match", wrong: "Wrong", refused: "Refused", unchecked: "Not checked"}[v];
+  return [
+    listed ? {text: `${r.value_text || "A number"}${r.metric ? `, ${r.metric}` : ""}`} : null,
+    hasBox(r.muse_box) ? {text: `${page}box ${r.muse_box.map(n => Math.round(n)).join(", ")}`, code: true} : null,
+    r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null,
+    {text: `${verdictWords}${r.source_money ? `: the filing has ${r.source_money}` : ""}`, tone: v},
+    person ? {text: person} : null,
+  ];
+}
+function personWords(a) {
+  const who = WHO[a.decided_by] || a.decided_by || "";
+  if (a.status === "pending") return "Waiting for a person.";
+  if (a.status === "approved") return who ? `Approved by ${who.replace(/^The /, "the ")}.` : "Approved.";
+  if (a.status === "used") return who ? `Approved by ${who.replace(/^The /, "the ")}, and released.` : "Approved, and released.";
+  if (a.status === "rejected") return who ? `Rejected by ${who.replace(/^The /, "the ")}.` : "Rejected.";
+  return null;
+}
+function makeBench(memoSlot, resultSlot, desk) {
+  let receipts = [], selected = null, filingId = null, zoomFit = false, runId = null, person = null;
+  const card = el("div", "card"); card.setAttribute("aria-live", "polite");
+  const legend = el("div", "legend");
+  const viewer = el("div", "viewer");
+  viewer.tabIndex = 0; viewer.setAttribute("role", "region"); viewer.setAttribute("aria-label", "The filing page");
+  const proof = el("section", "proof", card, legend, viewer);
+  proof.setAttribute("aria-label", "Proof from the filing");
+  const forLine = el("p", "panel-for");
+  const list = el("ol", "steps");
+  const rows = STEPS.map(([name, sentence], i) => {
+    const value = el("p", "step-value");
+    const li = el("li", "step", el("span", "step-mark", String(i + 1)), el("div", "", el("p", "step-name", name), el("p", "step-text", sentence), value));
+    list.append(li);
+    return {li, value};
+  });
+  const panel = el("section", "panel", el("h2", "panel-title", "How each number is checked"), forLine, list);
+  desk.replaceChildren(proof, panel);
+
+  function drawSteps(r) {
+    const values = r ? stepValues(r, person) : STEPS.map(() => null);
+    rows.forEach(({li, value}, i) => {
+      const d = values[i];
+      li.className = d ? `step on${d.tone ? ` ${d.tone}` : ""}` : "step";
+      value.className = d && d.code ? "step-value code" : "step-value";
+      value.textContent = d ? d.text : "";
+      value.hidden = !d;
+    });
+    forLine.textContent = r ? `Showing ${r.value_text || "this number"}.` : "";
+    forLine.hidden = !r;
+  }
+  function emptyDesk() {
+    proof.hidden = true;
+    desk.classList.remove("has-proof");
+    drawSteps(null);
+  }
+  function clear() {
+    receipts = []; selected = null; runId = null; person = null;
+    memoSlot.replaceChildren(); resultSlot.replaceChildren();
+    emptyDesk();
+  }
+  async function loadPerson() {
+    const id = runId;
+    if (!id) return;
+    try {
+      const d = await api("/api/approvals");
+      if (id !== runId) return;
+      const a = (d.approvals || []).find(x => x.capability === "memo.release" && x.params && x.params.check_run_id === id);
+      person = a ? personWords(a) : null;
+      if (selected != null) drawSteps(receipts[selected]);
+    } catch { /* the step stays neutral: no data, no claim */ }
+  }
+  function select(i, byUser) {
+    selected = i;
+    const r = receipts[i];
+    memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
+    resultSlot.querySelectorAll("tbody tr[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); else t.removeAttribute("aria-current"); });
+    proof.hidden = false;
+    desk.classList.add("has-proof");
+    drawCard(r); drawPage(r); drawSteps(r);
+    if (byUser && stacked()) proof.scrollIntoView({block: "start"});
+  }
+  function drawCard(r) {
+    const v = verdictOf(r), f = filingById(filingId);
+    card.replaceChildren(el("p", `kicker-v ${v}`, `${r.value_text || "This number"}: ${VERDICT[v].toLowerCase()}`), el("p", "why", r.why || ""));
+    const facts = el("p", "facts");
+    const bits = [f ? `${f.company}, ${f.document}` : filingId];
+    if (Number.isInteger(r.page)) bits.push(`PDF page ${r.page + 1}`);
+    facts.append(bits.filter(Boolean).join(" · "));
+    if (r.filing_sha256) facts.append(" · sha256 ", el("span", "mono", short(r.filing_sha256)));
+    card.append(facts);
+    const back = el("button", "btn back", "Back to the memo"); back.type = "button";
+    back.onclick = () => {
+      const fig = memoSlot.querySelector(`.fig[data-i="${selected}"]`) || resultSlot.querySelector(`tr[data-i="${selected}"] .pick`);
+      if (fig) { fig.focus({preventScroll: true}); fig.scrollIntoView({block: "center"}); }
+    };
+    card.append(back);
+  }
+  function drawPage(r) {
+    viewer.replaceChildren();
+    legend.hidden = true;
+    if (!Number.isInteger(r.page) || !filingId) {
+      const v = verdictOf(r);
+      viewer.append(el("div", "empty",
+        el("strong", "", v === "unchecked" ? "No receipt." : "No source found."),
+        v === "unchecked" ? "Muse did not list this number as a claim, so nobody checked it." : "Finguard does not guess. This number has no page to show."));
+      return;
+    }
+    const ok = verdictOf(r) === "match";
+    legend.replaceChildren();
+    legend.hidden = false;
+    if (hasBox(r.box)) legend.append(el("span", "", el("i", ok ? "g" : "c"), "Code read this cell"));
+    if (hasBox(r.muse_box)) legend.append(el("span", "", el("i", "d"), "Muse pointed here"));
+    const zoom = el("button", "zoom", zoomFit ? "Zoom to the number" : "See the whole page"); zoom.type = "button";
+    legend.append(zoom);
+    const p = el("div", zoomFit ? "page fit" : "page");
+    const img = el("img");
+    img.alt = `Page ${r.page + 1} of the filing`;
+    img.onerror = () => { legend.hidden = true; viewer.replaceChildren(el("div", "empty", el("strong", "", "No page image."), "The filing page could not load. Try again in a moment.")); };
+    img.src = `/page/${enc(filingId)}/${r.page}.png`;
+    p.append(img);
+    const place = (b, cls, pad) => {
+      const o = el("div", `box ${cls}`);
+      o.style.left = `${b[0] / 10 - pad}%`; o.style.top = `${b[1] / 10 - pad / 2}%`;
+      o.style.width = `${(b[2] - b[0]) / 10 + 2 * pad}%`; o.style.height = `${(b[3] - b[1]) / 10 + pad}%`;
+      p.append(o); return o;
+    };
+    if (hasBox(r.muse_box)) place(r.muse_box, "muse", 0);
+    const target = hasBox(r.box) ? place(r.box, ok ? "code match" : "code", 0.4) : (hasBox(r.muse_box) ? p.querySelector(".box.muse") : null);
+    const wait = el("p", "page-wait", "Loading the filing page.");
+    if (!(img.complete && img.naturalWidth)) viewer.append(wait);
+    const ready = () => { wait.remove(); p.classList.add("ready"); };
+    if (img.complete && img.naturalWidth) ready(); else img.addEventListener("load", ready, {once: true});
+    viewer.append(p);
+    const reveal = () => {
+      if (!target || !viewer.clientHeight) return;
+      const t = target.getBoundingClientRect(), o = viewer.getBoundingClientRect();
+      viewer.scrollTo({
+        top: viewer.scrollTop + t.top - o.top - viewer.clientHeight * .42,
+        left: zoomFit ? 0 : viewer.scrollLeft + t.left - o.left - viewer.clientWidth * .62,
+      });
+    };
+    viewer._reveal = reveal;
+    if (img.complete && img.naturalWidth) reveal(); else img.addEventListener("load", reveal, {once: true});
+    zoom.onclick = () => {
+      zoomFit = !zoomFit;
+      p.classList.toggle("fit", zoomFit);
+      zoom.textContent = zoomFit ? "Zoom to the number" : "See the whole page";
+      if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else reveal();
+    };
+  }
+  function drawTable(box) {
+    const table = el("table", "ledger");
+    const head = el("tr", "", el("th", "", "Memo"), el("th", "", "Filing"), el("th", "col-row", "Row"), el("th", "", "Verdict"));
+    table.append(el("thead", "", head));
+    const rowsBody = el("tbody");
+    receipts.forEach((r, i) => {
+      const v = verdictOf(r);
+      const tr = el("tr"); tr.dataset.i = i;
+      const pick = el("button", "pick", r.value_text || "Number"); pick.type = "button";
+      pick.setAttribute("aria-label", `${r.value_text || "Number"}: ${VERDICT[v]}. Show the proof.`);
+      pick.onclick = e => { e.stopPropagation(); select(i, true); };
+      const rowName = r.row || r.metric || "";
+      tr.append(
+        el("td", "", pick, rowName ? el("span", "sub", rowName) : null),
+        el("td", "num", r.source_money || r.source_text || "none"),
+        el("td", "col-row", rowName),
+        el("td", "", el("span", `tag ${v}`, VERDICT_SHORT[v])));
+      tr.onclick = () => select(i, true);
+      rowsBody.append(tr);
+    });
+    table.append(rowsBody);
+    box.append(tcard("Receipts", table, plural(receipts.length, "number", "numbers")));
+  }
+  function drawRelease(box, holds) {
+    const c = countOf(receipts);
+    const row = el("div", "release");
+    box.append(row);
+    const blocked = why => { row.replaceChildren(stamp("Blocked", "red"), el("p", "", why)); };
+    const parts = [];
+    if (c.wrong) parts.push(`${plural(c.wrong, "number is", "numbers are")} wrong`);
+    if (c.refused) parts.push(`${plural(c.refused, "number was", "numbers were")} refused`);
+    if (c.unchecked) parts.push(`${plural(c.unchecked, "number was", "numbers were")} not checked`);
+    if (parts.length) return blocked(`Release is blocked: ${parts.join(", ")}. Every number must match the filing.`);
+    if (!receipts.length) return blocked("Release is blocked: this memo has no numbers with a receipt.");
+    if (holds === false) return blocked("Release is blocked: this run's record does not hold.");
+    if (!runId) return blocked("Release is blocked: this run has no id for an approval to bind to.");
+    row.classList.add("ok");
+    const go = el("button", "btn primary", "Request release ", arrow()); go.type = "button";
+    const note = el("p", "", "Every number matches. A person must approve before this memo leaves.");
+    row.replaceChildren(go, note);
+    go.onclick = async () => {
+      go.disabled = true; note.textContent = "Asking.";
+      try {
+        const out = await door("memo.release", {check_run_id: runId});
+        if (out.status === "needs_approval") {
+          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent for approval. Nothing is released until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
+          refreshPending();
+          loadPerson();
+        } else if (out.status === "done") {
+          row.replaceChildren(stamp("Released", "green"), el("p", "", "Released."));
+        } else {
+          go.disabled = false; note.textContent = out.why || "The request was turned away.";
+        }
+      } catch (e) { go.disabled = false; note.textContent = e.message; }
+    };
+  }
+  /* labels: the plain words that say what kind of run this is */
+  function render({memo, result, id, filing, labels = [], release = true, focusAfter = false}) {
+    receipts = Array.isArray(result.receipts) ? result.receipts : [];
+    runId = id || null; filingId = filing || result.filing || null; selected = null; person = null;
+    setModel(result.model);
+    const memoBox = markedMemo(memo, receipts, select);
+    memoSlot.replaceChildren(memoBox);
+    resultSlot.replaceChildren();
+    const lab = el("div", "labels");
+    for (const [s, tone, words] of labels) lab.append(stamp(s, tone), words ? el("span", "", words) : null);
+    if (labels.length) memoSlot.prepend(lab);
+    resultSlot.append(tallyNode(receipts));
+    const holds = result.record ? result.record.holds : undefined;
+    if (release) drawRelease(resultSlot, holds);
+    if (receipts.length) drawTable(resultSlot);
+    else resultSlot.append(el("p", "msg", "No numbers were found in this memo, so there is nothing to mark."));
+    const rec = result.record;
+    const bits = [];
+    if (result.model) bits.push(`Model ${result.model}.`);
+    if (rec) {
+      const n = rec.lines;
+      bits.push(`Record: ${isNum(n) ? plural(n, "line", "lines") + ", " : ""}chain ${rec.holds ? "holds" : "BROKEN"}${rec.last_hash ? `, ends ${short(rec.last_hash)}` : ""}.`);
+    }
+    if (result.filing_sha256) bits.push(`Filing fingerprint ${short(result.filing_sha256)}.`);
+    if (bits.length) resultSlot.append(el("p", "foot record", bits.join(" ")));
+    const first = receipts.find(r => verdictOf(r) === "wrong") || receipts[0];
+    if (first) select(receipts.indexOf(first), false); else emptyDesk();
+    loadPerson();
+    const c = countOf(receipts);
+    $("announce").textContent = `Checked. ${VERDICTS.filter(v => c[v]).map(v => `${c[v]} ${VERDICT_SHORT[v]}`).join(", ") || "No numbers found"}.`;
+    if (focusAfter) { const fig = memoSlot.querySelector('.fig[aria-pressed="true"]'); if (fig) fig.focus({preventScroll: true}); }
+  }
+  emptyDesk();
+  return {
+    render, clear,
+    onShow() { if (selected != null && viewer._reveal) viewer._reveal(); loadPerson(); },
+  };
+}
+
+function savedLabels(result, isTestMemo) {
+  const labels = [];
+  if (result.drafted_by_muse) labels.push(["Drafted by Muse", "ink", "Code checked it like any other memo."]);
+  if (isTestMemo) labels.push(["Errors planted", "amber", "Test memo, with errors planted on purpose."]);
+  if (result.saved) labels.push(["Saved replay", "slate", "Real Muse replies, saved earlier and played back. No API call was made."]);
+  else labels.push(["Live run", "green", result.model ? `Muse answered just now, on ${result.model}.` : "Muse answered just now."]);
+  return labels;
+}
+/* what an outcome from the door means as plain words, for anything but "done" */
+function outcomeWords(out) {
+  if (out.status === "refused") return out.why || "The server refused this.";
+  if (out.status === "failed") return out.why || "It could not finish.";
+  return out.why || "It could not finish.";
+}
+
+/* ---------- 1. Check ---------- */
+const check = {bench: null, filing: null, running: false, showingResult: false};
+function fillTabs(box, chosen, onPick) {
+  box.replaceChildren();
+  for (const f of START.filings) {
+    const b = el("button", "", f.company); b.type = "button"; b.dataset.id = f.id;
+    b.setAttribute("aria-pressed", String(f.id === chosen));
+    b.onclick = () => onPick(f);
+    box.append(b);
+  }
+}
+const markTabs = (box, id) => [...box.children].forEach(b => b.setAttribute("aria-pressed", String(b.dataset.id === id)));
+function docLine(f) {
+  const bits = [f.document];
+  if (isNum(f.pages)) bits.push(plural(f.pages, "page", "pages"));
+  if (f.sha256) bits.push(`sha256 ${short(f.sha256)}`);
+  return bits.join(" · ");
+}
+function drawCheckChips(f) {
+  const box = $("checkChips"), text = $("memoInput").value.trim();
+  box.replaceChildren();
+  const add = (words, memo) => {
+    if (!memo) return;
+    const b = el("button", "chip", words); b.type = "button";
+    b.setAttribute("aria-pressed", String(text === memo.trim()));
+    b.disabled = check.running;
+    b.onclick = () => { showCheckInput(memo); $("checkRun").focus(); };
+    box.append(b);
+  };
+  add("Test memo, errors planted", f.memo);
+  add("Corrected memo", f.corrected);
+  box.hidden = !box.children.length;
+}
+function chooseCheckFiling(f) {
+  check.filing = f;
+  markTabs($("checkTabs"), f.id);
+  $("checkDoc").textContent = docLine(f);
+  showCheckInput(f.memo || "");
+}
+function memoLabelFor(text) {
+  const f = check.filing;
+  if (f && f.memo && text.trim() === f.memo.trim()) return "Test memo, with errors planted on purpose";
+  if (f && f.corrected && text.trim() === f.corrected.trim()) return "The same memo, corrected";
+  return "Your memo";
+}
+function updateMemoHint() {
+  const f = check.filing, text = $("memoInput").value.trim(), hint = $("memoHint");
+  $("memoLabel").textContent = memoLabelFor($("memoInput").value);
+  hint.replaceChildren();
+  if (f) drawCheckChips(f);
+  if (!f || check.showingResult) { hint.hidden = true; return; }
+  if ((f.memo && text === f.memo.trim()) || (f.corrected && text === f.corrected.trim())) {
+    hint.append("Opens a saved replay of real Muse replies, with no API call.");
+  } else if (START && !START.live) {
+    hint.append("Live checks are off here, so a new memo cannot run. ");
+    if (f.memo) {
+      const back = el("button", "linkish", "Use the saved memo"); back.type = "button";
+      back.onclick = () => showCheckInput(f.memo);
+      hint.append(back);
+    }
+  } else {
+    hint.append("A new memo is a live check. It takes about two minutes.");
+  }
+  hint.hidden = false;
+}
+function showCheckInput(text) {
+  check.showingResult = false;
+  $("memoInput").value = text; $("memoInput").hidden = false;
+  $("memoEdit").hidden = true; $("checkGo").hidden = false;
+  $("checkState").textContent = ""; $("checkState").className = "state";
+  $("checkFix").hidden = true; $("checkFix").replaceChildren();
+  check.bench.clear();
+  updateMemoHint();
+}
+async function runCheck() {
+  if (check.running) return;
+  const f = check.filing, memo = $("memoInput").value.trim(), state = $("checkState");
+  state.className = "state"; state.textContent = "";
+  if (!f) return;
+  if (!memo) { state.textContent = "Paste a memo first."; state.className = "state bad"; $("memoInput").focus(); return; }
+  if (START && memo.length > START.max_memo) { state.textContent = `Keep the memo under ${START.max_memo.toLocaleString("en-GB")} characters.`; state.className = "state bad"; return; }
+  const isSaved = (f.memo && memo === f.memo.trim()) || (f.corrected && memo === f.corrected.trim());
+  check.running = true;
+  setCheckBusy(true);
+  const clock = startClock($("checkClock"),
+    isSaved ? "Stage: opening the saved replay." : "Stage: with Muse, then code.",
+    isSaved ? "No API call. This is a recording." : "Muse lists the claims and points to each metric. Code then reads each cell. Usually about two minutes.",
+    isSaved ? null : {after: 180, words: "Stage: with Muse, then code. Slower than usual."});
+  const unwatch = isSaved ? () => {} : watchRun("memo.check", clock, "Stage: with Muse, then code.");
+  try {
+    const out = await door("memo.check", {memo, filing: f.id});
+    if (out.status !== "done" || !out.result) throw new ApiError(outcomeWords(out));
+    clock.stage("Stage: marking the memo.");
+    check.showingResult = true;
+    $("memoInput").hidden = true; $("memoEdit").hidden = false; $("checkGo").hidden = true; $("memoHint").hidden = true;
+    const isCorrected = f.corrected && memo === f.corrected.trim();
+    $("memoLabel").textContent = isCorrected ? "The same memo, corrected" : isSaved ? "Test memo" : "Your memo";
+    check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true});
+    if (f.corrected && memo === f.memo.trim()) {
+      const fix = el("button", "btn primary", "Fix the errors: load the corrected memo ", arrow()); fix.type = "button";
+      fix.onclick = () => { showCheckInput(f.corrected); $("checkRun").focus(); };
+      $("checkFix").replaceChildren(fix);
+      $("checkFix").hidden = false;
+    }
+    drawCheckChips(f);
+    refreshPending();
+  } catch (e) {
+    state.textContent = e.message; state.className = "state bad";
+  } finally {
+    unwatch(); clock.stop(); check.running = false; setCheckBusy(false);
+  }
+}
+function setCheckBusy(busy) {
+  $("checkRun").disabled = busy;
+  $("memoInput").readOnly = busy;
+  [...$("checkTabs").children].forEach(b => b.disabled = busy);
+  [...$("checkChips").children].forEach(b => b.disabled = busy);
+}
+
+/* ---------- 2. Draft ---------- */
+const draft = {bench: null, filing: null, running: false};
+const EXAMPLES = {
+  anthropic: "Did Anthropic make money in the first half of 2026?",
+  nebius: "How did Nebius do in the second quarter of 2026?",
+  asml: "How did ASML do in the third quarter of 2026?",
+};
+function chooseDraftFiling(f) {
+  draft.filing = f;
+  markTabs($("draftTabs"), f.id);
+  $("draftDoc").textContent = docLine(f);
+  // Start from a real question, but never write over one the person typed.
+  const ex = EXAMPLES[f.id], typed = $("draftInput").value.trim();
+  if (ex && (!typed || Object.values(EXAMPLES).includes(typed))) $("draftInput").value = ex;
+  $("draftState").textContent = ""; $("draftState").className = "state";
+  draft.bench.clear();
+  drawDraftHint();
+}
+function drawDraftHint() {
+  const h = $("draftHint"), f = draft.filing;
+  h.hidden = false;
+  if (f && $("draftInput").value.trim() === EXAMPLES[f.id]) h.textContent = "This question has a saved reply, so it replays with no API call.";
+  else h.textContent = START && START.live
+    ? "This calls Muse live. It takes about two minutes."
+    : "Live calls are off here, so a new question will be turned away.";
+}
+async function drawDraftAvailable() {
+  const yes = await hasCapability("memo.draft");
+  const box = $("draftMissing");
+  if (yes === false) {
+    box.hidden = false;
+    box.textContent = "Draft is not on this server yet. The capability memo.draft does not exist, so nothing can run here.";
+    $("draftRun").disabled = true;
+  } else {
+    box.hidden = true;
+    if (!draft.running) $("draftRun").disabled = false;
+  }
+}
+async function runDraft() {
+  if (draft.running) return;
+  const f = draft.filing, question = $("draftInput").value.trim(), state = $("draftState");
+  state.className = "state"; state.textContent = "";
+  if (!f) return;
+  if (!question) { state.textContent = "Ask a question first."; state.className = "state bad"; $("draftInput").focus(); return; }
+  draft.running = true; $("draftRun").disabled = true;
+  [...$("draftTabs").children].forEach(b => b.disabled = true);
+  draft.bench.clear();
+  const savedQuestion = question === EXAMPLES[f.id];
+  const clock = startClock($("draftClock"),
+    savedQuestion ? "Stage: opening the saved replay." : "Stage: Muse is writing, then code checks.",
+    savedQuestion ? "No API call. This is a recording." : "Muse writes from the filing. Then its numbers go through the same check as any memo.",
+    savedQuestion ? null : {after: 180, words: "Stage: Muse is writing, then code checks. Slower than usual."});
+  const unwatch = savedQuestion ? () => {} : watchRun("memo.draft", clock, "Stage: Muse is writing, then code checks.");
+  try {
+    const out = await door("memo.draft", {question, filing: f.id});
+    if (out.status !== "done" || !out.result) {
+      const why = outcomeWords(out);
+      if (out.status === "refused" && /unknown|no such|not exist|not found/i.test(why)) throw new ApiError("Draft is not on this server yet. The capability memo.draft does not exist.");
+      throw new ApiError(why);
+    }
+    clock.stage("Stage: marking the memo.");
+    const heading = el("p", "soft small", "Question: ", el("em", "", out.result.question || question));
+    heading.style.marginBottom = "8px";
+    draft.bench.render({memo: out.result.memo || "", result: out.result, id: out.run_id, filing: f.id, labels: savedLabels({...out.result, drafted_by_muse: true}, false), focusAfter: true});
+    $("draftMemoSlot").prepend(heading);
+    refreshPending();
+  } catch (e) {
+    state.textContent = e.status === 404 ? "Draft is not on this server yet. The capability memo.draft does not exist." : e.message;
+    state.className = "state bad";
+  } finally {
+    unwatch(); clock.stop(); draft.running = false; $("draftRun").disabled = false;
+    [...$("draftTabs").children].forEach(b => b.disabled = false);
+    drawDraftAvailable();
+  }
+}
+
+/* ---------- 3. Approvals ---------- */
+let operatorToken = ""; // memory only: never storage, never the URL
+const statusTone = {pending: "amber", approved: "green", rejected: "red", used: "slate"};
+const WHO = {web_operator: "The operator, on the web", terminal: "The operator, at the terminal", web: "The web page"};
+const statusWord = {pending: "Waiting", approved: "Approved", rejected: "Rejected", used: "Used"};
+function decideError(e) {
+  const code = typeof e.detail === "string" ? e.detail : "";
+  if (e.status === 403 || /operator_required/i.test(code)) return "Only the operator can approve or reject. This token was not accepted. If the server has no token set, only the terminal can decide.";
+  return e.message;
+}
+let approvalsSeq = 0;
+async function loadApprovals() {
+  const seq = ++approvalsSeq, body = $("approvalsBody");
+  if (!body.children.length) loading(body, "Loading the approvals.");
+  let data, sealed = {};
+  try {
+    data = await api("/api/approvals");
+    const led = await api("/api/ledger?limit=500").catch(() => null);
+    for (const l of (led && led.lines) || []) if (l.kind === "release_sealed" && l.approval_id) sealed[l.approval_id] = l.release_id;
+  } catch (e) {
+    if (seq !== approvalsSeq) return;
+    showError(body, e.status === 404 ? "The approvals list is not on this server yet." : e.message, loadApprovals);
+    return;
+  }
+  if (seq !== approvalsSeq) return;
+  const all = (data.approvals || []).slice().sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+  setPending(all.filter(a => a.status === "pending").length);
+  const live = all.filter(a => a.status === "pending" || a.status === "approved");
+  const done = all.filter(a => a.status !== "pending" && a.status !== "approved");
+  const frag = document.createDocumentFragment();
+  frag.append(el("h2", "", `Waiting (${live.length})`));
+  if (!live.length) frag.append(el("p", "msg", "Nothing is waiting. Check a memo, and when every number matches, request release."));
+  live.forEach(a => frag.append(slip(a, sealed[a.id])));
+  frag.append(el("h2", "", `Decided (${done.length})`));
+  if (!done.length) frag.append(el("p", "msg", "Nothing has been decided yet."));
+  done.forEach(a => frag.append(slip(a, sealed[a.id])));
+  body.replaceChildren(frag);
+}
+function slip(a, releaseId) {
+  const s = el("article", "slip");
+  const tone = statusTone[a.status] || "ink";
+  s.append(el("div", "slip-top", stamp(statusWord[a.status] || String(a.status || "Unknown"), tone), el("span", "cap", a.capability || "Unknown"),
+    el("span", "when", [a.requested_by ? `Asked by ${(WHO[a.requested_by] || a.requested_by).replace(/^The /, "the ")}` : "", when(a.created_at)].filter(Boolean).join(", "))));
+  const what = el("div");
+  s.append(el("span", "label", a.capability === "memo.release" ? "What will be released" : "What this will do"), what);
+  drawSubject(a, what);
+  s.append(el("span", "label", "What this approval is bound to"));
+  const bound = el("div", "bound");
+  bound.append(kv([["Content", a.subject_sha256 ? el("span", "hash", a.subject_sha256) : ""], ["Request", a.params_sha256 ? el("span", "hash", a.params_sha256) : ""], ["Id", a.id ? el("span", "hash", a.id) : ""]]));
+  bound.append(el("p", "note", "These are sha256 hashes. If one word or receipt changes, the hash changes and this approval no longer works."));
+  s.append(bound);
+  if (a.decided_by || a.reason || a.decided_at) {
+    s.append(el("span", "label", "The decision"));
+    s.append(kv([["By", WHO[a.decided_by] || a.decided_by], ["When", when(a.decided_at)], ["Reason", a.reason]]));
+  }
+  if (a.status === "pending") s.append(decideRow(a));
+  if (a.status === "approved") s.append(runRow(a));
+  if (releaseId) s.append(el("p", "note", linkTo(`#/record/release/${enc(releaseId)}`, "Open the sealed bundle")));
+  return s;
+}
+function decideRow(a) {
+  const row = el("div", "decide");
+  if (START && START.operator_required === false) {
+    row.append(el("p", "small", "Only the operator can approve or reject, and this server has no operator token, so the web cannot decide. At the terminal, run: ", el("span", "hash", `finguard approve ${a.id}`)));
+    return row;
+  }
+  const id = `reason-${String(a.id).replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const lab = el("label", "vh", "Reason"); lab.htmlFor = id;
+  const reason = el("input", "field"); reason.id = id; reason.placeholder = "Reason (needed to reject)"; reason.autocomplete = "off";
+  const yes = el("button", "btn primary", "Approve"); yes.type = "button";
+  const no = el("button", "btn danger", "Reject"); no.type = "button";
+  const words = el("p", "state", ""); words.style.flexBasis = "100%"; words.setAttribute("role", "status");
+  const decide = async decision => {
+    words.className = "state bad";
+    if (!operatorToken) { words.textContent = "Enter the operator token first. Only the operator can approve or reject."; $("operatorToken").focus(); return; }
+    if (decision === "reject" && !reason.value.trim()) { words.textContent = "Say why, then reject."; reason.focus(); return; }
+    yes.disabled = no.disabled = true; words.className = "state"; words.textContent = "Sending.";
+    try {
+      await post(`/api/approvals/${enc(a.id)}/decide`, {decision, reason: reason.value.trim(), operator_token: operatorToken});
+      await loadApprovals();
+    } catch (e) {
+      yes.disabled = no.disabled = false; words.className = "state bad"; words.textContent = decideError(e);
+    }
+  };
+  yes.onclick = () => decide("approve"); no.onclick = () => decide("reject");
+  row.append(lab, reason, yes, no, words);
+  return row;
+}
+function runRow(a) {
+  const row = el("div", "decide");
+  const go = el("button", "btn primary", a.capability === "memo.release" ? "Release now " : "Run it now ", arrow()); go.type = "button";
+  const words = el("p", "state", "Approved. It runs once, and only if the content still matches."); words.setAttribute("role", "status");
+  go.onclick = async () => {
+    go.disabled = true; words.className = "state"; words.textContent = "Running.";
+    try {
+      const out = await door(a.capability, a.params || {}, a.id);
+      if (out.status !== "done") throw new ApiError(outcomeWords(out));
+      const rid = releaseIdOf(out.result);
+      if (rid) location.hash = `#/record/release/${enc(rid)}`; else await loadApprovals();
+    } catch (e) { go.disabled = false; words.className = "state bad"; words.textContent = e.message; }
+  };
+  row.append(go, words);
+  return row;
+}
+function releaseIdOf(result) {
+  if (!result || typeof result !== "object") return null;
+  return result.release_id || result.id || (result.manifest && result.manifest.release_id) || null;
+}
+async function drawSubject(a, box) {
+  const params = a.params || {};
+  const runId = params.check_run_id;
+  if (a.capability !== "memo.release" || !runId) {
+    const keys = Object.keys(params);
+    box.append(keys.length ? kv(keys.map(k => [k, typeof params[k] === "string" ? params[k] : JSON.stringify(params[k])])) : el("p", "note", "No details."));
+    return;
+  }
+  loading(box, "Loading the memo and its receipts.");
+  try {
+    const run = await api(`/api/runs/${enc(runId)}`);
+    const res = run.result || {}, receipts = Array.isArray(res.receipts) ? res.receipts : [];
+    const f = filingById(res.filing);
+    box.replaceChildren();
+    box.append(kv([["Filing", f ? `${f.company}, ${f.document}` : res.filing], ["Check run", el("span", "hash", String(run.run_id || runId))]]));
+    const memoLabel = el("span", "label", "The memo");
+    box.append(memoLabel, markedMemo(res.memo || "", receipts, null));
+    if (receipts.length) {
+      box.append(el("span", "label", `Its ${plural(receipts.length, "receipt", "receipts")}`));
+      box.append(receiptTable(receipts));
+    }
+    if (res.saved) box.append(el("p", "note", "This check was a saved replay."));
+  } catch (e) {
+    box.replaceChildren(el("p", "msg bad", `Could not load the run behind this request. ${e.message}`));
+    box.append(kv([["Check run", el("span", "hash", String(runId))]]));
+  }
+}
+function receiptTable(receipts) {
+  const t = el("table", "tiny-table");
+  t.append(el("thead", "", el("tr", "", el("th", "", "Memo"), el("th", "", "Filing"), el("th", "", "Page"), el("th", "", "Verdict"))));
+  const b = el("tbody");
+  for (const r of receipts) {
+    const v = verdictOf(r);
+    b.append(el("tr", "", el("td", "", r.value_text || ""), el("td", "", r.source_money || r.source_text || "none"), el("td", "", Number.isInteger(r.page) ? String(r.page + 1) : ""), el("td", "", el("span", `tag ${v}`, VERDICT_SHORT[v]))));
+  }
+  t.append(b);
+  return t;
+}
+function setPending(n) {
+  const b = $("pendingBadge");
+  b.hidden = !n; b.textContent = n ? String(n) : "";
+  b.setAttribute("aria-label", n ? `${n} waiting` : "");
+}
+async function refreshPending() {
+  try { const d = await api("/api/approvals"); setPending((d.approvals || []).filter(a => a.status === "pending").length); }
+  catch { /* the badge is a nicety; the Approvals page reports errors */ }
+}
+function drawOperatorNote() {
+  const off = !!START && START.operator_required === false;
+  $("operatorNote").textContent = off
+    ? "Only the operator can approve or reject. This server has no operator token, so the web cannot decide here. The terminal can."
+    : "Only the operator can approve or reject. The token stays in this page's memory. It is gone when you reload.";
+  $("operatorField").hidden = off;
+  $("operatorForget").hidden = off;
+  $("operatorBox").classList.toggle("off", off);
+}
+
+/* ---------- 4. Record ---------- */
+let recordSeq = 0;
+const STATUS_WORDS = {done: "Done", running: "Running", refused: "Refused", failed: "Failed", needs_approval: "Needs a person"};
+const lineDetail = l => {
+  if (l.why) return l.why;
+  const c = countsWords(l.counts);
+  if (c) return c;
+  return "";
+};
+function countsWords(c) {
+  if (!c || typeof c !== "object") return "";
+  return VERDICTS.filter(v => c[v]).map(v => `${c[v]} ${VERDICT_SHORT[v]}`).join(", ");
+}
+async function loadRecord() {
+  const seq = ++recordSeq;
+  const chain = $("recordChain"), runs = $("recordRuns"), lines = $("recordLines"), rel = $("recordReleases");
+  if (!lines.children.length) { loading(chain, "Checking the chain."); loading(runs, "Loading past runs."); loading(lines, "Loading the ledger."); rel.replaceChildren(); }
+  const [led, rn] = await Promise.allSettled([api("/api/ledger?limit=500"), api("/api/runs")]);
+  if (seq !== recordSeq) return;
+  // chain and lines
+  if (led.status === "rejected") {
+    const words = led.reason.status === 404 ? "The ledger is not on this server yet." : led.reason.message;
+    showError(chain, words, loadRecord); lines.replaceChildren();
+  } else {
+    const d = led.value, list = Array.isArray(d.lines) ? d.lines : [];
+    const box = el("div", "chain");
+    box.append(stamp(d.holds ? "The chain holds" : "The chain is broken", d.holds ? "green" : "red", true));
+    box.append(el("span", "small soft", d.holds ? "Code walked every line and every hash agrees." : "Code walked the lines and found a hash that does not agree."));
+    chain.replaceChildren(box);
+    if (Array.isArray(d.problems) && d.problems.length) {
+      const ul = el("ul", "msg bad"); ul.style.paddingLeft = "32px";
+      d.problems.forEach(p => ul.append(el("li", "", typeof p === "string" ? p : JSON.stringify(p))));
+      chain.append(ul);
+    }
+    if (!list.length) lines.replaceChildren(tcard("Ledger lines", el("p", "msg", "The ledger is empty. It fills up as soon as a capability runs.")));
+    else {
+      const newest = list.slice(-100).reverse();
+      lines.replaceChildren(tcard("Ledger lines", ledgerTable(newest), `The latest ${plural(newest.length, "line", "lines")}, newest first`));
+    }
+    // releases named on the ledger
+    drawReleases(rel, list);
+  }
+  // runs
+  if (rn.status === "rejected") {
+    showError(runs, rn.reason.status === 404 ? "Past runs are not on this server yet." : rn.reason.message, loadRecord);
+  } else {
+    const list = (rn.value.runs || []).slice().sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    if (!list.length) runs.replaceChildren(tcard("Past runs", el("p", "msg", "No runs yet. Check a memo to make the first one.")));
+    else runs.replaceChildren(tcard("Past runs", runsTable(list), plural(list.length, "run", "runs")));
+  }
+}
+function ledgerTable(list) {
+  const t = el("table", "t");
+  t.append(el("thead", "", el("tr", "", el("th", "", "Line"), el("th", "", "When"), el("th", "", "Step"), el("th", "", "Capability"), el("th", "", "Who"), el("th", "", "Run"), el("th", "", "Hash"))));
+  const b = el("tbody");
+  for (const l of list) {
+    const tr = el("tr");
+    const detail = lineDetail(l);
+    const step = el("span", "", el("span", "tag-step", String(l.kind || "")), detail ? el("span", "rule-area", detail) : null,
+      l.release_id ? el("span", "rule-area", linkTo(`#/record/release/${enc(l.release_id)}`, String(l.release_id))) : null);
+    tr.append(
+      cell("Line", el("span", "m", l.seq != null ? String(l.seq) : "")),
+      cell("When", el("span", "m", when(l.at))),
+      cell("Step", step),
+      cell("Capability", el("span", "m", String(l.capability || ""))),
+      cell("Who", el("span", "m", String(WHO[l.actor] ? l.actor : l.actor || ""))),
+      cell("Run", l.run_id ? linkTo(`#/record/run/${enc(l.run_id)}`, short(l.run_id, 12), "open") : ""),
+      cell("Hash", el("span", "hash", short(l.hash, 16))));
+    b.append(tr);
+  }
+  t.append(b);
+  return t;
+}
+function runsTable(list) {
+  const t = el("table", "t");
+  t.append(el("thead", "", el("tr", "", el("th", "", "When"), el("th", "", "Capability"), el("th", "", "Filing"), el("th", "", "Result"), el("th", "", "Status"), el("th", "", el("span", "vh", "Open")))));
+  const b = el("tbody");
+  for (const r of list) {
+    const f = filingById(r.filing);
+    b.append(el("tr", "",
+      cell("When", el("span", "m", when(r.created_at))),
+      cell("Capability", el("span", "m", String(r.capability || ""))),
+      cell("Filing", f ? f.company : String(r.filing || "")),
+      cell("Result", countsWords(r.counts)),
+      cell("Status", STATUS_WORDS[r.status] || String(r.status || "")),
+      cell("Open", linkTo(`#/record/run/${enc(r.run_id)}`, "Open run", "open"))));
+  }
+  t.append(b);
+  return t;
+}
+function drawReleases(box, lines) {
+  const ids = [];
+  for (const l of lines) {
+    if (l.kind === "release_sealed" && l.release_id && !ids.includes(l.release_id)) ids.unshift(l.release_id);
+  }
+  box.replaceChildren();
+  if (ids.length) {
+    const ul = el("ul", "tcard-body"); ul.style.cssText = "list-style:none;margin:0";
+    ids.forEach(id => ul.append(el("li", "", linkTo(`#/record/release/${enc(id)}`, String(id), "hash"))));
+    box.append(tcard("Releases", ul));
+  } else {
+    box.append(tcard("Releases", el("p", "msg", "Nothing has been released yet. A memo gets here only after every number matches and a person approves.")));
+  }
+}
+const runBench = {bench: null};
+async function openRun(id) {
+  const head = $("recordRunHead");
+  const back = linkTo("#/record", "Back to Record", "linkish");
+  const h1 = el("h1", "", "A past run"); h1.tabIndex = -1;
+  head.replaceChildren(el("header", "head", back, el("p", "kicker", "Record"), h1));
+  runBench.bench.clear();
+  const body = $("recordRunResult");
+  loading(body, "Loading the run.");
+  try {
+    const run = await api(`/api/runs/${enc(id)}`);
+    const res = run.result, rec = run.record || {};
+    const n = rec.lines;
+    const facts = kv([["Run", el("span", "hash", String(run.run_id || id))], ["Capability", run.capability], ["Status", STATUS_WORDS[run.status] || run.status], ["Lines", isNum(n) ? String(n) : ""], ["Last hash", rec.last_hash ? el("span", "hash", rec.last_hash) : ""]]);
+    const hasRecord = isNum(n) ? n > 0 : !!rec.last_hash;
+    const line = el("div", "chain", hasRecord ? stamp(rec.holds ? "Record holds" : "Record does not hold", rec.holds ? "green" : "red") : stamp("No Muse record", "soft"));
+    line.style.marginBottom = "8px";
+    head.append(line, facts);
+    if (res && Array.isArray(res.receipts)) {
+      const isTest = !!(res.filing && filingById(res.filing) && filingById(res.filing).memo && res.memo && res.memo.trim() === filingById(res.filing).memo.trim());
+      runBench.bench.render({memo: res.memo || "", result: {...res, record: res.record || rec}, id: run.status === "done" ? (run.run_id || id) : null, filing: res.filing, labels: savedLabels(res, isTest)});
+    } else {
+      body.replaceChildren();
+      const rid = releaseIdOf(res);
+      if (rid && run.capability === "memo.release") body.append(el("p", "note", linkTo(`#/record/release/${enc(rid)}`, "Open the sealed bundle")));
+      const plain = !rid && res && typeof res === "object" ? Object.entries(res).filter(([, v]) => v != null && typeof v !== "object") : [];
+      if (plain.length) body.append(el("span", "label", "Result"), kv(plain.map(([k, v]) => [k, String(v)])));
+      else if (!rid) body.append(el("p", "msg", run.status === "needs_approval" ? "This run stopped to ask a person. See Approvals." : "This run has no result to show."));
+    }
+  } catch (e) {
+    if (e.status === 404) showError(body, "No run with that id."); else showError(body, e.message, () => openRun(id));
+  }
+}
+async function openRelease(id) {
+  const box = $("recordReleaseBody");
+  const h1 = el("h1", "", "Sealed release"); h1.tabIndex = -1;
+  const top = el("header", "head", linkTo("#/record", "Back to Record", "linkish"), el("p", "kicker", "Sealed bundle"), h1,
+    el("p", "lede", "What was released, and the hash of every file. Change a file and the seal breaks."));
+  const body = el("div");
+  box.replaceChildren(top, body);
+  loading(body, "Loading the release.");
+  try {
+    const r = await api(`/api/releases/${enc(id)}`);
+    const m = r.manifest || {}, receipts = Array.isArray(r.receipts) ? r.receipts : [];
+    body.replaceChildren();
+    body.append(el("div", "chain", stamp(r.holds ? "The seal holds" : "The seal is broken", r.holds ? "green" : "red", true)));
+    if (!r.holds) body.append(el("p", "msg bad", `Something in this bundle does not agree with its seal. Run: finguard release verify ${id}`));
+    const f = filingById(m.filing);
+    const pair = (label, key) => [label, m[key] ? el("span", "hash", String(m[key])) : ""];
+    const manifest = el("div", "tcard-body");
+    body.append(tcard("Manifest", manifest));
+    manifest.append(kv([
+      pair("Release", "release_id"),
+      ["When", when(m.released_at)],
+      ["Approved by", WHO[m.approved_by] || m.approved_by],
+      pair("Approval", "approval_id"),
+      ["Check run", m.check_run_id ? linkTo(`#/record/run/${enc(m.check_run_id)}`, String(m.check_run_id), "hash") : ""],
+      ["Filing", f ? `${f.company}, ${f.document}` : m.filing],
+      pair("Filing hash", "filing_sha256"),
+      ["Model", m.model],
+      ["Numbers", countsWords(m.counts)],
+      pair("Content hash", "subject_sha256"),
+      pair("Run's last hash", "run_last_hash"),
+    ]));
+    const files = manifestFiles(m);
+    if (files.length) {
+      const t = el("table", "t");
+      t.append(el("thead", "", el("tr", "", el("th", "", "File"), el("th", "", "sha256"))));
+      const b = el("tbody");
+      files.forEach(([name, hash]) => b.append(el("tr", "", cell("File", el("span", "m", name)), cell("sha256", el("span", "hash", hash)))));
+      t.append(b);
+      body.append(tcard("Files in the bundle", t));
+    }
+    const memoCard = el("div", "tcard-body");
+    memoCard.append(markedMemo(r.memo || "", receipts, null));
+    body.append(tcard("The memo as released", memoCard));
+    if (receipts.length) { const rc = el("div", "tcard-body"); rc.append(receiptTable(receipts)); body.append(tcard("Receipts", rc, plural(receipts.length, "number", "numbers"))); }
+  } catch (e) {
+    if (e.status === 404) showError(body, "No release with that id."); else showError(body, e.message, () => openRelease(id));
+  }
+}
+function manifestFiles(m) {
+  const f = m.files || m.hashes;
+  if (Array.isArray(f)) return f.map(x => [String(x.name || x.path || x.file || ""), String(x.sha256 || x.hash || "")]);
+  if (f && typeof f === "object") return Object.entries(f).map(([k, v]) => [k, typeof v === "string" ? v : String(v.sha256 || v.hash || "")]);
+  return [];
+}
+
+/* ---------- 5. Rules ---------- */
+async function loadRulesPage() {
+  const body = $("rulesBody");
+  if (!body.children.length) loading(body, "Loading the rules.");
+  let data;
+  try { data = await api("/api/rules"); RULES = data; }
+  catch (e) { showError(body, e.status === 404 ? "The rules are not on this server yet." : e.message, loadRulesPage); return; }
+  const caps = data.capabilities || [];
+  if (!caps.length) { body.replaceChildren(el("p", "msg", "No capabilities are loaded.")); return; }
+  const reads = caps.filter(c => c.kind === "read").length, acts = caps.filter(c => c.kind === "act").length, people = caps.filter(c => c.approval === "person").length;
+  const counts = el("span", "counts",
+    el("span", "", el("b", "", String(caps.length)), caps.length === 1 ? "capability" : "capabilities"),
+    el("span", "", el("b", "", String(reads)), reads === 1 ? "reads" : "read"),
+    el("span", "", el("b", "", String(acts)), acts === 1 ? "acts" : "act"),
+    el("span", "", el("b", "", String(people)), "need a person"));
+  const t = el("table", "t");
+  t.append(el("thead", "", el("tr", "", el("th", "", "Capability"), el("th", "", "What it does"), el("th", "", "Reads or acts"), el("th", "", "Person must approve"), el("th", "", "How it is verified"))));
+  const b = el("tbody");
+  for (const c of caps) {
+    const params = c.params && c.params.properties ? Object.keys(c.params.properties) : [];
+    const name = el("span", "", el("span", "rule-name", c.name || ""), el("span", "rule-area", params.length ? `takes ${params.join(", ")}` : "takes nothing"));
+    const acting = c.kind === "act", person = c.approval === "person";
+    const tr = el("tr");
+    tr.append(
+      cell("Capability", name),
+      cell("Does", c.summary || ""),
+      cell("Kind", el("span", acting ? "rule-val act" : "rule-val", acting ? "acts" : c.kind === "read" ? "reads" : String(c.kind || "?"))),
+      cell("Person", el("span", person ? "rule-val yes" : "rule-val", person ? "yes, a person" : "no")),
+      cell("Verified", c.verifies || ""));
+    b.append(tr);
+  }
+  t.append(b);
+  const top = tcard("Capabilities", t);
+  top.querySelector(".tcard-top").append(el("span", "tcard-aside", counts));
+  body.replaceChildren(top);
+}
+
+/* ---------- 6. Score ---------- */
+function barBlock(title, total, segs) {
+  const box = el("div", "barblock");
+  box.append(el("h3", "", title));
+  const known = segs.filter(s => isNum(s.n));
+  const bar = el("div", "bar");
+  bar.setAttribute("role", "img");
+  bar.setAttribute("aria-label", `${title}: ${known.map(s => `${s.n} ${s.label}`).join(", ")}`);
+  const sum = known.reduce((a, s) => a + s.n, 0);
+  for (const s of known) {
+    if (!s.n) continue;
+    const i = el("i", s.cls); i.style.flex = `${s.n} 1 0`; i.title = `${s.n} ${s.label}`;
+    bar.append(i);
+  }
+  if (sum > 0) box.append(bar);
+  const key = el("div", "barkey");
+  for (const s of known) key.append(el("span", "", el("i", s.cls), el("b", "", String(s.n)), s.label));
+  box.append(key);
+  if (isNum(total) && sum !== total && known.length) box.append(el("p", "note", `These add to ${sum} of ${total}.`));
+  return box;
+}
+function tile(n, of, words) {
+  const t = el("div", "tile");
+  t.append(el("b", "", isNum(n) ? String(n) : "?", isNum(of) ? el("small", "", ` of ${of}`) : null), el("span", "", words));
+  return t;
+}
+/* One plain sentence on what happened to the true numbers. The count includes the refusals. */
+function trueWords(s) {
+  const x = s.true_exact || {};
+  const tail = isNum(x.wrong) ? ` ${x.wrong} ${x.wrong === 1 ? "was" : "were"} called wrong.` : "";
+  return `Of ${s.true_numbers} true numbers, ${x.match} matched and ${x.refused} ${x.refused === 1 ? "was" : "were"} refused.${tail}`;
+}
+function falseWords(s) {
+  return `${s.false_passed} of ${s.false_numbers} altered numbers passed as true.`;
+}
+async function loadScore() {
+  const body = $("scoreBody");
+  loading(body, "Loading the score.");
+  try { START = await api("/api/start"); }
+  catch (e) { showError(body, e.message, loadScore); return; }
+  const s = START.score;
+  if (!s) { body.replaceChildren(el("p", "msg", "This has not been measured.")); return; }
+  setModel(s.model);
+  const frag = document.createDocumentFragment();
+  const exact = s.true_exact || {};
+  const heldOut = s.round === "heldout";
+  const labels = el("div", "labels row");
+  if (heldOut) labels.append(stamp("Held-out result", "ink"));
+  else if (s.round != null) labels.append(stamp(`Round ${s.round}`, "soft"));
+  if (s.model) labels.append(stamp(`Model ${s.model}`, "slate"));
+  frag.append(labels);
+  const head = el("div", "headline");
+  if (heldOut) head.append(el("p", "", el("strong", "", "Filings first used after the code was frozen.")));
+  head.append(el("p", "", `${trueWords(s)} ${falseWords(s)}`));
+  const r = s.repeat;
+  if (r) head.append(el("p", "soft", `Repeat run on the first filings: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
+  if (s.engine_sha256) {
+    const same = r && r.engine_sha256 === s.engine_sha256;
+    head.append(el("p", "small soft", same ? "Both runs used the same code, fingerprint " : "Code fingerprint ", el("span", "mono", short(s.engine_sha256)), "."));
+  }
+  frag.append(head);
+  const tiles = el("div", "tiles");
+  tiles.append(
+    tile(s.false_passed, s.false_numbers, "altered numbers passed as true"),
+    tile(s.absent_passed, s.absent_metrics, "metrics not in the filing passed as true"),
+    tile(exact.match, s.true_numbers, "true numbers matched"),
+    tile(exact.refused, s.true_numbers, "true numbers refused"));
+  frag.append(tiles);
+  frag.append(barBlock("True numbers: what happened", s.true_numbers, [
+    {n: exact.match, label: "matched", cls: "match"},
+    {n: exact.refused, label: "refused", cls: "refused"},
+    {n: exact.wrong, label: "called wrong", cls: "wrong"},
+  ]));
+  frag.append(el("p", "note", "The true-number count includes the refusals. A refused number was not passed: code would not vouch for it, so a person has to look."));
+  frag.append(barBlock("Altered numbers: what happened", s.false_numbers, [
+    {n: s.false_called_wrong, label: "called wrong", cls: "wrong"},
+    {n: s.false_refused, label: "refused", cls: "refused"},
+    {n: s.false_passed, label: "passed as true", cls: "passed"},
+  ]));
+  frag.append(el("p", "note", "We took true numbers and changed them. Called wrong or refused is the right result for an altered number."));
+  const by = s.by_filing && typeof s.by_filing === "object" ? Object.entries(s.by_filing) : [];
+  if (by.length) {
+    const t = el("table", "t");
+    t.append(el("thead", "", el("tr", "", el("th", "", "Filing"), el("th", "", "True numbers matched"))));
+    const b = el("tbody");
+    for (const [name, v] of by) {
+      const m = el("div", "meter"); const i = el("i");
+      if (isNum(v.true) && v.true > 0 && isNum(v.matched)) i.style.width = `${Math.min(100, v.matched / v.true * 100)}%`;
+      m.append(i); m.setAttribute("aria-hidden", "true");
+      b.append(el("tr", "", cell("Filing", el("span", "m", name.split("/").pop())), cell("Matched", el("div", "", el("span", "", `${v.matched} of ${v.true}`), m))));
+    }
+    t.append(b);
+    frag.append(tcard("By filing", t));
+  }
+  frag.append(el("p", "foot", "These are public filings we chose, and the answers were checked by hand. This measures the method. It is not a guarantee."));
+  body.replaceChildren(frag);
+}
+
+/* ---------- routes ---------- */
+const TITLES = {check: "Check", draft: "Draft", approvals: "Approvals", record: "Record", rules: "Rules", score: "Score"};
+let firstRoute = true;
+function parseHash() {
+  const raw = location.hash.replace(/^#\/?/, "");
+  return raw.split("/").map(p => { try { return decodeURIComponent(p); } catch { return ""; } });
+}
+function route() {
+  const parts = parseHash();
+  const name = TITLES[parts[0]] ? parts[0] : "check";
+  document.querySelectorAll(".view").forEach(v => { v.hidden = v.id !== `v-${name}`; });
+  document.querySelectorAll("#nav a").forEach(a => {
+    if (a.dataset.r === name) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  document.title = `${TITLES[name]} · Finguard`;
+  closeMenu();
+  if (name === "check" && check.bench) check.bench.onShow();
+  if (name === "draft" && draft.bench) { draft.bench.onShow(); if (START) drawDraftAvailable(); }
+  if (name === "approvals") { drawOperatorNote(); loadApprovals(); }
+  if (name === "rules") loadRulesPage();
+  if (name === "score") loadScore();
+  if (name === "record") {
+    const sub = parts[1], id = parts[2];
+    $("recordList").hidden = !!(sub && id);
+    $("recordRun").hidden = !(sub === "run" && id);
+    $("recordRelease").hidden = !(sub === "release" && id);
+    if (sub === "run" && id) openRun(id);
+    else if (sub === "release" && id) openRelease(id);
+    else loadRecord();
+  }
+  if (!firstRoute) {
+    scrollTo(0, 0);
+    requestAnimationFrame(() => focusHeading());
+  }
+  firstRoute = false;
+}
+function closeMenu() {
+  $("nav").classList.remove("open");
+  $("menuBtn").setAttribute("aria-expanded", "false");
+}
+function focusHeading() {
+  const view = document.querySelector(".view:not([hidden])");
+  if (!view) return;
+  const h = [...view.querySelectorAll("h1")].find(n => n.offsetParent !== null);
+  if (h) { if (!h.hasAttribute("tabindex")) h.tabIndex = -1; h.focus({preventScroll: true}); }
+}
+
+/* ---------- start ---------- */
+async function boot() {
+  check.bench = makeBench($("checkMemoSlot"), $("checkResult"), $("checkDesk"));
+  draft.bench = makeBench($("draftMemoSlot"), $("draftResult"), $("draftDesk"));
+  runBench.bench = makeBench($("recordRunMemoSlot"), $("recordRunResult"), $("recordRunDesk"));
+  $("skip").onclick = e => { e.preventDefault(); focusHeading(); };
+  $("menuBtn").onclick = () => {
+    const open = $("nav").classList.toggle("open");
+    $("menuBtn").setAttribute("aria-expanded", String(open));
+  };
+  $("nav").addEventListener("click", closeMenu);
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && $("nav").classList.contains("open")) { closeMenu(); $("menuBtn").focus(); }
+  });
+  $("checkRun").onclick = runCheck;
+  $("draftRun").onclick = runDraft;
+  $("draftInput").addEventListener("input", drawDraftHint);
+  $("memoInput").addEventListener("input", updateMemoHint);
+  $("memoEdit").onclick = () => { const f = $("memoInput").value; showCheckInput(f); $("memoInput").focus(); };
+  $("operatorToken").addEventListener("input", e => { operatorToken = e.target.value; });
+  $("operatorForget").onclick = () => { operatorToken = ""; $("operatorToken").value = ""; $("operatorToken").focus(); };
+  window.addEventListener("hashchange", route);
+  route();
+  await startData();
+}
+async function startData() {
+  const state = $("checkState");
+  $("checkRun").disabled = $("draftRun").disabled = true;
+  state.className = "state"; state.textContent = "Loading the filings.";
+  try { await loadStart(); }
+  catch (e) {
+    state.className = "state bad"; state.textContent = `The page could not load. ${e.message}`;
+    const again = el("button", "linkish", "Try again"); again.type = "button"; again.style.marginLeft = "8px";
+    again.onclick = startData; state.append(again);
+    return;
+  }
+  state.textContent = "";
+  $("checkRun").disabled = $("draftRun").disabled = false;
+  if (!START.filings || !START.filings.length) {
+    state.className = "state bad"; state.textContent = "No filings are loaded on this server.";
+    $("checkRun").disabled = $("draftRun").disabled = true;
+    return;
+  }
+  fillTabs($("checkTabs"), null, chooseCheckFiling);
+  fillTabs($("draftTabs"), null, chooseDraftFiling);
+  if (isNum(START.max_memo)) $("memoInput").maxLength = START.max_memo;
+  chooseCheckFiling(START.filings[0]);
+  chooseDraftFiling(START.filings[0]);
+  drawDraftAvailable();
+  refreshPending();
+  drawOperatorNote();
+  if (START.score) setModel(START.score.model);
+}
+boot();
+</script>
+</body>
+</html>

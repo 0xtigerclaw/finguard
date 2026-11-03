@@ -69,7 +69,7 @@ def money(amount: Decimal, currency: str, negative: bool = False) -> str:
     else:
         number, unit = size, ""
     text = f"{number:,f}"
-    if unit and text.endswith(".0"):
+    if unit == "m" and text.endswith(".0"):
         text = text[:-2]
     return f"{'-' if negative else ''}{currency}{text}{unit}"
 

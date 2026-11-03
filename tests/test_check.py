@@ -3,8 +3,9 @@ import json
 
 import pytest
 
-from finguard.check import MATCH, REFUSED, UNCHECKED, WRONG, Claim, candidate_pages, check_memo, decide, list_claims, skipped_numbers
+from finguard.check import period_stated, MATCH, REFUSED, UNCHECKED, WRONG, Claim, candidate_pages, check_memo, decide, list_claims, skipped_numbers
 from finguard.errors import MuseError
+from finguard.page import row_names
 from finguard.record import read_lines, verify
 from tests.conftest import box_for
 
@@ -135,6 +136,82 @@ def test_nebius_quarter_and_half_year_are_not_confused(nebius):
 def test_us_dollars_in_words_count_as_dollars(nebius):
     half = Claim("Revenue was $981.3m.", "$981.3m", "Revenues", "six_months", 2026, "neutral")
     assert "currency" not in decide(half, nebius, located(nebius, 6, "981.3", "Revenues"), [6]).why
+
+
+@pytest.mark.parametrize("printed,year,verdict", [("27,961.5", 2026, MATCH), ("27,961.5", 2025, REFUSED),
+                                                  ("12,430.6", 2025, MATCH), ("12,430.6", 2026, REFUSED)])
+def test_balance_sheet_columns_keep_their_own_year(nebius, printed, year, verdict):
+    c = Claim("x", f"${printed}m", "Total assets", "as_of", year, "neutral")
+    assert decide(c, nebius, located(nebius, 5, printed, "Total assets"), [5]).verdict == verdict
+
+
+def test_a_side_by_side_table_reads_its_own_row(asml):
+    c = Claim("x", "€36.9bn", "Total liabilities", "as_of", 2026, "neutral")
+    r = decide(c, asml, located(asml, 4, "36,917.3", "Total liabilities"), [4])
+    assert r.verdict == MATCH and r.row == "Total liabilities"
+
+
+def test_an_adjusted_figure_cannot_pass_as_the_plain_one(s1):
+    """The filing's adjusted margin is 10%. Its operating margin is not."""
+    c = claim("10%", "Operating margin", direction="neutral")
+    r = decide(c, s1, located(s1, BRIDGE, "10", "Operating margin"), [BRIDGE])
+    assert r.verdict == REFUSED
+
+
+def test_a_plain_figure_cannot_pass_as_the_adjusted_one(s1):
+    c = claim("$693m", "Adjusted operating loss", direction="loss")
+    r = decide(c, s1, located(s1, BRIDGE, "(693)", "Operating loss"), [BRIDGE])
+    assert r.verdict == REFUSED and "adjusted" in r.why
+
+
+@pytest.mark.parametrize("row,said,names", [
+    ("Net loss(1)", "Net loss", True), ("Assets Cash and cash equivalents", "Cash and cash equivalents", True),
+    ("Adjusted Operating Margin", "Operating margin", False), ("Operating loss", "Adjusted Operating Income", False),
+    ("Total net sales", "sales", True), ("Net income", "income", True), ("", "x", False), ("Revenue", "", False),
+])
+def test_row_names(row, said, names):
+    assert row_names(row, said) is names
+
+
+def test_a_three_line_label_is_read_whole(s1):
+    from finguard.page import _row_of
+    words = s1.words(PNL)
+    cell = next(w for w in words if w.text == "(39.88)")
+    assert _row_of(cell, words).startswith("Net loss per share attributable")
+
+
+def test_per_ordinary_share_is_per_share_not_a_share_count(asml):
+    c = Claim("x", "€12.95", "Basic net income per ordinary share", "quarter", 2026, "gain")
+    assert decide(c, asml, located(asml, 2, "12.95", "Basic net income per ordinary share"), [2]).verdict == MATCH
+
+
+def test_a_negative_percentage_is_still_a_percentage(s1):
+    c = claim("4%", "Operating margin", direction="neutral")
+    r = decide(c, s1, located(s1, BRIDGE, "(4)%", "Operating margin"), [BRIDGE])
+    assert r.verdict == MATCH and r.source_text == "(4)%"
+
+
+@pytest.mark.parametrize("memo,kind,stated", [
+    ("Revenue in the six months to June 30, 2026 was $1m.", "six_months", True),
+    ("Revenue in the interim period was $1m.", "six_months", False),
+    ("Revenue in the six months was $1m.", "six_months", False),
+    ("Q2 2026 revenue was $1m.", "quarter", True),
+    ("Revenue in 2026 was $1m.", "quarter", False),
+    ("Cash at June 30, 2026 was $1m.", "as_of", True),
+    ("Cash was $1m in 2026.", "as_of", False),
+    ("Revenue in 2026 was $1m.", "full_year", True),
+])
+def test_a_memo_must_state_its_own_period(memo, kind, stated):
+    assert period_stated(memo, Claim(memo, "$1m", "Revenue", kind, 2026, "neutral")) is stated
+
+
+def test_a_vague_memo_is_refused_before_muse_points(s1, run, muse_with):
+    memo = "Adjusted operating income was $1.6bn for the interim period."
+    extracted = {"quote": memo, "value_text": "$1.6bn", "metric": "Adjusted Operating Income",
+                 "period_kind": "six_months", "period_year": 2026, "direction": "gain"}
+    muse, transport = muse_with({"claims": [extracted]})
+    r = check_memo(memo, s1, muse, run)[0]
+    assert r.verdict == REFUSED and "period" in r.why and len(transport.sent) == 1
 
 
 def test_candidate_pages_include_the_statements(s1):

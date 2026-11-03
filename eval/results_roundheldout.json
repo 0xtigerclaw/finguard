@@ -1,0 +1,1175 @@
+{
+ "summary": {
+  "round": "heldout",
+  "model": "muse-spark-1.3",
+  "calls": 34,
+  "failed_calls": 0,
+  "true_numbers": 31,
+  "true_exact": {
+   "match": 23,
+   "refused": 8,
+   "wrong": 0
+  },
+  "true_natural": {
+   "match": 23,
+   "refused": 8,
+   "wrong": 0
+  },
+  "right_cell": 25,
+  "false_numbers": 273,
+  "false_passed": 0,
+  "false_called_wrong": 161,
+  "false_refused": 112,
+  "absent_metrics": 3,
+  "absent_passed": 0,
+  "estimated_cost_usd": 1.0,
+  "by_filing": {
+   "heldout/ASML-Q2-2026.pdf": {
+    "true": 10,
+    "matched": 10
+   },
+   "heldout/NBIS-Q1-2026.pdf": {
+    "true": 10,
+    "matched": 6
+   },
+   "heldout/NVDA-Q2-FY2027.pdf": {
+    "true": 11,
+    "matched": 7
+   }
+  },
+  "engine_sha256": "02f10c3abd9ff2cf512947f3615b2f796519da5da947d39aa4ba11dcd9885fd5"
+ },
+ "present": [
+  {
+   "metric": "Total net sales",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "9,326.5",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €9.3bn (printed as 9,326.5) in the row Total net sales, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    821,
+    310,
+    855,
+    327
+   ],
+   "box": [
+    824,
+    294,
+    853,
+    309
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Total net sales",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "18,093.4",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €18.1bn (printed as 18,093.4) in the row Total net sales, under Six months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    932,
+    293,
+    981,
+    312
+   ],
+   "box": [
+    946,
+    294,
+    980,
+    309
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Gross profit",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "5,035.4",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €5bn (printed as 5,035.4) in the row Gross profit, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    821,
+    375,
+    855,
+    390
+   ],
+   "box": [
+    824,
+    368,
+    853,
+    384
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Research and development costs",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(1,276.6)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -€1.3bn (printed as (1,276.6)) in the row Research and development costs, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    820,
+    437,
+    857,
+    455
+   ],
+   "box": [
+    821,
+    417,
+    856,
+    433
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Income from operations",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "6,613.9",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €6.6bn (printed as 6,613.9) in the row Income from operations, under Six months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    946,
+    466,
+    982,
+    482
+   ],
+   "box": [
+    950,
+    467,
+    980,
+    483
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "2,917.6",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €2.9bn (printed as 2,917.6) in the row Net income, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    822,
+    688,
+    856,
+    703
+   ],
+   "box": [
+    824,
+    689,
+    853,
+    705
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "5,674.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €5.7bn (printed as 5,674.3) in the row Net income, under Six months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    949,
+    689,
+    980,
+    703
+   ],
+   "box": [
+    950,
+    689,
+    980,
+    705
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "12,844.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €12.8bn (printed as 12,844.2) in the row Net system sales, under Six months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    932,
+    242,
+    981,
+    260
+   ],
+   "box": [
+    946,
+    244,
+    980,
+    260
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Income tax expense",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(609.6)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -€609.6m (printed as (609.6)) in the row Income tax expense, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    821,
+    589,
+    857,
+    607
+   ],
+   "box": [
+    828,
+    591,
+    856,
+    606
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Diluted net income per ordinary share",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "7.58",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €7.58 (printed as 7.58) in the row Diluted net income per ordinary share, under Three months ended Jun 28, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    834,
+    768,
+    854,
+    783
+   ],
+   "box": [
+    836,
+    764,
+    853,
+    779
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Revenues",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "399.0",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"2026\" is not quarter 2026.",
+   "right_cell": true,
+   "muse_box": [
+    522,
+    640,
+    564,
+    654
+   ],
+   "box": [
+    524,
+    644,
+    562,
+    658
+   ],
+   "page": 0,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused"
+   }
+  },
+  {
+   "metric": "Total operating costs and expenses",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "527.0",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $527m (printed as 527.0) in the row Total operating costs and expenses, under Three months ended March 31 2026.",
+   "right_cell": true,
+   "muse_box": [
+    604,
+    479,
+    647,
+    491
+   ],
+   "box": [
+    608,
+    455,
+    644,
+    468
+   ],
+   "page": 1,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Loss from operations",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(128.0)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$128m (printed as (128.0)) in the row Loss from operations, under Three months ended March 31, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    727,
+    350,
+    800,
+    366
+   ],
+   "box": [
+    752,
+    345,
+    799,
+    359
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Interest income",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "14.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $14.2m (printed as 14.2) in the row Interest income, under Three months ended March 31, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    750,
+    358,
+    786,
+    372
+   ],
+   "box": [
+    752,
+    367,
+    779,
+    380
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Net income / (loss)",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "621.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $621.2m (printed as 621.2) in the row Net income / (loss), under Three months ended March 31, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    748,
+    555,
+    790,
+    570
+   ],
+   "box": [
+    752,
+    560,
+    789,
+    573
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "9,298.2",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
+   "muse_box": [
+    750,
+    189,
+    812,
+    202
+   ],
+   "box": [
+    752,
+    180,
+    802,
+    193
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "22,303.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $22.3bn (printed as 22,303.3) in the row Total assets, under As of March 31, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    728,
+    438,
+    813,
+    453
+   ],
+   "box": [
+    752,
+    466,
+    813,
+    480
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "as_of 2025",
+   "printed": "12,430.6",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Total assets\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    548,
+    423,
+    632,
+    438
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   }
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "15,061.4",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $15.1bn (printed as 15,061.4) in the row Total liabilities, under As of March 31, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    728,
+    732,
+    812,
+    747
+   ],
+   "box": [
+    752,
+    719,
+    809,
+    733
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Debt, non-current",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "8,432.0",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Debt, non-current\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    729,
+    577,
+    804,
+    592
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   }
+  },
+  {
+   "metric": "Revenue",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "96,221",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Revenue\", and 2 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    540,
+    475,
+    615,
+    493
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   }
+  },
+  {
+   "metric": "Revenue",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "six_months 2026",
+   "printed": "177,837",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Revenue\", and 2 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    748,
+    473,
+    832,
+    489
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   }
+  },
+  {
+   "metric": "Revenue",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2025",
+   "printed": "46,743",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Revenue\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    656,
+    430,
+    732,
+    449
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   }
+  },
+  {
+   "metric": "Cost of revenue",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "24,079",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $24.1bn (printed as 24,079) in the row Cost of revenue, under Three Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    540,
+    460,
+    620,
+    480
+   ],
+   "box": [
+    541,
+    485,
+    595,
+    500
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Gross profit",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "72,142",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $72.1bn (printed as 72,142) in the row Gross profit, under Three Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    543,
+    481,
+    618,
+    498
+   ],
+   "box": [
+    541,
+    505,
+    595,
+    520
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Research and development",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "7,054",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $7.1bn (printed as 7,054) in the row Operating expenses Research and development, under Three Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    539,
+    541,
+    602,
+    559
+   ],
+   "box": [
+    551,
+    562,
+    595,
+    577
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Operating income",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "63,734",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $63.7bn (printed as 63,734) in the row Operating income, under Three Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    537,
+    645,
+    622,
+    665
+   ],
+   "box": [
+    541,
+    638,
+    595,
+    653
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Operating income",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "six_months 2026",
+   "printed": "117,270",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $117.3bn (printed as 117,270) in the row Operating income, under Six Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    744,
+    644,
+    834,
+    664
+   ],
+   "box": [
+    771,
+    638,
+    834,
+    653
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Income tax expense",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "11,819",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $11.8bn (printed as 11,819) in the row Income tax expense, under Three Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    540,
+    730,
+    605,
+    750
+   ],
+   "box": [
+    542,
+    714,
+    595,
+    729
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "59,688",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Net income\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    542,
+    695,
+    618,
+    715
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "period": "six_months 2026",
+   "printed": "118,010",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $118bn (printed as 118,010) in the row Net income, under Six Months Ended July 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    745,
+    728,
+    835,
+    748
+   ],
+   "box": [
+    771,
+    734,
+    834,
+    749
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  }
+ ],
+ "absent": [
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "heldout/NVDA-Q2-FY2027.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "heldout/NBIS-Q1-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "heldout/ASML-Q2-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  }
+ ]
+}

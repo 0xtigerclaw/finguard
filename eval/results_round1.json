@@ -1,0 +1,2377 @@
+{
+ "summary": {
+  "round": 1,
+  "model": "muse-spark-1.3",
+  "calls": 67,
+  "failed_calls": 0,
+  "true_numbers": 62,
+  "true_exact": {
+   "match": 60,
+   "refused": 2,
+   "wrong": 0
+  },
+  "true_natural": {
+   "match": 60,
+   "refused": 2,
+   "wrong": 0
+  },
+  "right_cell": 60,
+  "false_numbers": 576,
+  "false_passed": 0,
+  "false_called_wrong": 438,
+  "false_refused": 138,
+  "absent_metrics": 5,
+  "absent_passed": 0,
+  "estimated_cost_usd": 2.04,
+  "by_filing": {
+   "ANTH-S1-2026.pdf": {
+    "true": 27,
+    "matched": 26
+   },
+   "ASML-Q3-2026.pdf": {
+    "true": 18,
+    "matched": 18
+   },
+   "NBIS-Q2-2026.pdf": {
+    "true": 17,
+    "matched": 16
+   }
+  }
+ },
+ "present": [
+  {
+   "metric": "Revenue",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "16,286",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $16.3bn (printed as 16,286) in the row Revenue, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    603,
+    688,
+    674,
+    704
+   ],
+   "box": [
+    606,
+    691,
+    652,
+    705
+   ],
+   "page": 158,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Revenue",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "full_year 2025",
+   "printed": "4,585",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $4.6bn (printed as 4,585) in the row Revenue, under Year Ended December 31, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    612,
+    820,
+    656,
+    836
+   ],
+   "box": [
+    614,
+    820,
+    652,
+    834
+   ],
+   "page": 160,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Compute and infrastructure",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "8,945",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $8.9bn (printed as 8,945) in the row Compute and infrastructure, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    614,
+    176,
+    682,
+    194
+   ],
+   "box": [
+    600,
+    177,
+    640,
+    191
+   ],
+   "page": 159,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Personnel",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "3,152",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $3.2bn (printed as 3,152) in the row Personnel, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    602,
+    411,
+    661,
+    428
+   ],
+   "box": [
+    603,
+    411,
+    640,
+    425
+   ],
+   "page": 159,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Sales, marketing, and partnerships",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "3,168",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $3.2bn (printed as 3,168) in the row Sales, marketing, and partnerships, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    603,
+    576,
+    659,
+    590
+   ],
+   "box": [
+    602,
+    576,
+    640,
+    589
+   ],
+   "page": 159,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Other operating and administrative",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "1,714",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $1.7bn (printed as 1,714) in the row Other operating and administrative, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    606,
+    756,
+    671,
+    773
+   ],
+   "box": [
+    606,
+    755,
+    640,
+    768
+   ],
+   "page": 159,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Total operating expenses",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "16,979",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $17bn (printed as 16,979) in the row Total operating expenses, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    832,
+    517,
+    882,
+    531
+   ],
+   "box": [
+    838,
+    520,
+    876,
+    532
+   ],
+   "page": 32,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Operating loss",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(693)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$693m (printed as (693)) in the row Operating loss, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    830,
+    535,
+    882,
+    550
+   ],
+   "box": [
+    849,
+    535,
+    881,
+    547
+   ],
+   "page": 32,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Operating loss",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "full_year 2025",
+   "printed": "(8,060)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$8.1bn (printed as (8,060)) in the row Operating loss, under Year Ended December 31, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    616,
+    534,
+    680,
+    549
+   ],
+   "box": [
+    631,
+    535,
+    675,
+    547
+   ],
+   "page": 32,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Interest income",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "1,111",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $1.1bn (printed as 1,111) in the row Interest income, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    615,
+    169,
+    676,
+    184
+   ],
+   "box": [
+    621,
+    151,
+    652,
+    164
+   ],
+   "page": 160,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Loss before provision for income taxes",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(80,727)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$80.7bn (printed as (80,727)) in the row Loss before provision for income taxes, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    814,
+    632,
+    883,
+    648
+   ],
+   "box": [
+    832,
+    621,
+    881,
+    633
+   ],
+   "page": 32,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Net loss",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(80,748)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$80.7bn (printed as (80,748)) in the row Net loss, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    631,
+    376,
+    683,
+    390
+   ],
+   "box": [
+    634,
+    386,
+    681,
+    396
+   ],
+   "page": 352,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Net loss",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "full_year 2025",
+   "printed": "(41,965)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$42bn (printed as (41,965)) in the row Net loss, under Year Ended December 31, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    475,
+    378,
+    523,
+    390
+   ],
+   "box": [
+    478,
+    386,
+    522,
+    396
+   ],
+   "page": 352,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Net loss per share",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(39.88)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$39.88 (printed as (39.88)) in the row Net loss per share attributable to common stockholders, basic and diluted, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    805,
+    828,
+    860,
+    844
+   ],
+   "box": [
+    829,
+    812,
+    881,
+    826
+   ],
+   "page": 402,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "112,389",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $112.4bn (printed as 112,389) in the row Cash and cash equivalents, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    810,
+    338,
+    877,
+    352
+   ],
+   "box": [
+    823,
+    332,
+    875,
+    346
+   ],
+   "page": 381,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "147,358",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $147.4bn (printed as 147,358) in the row Total assets, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    632,
+    279,
+    683,
+    290
+   ],
+   "box": [
+    635,
+    274,
+    676,
+    285
+   ],
+   "page": 350,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "as_of 2025",
+   "printed": "24,661",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $24.7bn (printed as 24,661) in the row Total assets, under As of December 31, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    540,
+    278,
+    595,
+    292
+   ],
+   "box": [
+    555,
+    274,
+    590,
+    285
+   ],
+   "page": 350,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "117,467",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $117.5bn (printed as 117,467) in the row Total liabilities, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    630,
+    445,
+    682,
+    460
+   ],
+   "box": [
+    637,
+    431,
+    676,
+    441
+   ],
+   "page": 350,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Convertible notes payable",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "108,566",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $108.6bn (printed as 108,566) in the row Convertible notes payable, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    632,
+    411,
+    682,
+    424
+   ],
+   "box": [
+    634,
+    403,
+    676,
+    414
+   ],
+   "page": 350,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Net cash provided by operating activities",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "3,929",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $3.9bn (printed as 3,929) in the row Net cash provided by (used in) operating activities, under Six Months Ended June 2026.",
+   "right_cell": true,
+   "muse_box": [
+    636,
+    371,
+    681,
+    386
+   ],
+   "box": [
+    648,
+    368,
+    677,
+    378
+   ],
+   "page": 357,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Purchases of property and equipment",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(482)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$482m (printed as (482)) in the row Purchases of property and equipment, under Six Months Ended June 2026.",
+   "right_cell": true,
+   "muse_box": [
+    646,
+    400,
+    686,
+    414
+   ],
+   "box": [
+    653,
+    395,
+    681,
+    405
+   ],
+   "page": 357,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Net cash used in investing activities",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(17,181)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$17.2bn (printed as (17,181)) in the row Net cash used in investing activities, under Six Months Ended June 2026.",
+   "right_cell": true,
+   "muse_box": [
+    634,
+    468,
+    684,
+    481
+   ],
+   "box": [
+    642,
+    460,
+    681,
+    470
+   ],
+   "page": 357,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Net cash provided by financing activities",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "110,774",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $110.8bn (printed as 110,774) in the row Net cash provided by financing activities, under Six Months Ended June 2026.",
+   "right_cell": true,
+   "muse_box": [
+    635,
+    608,
+    683,
+    622
+   ],
+   "box": [
+    639,
+    612,
+    677,
+    622
+   ],
+   "page": 357,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Stock-based compensation expense",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "2,185",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $2.2bn (printed as 2,185) in the row Stock-based compensation expense, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    808,
+    204,
+    863,
+    218
+   ],
+   "box": [
+    826,
+    182,
+    863,
+    195
+   ],
+   "page": 166,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Adjusted Operating Income",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "1,618",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $1.6bn (printed as 1,618) in the row Adjusted Operating Income (Loss), under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    804,
+    258,
+    860,
+    274
+   ],
+   "box": [
+    827,
+    236,
+    863,
+    249
+   ],
+   "page": 166,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Adjusted Operating Margin",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "10%",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows 10% (printed as 10) in the row Adjusted Operating Margin, under Six Months Ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    830,
+    326,
+    885,
+    342
+   ],
+   "box": [
+    846,
+    310,
+    863,
+    323
+   ],
+   "page": 166,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong"
+   }
+  },
+  {
+   "metric": "Operating margin",
+   "filing": "ANTH-S1-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(4)%",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Operating margin\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    832,
+    322,
+    882,
+    338
+   ],
+   "box": [],
+   "page": 166,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused",
+    "other_column_3": "refused"
+   }
+  },
+  {
+   "metric": "Revenues",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "582.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $582.3m (printed as 582.3) in the row Revenues, under Three months ended June 30 2026.",
+   "right_cell": true,
+   "muse_box": [
+    516,
+    442,
+    566,
+    456
+   ],
+   "box": [
+    524,
+    435,
+    558,
+    445
+   ],
+   "page": 0,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong",
+    "other_column_4": "wrong"
+   }
+  },
+  {
+   "metric": "Revenues",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "981.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $981.3m (printed as 981.3) in the row Revenues, under Six months ended June 30 2026.",
+   "right_cell": true,
+   "muse_box": [
+    765,
+    425,
+    812,
+    440
+   ],
+   "box": [
+    794,
+    435,
+    827,
+    445
+   ],
+   "page": 0,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong",
+    "other_column_3": "wrong",
+    "other_column_4": "wrong"
+   }
+  },
+  {
+   "metric": "Total operating costs and expenses",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "758.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $758.2m (printed as 758.2) in the row Total operating costs and expenses, under Three months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    660,
+    230,
+    710,
+    244
+   ],
+   "box": [
+    678,
+    237,
+    712,
+    248
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Total operating costs and expenses",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "1,285.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $1.3bn (printed as 1,285.2) in the row Total operating costs and expenses, under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    845,
+    236,
+    920,
+    251
+   ],
+   "box": [
+    874,
+    237,
+    919,
+    248
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Loss from operations",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(175.9)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$175.9m (printed as (175.9)) in the row Loss from operations, under Three months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    642,
+    270,
+    705,
+    284
+   ],
+   "box": [
+    669,
+    252,
+    712,
+    263
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Loss from operations",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(303.9)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$303.9m (printed as (303.9)) in the row Loss from operations, under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    828,
+    258,
+    894,
+    273
+   ],
+   "box": [
+    876,
+    252,
+    919,
+    263
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Interest income",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "24.1",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Interest income\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    648,
+    305,
+    690,
+    319
+   ],
+   "box": [],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   }
+  },
+  {
+   "metric": "Net income / (loss)",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(190.4)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$190.4m (printed as (190.4)) in the row Net income / (loss), under Three months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    635,
+    404,
+    700,
+    420
+   ],
+   "box": [
+    669,
+    402,
+    712,
+    412
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income / (loss)",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "430.8",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $430.8m (printed as 430.8) in the row Net income / (loss), under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    860,
+    407,
+    905,
+    421
+   ],
+   "box": [
+    885,
+    402,
+    919,
+    412
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net cash provided by operating activities",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "4,504.1",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $4.5bn (printed as 4,504.1) in the row Net cash provided by / (used in) operating activities, under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    860,
+    515,
+    922,
+    532
+   ],
+   "box": [
+    874,
+    535,
+    919,
+    546
+   ],
+   "page": 7,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Purchases of property and equipment and intangible assets",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(8,130.3)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$8.1bn (printed as (8,130.3)) in the row Purchases of property and equipment and intangible assets, under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    830,
+    583,
+    926,
+    599
+   ],
+   "box": [
+    865,
+    569,
+    919,
+    580
+   ],
+   "page": 7,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net cash used in investing activities",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "six_months 2026",
+   "printed": "(8,288.8)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$8.3bn (printed as (8,288.8)) in the row Net cash used in investing activities, under Six months ended June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    843,
+    694,
+    920,
+    709
+   ],
+   "box": [
+    865,
+    704,
+    919,
+    714
+   ],
+   "page": 7,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "8,042.1",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $8bn (printed as 8,042.1) in the row Assets Cash and cash equivalents, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    860,
+    130,
+    920,
+    142
+   ],
+   "box": [
+    874,
+    137,
+    919,
+    148
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "27,961.5",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $28bn (printed as 27,961.5) in the row Total assets, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    832,
+    342,
+    903,
+    356
+   ],
+   "box": [
+    867,
+    363,
+    919,
+    373
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "as_of 2025",
+   "printed": "12,430.6",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $12.4bn (printed as 12,430.6) in the row Total assets, under As of December 31, 2025*.",
+   "right_cell": true,
+   "muse_box": [
+    709,
+    334,
+    779,
+    349
+   ],
+   "box": [
+    723,
+    363,
+    775,
+    373
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "17,621.0",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $17.6bn (printed as 17,621.0) in the row Total liabilities, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    841,
+    539,
+    903,
+    553
+   ],
+   "box": [
+    867,
+    546,
+    919,
+    557
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Debt, non-current",
+   "filing": "NBIS-Q2-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "8,499.0",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $8.5bn (printed as 8,499.0) in the row Debt, non-current, under As of June 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    838,
+    458,
+    898,
+    473
+   ],
+   "box": [
+    874,
+    486,
+    919,
+    497
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   }
+  },
+  {
+   "metric": "Total net sales",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "11,662.0",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €11.7bn (printed as 11,662.0) in the row Total net sales, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    818,
+    294,
+    867,
+    313
+   ],
+   "box": [
+    818,
+    294,
+    853,
+    309
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Total net sales",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "29,755.4",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €29.8bn (printed as 29,755.4) in the row Total net sales, under Nine months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    932,
+    307,
+    981,
+    328
+   ],
+   "box": [
+    945,
+    294,
+    980,
+    309
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "8,373.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €8.4bn (printed as 8,373.2) in the row Net system sales, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    822,
+    253,
+    867,
+    270
+   ],
+   "box": [
+    823,
+    244,
+    853,
+    260
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net service and field option sales",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "3,288.8",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €3.3bn (printed as 3,288.8) in the row Net service and field option sales, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    820,
+    267,
+    855,
+    285
+   ],
+   "box": [
+    823,
+    269,
+    853,
+    285
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Gross profit",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "6,699.8",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €6.7bn (printed as 6,699.8) in the row Gross profit, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    821,
+    367,
+    854,
+    383
+   ],
+   "box": [
+    823,
+    368,
+    853,
+    384
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Gross profit",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "16,380.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €16.4bn (printed as 16,380.3) in the row Gross profit, under Nine months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    944,
+    367,
+    980,
+    383
+   ],
+   "box": [
+    945,
+    368,
+    980,
+    384
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Research and development costs",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(1,174.4)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -€1.2bn (printed as (1,174.4)) in the row Research and development costs, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    820,
+    430,
+    870,
+    447
+   ],
+   "box": [
+    821,
+    417,
+    855,
+    433
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Selling, general and administrative costs",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(352.6)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -€352.6m (printed as (352.6)) in the row Selling, general and administrative costs, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    827,
+    441,
+    857,
+    457
+   ],
+   "box": [
+    828,
+    442,
+    855,
+    458
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Income from operations",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "5,172.8",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €5.2bn (printed as 5,172.8) in the row Income from operations, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    820,
+    488,
+    866,
+    505
+   ],
+   "box": [
+    823,
+    467,
+    853,
+    483
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Income from operations",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "11,786.8",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €11.8bn (printed as 11,786.8) in the row Income from operations, under Nine months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    944,
+    465,
+    981,
+    483
+   ],
+   "box": [
+    945,
+    467,
+    980,
+    483
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "4,960.4",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €5bn (printed as 4,960.4) in the row Net income, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    821,
+    717,
+    866,
+    737
+   ],
+   "box": [
+    823,
+    714,
+    853,
+    730
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Net income",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "10,634.7",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €10.6bn (printed as 10,634.7) in the row Net income, under Nine months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    944,
+    714,
+    980,
+    730
+   ],
+   "box": [
+    945,
+    714,
+    980,
+    730
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Basic net income per ordinary share",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "12.95",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €12.95 (printed as 12.95) in the row Basic net income per ordinary share, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    829,
+    781,
+    866,
+    800
+   ],
+   "box": [
+    831,
+    764,
+    853,
+    779
+   ],
+   "page": 2,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Gross margin",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "57.5%",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows 57.5% (printed as 57.5) in the row Gross margin, under Three months ended Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    826,
+    250,
+    869,
+    266
+   ],
+   "box": [
+    827,
+    251,
+    844,
+    267
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Total assets",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "58,981.2",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €59bn (printed as 58,981.2) in the row Total assets, under Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    451,
+    899,
+    486,
+    914
+   ],
+   "box": [
+    451,
+    877,
+    485,
+    893
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong"
+   }
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "36,917.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €36.9bn (printed as 36,917.3) in the row Total liabilities, under Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    946,
+    458,
+    980,
+    471
+   ],
+   "box": [
+    946,
+    457,
+    980,
+    473
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Long-term debt",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "1,963.0",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €2bn (printed as 1,963.0) in the row Long-term debt, under Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    945,
+    322,
+    982,
+    340
+   ],
+   "box": [
+    951,
+    309,
+    980,
+    324
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  },
+  {
+   "metric": "Inventories",
+   "filing": "ASML-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "11,907.3",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows €11.9bn (printed as 11,907.3) in the row Inventories, net, under Sep 27, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    449,
+    382,
+    486,
+    397
+   ],
+   "box": [
+    451,
+    383,
+    485,
+    398
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   }
+  }
+ ],
+ "absent": [
+  {
+   "metric": "Free cash flow",
+   "filing": "ANTH-S1-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "ANTH-S1-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "NBIS-Q2-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Free cash flow",
+   "filing": "NBIS-Q2-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "ASML-Q3-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  }
+ ]
+}

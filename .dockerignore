@@ -1,0 +1,13 @@
+.claude
+.env.local
+.git
+.pytest_cache
+.venv
+.worktrees
+AGENTS.md
+CLAUDE.md
+__pycache__
+eval/recordings
+runs
+scripts
+state
