@@ -474,13 +474,13 @@ def test_a_hostile_reply_fails_and_stays_on_the_record(tmp_path, reply):
 def test_a_reply_that_is_not_json_fails_plainly(tmp_path):
     ctx = scripted(tmp_path, b'{"choices":[{"message":{"content":"import os"}}]}')
     out = dispatch("plugins.create", ASK, "web", ctx)
-    assert out.status == "failed" and "bad_reply" in out.why
+    assert out.status == "failed" and "could not be read" in out.why
 
 
 def test_a_muse_failure_fails_plainly(tmp_path):
     ctx = scripted(tmp_path, MuseError("rate_limited", "secret provider text"))
     out = dispatch("plugins.create", ASK, "web", ctx)
-    assert out.status == "failed" and "rate_limited" in out.why and "secret" not in out.why
+    assert out.status == "failed" and "busy" in out.why and "secret" not in out.why
 
 
 def test_an_unavailable_dry_run_is_kept_and_shown(tmp_path):

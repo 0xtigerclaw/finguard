@@ -253,7 +253,7 @@ def test_a_subject_can_refuse_before_any_approval_exists(ctx):
 @pytest.mark.parametrize("error, words", [
     (ValueError("/secret/path key=abc"), "internal error"),
     (Failed("The server answered 500."), "answered 500"),
-    (MuseError("timeout", "raw provider text"), "timeout"),
+    (MuseError("timeout", "raw provider text"), "too long"),
 ])
 def test_an_exception_becomes_failed_with_a_plain_reason(ctx, error, words):
     def boom(c, p):

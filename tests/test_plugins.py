@@ -277,7 +277,7 @@ def test_a_failed_model_call_is_failed_not_a_verdict(ctx):
         raise MuseError("unavailable", "raw provider text")
     ctx.transport.send = down
     out = dispatch("memo.check", {"memo": "Revenue was $5m.", "filing": "anthropic"}, "web", ctx)
-    assert out.status == "failed" and "unavailable" in out.why and "raw provider" not in out.why
+    assert out.status == "failed" and "could not be reached" in out.why and "raw provider" not in out.why
     assert dispatch("memo.release", {"check_run_id": out.run_id}, "web", ctx).status == "refused"
 
 

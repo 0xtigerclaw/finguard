@@ -6,7 +6,7 @@ import logging
 import secrets
 from dataclasses import asdict, dataclass, replace
 
-from ..errors import MuseError
+from ..errors import MuseError, plainly
 from .context import Context
 from .plugin import Capability, Failed, Refused, hash_of, problem_with_params
 
@@ -32,7 +32,7 @@ def _plain_failure(name: str, error: Exception) -> str:
     if isinstance(error, Failed):
         return str(error)
     if isinstance(error, MuseError):
-        return f"The model call failed: {error.code}."
+        return f"Muse could not answer: {plainly(error)}."
     log.error("%s stopped on %s", name, type(error).__name__)
     return "This capability stopped on an internal error."
 

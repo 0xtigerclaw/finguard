@@ -23,7 +23,7 @@ from ..core.approvals import OPERATORS
 from ..core.context import ROOT, Context
 from ..core.ledger import chain_problems, record_problems
 from ..core.plugin import Capability, Failed, Refused, Registry, hash_of
-from ..errors import MuseError
+from ..errors import MuseError, plainly
 from ..figures import money
 from ..house import (_column_fits, _header_above, _heading, _is_cell, _own_year, _plain, refuse_forbidden)
 from ..muse import Muse, ReplayTransport, image_part
@@ -710,7 +710,7 @@ def _create(ctx: Context, params: dict) -> dict:
     try:
         reply = muse.ask(CREATOR_SYSTEM, content, "PluginDefinition", CREATOR_SCHEMA)
     except MuseError as e:
-        raise Failed(f"Muse could not write a definition: {e.code}. Nothing was assumed.") from e
+        raise Failed(f"Muse could not write a definition: {plainly(e)}. Nothing was assumed.") from e
     try:
         definition = clean_definition(reply)
     except Refused as e:
@@ -989,7 +989,7 @@ def register(registry: Registry) -> None:
     ))
     registry.add(Capability(
         name="plugins.install",
-        summary="Install a plugin definition as a new read capability, once a person approves.",
+        summary="Install a plugin Muse wrote, once a person approves. It can only read.",
         kind="act",
         approval="person",
         verifies="Code refuses a definition no plugins.create run on the ledger produced. The approval binds to its sha256. "
@@ -1004,7 +1004,7 @@ def register(registry: Registry) -> None:
     ))
     registry.add(Capability(
         name="plugins.list",
-        summary="The gallery prompts, the installed plugins, and whether each one is loaded.",
+        summary="The example prompts, the installed plugins, and whether each one is loaded.",
         kind="read",
         approval="none",
         verifies="Code checks each installed definition again and compares its hash with the approval on the ledger.",

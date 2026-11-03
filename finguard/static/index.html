@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check · Finguard</title>
-<meta name="description" content="Every number in a memo gets a receipt from the filing, or a refusal.">
+<meta name="description" content="Finguard is a finance harness running on Meta Muse. Muse proposes, code verifies, a person releases.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23214d83' d='M4 2.5h16a1 1 0 0 1 1 1V21l-3-1.8-3 1.8-3-1.8L9 21l-3-1.8L3 21V3.500a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M7.500 10.500l3 3 6-6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -355,23 +355,137 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .skeleton::after{content:"";display:inline-block;width:7px;height:7px;background:var(--navy);border-radius:50%;margin-left:8px;animation:pulse 1.1s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.25}}
 
+/* ---------- one quiet system: fewer boxes, one spacing scale, one button style ---------- */
+.wrap{padding-top:24px}
+.head{margin-bottom:18px}
+.head>.linkish{display:inline-block;margin-bottom:8px}
+.controls{margin-bottom:10px}
+.chips{gap:6px;margin:0 0 12px}
+.chip{border-color:var(--line);color:var(--soft);padding:5px 12px;min-height:32px}
+.chip-tag{font-weight:400;font-size:11px;color:#6b7a90;margin-left:6px}
+.chips-kicker{font-size:12.5px;color:var(--soft);margin:12px 0 6px;letter-spacing:0;text-transform:none;font-weight:400}
+.btn{min-height:40px;padding:8px 16px}
+.memo-label{flex-wrap:wrap;gap:6px 10px;justify-content:flex-start;margin-bottom:10px}
+.memo-label #memoEdit{margin-left:auto}
+.label-slot:empty{display:none}
+.prompt{box-shadow:0 6px 22px rgba(23,43,70,.07)}
+.prompt textarea{min-height:180px}
+#askInput,#createInput{min-height:64px}
+.prompt-foot{border-top:0;padding-top:0}
+/* labels */
+.pills{margin:0 0 10px}
+.label-slot .pills{margin:0}
+.pill-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{position:relative;border:0;cursor:help;font-family:inherit}
+.pill::after{content:"";position:absolute;inset:-12px -2px}
+.pill[aria-expanded=true]{box-shadow:inset 0 0 0 1px currentColor}
+.pill-detail{font-size:13px;color:var(--soft);margin-top:6px;line-height:1.4;flex-basis:100%}
+.label-slot{display:flex;flex-wrap:wrap}
+/* details */
+.more{margin-top:10px;font-size:13.5px}
+.more>summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:28px;font-size:12.5px;font-weight:600;color:var(--soft);list-style:none}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .12s}
+.more[open]>summary::before{transform:rotate(90deg)}
+.more>summary:hover{color:var(--navy)}
+.more .kv{margin-top:6px;font-size:13.5px}
+.more .t{margin-top:6px}
+.lines-box{margin-top:12px}
+/* result */
+.prompt .tally{margin:12px 0 0}
+.tally{margin:14px 0 6px}
+.release{background:none;border:0;padding:0;margin:14px 0}
+.release.ok{border:0}
+.release .fixrow{margin:0}
+.tcard{box-shadow:none}
+.tcard .more{padding:0 18px 12px}
+.msg{background:none;border:0;padding:6px 0;color:var(--soft)}
+.tcard .msg{padding:14px 18px}
+.msg.bad{background:var(--wrong-bg);border:0;padding:12px 14px;border-radius:8px}
+/* the right column */
+.proof{box-shadow:none;flex:1 1 0}
+.viewer{flex:1 1 0}
+.has-proof .panel{flex:0 0 auto;max-height:50%}
+.card{padding:12px 16px;max-height:44%;overflow:auto}
+.card .why{margin-bottom:4px}
+.card-foot{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 12px}
+.card-foot .more{margin-top:0;flex:1 1 100%}
+.facts{font-size:12.5px}
+.legend{padding:5px 16px}
+.panel{padding:14px 16px}
+.panel-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:2px solid var(--navy);padding-bottom:7px}
+.panel-title{border:0;padding:0;font-size:18px}
+.panel-toggle,.panel-all{font-size:12.5px;font-weight:600;color:var(--soft);min-height:24px}
+.panel-all{margin-top:6px}
+.steps{margin-top:12px}
+.step{padding-bottom:12px}
+.panel.collapsed .steps,.panel.collapsed .panel-all{display:none}
+.panel.collapsed .panel-top{border-bottom:0;padding-bottom:0}
+.panel.active .step:not(.on){display:none}
+.panel.active .step.on .step-text{display:none}
+.panel.active .step.on:not(:has(~ .step.on))::before{display:none}
+.panel.active .step{padding-bottom:7px;grid-template-columns:24px minmax(0,1fr)}
+.panel.active .step:not(:last-child)::before{left:11px;top:26px}
+.panel.active .step-mark{width:24px;height:24px;font-size:12px}
+.panel.active .step-name{padding-top:2px;font-size:13.5px}
+/* ask */
+.answer{border:0;padding:14px 16px}
+.turn.past .bubble{background:var(--tint);color:var(--navy)}
+.turn.past .answer{background:none;padding:2px 2px 0 2px}
+.turn.past .memo,.turn.past .pills,.turn.past .tally{opacity:.85}
+.turn.past .memo{font-size:14.5px;line-height:1.9;color:var(--soft)}
+.turn.past .tally{margin:8px 0 2px;font-size:12.5px}
+.turn.past .tally b{font-size:15px}
+.turn.past .release.blocked,.turn.past .pill-bar .stamp.ink{display:none}
+.turn{margin-bottom:18px}
+.lines{border-top:0}
+.house-note{border:0;margin:4px 0 8px}
+.house-money{font-size:34px;margin:6px 0 0}
+.ask-new{margin-top:6px}
+.answer-result .more{margin-top:8px}
+/* create */
+.gallery{gap:8px;margin-bottom:14px}
+.gallery-card{border-color:var(--line);padding:10px 12px;font-size:13.5px}
+.gallery-line{display:block;color:var(--soft);line-height:1.35}
+.gallery-tag{display:block;margin-top:4px;font-size:11.5px;color:#6b7a90}
+#createResult:not(:empty){margin-top:14px}
+#v-create .kv{font-size:14px}
+/* approvals */
+.operator{max-width:none;padding:0 0 4px;background:none;border:0;grid-template-columns:minmax(0,320px) auto minmax(0,1fr);align-items:end}
+.operator p{grid-column:auto;font-size:13px;padding-bottom:10px}
+.slip{box-shadow:none;padding:14px 16px;margin:10px 0}
+.slip-top{margin-bottom:2px}
+.slip-top .cap{font-family:var(--serif);font-size:18px;font-weight:600;margin:0;line-height:1.3}
+.slip-summary{font-size:14.5px;color:var(--ink);margin:2px 0 0}
+.slip-summary:empty{display:none}
+.slip-decision{font-size:13.5px;color:var(--soft);margin-top:4px}
+.slip-body:empty{display:none}
+.slip-body{margin-top:10px}
+.decide{margin-top:10px;padding-top:0;border-top:0}
+.decide .field{order:3;flex:1 1 220px;max-width:420px}
+.slip .label:first-child{margin-top:0}
+.memo.quiet{padding:0;border:0;background:none}
+/* record, rules, score */
+.how{margin-top:32px}
+.how-lead{font-size:15px;color:var(--soft);max-width:70ch;margin:-4px 0 12px}
+.how-card{border:0}
+.how-card p{font-size:14px}
+.headline{border:0;border-left:3px solid var(--navy);border-radius:0;padding:2px 0 2px 14px;background:none}
+.tile{border:0}
+.barblock{border:0}
+.site-foot{max-width:1480px;margin:0 auto;padding:16px 24px 28px;font-size:12.5px;color:var(--soft);line-height:1.5}
 @media (min-width:1100px){
-  .has-proof .panel{max-height:48%;flex:0 0 auto}
-  .has-proof .step.on .step-text{display:none}
-  .has-proof .step{padding-bottom:6px;grid-template-columns:24px minmax(0,1fr)}
-  .has-proof .step:not(:last-child)::before{left:11px;top:26px}
-  .has-proof .step-mark{width:24px;height:24px;font-size:12px}
-  .has-proof .step-name{padding-top:2px;font-size:14px}
-  .has-proof .steps{margin-top:8px}
-  .has-proof .panel{padding:10px 16px}
-  .has-proof .panel-title{font-size:17px;padding-bottom:6px}
-  .has-proof .panel-for{display:none}
+  #v-check .bench{min-height:calc(100dvh - var(--top) - 48px)}
 }
+
 @media (max-width:1099px){
   .bench{grid-template-columns:minmax(0,1fr);gap:20px}
   .side{position:static}
   .side.has-proof{height:auto}
-  .viewer{max-height:72vh}
+  .proof{flex:none}
+  .viewer{flex:none;height:min(72vh,560px);max-height:none}
+  .card{max-height:none}
+  .has-proof .panel{max-height:none}
   .back{display:inline-flex}
   .how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
@@ -406,6 +520,10 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .house-note details summary{min-height:44px}
   .answer{padding:14px}
   .linkish{min-height:44px}
+  .more>summary,.panel-toggle,.panel-all{min-height:44px}
+  .operator p{padding-bottom:0}
+  .site-foot a{display:inline-flex;align-items:center;min-height:44px}
+  .site-foot{padding:8px 16px 24px}
   .btn{min-height:44px}
   .prompt{padding:14px 14px 12px}
   .prompt textarea{font-size:16px}
@@ -483,7 +601,7 @@ button.fig:focus-visible{outline-offset:4px}
     <div class="bench">
       <div class="col">
         <header class="head">
-          <p class="kicker">Finance harness for Meta Muse</p>
+          <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
           <h1 tabindex="-1">Check a memo</h1>
           <p class="lede">Every number gets a receipt from the filing, or a refusal.</p>
         </header>
@@ -495,9 +613,10 @@ button.fig:focus-visible{outline-offset:4px}
         <div class="prompt">
           <div class="memo-label">
             <label for="memoInput" id="memoLabel">Memo</label>
+            <div class="label-slot" id="checkLabels"></div>
             <button class="linkish" id="memoEdit" type="button" hidden>Edit memo</button>
           </div>
-          <textarea id="memoInput" spellcheck="false" placeholder="Paste a memo with numbers from this filing."></textarea>
+          <textarea id="memoInput" spellcheck="false" placeholder="Paste a memo that cites this filing."></textarea>
           <div id="checkMemoSlot"></div>
           <div class="prompt-foot" id="checkGo">
             <div class="prompt-note">
@@ -508,20 +627,20 @@ button.fig:focus-visible{outline-offset:4px}
           </div>
         </div>
         <div class="clock" id="checkClock" hidden></div>
-        <div class="fixrow" id="checkFix" hidden></div>
+        <div class="fix-home" id="checkFixHome"><div class="fixrow" id="checkFix" hidden></div></div>
         <div id="checkResult"></div>
       </div>
       <aside class="side" id="checkDesk" aria-label="How the number was checked, and the proof"></aside>
     </div>
     <section class="how" aria-labelledby="howTitle">
       <h2 id="howTitle">How it works</h2>
+      <p class="how-lead">Everything is a plugin, and every plugin states its trust rules in code. Muse proposes, code verifies, a person releases.</p>
       <div class="how-grid">
-        <div class="how-card"><b>LIST</b><p>Muse lists each claim in the memo. It copies the words exactly and does not fix anything.</p></div>
-        <div class="how-card"><b>POINT</b><p>Muse points to where the filing reports the metric. It is not told the memo's number, so it cannot lean toward it.</p></div>
-        <div class="how-card"><b>READ</b><p>Plain code reads the PDF's own text at that spot and gives the verdict. Muse never decides.</p></div>
-        <div class="how-card"><b>RELEASE</b><p>Only a memo where every number matches can be sent on. A person must approve it first.</p></div>
+        <div class="how-card"><b>LIST</b><p>Muse lists every claim, word for word. It fixes nothing.</p></div>
+        <div class="how-card"><b>POINT</b><p>Muse points to where the filing reports it. It never sees the memo's number.</p></div>
+        <div class="how-card"><b>READ</b><p>Code reads the PDF's own text and gives the verdict. Muse has no vote.</p></div>
+        <div class="how-card"><b>RELEASE</b><p>Every number must match. Then a person approves.</p></div>
       </div>
-      <p class="foot">Built for the Meta Global AI Developer Hackathon. <a href="https://github.com/0xtigerclaw/finguard">Source</a>.</p>
     </section>
   </div>
 </section>
@@ -532,9 +651,9 @@ button.fig:focus-visible{outline-offset:4px}
     <div class="bench">
       <div class="col">
         <header class="head">
-          <p class="kicker">Muse writes, code checks</p>
-          <h1 tabindex="-1">Ask about a filing</h1>
-          <p class="lede">Muse answers in a short memo, and code checks every number in it. Muse does not mark its own work.</p>
+          <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
+          <h1 tabindex="-1">Ask a filing</h1>
+          <p class="lede">Muse answers from the filing. Code checks every number.</p>
         </header>
         <div class="msg" id="askMissing" hidden></div>
         <div class="controls">
@@ -545,7 +664,7 @@ button.fig:focus-visible{outline-offset:4px}
         <div id="askChips"></div>
         <div class="prompt">
           <div class="memo-label"><label for="askInput">Your question</label></div>
-          <textarea id="askInput" style="min-height:84px" spellcheck="false" placeholder="Ask about this filing."></textarea>
+          <textarea id="askInput" spellcheck="false" placeholder="Ask about this filing."></textarea>
           <div class="prompt-foot">
             <div class="prompt-note">
               <p class="hint" id="askHint" hidden></p>
@@ -567,9 +686,9 @@ button.fig:focus-visible{outline-offset:4px}
     <div class="bench">
       <div class="col">
         <header class="head">
-          <p class="kicker">Plugins on request</p>
-          <h1 tabindex="-1">Create a finance plugin</h1>
-          <p class="lede">Muse writes a definition, not code. Plain code runs it, and a person approves it.</p>
+          <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
+          <h1 tabindex="-1">Create a plugin</h1>
+          <p class="lede">Describe a check. Muse writes the plugin as data. You approve it.</p>
         </header>
         <div class="msg" id="createMissing" hidden></div>
         <div id="createGallery"></div>
@@ -578,18 +697,18 @@ button.fig:focus-visible{outline-offset:4px}
           <span class="doc" id="createDoc"></span>
         </div>
         <div class="prompt">
-          <div class="memo-label"><label for="createInput">What should it work out?</label></div>
-          <textarea id="createInput" style="min-height:84px" spellcheck="false" placeholder="Say what the plugin should work out from a filing."></textarea>
+          <div class="memo-label"><label for="createInput">What should it check?</label></div>
+          <textarea id="createInput" spellcheck="false" placeholder="Pick an example above, or describe a check in your own words."></textarea>
           <div class="prompt-foot">
             <div class="prompt-note">
               <p class="hint" id="createHint" hidden></p>
               <p class="state" id="createState" role="status"></p>
             </div>
-            <button class="btn primary" id="createRun" type="button">Write the definition <span aria-hidden="true">→</span></button>
+            <button class="btn primary" id="createRun" type="button">Write the plugin <span aria-hidden="true">→</span></button>
           </div>
         </div>
         <div class="clock" id="createClock" hidden></div>
-        <div id="createResult" style="margin-top:14px"></div>
+        <div id="createResult"></div>
         <div id="createInstalled"></div>
       </div>
       <aside class="side" id="createDesk" aria-label="The proof from the filing"></aside>
@@ -601,9 +720,9 @@ button.fig:focus-visible{outline-offset:4px}
 <section class="view" id="v-approvals" hidden>
   <div class="wrap narrow">
     <header class="head">
-      <p class="kicker">A person releases</p>
+      <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
       <h1 tabindex="-1">Approvals</h1>
-      <p class="lede">Nothing is released until a person says yes. Each yes is tied to the exact content it saw.</p>
+      <p class="lede">Nothing leaves until a person says yes.</p>
     </header>
     <div class="operator" id="operatorBox">
       <div id="operatorField">
@@ -611,7 +730,7 @@ button.fig:focus-visible{outline-offset:4px}
         <input class="field" id="operatorToken" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" data-1p-ignore data-lpignore="true">
       </div>
       <button class="btn" id="operatorForget" type="button">Forget token</button>
-      <p id="operatorNote">Only the operator can approve or reject. The token stays in this page's memory. It is gone when you reload.</p>
+      <p id="operatorNote">Only the operator can decide. The token stays in this page and is gone on reload.</p>
     </div>
     <div id="approvalsBody"></div>
   </div>
@@ -621,9 +740,9 @@ button.fig:focus-visible{outline-offset:4px}
 <section class="view" id="v-record" hidden>
   <div class="wrap narrow" id="recordList">
     <header class="head">
-      <p class="kicker">Hash-chained ledger</p>
+      <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
       <h1 tabindex="-1">Record</h1>
-      <p class="lede">Every step goes on a ledger. Each line holds the hash of the line before, so a changed line breaks the chain.</p>
+      <p class="lede">Every step is on a chain. A changed line breaks it.</p>
     </header>
     <div id="recordChain"></div>
     <div id="recordRuns"></div>
@@ -637,7 +756,7 @@ button.fig:focus-visible{outline-offset:4px}
     <div class="bench">
       <div class="col" id="recordRunSheet">
         <div id="recordRunHead"></div>
-        <div id="recordRunMemoSlot" style="margin-top:14px"></div>
+        <div id="recordRunMemoSlot"></div>
         <div id="recordRunResult"></div>
       </div>
       <aside class="side" id="recordRunDesk" aria-label="How the number was checked, and the proof"></aside>
@@ -649,13 +768,13 @@ button.fig:focus-visible{outline-offset:4px}
 <section class="view" id="v-rules" hidden>
   <div class="wrap narrow">
     <header class="head">
-      <p class="kicker">Plugins and capabilities</p>
+      <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
       <h1 tabindex="-1">Rules</h1>
-      <p class="lede">Each row is one capability, declared by a plugin in code. It states if it reads or acts, if a person must approve, and how code checks the result. The page and the command line use the same door.</p>
+      <p class="lede">Every plugin states its rules in code.</p>
     </header>
     <div id="houseBody"></div>
     <div id="rulesBody"></div>
-    <p class="note">The program will not start if an action has no person approval, or if a capability does not say how it is checked.</p>
+    <p class="note">Finguard will not start if a plugin that acts skips the person, or if any plugin does not say how code checks it. The page and the command line go through the same door.</p>
   </div>
 </section>
 
@@ -663,15 +782,19 @@ button.fig:focus-visible{outline-offset:4px}
 <section class="view" id="v-score" hidden>
   <div class="wrap narrow">
     <header class="head">
-      <p class="kicker">Measured on known answers</p>
+      <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
       <h1 tabindex="-1">Score</h1>
-      <p class="lede">What the checker did on numbers we already knew the answer to.</p>
+      <p class="lede">What we measured, including what went badly.</p>
     </header>
     <div id="scoreBody"></div>
   </div>
 </section>
 
 </main>
+<footer class="site-foot">
+  <p>Built for the Meta Global AI Developer Hackathon. <a href="https://github.com/0xtigerclaw/finguard">Source</a>.</p>
+  <p>Inspired by DeepSeek Harness. No code shared.</p>
+</footer>
 
 <script>
 "use strict";
@@ -706,24 +829,24 @@ class ApiError extends Error {
   constructor(message, status, detail) { super(message); this.status = status; this.detail = detail; }
 }
 function statusWords(status) {
-  if (status === 404) return "The server does not have that.";
-  if (status === 403) return "That is not allowed without the operator.";
-  if (status === 422) return "The server turned that request away.";
-  if (status === 429) return "Too many requests. Try again later.";
-  if (status === 503) return "The server cannot do that right now.";
-  return "The server could not finish that.";
+  if (status === 404) return "Not found on this server.";
+  if (status === 403) return "Only the operator can do that.";
+  if (status === 422) return "The server could not read that request.";
+  if (status === 429) return "Too many requests. Try again soon.";
+  if (status === 503) return "The server is busy. Try again soon.";
+  return "Something went wrong on the server.";
 }
 async function api(path, options) {
   let res;
   try { res = await fetch(path, options); }
-  catch { throw new ApiError("Could not reach the server. Check the connection and try again.", 0); }
+  catch { throw new ApiError("Cannot reach the server. Check your connection and try again.", 0); }
   let body = null;
   try { body = await res.json(); } catch { /* handled below */ }
   if (!res.ok) {
     const d = body && body.detail;
     throw new ApiError(typeof d === "string" && d ? d : statusWords(res.status), res.status, d);
   }
-  if (body === null) throw new ApiError("The server sent something this page cannot read.", res.status);
+  if (body === null) throw new ApiError("The server sent a reply this page cannot read.", res.status);
   return body;
 }
 const post = (path, body) => api(path, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
@@ -759,6 +882,31 @@ function showError(box, words, retry) {
 }
 function arrow() { const a = el("span", "", "→"); a.setAttribute("aria-hidden", "true"); return a; }
 function stamp(text, tone = "ink", big = false) { return el("span", `stamp ${tone}${big ? " big" : ""}`, text); }
+/* Small labels. The words always show; the detail is one hover or tap away. */
+function pillRow(items) {
+  const bar = el("div", "pill-bar"), detail = el("p", "pill-detail");
+  detail.hidden = true;
+  items.forEach(([text, tone, words]) => {
+    if (!words) { bar.append(stamp(text, tone)); return; }
+    const b = el("button", `stamp pill ${tone}`, text);
+    b.type = "button"; b.title = words; b.setAttribute("aria-expanded", "false");
+    b.onclick = () => {
+      const open = b.getAttribute("aria-expanded") === "true";
+      bar.querySelectorAll("button").forEach(x => x.setAttribute("aria-expanded", "false"));
+      b.setAttribute("aria-expanded", String(!open));
+      detail.textContent = open ? "" : words;
+      detail.hidden = open;
+    };
+    bar.append(b);
+  });
+  return el("div", "pills", bar, detail);
+}
+/* Hashes and record lines stay one click away. */
+function moreBox(label, ...kids) {
+  const d = el("details", "more", el("summary", "", label || "Details"), ...kids);
+  d.addEventListener("click", e => e.stopPropagation());
+  return d;
+}
 function linkTo(hash, text, cls) { const a = el("a", cls, text); a.href = hash; return a; }
 function kv(pairs) {
   const d = el("dl", "kv");
@@ -857,7 +1005,7 @@ function watchRun(capability, clock, stageWords) {
       if (id) {
         const run = await api(`/api/runs/${enc(id)}`);
         const n = run.record && run.record.lines;
-        if (!stopped && run.status === "running" && isNum(n) && n > 0) clock.stage(`${stageWords} ${plural(n, "line", "lines")} on this run's record so far.`);
+        if (!stopped && run.status === "running" && isNum(n) && n > 0) clock.stage(`${stageWords} ${plural(n, "record line", "record lines")} so far.`);
       }
     } catch { /* the clock keeps going; this line is a nicety */ }
     if (!stopped) timer = setTimeout(look, 5000);
@@ -875,11 +1023,17 @@ function tcard(title, body, aside) {
 }
 const STEPS = [
   ["Claims", "Muse lists the numbers."],
-  ["Pointer", "Muse points to the cell, and is not told the memo's number."],
+  ["Pointer", "Muse points to the cell. It is never told the memo's number."],
   ["Code", "Code reads the PDF's own text."],
-  ["Verdict", "A match, wrong, or a refusal."],
-  ["Method", "A house rule can read a true number another way, and never changes the verdict."],
-  ["Person", "Nobody releases without a person."],
+  ["Verdict", "Match, wrong or refused."],
+  ["Method", "A house rule can read a true number differently. It never changes the verdict."],
+  ["Person", "Nothing leaves without a person."],
+];
+const CREATE_STEPS = [
+  ["Request", "You describe the check."],
+  ["Definition", "Muse writes it as data, not code."],
+  ["Dry run", "Code reads each cell and does the sum."],
+  ["Person", "Nothing installs until a person approves."],
 ];
 const hasBox = b => Array.isArray(b) && b.length === 4;
 /* A note beside a true number. Only the rule's own values. */
@@ -932,23 +1086,26 @@ function cellItem(input, {column, why, method} = {}) {
   };
 }
 /* What each step can truly say. A step with no data stays null, and stays neutral. */
-function stepValues(r, person) {
+function codeStep(r) {
   const where = [r.row, r.column].filter(Boolean).join(", ");
-  const code = r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null;
+  return r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null;
+}
+function stepValues(r, person) {
+  const code = codeStep(r);
   if (r.codeRead) return [null, null, code, null, r.method ? {text: r.method} : null, null];
   const v = verdictOf(r);
-  const page = Number.isInteger(r.page) ? `PDF page ${r.page + 1}, ` : "";
   const verdictWords = {match: "Match", wrong: "Wrong", refused: "Refused", unchecked: "Not checked"}[v];
   const note = houseLine(r.house);
   return [
     r.quote ? {text: `${r.value_text || "A number"}${r.metric ? `, ${r.metric}` : ""}`} : null,
-    hasBox(r.muse_box) ? {text: `${page}box ${r.muse_box.map(n => Math.round(n)).join(", ")}`, code: true} : null,
+    hasBox(r.muse_box) ? {text: Number.isInteger(r.page) ? `PDF page ${r.page + 1}` : "A cell on the page"} : null,
     code,
     {text: `${verdictWords}${r.source_money ? `: the filing has ${r.source_money}` : ""}`, tone: v},
     note ? {text: note} : null,
     person ? {text: person} : null,
   ];
 }
+const createStepValues = r => [null, null, codeStep(r), null];
 function personWords(a) {
   const who = WHO[a.decided_by] || a.decided_by || "";
   if (a.status === "pending") return "Waiting for a person.";
@@ -957,37 +1114,53 @@ function personWords(a) {
   if (a.status === "rejected") return who ? `Rejected by ${who.replace(/^The /, "the ")}.` : "Rejected.";
   return null;
 }
-/* The right column: the proof card and the timeline. Several benches can share one desk. */
-function makeDesk(root) {
-  let current = null, opts = {}, owner = null, zoomFit = false, reveal = null;
+/* The right column: proof first, then the timeline, reduced to the steps with data. Several benches can share one desk. */
+function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each number is checked", activeTitle = "How this number was checked"} = {}) {
+  let current = null, opts = {}, owner = null, zoomFit = false, reveal = null, userCollapsed = null, showAll = false;
   const card = el("div", "card"); card.setAttribute("aria-live", "polite");
   const legend = el("div", "legend");
   const viewer = el("div", "viewer");
   viewer.tabIndex = 0; viewer.setAttribute("role", "region"); viewer.setAttribute("aria-label", "The filing page");
   const proof = el("section", "proof", card, legend, viewer);
   proof.setAttribute("aria-label", "Proof from the filing");
-  const forLine = el("p", "panel-for");
   const list = el("ol", "steps");
-  const rows = STEPS.map(([name, sentence], i) => {
+  const rows = steps.map(([name, sentence], i) => {
     const value = el("p", "step-value");
     const li = el("li", "step", el("span", "step-mark", String(i + 1)), el("div", "", el("p", "step-name", name), el("p", "step-text", sentence), value));
     list.append(li);
     return {li, value};
   });
-  const panel = el("section", "panel", el("h2", "panel-title", "How each number is checked"), forLine, list);
+  const heading = el("h2", "panel-title", title);
+  const toggle = el("button", "linkish panel-toggle", "Hide steps"); toggle.type = "button";
+  const allBtn = el("button", "linkish panel-all", "All steps"); allBtn.type = "button";
+  const panel = el("section", "panel", el("div", "panel-top", heading, toggle), list, allBtn);
   root.replaceChildren(proof, panel);
+  toggle.onclick = () => { userCollapsed = !panel.classList.contains("collapsed"); drawPanel(); };
+  allBtn.onclick = () => { showAll = !showAll; drawPanel(); };
 
+  /* After a run the timeline shows its active steps. When space is short it folds away, and the proof comes first. */
+  function drawPanel() {
+    const has = !!current;
+    const collapsed = has && (userCollapsed ?? (stacked() || innerHeight < 760));
+    heading.textContent = has ? activeTitle : title;
+    panel.classList.toggle("active", has && !showAll);
+    panel.classList.toggle("collapsed", collapsed);
+    toggle.hidden = !has;
+    toggle.textContent = collapsed ? "Show steps" : "Hide steps";
+    toggle.setAttribute("aria-expanded", String(!collapsed));
+    allBtn.hidden = !has || collapsed;
+    allBtn.textContent = showAll ? "Active steps only" : "All steps";
+  }
   function drawSteps(r) {
-    const values = r ? stepValues(r, opts.person) : STEPS.map(() => null);
+    const stepsNow = r ? values(r, opts.person) : steps.map(() => null);
     rows.forEach(({li, value}, i) => {
-      const d = values[i];
+      const d = stepsNow[i];
       li.className = d ? `step on${d.tone ? ` ${d.tone}` : ""}` : "step";
       value.className = d && d.code ? "step-value code" : "step-value";
       value.textContent = d ? d.text : "";
       value.hidden = !d;
     });
-    forLine.textContent = r ? `Showing ${r.value_text || "this number"}.` : "";
-    forLine.hidden = !r;
+    drawPanel();
   }
   function drawCard(r) {
     const v = r.codeRead ? "read" : verdictOf(r), f = filingById(opts.filing);
@@ -997,12 +1170,18 @@ function makeDesk(root) {
       const note = houseBlock(r.house, opts.onInput);
       if (note) card.append(note);
     }
-    const facts = el("p", "facts");
-    const bits = [f ? `${f.company}, ${f.document}` : opts.filing];
+    const bits = [f ? f.company : opts.filing];
     if (Number.isInteger(r.page)) bits.push(`PDF page ${r.page + 1}`);
-    facts.append(bits.filter(Boolean).join(" · "));
-    if (r.filing_sha256) facts.append(" · sha256 ", el("span", "mono", short(r.filing_sha256)));
-    card.append(facts);
+    const tail = el("div", "card-foot", el("span", "facts", bits.filter(Boolean).join(", ")));
+    const detail = [
+      ["Filing", f ? `${f.company}, ${f.document}` : opts.filing],
+      ["Filing hash", r.filing_sha256 ? el("span", "hash", r.filing_sha256) : (f && f.sha256 ? el("span", "hash", f.sha256) : "")],
+      ["Column", r.column],
+      ["Code's box", hasBox(r.box) ? el("span", "mono", r.box.map(n => Math.round(n)).join(", ")) : ""],
+      ["Muse's box", hasBox(r.muse_box) ? el("span", "mono", r.muse_box.map(n => Math.round(n)).join(", ")) : ""],
+    ];
+    tail.append(moreBox("Details", kv(detail)));
+    card.append(tail);
     if (opts.back) {
       const back = el("button", "btn back", "Back to the memo"); back.type = "button";
       back.onclick = opts.back;
@@ -1016,8 +1195,8 @@ function makeDesk(root) {
     if (!Number.isInteger(r.page) || !opts.filing) {
       const v = verdictOf(r);
       viewer.append(el("div", "empty",
-        el("strong", "", v === "unchecked" ? "No receipt." : "No source found."),
-        v === "unchecked" ? "Muse did not list this number as a claim, so nobody checked it." : "Finguard does not guess. This number has no page to show."));
+        el("strong", "", v === "unchecked" ? "No receipt." : "No source."),
+        v === "unchecked" ? "Muse did not list this number, so nothing checked it." : "Finguard does not guess. There is no page to show."));
       return;
     }
     const ok = !r.codeRead && verdictOf(r) === "match";
@@ -1025,12 +1204,12 @@ function makeDesk(root) {
     legend.hidden = false;
     if (hasBox(r.box)) legend.append(el("span", "", el("i", r.codeRead ? "n" : ok ? "g" : "c"), "Code read this cell"));
     if (hasBox(r.muse_box)) legend.append(el("span", "", el("i", "d"), "Muse pointed here"));
-    const zoom = el("button", "zoom", zoomFit ? "Zoom to the number" : "See the whole page"); zoom.type = "button";
+    const zoom = el("button", "zoom", zoomFit ? "Zoom in" : "Whole page"); zoom.type = "button";
     legend.append(zoom);
     const p = el("div", zoomFit ? "page fit" : "page");
     const img = el("img");
     img.alt = `Page ${r.page + 1} of the filing`;
-    img.onerror = () => { legend.hidden = true; viewer.replaceChildren(el("div", "empty", el("strong", "", "No page image."), "The filing page could not load. Try again in a moment.")); };
+    img.onerror = () => { legend.hidden = true; viewer.replaceChildren(el("div", "empty", el("strong", "", "The page did not load."), "Try again in a moment.")); };
     img.src = `/page/${enc(opts.filing)}/${r.page}.png`;
     p.append(img);
     const place = (b, cls, pad) => {
@@ -1041,7 +1220,7 @@ function makeDesk(root) {
     };
     if (hasBox(r.muse_box)) place(r.muse_box, "muse", 0);
     const target = hasBox(r.box) ? place(r.box, r.codeRead ? "code read" : ok ? "code match" : "code", 0.4) : (hasBox(r.muse_box) ? p.querySelector(".box.muse") : null);
-    const wait = el("p", "page-wait", "Loading the filing page.");
+    const wait = el("p", "page-wait", "Loading the page.");
     if (!(img.complete && img.naturalWidth)) viewer.append(wait);
     const ready = () => { wait.remove(); p.classList.add("ready"); };
     if (img.complete && img.naturalWidth) ready(); else img.addEventListener("load", ready, {once: true});
@@ -1058,12 +1237,12 @@ function makeDesk(root) {
     zoom.onclick = () => {
       zoomFit = !zoomFit;
       p.classList.toggle("fit", zoomFit);
-      zoom.textContent = zoomFit ? "Zoom to the number" : "See the whole page";
+      zoom.textContent = zoomFit ? "Zoom in" : "Whole page";
       if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else if (reveal) reveal();
     };
   }
   function clear() {
-    current = null; opts = {};
+    current = null; opts = {}; showAll = false;
     if (owner && owner.deselect) owner.deselect();
     owner = null;
     proof.hidden = true;
@@ -1087,7 +1266,7 @@ function makeDesk(root) {
     onShow() { if (current && reveal) reveal(); },
   };
 }
-function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
+function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = null} = {}) {
   const desk = deskOrEl instanceof Element ? makeDesk(deskOrEl) : deskOrEl;
   let receipts = [], selected = null, filingId = null, runId = null, person = null, memoText = "";
   const me = {
@@ -1110,6 +1289,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
     desk.clearFor(me);
     receipts = []; selected = null; runId = null; person = null;
     memoSlot.replaceChildren(); resultSlot.replaceChildren();
+    if (labelSlot) labelSlot.replaceChildren();
   }
   async function loadPerson() {
     const id = runId;
@@ -1164,14 +1344,13 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
   }
   /* The answer's short list: one line per receipt, in the verdict's colour. */
   function drawLines(box) {
-    box.append(el("h3", "lines-title", "What the filing shows"));
     const list = el("ul", "lines");
     receipts.forEach((r, i) => {
       const v = verdictOf(r);
       const li = el("li", `line ${v}`); li.dataset.i = i;
       const pick = el("button", "pick line-pick",
         el("span", "line-row", r.row || r.metric || r.value_text || "A number"),
-        el("span", "line-val", el("span", "line-money", r.source_money || (r.source_text ? `Read ${r.source_text}, not accepted` : "no source read")),
+        el("span", "line-val", el("span", "line-money", r.source_money || (r.source_text ? `Read ${r.source_text}, not accepted` : "no source")),
           Number.isInteger(r.page) ? el("span", "line-page", `PDF page ${r.page + 1}`) : null,
           el("span", `tag ${v}`, VERDICT_SHORT[v])));
       pick.type = "button";
@@ -1181,31 +1360,34 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
       if (note) li.append(note);
       list.append(li);
     });
-    box.append(list);
+    const shows = moreBox("What the filing shows", list);
+    shows.classList.add("lines-box");
+    shows.open = true;
+    box.append(shows);
   }
   function drawRelease(box, holds) {
     const c = countOf(receipts);
     const row = el("div", "release");
     box.append(row);
-    const blocked = why => { row.replaceChildren(stamp("Blocked", "red"), el("p", "", why)); };
+    const blocked = why => { row.classList.add("blocked"); row.replaceChildren(stamp("Blocked", "red"), el("p", "", why)); };
     const parts = [];
     if (c.wrong) parts.push(`${plural(c.wrong, "number is", "numbers are")} wrong`);
     if (c.refused) parts.push(`${plural(c.refused, "number was", "numbers were")} refused`);
     if (c.unchecked) parts.push(`${plural(c.unchecked, "number was", "numbers were")} not checked`);
-    if (parts.length) return blocked(`Release is blocked: ${parts.join(", ")}. Every number must match the filing.`);
-    if (!receipts.length) return blocked("Release is blocked: this memo has no numbers with a receipt.");
-    if (holds === false) return blocked("Release is blocked: this run's record does not hold.");
-    if (!runId) return blocked("Release is blocked: this run has no id for an approval to bind to.");
+    if (parts.length) return blocked(`${parts.join(", ")}. Every number must match before release.`.replace(/^./, c => c.toUpperCase()));
+    if (!receipts.length) return blocked("No number has a receipt, so there is nothing to release.");
+    if (holds === false) return blocked("This run's record does not hold, so it cannot be released.");
+    if (!runId) return blocked("This run has no id for an approval to bind to, so it cannot be released.");
     row.classList.add("ok");
     const go = el("button", "btn primary", "Request release ", arrow()); go.type = "button";
-    const note = el("p", "", "Every number matches. A person must approve before this memo leaves.");
+    const note = el("p", "", "Every number matches. A person approves before it leaves.");
     row.replaceChildren(go, note);
     go.onclick = async () => {
-      go.disabled = true; note.textContent = "Asking.";
+      go.disabled = true; note.textContent = "Sending.";
       try {
         const out = await door("memo.release", {check_run_id: runId});
         if (out.status === "needs_approval") {
-          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent for approval. Nothing is released until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
+          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent. Nothing leaves until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
           refreshPending();
           loadPerson();
         } else if (out.status === "done") {
@@ -1224,31 +1406,31 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
     const memoBox = markedMemo(memo, receipts, select);
     memoSlot.replaceChildren(memoBox);
     resultSlot.replaceChildren();
-    const lab = el("div", "labels");
-    for (const [s, tone, words] of labels) lab.append(stamp(s, tone), words ? el("span", "", words) : null);
-    if (labels.length) memoSlot.prepend(lab);
+    if (labelSlot) labelSlot.replaceChildren(labels.length ? pillRow(labels) : "");
+    else if (labels.length) memoSlot.prepend(pillRow(labels));
     if (lines && !receipts.length) {
       resultSlot.append(el("p", "msg", "No numbers to check."));
     } else {
       if (lines && receipts.length) drawLines(resultSlot);
-      resultSlot.append(tallyNode(receipts));
+      (lines ? resultSlot : memoSlot).append(tallyNode(receipts));
       const holds = result.record ? result.record.holds : undefined;
       if (release) drawRelease(resultSlot, holds);
       if (!lines) {
         if (receipts.length) drawTable(resultSlot);
-        else resultSlot.append(el("p", "msg", "No numbers were found in this memo, so there is nothing to mark."));
+        else resultSlot.append(el("p", "msg", "No numbers found in this memo, so nothing to mark."));
       }
     }
     const rec = result.record;
-    const bits = [];
-    if (result.model) bits.push(`Model ${result.model}.`);
+    const detail = [];
+    if (id) detail.push(["Run", el("span", "hash", String(id))]);
+    if (result.model) detail.push(["Model", el("span", "mono", String(result.model))]);
     if (rec) {
-      const n = rec.lines;
-      bits.push(`Record: ${isNum(n) ? plural(n, "line", "lines") + ", " : ""}chain ${rec.holds ? "holds" : "BROKEN"}${rec.last_hash ? `, ends ${short(rec.last_hash)}` : ""}.`);
+      if (isNum(rec.lines)) detail.push(["Record", `${plural(rec.lines, "line", "lines")}, chain ${rec.holds ? "holds" : "BROKEN"}`]);
+      if (rec.last_hash) detail.push(["Last hash", el("span", "hash", String(rec.last_hash))]);
     }
-    if (result.filing_sha256) bits.push(`Filing fingerprint ${short(result.filing_sha256)}.`);
-    if (result.rules_sha256) bits.push(`House rules ${result.rules_label ? `${result.rules_label}, ` : ""}hash ${short(result.rules_sha256)}.`);
-    if (bits.length) resultSlot.append(el("p", "foot record", bits.join(" ")));
+    if (result.filing_sha256) detail.push(["Filing hash", el("span", "hash", String(result.filing_sha256))]);
+    if (result.rules_sha256) detail.push(["House rules", el("span", "", result.rules_label ? `${result.rules_label} ` : "", el("span", "hash", String(result.rules_sha256)))]);
+    if (detail.length) resultSlot.append(moreBox("Details", kv(detail)));
     const first = receipts.find(r => verdictOf(r) === "wrong") || receipts[0];
     if (first) select(receipts.indexOf(first), false); else desk.clearFor(me);
     loadPerson();
@@ -1285,16 +1467,15 @@ function recheckMemo(memo, filingId) {
 function savedLabels(result, isTestMemo) {
   const labels = [];
   if (result.drafted_by_muse) labels.push(["Drafted by Muse", "ink", "Code checked it like any other memo."]);
-  if (isTestMemo) labels.push(["Errors planted", "amber", "Test memo, with errors planted on purpose."]);
-  if (result.saved) labels.push(["Saved replay", "slate", "Real Muse replies, saved earlier and played back. No API call was made."]);
+  if (isTestMemo) labels.push(["Errors planted", "amber", "A test memo. We planted these errors on purpose."]);
+  if (result.saved) labels.push(["Saved replay", "slate", "Real Muse replies, recorded earlier and played back. No API call."]);
   else labels.push(["Live run", "green", result.model ? `Muse answered just now, on ${result.model}.` : "Muse answered just now."]);
   return labels;
 }
 /* what an outcome from the door means as plain words, for anything but "done" */
 function outcomeWords(out) {
-  if (out.status === "refused") return out.why || "The server refused this.";
-  if (out.status === "failed") return out.why || "It could not finish.";
-  return out.why || "It could not finish.";
+  if (out.status === "refused") return out.why || "Refused.";
+  return out.why || "That did not finish.";
 }
 
 /* ---------- 1. Check ---------- */
@@ -1312,8 +1493,7 @@ const markTabs = (box, id) => [...box.children].forEach(b => b.setAttribute("ari
 function docLine(f) {
   const bits = [f.document];
   if (isNum(f.pages)) bits.push(plural(f.pages, "page", "pages"));
-  if (f.sha256) bits.push(`sha256 ${short(f.sha256)}`);
-  return bits.join(" · ");
+  return bits.join(", ");
 }
 function drawCheckChips(f) {
   const box = $("checkChips"), text = $("memoInput").value.trim();
@@ -1338,8 +1518,8 @@ function chooseCheckFiling(f) {
 }
 function memoLabelFor(text) {
   const f = check.filing;
-  if (f && f.memo && text.trim() === f.memo.trim()) return "Test memo, with errors planted on purpose";
-  if (f && f.corrected && text.trim() === f.corrected.trim()) return "The same memo, corrected";
+  if (f && f.memo && text.trim() === f.memo.trim()) return "Test memo. Errors planted on purpose.";
+  if (f && f.corrected && text.trim() === f.corrected.trim()) return "The same memo, corrected.";
   return "Your memo";
 }
 function updateMemoHint() {
@@ -1349,20 +1529,23 @@ function updateMemoHint() {
   if (f) drawCheckChips(f);
   if (!f || check.showingResult) { hint.hidden = true; return; }
   if ((f.memo && text === f.memo.trim()) || (f.corrected && text === f.corrected.trim())) {
-    hint.append("Opens a saved replay of real Muse replies, with no API call.");
+    hint.append("Saved replay. No API call.");
   } else if (START && !START.live) {
-    hint.append("Live checks are off here, so a new memo cannot run. ");
+    hint.append("Live checks are off here. ");
     if (f.memo) {
       const back = el("button", "linkish", "Use the saved memo"); back.type = "button";
       back.onclick = () => showCheckInput(f.memo);
       hint.append(back);
     }
   } else {
-    hint.append("A new memo is a live check. It takes about two minutes.");
+    hint.append("A new memo is a live check. About two minutes.");
   }
   hint.hidden = false;
 }
+/* The fix button sits in the release row during a result, and goes home before the row is cleared. */
+function homeFix() { $("checkFixHome").append($("checkFix")); }
 function showCheckInput(text) {
+  homeFix();
   check.showingResult = false;
   $("memoInput").value = text; $("memoInput").hidden = false;
   $("memoEdit").hidden = true; $("checkGo").hidden = false;
@@ -1379,27 +1562,30 @@ async function runCheck() {
   if (!memo) { state.textContent = "Paste a memo first."; state.className = "state bad"; $("memoInput").focus(); return; }
   if (START && memo.length > START.max_memo) { state.textContent = `Keep the memo under ${START.max_memo.toLocaleString("en-GB")} characters.`; state.className = "state bad"; return; }
   const isSaved = (f.memo && memo === f.memo.trim()) || (f.corrected && memo === f.corrected.trim());
+  homeFix();
   check.running = true;
   setCheckBusy(true);
   const clock = startClock($("checkClock"),
-    isSaved ? "Stage: opening the saved replay." : "Stage: with Muse, then code.",
-    isSaved ? "No API call. This is a recording." : "Muse lists the claims and points to each metric. Code then reads each cell. Usually about two minutes.",
-    isSaved ? null : {after: 180, words: "Stage: with Muse, then code. Slower than usual."});
-  const unwatch = isSaved ? () => {} : watchRun("memo.check", clock, "Stage: with Muse, then code.");
+    isSaved ? "Opening the saved replay." : "Muse is reading. Code checks next.",
+    isSaved ? "No API call." : "Usually about two minutes.",
+    isSaved ? null : {after: 180, words: "Still working. This one is slow."});
+  const unwatch = isSaved ? () => {} : watchRun("memo.check", clock, "Muse is reading. Code checks next.");
   try {
     const out = await door("memo.check", {memo, filing: f.id});
     if (out.status !== "done" || !out.result) throw new ApiError(outcomeWords(out));
-    clock.stage("Stage: marking the memo.");
+    clock.stage("Marking the memo.");
     check.showingResult = true;
     $("memoInput").hidden = true; $("memoEdit").hidden = false; $("checkGo").hidden = true; $("memoHint").hidden = true;
     const isCorrected = f.corrected && memo === f.corrected.trim();
-    $("memoLabel").textContent = isCorrected ? "The same memo, corrected" : isSaved ? "Test memo" : "Your memo";
+    $("memoLabel").textContent = isCorrected ? "Corrected memo" : isSaved ? "Test memo" : "Your memo";
     check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true});
     if (f.corrected && memo === f.memo.trim()) {
-      const fix = el("button", "btn primary", "Fix the errors: load the corrected memo ", arrow()); fix.type = "button";
+      const fix = el("button", "btn primary", "Load the corrected memo ", arrow()); fix.type = "button";
       fix.onclick = () => { showCheckInput(f.corrected); $("checkRun").focus(); };
       $("checkFix").replaceChildren(fix);
       $("checkFix").hidden = false;
+      const row = $("checkResult").querySelector(".release");
+      if (row) row.append($("checkFix"));
     }
     drawCheckChips(f);
     refreshPending();
@@ -1419,7 +1605,10 @@ function setCheckBusy(busy) {
 /* ---------- 2. Ask ---------- */
 const ask = {desk: null, filing: null, running: false, threadId: null, asked: [], savedOk: true, suggested: []};
 const HOUSE_CHIPS = {
-  anthropic: ["Under our method, what was Anthropic's operating result in the six months ended June 30, 2026?", "Add back stock compensation."],
+  anthropic: [
+    {q: "Under our method, what was Anthropic's operating result in the six months ended June 30, 2026?", label: "Our method: operating result, six months"},
+    {q: "Add back stock compensation.", label: "Add back stock compensation"},
+  ],
 };
 const nextSaved = () => {
   const list = (ask.filing && ask.filing.conversation) || [];
@@ -1450,8 +1639,9 @@ function newConversation() {
   drawAskChips();
   drawAskHint();
 }
-function questionChip(q, tag) {
-  const b = el("button", "chip", q, tag ? el("span", "chip-tag", tag) : null); b.type = "button";
+function questionChip(q, tag, label) {
+  const b = el("button", "chip", label || q, tag ? el("span", "chip-tag", tag) : null); b.type = "button";
+  if (label) { b.title = q; b.setAttribute("aria-label", q); }
   b.disabled = ask.running;
   b.onclick = () => runAsk(q);
   return b;
@@ -1464,35 +1654,32 @@ function drawAskChips() {
     const saved = nextSaved();
     const row = el("div", "chips");
     ask.suggested.forEach(q => row.append(questionChip(q, q === saved ? "saved reply" : "live check")));
-    const liveOnes = ask.suggested.some(q => q !== saved);
-    const words = "Suggested by Muse. Nothing runs until you click." + (liveOnes
-      ? ` A chip marked live check calls Muse${START && !START.live ? ", and live calls are off here" : ""}.` : "");
-    box.append(el("p", "kicker chips-kicker", "Ask next"), row, el("p", "hint chips-hint", words));
+    box.append(el("p", "chips-kicker", "Ask next. Suggested by Muse, and nothing runs until you click."), row);
   } else if (nextSaved()) {
     const row = el("div", "chips");
     row.append(questionChip(nextSaved(), "saved reply"));
-    box.append(el("p", "kicker chips-kicker", "Saved question"), row);
+    box.append(el("p", "chips-kicker", "Start with a saved question"), row);
   }
   const house = HOUSE_CHIPS[f.id];
   if (house) {
     const row = el("div", "chips");
-    house.forEach(q => row.append(questionChip(q)));
-    box.append(el("p", "kicker chips-kicker", "House rule questions"), row);
+    house.forEach(c => row.append(questionChip(c.q, null, c.label)));
+    box.append(el("p", "chips-kicker", "Try a house rule"), row);
   }
 }
 function drawAskHint() {
   const h = $("askHint"), typed = $("askInput").value.trim();
   h.hidden = false;
-  if (typed && typed === nextSaved()) h.textContent = "This question has a saved reply, so it replays with no API call.";
+  if (typed && typed === nextSaved()) h.textContent = "Saved reply. No API call.";
   else h.textContent = START && START.live
-    ? "A new question is a live check, unless a house rule answers it. It takes about two minutes."
-    : "Live calls are off here, so a new question is turned away unless a house rule answers it.";
+    ? "A live check, unless a house rule answers it. About two minutes."
+    : "Live checks are off here. Saved replies and house rules still run.";
 }
 async function drawAskAvailable() {
   const yes = await hasCapability("memo.draft");
   const box = $("askMissing");
   box.hidden = yes !== false;
-  if (yes === false) box.textContent = "Ask is not on this server yet. The capability memo.draft does not exist, so nothing can run here.";
+  if (yes === false) box.textContent = "Ask is not available on this server.";
   if (!ask.running) $("askRun").disabled = yes === false;
 }
 function setAskBusy(busy) {
@@ -1506,6 +1693,10 @@ function setAskBusy(busy) {
 function addTurn(question) {
   const answer = el("div", "answer");
   const turn = el("article", "turn", el("div", "bubble-row", el("p", "bubble", question)), answer);
+  $("askTurns").querySelectorAll(".turn").forEach(t => {
+    t.classList.add("past");
+    t.querySelectorAll("details.lines-box").forEach(d => { d.open = false; });
+  });
   $("askTurns").append(turn);
   $("askNew").hidden = false;
   turn.scrollIntoView({block: "start"});
@@ -1518,10 +1709,9 @@ function drawHouseTurn(answer, r, f) {
   let first = null;
   for (const a of parts) {
     const id = a.rule_id || r.rule_id || "a house rule";
-    const lab = el("div", "labels row");
-    lab.append(stamp(`${a.house_money ? "Worked out by code" : "Answered by code"} under ${id}, no Muse call`, "ink"));
-    if (r.rules_label) lab.append(stamp(r.rules_label, "amber"));
-    answer.append(lab);
+    const pills = [[`${a.house_money ? "Worked out by code" : "Answered by code"} under ${id}, no Muse call`, "ink"]];
+    if (r.rules_label) pills.push([r.rules_label, "amber", "An example method, written to show how house rules work. It is not any fund's real one."]);
+    answer.append(pillRow(pills));
     if (a.text) answer.append(el("p", "house-rule", `${id}: ${a.text}`));
     if (a.house_money) answer.append(el("p", "house-money", a.house_money));
     const working = a.working || a.answer || r.answer;
@@ -1531,17 +1721,21 @@ function drawHouseTurn(answer, r, f) {
     const open = (input, byUser) => ask.desk.show(cellItem(input, {column: a.column, method}), {filing: f.id, owner, byUser});
     const buttons = inputButtons(a.inputs, input => open(input, true));
     if (buttons.children.length) {
-      scope.append(el("p", "lines-title", "The cells code read"), buttons);
+      scope.append(el("p", "lines-title", "Cells code read"), buttons);
       answer.append(scope);
       if (!first) first = () => { buttons.firstChild.setAttribute("aria-pressed", "true"); open(a.inputs.find(i => Number.isInteger(i.page) && hasBox(i.box)), false); };
     }
   }
-  if (r.rules_sha256) answer.append(el("p", "foot record", `House rules ${r.rules_label ? `${r.rules_label}, ` : ""}hash ${short(r.rules_sha256)}. Nothing was sent to Muse.`));
+  answer.append(el("p", "note", "Nothing was sent to Muse."));
+  if (r.rules_sha256 || r.filing_sha256) answer.append(moreBox("Details", kv([
+    ["Rules hash", r.rules_sha256 ? el("span", "hash", String(r.rules_sha256)) : ""],
+    ["Filing hash", r.filing_sha256 ? el("span", "hash", String(r.filing_sha256)) : ""],
+  ])));
   if (first) first(); else ask.desk.clear();
   $("announce").textContent = "Answered by code under a house rule. No Muse call.";
 }
 function drawRefusedTurn(answer, why) {
-  answer.append(el("div", "labels row", stamp("Refused by a house rule", "red")));
+  answer.append(pillRow([["Refused by a house rule", "red"]]));
   const words = why || "This question was refused.";
   const rest = words.replace(/\s*Nothing was sent to Muse\.?\s*$/, "");
   answer.append(el("p", "house-rule", rest), el("p", "house-sent", "Nothing was sent to Muse."));
@@ -1549,7 +1743,7 @@ function drawRefusedTurn(answer, why) {
   $("announce").textContent = "Refused by a house rule. Nothing was sent to Muse.";
 }
 function drawNotRun(answer, why) {
-  answer.append(el("div", "labels row", stamp("Not run", "red")), el("p", "house-rule", why));
+  answer.append(pillRow([["Not run", "red"]]), el("p", "house-rule", why));
   $("announce").textContent = why;
 }
 async function runAsk(text) {
@@ -1563,7 +1757,7 @@ async function runAsk(text) {
   const answer = addTurn(question);
   const clockBox = el("div", "clock");
   answer.append(clockBox);
-  const clock = startClock(clockBox, "Stage: code is looking for a house rule.", "This step does not call Muse.");
+  const clock = startClock(clockBox, "Checking the house rules.", "No Muse call for this step.");
   let unwatch = () => {};
   try {
     let rule = null;
@@ -1574,9 +1768,9 @@ async function runAsk(text) {
     if (rule && rule.status === "failed") throw new ApiError(rule.why || "The house rules could not be read.");
     if (rule && !noCapability && rule.result && rule.result.status !== "no_rule") { drawHouseTurn(answer, rule.result, f); return; }
     const isSaved = question === nextSaved();
-    clock.stage(isSaved ? "Stage: opening the saved replay." : "Stage: Muse is writing, then code checks.");
-    clock.hint(isSaved ? "No API call. This is a recording." : "Muse writes from the filing. Then its numbers go through the same check as any memo. Usually about two minutes.");
-    if (!isSaved) unwatch = watchRun("memo.draft", clock, "Stage: Muse is writing, then code checks.");
+    clock.stage(isSaved ? "Opening the saved replay." : "Muse is writing. Code checks next.");
+    clock.hint(isSaved ? "No API call." : "Usually about two minutes.");
+    if (!isSaved) unwatch = watchRun("memo.draft", clock, "Muse is writing. Code checks next.");
     const params = {filing: f.id, question};
     if (ask.threadId) params.thread_id = ask.threadId;
     const out = await door("memo.draft", params);
@@ -1593,7 +1787,7 @@ async function runAsk(text) {
     bench.render({memo: r.memo || "", result: r, id: out.run_id, filing: f.id, labels: savedLabels({...r, drafted_by_muse: true}, false), focusAfter: true});
     refreshPending();
   } catch (e) {
-    drawNotRun(answer, e.status === 404 ? "Ask is not on this server yet. The capability memo.draft does not exist." : e.message);
+    drawNotRun(answer, e.status === 404 ? "Ask is not available on this server." : e.message);
   } finally {
     unwatch(); clock.stop(); clockBox.remove();
     setAskBusy(false);
@@ -1611,7 +1805,7 @@ async function restoreAsk(id) {
   const f = thread && Array.isArray(thread.turns) && thread.turns.length && START.filings.find(x => x.id === thread.filing);
   if (!f) {
     storeThread(null);
-    $("askState").textContent = "That saved conversation is gone, so a new one is ready.";
+    $("askState").textContent = "That conversation is gone. Start a new one.";
     return;
   }
   chooseAskFiling(f);  // this starts a new conversation, so the thread is set after it
@@ -1641,12 +1835,20 @@ async function restoreAsk(id) {
 
 /* ---------- Create ---------- */
 const create = {desk: null, filing: null, running: false, last: null};
-const CREATE_MISSING = "Create is not on this server yet. The capability plugins.list does not exist, so nothing can run here.";
+const CREATE_MISSING = "Create is not available on this server.";
 function chooseCreateFiling(f) {
   create.filing = f;
   markTabs($("createTabs"), f.id);
   $("createDoc").textContent = docLine(f);
 }
+/* One short line for each gallery card. The full prompt goes in the box when picked. */
+const GALLERY_LINES = {
+  free_cash_flow: "Operating cash less capital spending.",
+  net_debt: "All debt less cash.",
+  gross_margin_check: "Rework margin from sales and costs.",
+  capex_intensity: "Capital spending as a share of revenue.",
+  adjusted_vs_reported_gap: "Adjusted income against the reported loss.",
+};
 const galleryPrompt = g => typeof g === "string" ? g : (g && (g.prompt || g.text)) || "";
 async function loadCreate() {
   const gallery = $("createGallery"), installed = $("createInstalled"), missing = $("createMissing");
@@ -1659,7 +1861,7 @@ async function loadCreate() {
   }
   missing.hidden = true;
   if (!create.running) $("createRun").disabled = false;
-  if (!gallery.children.length) loading(gallery, "Loading the gallery.");
+  if (!gallery.children.length) loading(gallery, "Loading examples.");
   let out;
   try { out = await door("plugins.list", {}); }
   catch (e) { showError(gallery, e.message, loadCreate); return; }
@@ -1672,7 +1874,11 @@ async function loadCreate() {
     prompts.forEach(g => {
       const text = galleryPrompt(g);
       if (!text) return;
-      const b = el("button", "gallery-card", g.title ? el("b", "", g.title) : null, el("span", "", text)); b.type = "button";
+      const f0 = g.filing && filingById(g.filing);
+      const b = el("button", "gallery-card", g.title ? el("b", "", g.title) : null,
+        el("span", "gallery-line", GALLERY_LINES[g.id] || text),
+        el("span", "gallery-tag", [f0 && f0.company, g.saved === true ? "saved reply" : g.saved === false ? "live check" : ""].filter(Boolean).join(", ")));
+      b.type = "button"; b.title = text;
       b.onclick = () => {
         $("createInput").value = text;
         const f = g.filing && filingById(g.filing);
@@ -1682,20 +1888,20 @@ async function loadCreate() {
       };
       grid.append(b);
     });
-    gallery.append(el("p", "kicker chips-kicker", "Start from an example"), grid);
+    gallery.append(grid);
   }
   drawInstalled(r.installed || r.plugins || []);
 }
 function drawCreateHint(g) {
   const h = $("createHint");
   h.hidden = false;
-  h.textContent = g && g.saved ? "This prompt has a saved reply, so it replays with no API call."
-    : START && START.live ? "Muse writes the definition. Code then runs it on the filing. This can take a few minutes."
-    : "Live calls are off here, so only a saved prompt can run.";
+  h.textContent = g && g.saved ? "Saved reply. No API call."
+    : START && START.live ? "A live call to Muse. This can take a few minutes."
+    : "Live checks are off here. Only saved examples run.";
 }
 function drawInstalled(list) {
   const box = $("createInstalled");
-  if (!list.length) { box.replaceChildren(tcard("Installed plugins", el("p", "msg", "Nothing is installed yet. A plugin appears here after a person approves it."))); return; }
+  if (!list.length) { box.replaceChildren(tcard("Installed plugins", el("p", "msg", "None yet. A plugin appears here once a person approves it."))); return; }
   const t = el("table", "t");
   t.append(el("thead", "", el("tr", "", el("th", "", "Plugin"), el("th", "", "What it works out"), el("th", "", "Status"), el("th", "", el("span", "vh", "Run")))));
   const b = el("tbody");
@@ -1709,7 +1915,7 @@ function drawInstalled(list) {
     const active = p.status === "active";
     let action = "";
     if (active) {
-      const run = el("button", "btn", "Run on this filing ", arrow()); run.type = "button";
+      const run = el("button", "btn", "Run on this filing"); run.type = "button";
       run.onclick = async () => {
         if (!create.filing) return;
         run.disabled = true; out.hidden = false; loading(out, `Running ${capability}.`);
@@ -1750,14 +1956,14 @@ function definitionCard(def) {
     ["Unit", plainValue(d.unit)],
     ["Period", period],
     ["Compares with", plainValue(d.compare_row)],
-    ["Verifies", plainValue(d.verifies)],
+    ["Muse's check note", plainValue(d.verifies)],
   ]);
 }
 /* A plugin's dry run. Only what the server computed. */
 function drawDryRun(box, run, title) {
   const r = run || {};
   box.append(el("h3", "lines-title", title));
-  if (r.status !== "computed") box.append(el("div", "labels row", stamp("Nothing was computed", "amber")));
+  if (r.status !== "computed") box.append(pillRow([["Nothing computed", "amber"]]));
   const shown = r.display ?? r.money ?? r.value;
   if (shown != null && shown !== "") box.append(el("p", "house-money", String(shown)));
   if (r.working) box.append(el("p", "house-working", String(r.working)));
@@ -1770,7 +1976,7 @@ function drawDryRun(box, run, title) {
   box.append(scope);
   const buttons = inputButtons(r.inputs, input => open(input, true));
   if (buttons.children.length) {
-    scope.append(el("p", "lines-title", "The cells code read"), buttons);
+    scope.append(el("p", "lines-title", "Cells code read"), buttons);
     buttons.firstChild.setAttribute("aria-pressed", "true");
     open(r.inputs.find(i => Number.isInteger(i.page) && hasBox(i.box)), false);
   }
@@ -1787,44 +1993,46 @@ async function runCreate() {
   const f = create.filing, prompt = $("createInput").value.trim(), state = $("createState"), slot = $("createResult");
   state.className = "state"; state.textContent = "";
   if (!f) return;
-  if (!prompt) { state.textContent = "Say what the plugin should work out."; state.className = "state bad"; $("createInput").focus(); return; }
+  if (!prompt) { state.textContent = "Describe the check first."; state.className = "state bad"; $("createInput").focus(); return; }
   create.running = true; $("createRun").disabled = true;
   [...$("createTabs").children].forEach(b => b.disabled = true);
   slot.replaceChildren(); create.desk.clear();
-  const clock = startClock($("createClock"), "Stage: Muse is writing the definition.", "Muse writes a definition, not code. Plain code then runs it on the filing.");
+  const clock = startClock($("createClock"), "Muse is writing the plugin.", "As data, not code. Code then tries it on the filing.");
   try {
     const out = await door("plugins.create", {prompt, filing: f.id});
     if (out.status !== "done" || !out.result) throw new ApiError(/no such capability/i.test(out.why || "") ? CREATE_MISSING : outcomeWords(out));
     const r = out.result;
     const card = el("article", "answer");
-    const labels = el("div", "labels row");
-    if (r.drafted_by_muse) labels.append(stamp("Definition written by Muse", "ink"));
-    labels.append(stamp(r.saved ? "Saved replay" : "Live run", r.saved ? "slate" : "green"));
-    labels.append(stamp("Not part of the measured score", "amber"));
-    card.append(labels);
-    card.append(el("h3", "lines-title", "The definition"), definitionCard(r.definition));
-    if (r.definition_sha256) card.append(el("p", "foot record", "Definition hash ", el("span", "mono", String(r.definition_sha256)), ". An approval binds to exactly this."));
-    drawDryRun(card, r.dry_run, "Dry run on this filing");
+    const pills = [];
+    if (r.drafted_by_muse) pills.push(["Written by Muse", "ink", "Muse wrote this as data. Code checked every field, and does the sum itself."]);
+    pills.push(r.saved ? ["Saved replay", "slate", "A real Muse reply, recorded earlier and played back. No API call."] : ["Live run", "green", r.model ? `Muse answered just now, on ${r.model}.` : "Muse answered just now."]);
+    pills.push(["Not part of the measured score", "amber"]);
+    card.append(pillRow(pills));
+    card.append(el("h3", "lines-title", "The plugin"), definitionCard(r.definition));
+    drawDryRun(card, r.dry_run, `Dry run on ${f.company}`);
     const row = el("div", "release ok");
     const computed = r.dry_run && r.dry_run.status === "computed";
     const go = el("button", "btn primary", "Request install ", arrow()); go.type = "button";
-    const note = el("p", "", computed ? "Nothing is installed until a person approves it." : "This cannot be installed for this filing, because the dry run computed nothing.");
+    const note = el("p", "", computed ? "Nothing installs until a person approves." : "This cannot install here, because the dry run computed nothing.");
     row.append(computed ? go : stamp("Blocked", "red"), note);
     go.onclick = async () => {
-      go.disabled = true; note.textContent = "Asking.";
+      go.disabled = true; note.textContent = "Sending.";
       try {
-        go.disabled = true;
         const o = await door("plugins.install", {definition: r.definition, filing: f.id});
         if (o.status === "needs_approval") {
-          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent for approval. Nothing is installed until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
+          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent. Nothing installs until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
           refreshPending();
         } else if (o.status === "done") { row.replaceChildren(stamp("Installed", "green"), el("p", "", "Installed.")); loadCreate(); }
         else { go.disabled = false; note.textContent = outcomeWords(o); }
       } catch (e) { go.disabled = false; note.textContent = e.message; }
     };
     card.append(row);
+    if (r.definition_sha256) card.append(moreBox("Details", kv([
+      ["Plugin hash", el("span", "hash", String(r.definition_sha256))],
+      ["Model", r.model ? el("span", "mono", String(r.model)) : ""],
+    ]), el("p", "note", "An approval binds to exactly this hash.")));
     slot.append(card);
-    $("announce").textContent = "Muse wrote a definition. Code ran it. A person must approve before it is installed.";
+    $("announce").textContent = "Muse wrote the plugin. Code tried it. A person approves before it installs.";
   } catch (e) {
     state.textContent = e.status === 404 ? CREATE_MISSING : e.message; state.className = "state bad";
   } finally {
@@ -1840,13 +2048,13 @@ const WHO = {web_operator: "The operator, on the web", terminal: "The operator, 
 const statusWord = {pending: "Waiting", approved: "Approved", rejected: "Rejected", used: "Used"};
 function decideError(e) {
   const code = typeof e.detail === "string" ? e.detail : "";
-  if (e.status === 403 || /operator_required/i.test(code)) return "Only the operator can approve or reject. This token was not accepted. If the server has no token set, only the terminal can decide.";
+  if (e.status === 403 || /operator_required/i.test(code)) return "Only the operator can decide, and that token was not accepted. If this server has no token, use the terminal.";
   return e.message;
 }
 let approvalsSeq = 0;
 async function loadApprovals() {
   const seq = ++approvalsSeq, body = $("approvalsBody");
-  if (!body.children.length) loading(body, "Loading the approvals.");
+  if (!body.children.length) loading(body, "Loading approvals.");
   let data, sealed = {};
   try {
     data = await api("/api/approvals");
@@ -1854,7 +2062,7 @@ async function loadApprovals() {
     for (const l of (led && led.lines) || []) if (l.kind === "release_sealed" && l.approval_id) sealed[l.approval_id] = l.release_id;
   } catch (e) {
     if (seq !== approvalsSeq) return;
-    showError(body, e.status === 404 ? "The approvals list is not on this server yet." : e.message, loadApprovals);
+    showError(body, e.status === 404 ? "Approvals are not available on this server." : e.message, loadApprovals);
     return;
   }
   if (seq !== approvalsSeq) return;
@@ -1864,51 +2072,60 @@ async function loadApprovals() {
   const done = all.filter(a => a.status !== "pending" && a.status !== "approved");
   const frag = document.createDocumentFragment();
   frag.append(el("h2", "", `Waiting (${live.length})`));
-  if (!live.length) frag.append(el("p", "msg", "Nothing is waiting. Check a memo, and when every number matches, request release."));
+  if (!live.length) frag.append(el("p", "msg", "Nothing is waiting. Check a memo. When every number matches, request release."));
   live.forEach(a => frag.append(slip(a, sealed[a.id])));
   frag.append(el("h2", "", `Decided (${done.length})`));
-  if (!done.length) frag.append(el("p", "msg", "Nothing has been decided yet."));
+  if (!done.length) frag.append(el("p", "msg", "Nothing decided yet."));
   done.forEach(a => frag.append(slip(a, sealed[a.id])));
   body.replaceChildren(frag);
 }
+const SUBJECT_WORDS = {"memo.release": "Release a memo", "rules.change": "Change a house rule", "plugins.install": "Install a plugin", "filings.add": "Add a filing"};
+/* Summary and buttons first, then the content, then the hashes. */
 function slip(a, releaseId) {
   const s = el("article", "slip");
   const tone = statusTone[a.status] || "ink";
-  s.append(el("div", "slip-top", stamp(statusWord[a.status] || String(a.status || "Unknown"), tone), el("span", "cap", a.capability || "Unknown"),
-    el("span", "when", [a.requested_by ? `Asked by ${(WHO[a.requested_by] || a.requested_by).replace(/^The /, "the ")}` : "", when(a.created_at)].filter(Boolean).join(", "))));
-  const what = el("div");
-  s.append(el("span", "label", a.capability === "memo.release" ? "What will be released" : "What this will do"), what);
-  drawSubject(a, what);
-  s.append(el("span", "label", "What this approval is bound to"));
-  const bound = el("div", "bound");
-  bound.append(kv([["Content", a.subject_sha256 ? el("span", "hash", a.subject_sha256) : ""], ["Request", a.params_sha256 ? el("span", "hash", a.params_sha256) : ""], ["Id", a.id ? el("span", "hash", a.id) : ""]]));
-  bound.append(el("p", "note", "These are sha256 hashes. If one word or receipt changes, the hash changes and this approval no longer works."));
-  s.append(bound);
-  if (a.decided_by || a.reason || a.decided_at) {
-    s.append(el("span", "label", "The decision"));
-    s.append(kv([["By", WHO[a.decided_by] || a.decided_by], ["When", when(a.decided_at)], ["Reason", a.reason]]));
-  }
+  const asked = [a.requested_by ? `Asked by ${(WHO[a.requested_by] || a.requested_by).replace(/^The /, "the ")}` : "", when(a.created_at)].filter(Boolean).join(", ");
+  const summary = el("p", "slip-summary");
+  s.append(el("div", "slip-top", stamp(statusWord[a.status] || String(a.status || "Unknown"), tone),
+    el("h3", "cap", SUBJECT_WORDS[a.capability] || "A request"), el("span", "when", asked)), summary);
   if (a.status === "pending") s.append(decideRow(a));
   if (a.status === "approved") s.append(runRow(a));
-  if (releaseId) s.append(el("p", "note", linkTo(`#/record/release/${enc(releaseId)}`, "Open the sealed bundle")));
+  if (a.decided_by || a.reason || a.decided_at) {
+    const who = WHO[a.decided_by] || a.decided_by;
+    const said = [who ? `Decided by ${who.replace(/^The /, "the ")}` : "Decided", when(a.decided_at)].filter(Boolean).join(", ");
+    s.append(el("p", "slip-decision", `${said}.${a.reason ? ` Reason: ${a.reason}` : ""}`));
+  }
+  if (releaseId) s.append(el("p", "note", linkTo(`#/record/release/${enc(releaseId)}`, "Open the sealed release")));
+  const what = el("div", "slip-body");
+  const finished = a.status === "used" || a.status === "rejected";
+  s.append(finished ? moreBox(a.capability === "memo.release" ? "The memo and receipts" : "What this did", what) : what);
+  const hashes = el("div");
+  hashes.append(kv([
+    ["Plugin", a.capability ? el("span", "mono", a.capability) : ""],
+    ["Approval", a.id ? el("span", "hash", a.id) : ""],
+    ["Content hash", a.subject_sha256 ? el("span", "hash", a.subject_sha256) : ""],
+    ["Request hash", a.params_sha256 ? el("span", "hash", a.params_sha256) : ""],
+  ]));
+  s.append(moreBox("Details", hashes, el("p", "note", "If one word or receipt changes, these hashes change and the approval stops working.")));
+  drawSubject(a, what, summary, hashes);
   return s;
 }
 function decideRow(a) {
   const row = el("div", "decide");
   if (START && START.operator_required === false) {
-    row.append(el("p", "small", "Only the operator can approve or reject, and this server has no operator token, so the web cannot decide. At the terminal, run: ", el("span", "hash", `finguard approve ${a.id}`)));
+    row.append(el("p", "small", "This server has no operator token, so decide at the terminal: ", el("span", "hash", `finguard approve ${a.id}`)));
     return row;
   }
   const id = `reason-${String(a.id).replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const lab = el("label", "vh", "Reason"); lab.htmlFor = id;
-  const reason = el("input", "field"); reason.id = id; reason.placeholder = "Reason (needed to reject)"; reason.autocomplete = "off";
+  const reason = el("input", "field"); reason.id = id; reason.placeholder = "Reason. Required to reject."; reason.autocomplete = "off";
   const yes = el("button", "btn primary", "Approve"); yes.type = "button";
   const no = el("button", "btn danger", "Reject"); no.type = "button";
   const words = el("p", "state", ""); words.style.flexBasis = "100%"; words.setAttribute("role", "status");
   const decide = async decision => {
     words.className = "state bad";
-    if (!operatorToken) { words.textContent = "Enter the operator token first. Only the operator can approve or reject."; $("operatorToken").focus(); return; }
-    if (decision === "reject" && !reason.value.trim()) { words.textContent = "Say why, then reject."; reason.focus(); return; }
+    if (!operatorToken) { words.textContent = "Enter the operator token first."; $("operatorToken").focus(); return; }
+    if (decision === "reject" && !reason.value.trim()) { words.textContent = "Give a reason to reject."; reason.focus(); return; }
     yes.disabled = no.disabled = true; words.className = "state"; words.textContent = "Sending.";
     try {
       await post(`/api/approvals/${enc(a.id)}/decide`, {decision, reason: reason.value.trim(), operator_token: operatorToken});
@@ -1923,8 +2140,8 @@ function decideRow(a) {
 }
 function runRow(a) {
   const row = el("div", "decide");
-  const go = el("button", "btn primary", {"memo.release": "Release now ", "rules.change": "Apply the change ", "plugins.install": "Install now "}[a.capability] || "Run it now ", arrow()); go.type = "button";
-  const words = el("p", "state", "Approved. It runs once, and only if the content still matches."); words.setAttribute("role", "status");
+  const go = el("button", "btn primary", {"memo.release": "Release now ", "rules.change": "Apply the change ", "plugins.install": "Install now "}[a.capability] || "Run now ", arrow()); go.type = "button";
+  const words = el("p", "state", "Approved. It runs once, only if the content still matches."); words.setAttribute("role", "status");
   go.onclick = async () => {
     go.disabled = true; words.className = "state"; words.textContent = "Running.";
     try {
@@ -1954,17 +2171,18 @@ function releaseIdOf(result) {
   if (!result || typeof result !== "object") return null;
   return result.release_id || result.id || (result.manifest && result.manifest.release_id) || null;
 }
-async function drawSubject(a, box) {
+async function drawSubject(a, box, summary, hashes) {
   const params = a.params || {};
   const runId = params.check_run_id;
   if (a.capability === "rules.change") {
-    box.append(el("p", "house-line", `Turn ${params.rule_id} ${params.enabled ? "on" : "off"}.`));
-    box.append(el("p", "note", "Any memo checked under the old rules must be checked again before it can be released."));
+    summary.textContent = `Turn ${params.rule_id} ${params.enabled ? "on" : "off"}.`;
+    box.append(el("p", "note", "Memos checked under the old rules must be checked again before release."));
     return;
   }
   if (a.capability === "plugins.install" && params.definition) {
-    box.append(definitionCard(params.definition));
-    box.append(el("p", "note", "Not part of the measured score."));
+    const d = params.definition;
+    summary.textContent = `Install ${d.title || d.name || "this plugin"}. Not part of the measured score.`;
+    box.append(definitionCard(d));
     return;
   }
   if (a.capability !== "memo.release" || !runId) {
@@ -1972,37 +2190,40 @@ async function drawSubject(a, box) {
     box.append(keys.length ? kv(keys.map(k => [k, typeof params[k] === "string" ? params[k] : JSON.stringify(params[k])])) : el("p", "note", "No details."));
     return;
   }
-  loading(box, "Loading the memo and its receipts.");
+  summary.textContent = "Loading the memo.";
   try {
     const run = await api(`/api/runs/${enc(runId)}`);
     const res = run.result || {}, receipts = Array.isArray(res.receipts) ? res.receipts : [];
     const f = filingById(res.filing);
-    box.replaceChildren();
-    box.append(kv([["Filing", f ? `${f.company}, ${f.document}` : res.filing], ["Check run", el("span", "hash", String(run.run_id || runId))]]));
-    const memoLabel = el("span", "label", "The memo");
-    box.append(memoLabel, markedMemo(res.memo || "", receipts, null));
-    if (receipts.length) {
-      box.append(el("span", "label", `Its ${plural(receipts.length, "receipt", "receipts")}`));
-      box.append(receiptTable(receipts));
-    }
-    if (res.saved) box.append(el("p", "note", "This check was a saved replay."));
-    drawHouseAgreement(box, res.house_notes, res.rules_sha256, res.rules_label);
+    const c = countOf(receipts);
+    const allMatch = receipts.length && c.match === receipts.length;
+    const notes = Array.isArray(res.house_notes) ? res.house_notes : [];
+    summary.textContent = [
+      f ? `${f.company}, ${f.document}.` : (res.filing ? `${res.filing}.` : ""),
+      allMatch ? `${plural(receipts.length, "number", "numbers")}, all match.` : `${countsWords(c)}.`,
+      notes.length ? `${plural(notes.length, "house note", "house notes")}.` : "",
+      res.saved ? "Saved replay." : "",
+    ].filter(Boolean).join(" ");
+    box.append(el("span", "label", "The memo"), markedMemo(res.memo || "", receipts, null));
+    if (notes.length) drawHouseAgreement(box, notes);
+    if (receipts.length) box.append(moreBox(`Receipts (${receipts.length})`, receiptTable(receipts)));
+    hashes.append(kv([
+      ["Check run", el("span", "hash", String(run.run_id || runId))],
+      ["House rules", res.rules_sha256 ? el("span", "", res.rules_label ? `${res.rules_label} ` : "", el("span", "hash", String(res.rules_sha256))) : ""],
+    ]));
   } catch (e) {
-    box.replaceChildren(el("p", "msg bad", `Could not load the run behind this request. ${e.message}`));
-    box.append(kv([["Check run", el("span", "hash", String(runId))]]));
+    summary.textContent = "";
+    box.append(el("p", "msg bad", `Could not load this memo. ${e.message}`));
+    hashes.append(kv([["Check run", el("span", "hash", String(runId))]]));
   }
 }
-/* What the approver agrees to: the method's notes, and the exact rules. */
-function drawHouseAgreement(box, notes, sha, label) {
-  const list = Array.isArray(notes) ? notes : [];
-  if (list.length) {
-    box.append(el("span", "label", `House notes you are agreeing to (${list.length})`));
-    list.forEach(h => {
-      const block = houseBlock(h);
-      if (block) { block.prepend(el("p", "mono small", String(h.value_text || ""))); box.append(block); }
-    });
-  }
-  if (sha) box.append(el("span", "label", "Checked under these house rules"), kv([["Label", label], ["Rules", el("span", "hash", String(sha))]]));
+/* What the approver agrees to: the method's notes. */
+function drawHouseAgreement(box, notes) {
+  box.append(el("span", "label", `You also agree to ${plural(notes.length, "house note", "house notes")}`));
+  notes.forEach(h => {
+    const block = houseBlock(h);
+    if (block) { block.prepend(el("p", "mono small", String(h.value_text || ""))); box.append(block); }
+  });
 }
 function receiptTable(receipts) {
   const t = el("table", "tiny-table");
@@ -2027,8 +2248,8 @@ async function refreshPending() {
 function drawOperatorNote() {
   const off = !!START && START.operator_required === false;
   $("operatorNote").textContent = off
-    ? "Only the operator can approve or reject. This server has no operator token, so the web cannot decide here. The terminal can."
-    : "Only the operator can approve or reject. The token stays in this page's memory. It is gone when you reload.";
+    ? "Only the operator can decide. This server has no operator token, so use the terminal."
+    : "Only the operator can decide. The token stays in this page and is gone on reload.";
   $("operatorField").hidden = off;
   $("operatorForget").hidden = off;
   $("operatorBox").classList.toggle("off", off);
@@ -2050,44 +2271,44 @@ function countsWords(c) {
 async function loadRecord() {
   const seq = ++recordSeq;
   const chain = $("recordChain"), runs = $("recordRuns"), lines = $("recordLines"), rel = $("recordReleases");
-  if (!lines.children.length) { loading(chain, "Checking the chain."); loading(runs, "Loading past runs."); loading(lines, "Loading the ledger."); rel.replaceChildren(); }
+  if (!lines.children.length) { loading(chain, "Checking the chain."); loading(runs, "Loading runs."); loading(lines, "Loading lines."); rel.replaceChildren(); }
   const [led, rn] = await Promise.allSettled([api("/api/ledger?limit=500"), api("/api/runs")]);
   if (seq !== recordSeq) return;
   // chain and lines
   if (led.status === "rejected") {
-    const words = led.reason.status === 404 ? "The ledger is not on this server yet." : led.reason.message;
+    const words = led.reason.status === 404 ? "The ledger is not available on this server." : led.reason.message;
     showError(chain, words, loadRecord); lines.replaceChildren();
   } else {
     const d = led.value, list = Array.isArray(d.lines) ? d.lines : [];
     const box = el("div", "chain");
     box.append(stamp(d.holds ? "The chain holds" : "The chain is broken", d.holds ? "green" : "red", true));
-    box.append(el("span", "small soft", d.holds ? "Code walked every line and every hash agrees." : "Code walked the lines and found a hash that does not agree."));
+    box.append(el("span", "small soft", d.holds ? "Code checked every line." : "A hash does not agree."));
     chain.replaceChildren(box);
     if (Array.isArray(d.problems) && d.problems.length) {
       const ul = el("ul", "msg bad"); ul.style.paddingLeft = "32px";
       d.problems.forEach(p => ul.append(el("li", "", typeof p === "string" ? p : JSON.stringify(p))));
       chain.append(ul);
     }
-    if (!list.length) lines.replaceChildren(tcard("Ledger lines", el("p", "msg", "The ledger is empty. It fills up as soon as a capability runs.")));
+    if (!list.length) lines.replaceChildren(tcard("Ledger lines", el("p", "msg", "Nothing yet. Every step lands here.")));
     else {
       const newest = list.slice(-100).reverse();
-      lines.replaceChildren(tcard("Ledger lines", ledgerTable(newest), `The latest ${plural(newest.length, "line", "lines")}, newest first`));
+      lines.replaceChildren(tcard("Ledger lines", ledgerTable(newest), `Latest ${newest.length}, newest first`));
     }
     // releases named on the ledger
     drawReleases(rel, list);
   }
   // runs
   if (rn.status === "rejected") {
-    showError(runs, rn.reason.status === 404 ? "Past runs are not on this server yet." : rn.reason.message, loadRecord);
+    showError(runs, rn.reason.status === 404 ? "Past runs are not available on this server." : rn.reason.message, loadRecord);
   } else {
     const list = (rn.value.runs || []).slice().sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-    if (!list.length) runs.replaceChildren(tcard("Past runs", el("p", "msg", "No runs yet. Check a memo to make the first one.")));
+    if (!list.length) runs.replaceChildren(tcard("Past runs", el("p", "msg", "Nothing yet. Check a memo to start.")));
     else runs.replaceChildren(tcard("Past runs", runsTable(list), plural(list.length, "run", "runs")));
   }
 }
 function ledgerTable(list) {
   const t = el("table", "t");
-  t.append(el("thead", "", el("tr", "", el("th", "", "Line"), el("th", "", "When"), el("th", "", "Step"), el("th", "", "Capability"), el("th", "", "Who"), el("th", "", "Run"), el("th", "", "Hash"))));
+  t.append(el("thead", "", el("tr", "", el("th", "", "Line"), el("th", "", "When"), el("th", "", "Step"), el("th", "", "Plugin"), el("th", "", "Who"), el("th", "", "Run"), el("th", "", "Hash"))));
   const b = el("tbody");
   for (const l of list) {
     const tr = el("tr");
@@ -2098,7 +2319,7 @@ function ledgerTable(list) {
       cell("Line", el("span", "m", l.seq != null ? String(l.seq) : "")),
       cell("When", el("span", "m", when(l.at))),
       cell("Step", step),
-      cell("Capability", el("span", "m", String(l.capability || ""))),
+      cell("Plugin", el("span", "m", String(l.capability || ""))),
       cell("Who", el("span", "m", String(WHO[l.actor] ? l.actor : l.actor || ""))),
       cell("Run", l.run_id ? linkTo(`#/record/run/${enc(l.run_id)}`, short(l.run_id, 12), "open") : ""),
       cell("Hash", el("span", "hash", short(l.hash, 16))));
@@ -2109,17 +2330,17 @@ function ledgerTable(list) {
 }
 function runsTable(list) {
   const t = el("table", "t");
-  t.append(el("thead", "", el("tr", "", el("th", "", "When"), el("th", "", "Capability"), el("th", "", "Filing"), el("th", "", "Result"), el("th", "", "Status"), el("th", "", el("span", "vh", "Open")))));
+  t.append(el("thead", "", el("tr", "", el("th", "", "When"), el("th", "", "Plugin"), el("th", "", "Filing"), el("th", "", "Result"), el("th", "", "Status"), el("th", "", el("span", "vh", "Open")))));
   const b = el("tbody");
   for (const r of list) {
     const f = filingById(r.filing);
     b.append(el("tr", "",
       cell("When", el("span", "m", when(r.created_at))),
-      cell("Capability", el("span", "m", String(r.capability || ""))),
+      cell("Plugin", el("span", "m", String(r.capability || ""))),
       cell("Filing", f ? f.company : String(r.filing || "")),
       cell("Result", countsWords(r.counts)),
       cell("Status", STATUS_WORDS[r.status] || String(r.status || "")),
-      cell("Open", linkTo(`#/record/run/${enc(r.run_id)}`, "Open run", "open"))));
+      cell("Open", linkTo(`#/record/run/${enc(r.run_id)}`, "Open", "open"))));
   }
   t.append(b);
   return t;
@@ -2135,7 +2356,7 @@ function drawReleases(box, lines) {
     ids.forEach(id => ul.append(el("li", "", linkTo(`#/record/release/${enc(id)}`, String(id), "hash"))));
     box.append(tcard("Releases", ul));
   } else {
-    box.append(tcard("Releases", el("p", "msg", "Nothing has been released yet. A memo gets here only after every number matches and a person approves.")));
+    box.append(tcard("Releases", el("p", "msg", "Nothing released yet. A memo gets here once every number matches and a person approves.")));
   }
 }
 const runBench = {bench: null};
@@ -2143,7 +2364,7 @@ async function openRun(id) {
   const head = $("recordRunHead");
   const back = linkTo("#/record", "Back to Record", "linkish");
   const h1 = el("h1", "", "A past run"); h1.tabIndex = -1;
-  head.replaceChildren(el("header", "head", back, el("p", "kicker", "Record"), h1));
+  head.replaceChildren(el("header", "head", back, h1));
   runBench.bench.clear();
   const body = $("recordRunResult");
   loading(body, "Loading the run.");
@@ -2151,21 +2372,20 @@ async function openRun(id) {
     const run = await api(`/api/runs/${enc(id)}`);
     const res = run.result, rec = run.record || {};
     const n = rec.lines;
-    const facts = kv([["Run", el("span", "hash", String(run.run_id || id))], ["Capability", run.capability], ["Status", STATUS_WORDS[run.status] || run.status], ["Lines", isNum(n) ? String(n) : ""], ["Last hash", rec.last_hash ? el("span", "hash", rec.last_hash) : ""]]);
     const hasRecord = isNum(n) ? n > 0 : !!rec.last_hash;
-    const line = el("div", "chain", hasRecord ? stamp(rec.holds ? "Record holds" : "Record does not hold", rec.holds ? "green" : "red") : stamp("No Muse record", "soft"));
-    line.style.marginBottom = "8px";
-    head.append(line, facts);
+    head.append(el("div", "chain", hasRecord ? stamp(rec.holds ? "Record holds" : "Record does not hold", rec.holds ? "green" : "red") : stamp("No Muse record", "soft"),
+      el("span", "small soft", STATUS_WORDS[run.status] || String(run.status || ""))));
+    head.append(moreBox("Details", kv([["Run", el("span", "hash", String(run.run_id || id))], ["Plugin", run.capability ? el("span", "mono", run.capability) : ""], ["Lines", isNum(n) ? String(n) : ""], ["Last hash", rec.last_hash ? el("span", "hash", rec.last_hash) : ""]])));
     if (res && Array.isArray(res.receipts)) {
       const isTest = !!(res.filing && filingById(res.filing) && filingById(res.filing).memo && res.memo && res.memo.trim() === filingById(res.filing).memo.trim());
       runBench.bench.render({memo: res.memo || "", result: {...res, record: res.record || rec}, id: run.status === "done" ? (run.run_id || id) : null, filing: res.filing, labels: savedLabels(res, isTest)});
     } else {
       body.replaceChildren();
       const rid = releaseIdOf(res);
-      if (rid && run.capability === "memo.release") body.append(el("p", "note", linkTo(`#/record/release/${enc(rid)}`, "Open the sealed bundle")));
+      if (rid && run.capability === "memo.release") body.append(el("p", "note", linkTo(`#/record/release/${enc(rid)}`, "Open the sealed release")));
       const plain = !rid && res && typeof res === "object" ? Object.entries(res).filter(([, v]) => v != null && typeof v !== "object") : [];
       if (plain.length) body.append(el("span", "label", "Result"), kv(plain.map(([k, v]) => [k, String(v)])));
-      else if (!rid) body.append(el("p", "msg", run.status === "needs_approval" ? "This run stopped to ask a person. See Approvals." : "This run has no result to show."));
+      else if (!rid) body.append(el("p", "msg", run.status === "needs_approval" ? "This run stopped to ask a person. See Approvals." : "No result to show."));
     }
   } catch (e) {
     if (e.status === 404) showError(body, "No run with that id."); else showError(body, e.message, () => openRun(id));
@@ -2174,8 +2394,8 @@ async function openRun(id) {
 async function openRelease(id) {
   const box = $("recordReleaseBody");
   const h1 = el("h1", "", "Sealed release"); h1.tabIndex = -1;
-  const top = el("header", "head", linkTo("#/record", "Back to Record", "linkish"), el("p", "kicker", "Sealed bundle"), h1,
-    el("p", "lede", "What was released, and the hash of every file. Change a file and the seal breaks."));
+  const top = el("header", "head", linkTo("#/record", "Back to Record", "linkish"), h1,
+    el("p", "lede", "What left, and the hash of every file. Change a file and the seal breaks."));
   const body = el("div");
   box.replaceChildren(top, body);
   loading(body, "Loading the release.");
@@ -2184,30 +2404,36 @@ async function openRelease(id) {
     const m = r.manifest || {}, receipts = Array.isArray(r.receipts) ? r.receipts : [];
     body.replaceChildren();
     body.append(el("div", "chain", stamp(r.holds ? "The seal holds" : "The seal is broken", r.holds ? "green" : "red", true)));
-    if (!r.holds) body.append(el("p", "msg bad", `Something in this bundle does not agree with its seal. Run: finguard release verify ${id}`));
+    if (!r.holds) body.append(el("p", "msg bad", `Something here does not agree with its seal. Run: finguard release verify ${id}`));
     const f = filingById(m.filing);
     const pair = (label, key) => [label, m[key] ? el("span", "hash", String(m[key])) : ""];
-    const manifest = el("div", "tcard-body");
-    body.append(tcard("Manifest", manifest));
-    manifest.append(kv([
-      pair("Release", "release_id"),
+    const facts = el("div", "tcard-body");
+    facts.append(kv([
       ["When", when(m.released_at)],
       ["Approved by", WHO[m.approved_by] || m.approved_by],
-      pair("Approval", "approval_id"),
-      ["Check run", m.check_run_id ? linkTo(`#/record/run/${enc(m.check_run_id)}`, String(m.check_run_id), "hash") : ""],
       ["Filing", f ? `${f.company}, ${f.document}` : m.filing],
-      pair("Filing hash", "filing_sha256"),
-      ["Model", m.model],
       ["Numbers", countsWords(m.counts)],
-      pair("Content hash", "subject_sha256"),
-      pair("House rules hash", "rules_sha256"),
-      pair("Run's last hash", "run_last_hash"),
     ]));
+    body.append(tcard("The release", facts));
+    const memoCard = el("div", "tcard-body");
+    memoCard.append(markedMemo(r.memo || "", receipts, null));
+    body.append(tcard("The memo as released", memoCard));
     if (Array.isArray(m.house_notes) && m.house_notes.length) {
       const notes = el("div", "tcard-body");
       m.house_notes.forEach(h => { const b = houseBlock(h); if (b) { b.prepend(el("p", "mono small", String(h.value_text || ""))); notes.append(b); } });
       body.append(tcard("House notes in this release", notes));
     }
+    if (receipts.length) { const rc = el("div", "tcard-body"); rc.append(receiptTable(receipts)); body.append(tcard("Receipts", rc, plural(receipts.length, "number", "numbers"))); }
+    const extra = [kv([
+      pair("Release", "release_id"),
+      pair("Approval", "approval_id"),
+      ["Check run", m.check_run_id ? linkTo(`#/record/run/${enc(m.check_run_id)}`, String(m.check_run_id), "hash") : ""],
+      pair("Filing hash", "filing_sha256"),
+      ["Model", m.model ? el("span", "mono", m.model) : ""],
+      pair("Content hash", "subject_sha256"),
+      pair("House rules hash", "rules_sha256"),
+      pair("Run's last hash", "run_last_hash"),
+    ])];
     const files = manifestFiles(m);
     if (files.length) {
       const t = el("table", "t");
@@ -2215,12 +2441,9 @@ async function openRelease(id) {
       const b = el("tbody");
       files.forEach(([name, hash]) => b.append(el("tr", "", cell("File", el("span", "m", name)), cell("sha256", el("span", "hash", hash)))));
       t.append(b);
-      body.append(tcard("Files in the bundle", t));
+      extra.push(el("p", "label", "Files in the bundle"), t);
     }
-    const memoCard = el("div", "tcard-body");
-    memoCard.append(markedMemo(r.memo || "", receipts, null));
-    body.append(tcard("The memo as released", memoCard));
-    if (receipts.length) { const rc = el("div", "tcard-body"); rc.append(receiptTable(receipts)); body.append(tcard("Receipts", rc, plural(receipts.length, "number", "numbers"))); }
+    body.append(moreBox("Details", ...extra));
   } catch (e) {
     if (e.status === 404) showError(body, "No release with that id."); else showError(body, e.message, () => openRelease(id));
   }
@@ -2235,7 +2458,7 @@ function manifestFiles(m) {
 /* ---------- 5. Rules ---------- */
 async function loadHouseRules() {
   const box = $("houseBody");
-  if (!box.children.length) box.replaceChildren(tcard("House rules", el("p", "skeleton", "Loading the house rules.")));
+  if (!box.children.length) box.replaceChildren(tcard("House rules", el("p", "skeleton", "Loading house rules.")));
   let out;
   try { out = await door("rules.list", {}); }
   catch (e) { box.replaceChildren(tcard("House rules", el("p", "msg bad", e.message))); return; }
@@ -2253,11 +2476,11 @@ async function loadHouseRules() {
     words.hidden = true; words.setAttribute("role", "status");
     const flip = el("button", "btn", rule.enabled ? "Turn off" : "Turn on"); flip.type = "button";
     flip.onclick = async () => {
-      flip.disabled = true; words.hidden = false; words.textContent = "Asking.";
+      flip.disabled = true; words.hidden = false; words.textContent = "Sending.";
       try {
         const o = await door("rules.change", {rule_id: rule.id, enabled: !rule.enabled});
         if (o.status === "needs_approval") {
-          words.replaceChildren("Sent for approval. Nothing changes until a person says yes. ", linkTo("#/approvals", "Open Approvals"));
+          words.replaceChildren("Sent. Nothing changes until a person says yes. ", linkTo("#/approvals", "Open Approvals"));
           refreshPending();
         } else if (o.status === "done") { words.textContent = "Changed."; loadHouseRules(); }
         else { words.textContent = outcomeWords(o); flip.disabled = false; }
@@ -2275,44 +2498,44 @@ async function loadHouseRules() {
   const card = tcard("House rules", t, r.label ? el("span", "stamp amber", r.label) : null);
   const foot = el("div", "tcard-body");
   if (r.note) foot.append(el("p", "small soft", r.note));
-  if (r.rules_sha256) foot.append(el("p", "small soft", "Rules hash ", el("span", "hash", r.rules_sha256)));
   if (r.holds === false) foot.append(el("p", "msg bad", r.problem || "These rules do not match the last approved change."));
+  if (r.rules_sha256) foot.append(moreBox("Details", kv([["Rules hash", el("span", "hash", r.rules_sha256)]])));
   card.append(foot);
   box.replaceChildren(card);
 }
 async function loadRulesPage() {
   loadHouseRules();
   const body = $("rulesBody");
-  if (!body.children.length) loading(body, "Loading the rules.");
+  if (!body.children.length) loading(body, "Loading plugins.");
   let data;
   try { data = await api("/api/rules"); RULES = data; }
-  catch (e) { showError(body, e.status === 404 ? "The rules are not on this server yet." : e.message, loadRulesPage); return; }
+  catch (e) { showError(body, e.status === 404 ? "Plugins are not available on this server." : e.message, loadRulesPage); return; }
   const caps = data.capabilities || [];
-  if (!caps.length) { body.replaceChildren(el("p", "msg", "No capabilities are loaded.")); return; }
+  if (!caps.length) { body.replaceChildren(el("p", "msg", "No plugins loaded.")); return; }
   const reads = caps.filter(c => c.kind === "read").length, acts = caps.filter(c => c.kind === "act").length, people = caps.filter(c => c.approval === "person").length;
   const counts = el("span", "counts",
-    el("span", "", el("b", "", String(caps.length)), caps.length === 1 ? "capability" : "capabilities"),
+    el("span", "", el("b", "", String(caps.length)), caps.length === 1 ? "plugin" : "plugins"),
     el("span", "", el("b", "", String(reads)), reads === 1 ? "reads" : "read"),
     el("span", "", el("b", "", String(acts)), acts === 1 ? "acts" : "act"),
     el("span", "", el("b", "", String(people)), "need a person"));
   const t = el("table", "t");
-  t.append(el("thead", "", el("tr", "", el("th", "", "Capability"), el("th", "", "What it does"), el("th", "", "Reads or acts"), el("th", "", "Person must approve"), el("th", "", "How it is verified"))));
+  t.append(el("thead", "", el("tr", "", el("th", "", "Plugin"), el("th", "", "What it does"), el("th", "", "Reads or acts"), el("th", "", "Needs a person"), el("th", "", "How code checks it"))));
   const b = el("tbody");
   for (const c of caps) {
     const params = c.params && c.params.properties ? Object.keys(c.params.properties) : [];
-    const name = el("span", "", el("span", "rule-name", c.name || ""), el("span", "rule-area", params.length ? `takes ${params.join(", ")}` : "takes nothing"));
+    const name = el("span", "", el("span", "rule-name mono", c.name || ""), el("span", "rule-area", params.length ? `takes ${params.join(", ")}` : "takes nothing"));
     const acting = c.kind === "act", person = c.approval === "person";
     const tr = el("tr");
     tr.append(
-      cell("Capability", name),
+      cell("Plugin", name),
       cell("Does", c.summary || ""),
       cell("Kind", el("span", acting ? "rule-val act" : "rule-val", acting ? "acts" : c.kind === "read" ? "reads" : String(c.kind || "?"))),
-      cell("Person", el("span", person ? "rule-val yes" : "rule-val", person ? "yes, a person" : "no")),
-      cell("Verified", c.verifies || ""));
+      cell("Person", el("span", person ? "rule-val yes" : "rule-val", person ? "yes" : "no")),
+      cell("Checks", c.verifies || ""));
     b.append(tr);
   }
   t.append(b);
-  const top = tcard("Capabilities", t);
+  const top = tcard("Plugins", t);
   top.querySelector(".tcard-top").append(el("span", "tcard-aside", counts));
   body.replaceChildren(top);
 }
@@ -2358,7 +2581,7 @@ async function loadScore() {
   try { START = await api("/api/start"); }
   catch (e) { showError(body, e.message, loadScore); return; }
   const s = START.score;
-  if (!s) { body.replaceChildren(el("p", "msg", "This has not been measured.")); return; }
+  if (!s) { body.replaceChildren(el("p", "msg", "Not measured yet.")); return; }
   setModel(s.model);
   const frag = document.createDocumentFragment();
   const exact = s.true_exact || {};
@@ -2369,15 +2592,12 @@ async function loadScore() {
   if (s.model) labels.append(stamp(`Model ${s.model}`, "slate"));
   frag.append(labels);
   const head = el("div", "headline");
-  if (frozen) head.append(el("p", "", el("strong", "", "Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
+  if (frozen) head.append(el("p", "", el("strong", "", "Final test: Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
   head.append(el("p", "", `${trueWords(s)} ${falseWords(s)}`));
   const r = s.repeat;
   if (r) head.append(el("p", "soft", `Repeat run on the filings the code was built on, which flatters it: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
   const e = s.earlier;
-  if (e) head.append(el("p", "soft", `An earlier frozen test on NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number and from tables our PDF conversion split. Code then changed how it uses the box, and web filings now keep tables whole. This filing was not run again.`));
-  if (s.engine_sha256) {
-    head.append(el("p", "small soft", "All of these are scored with one version of the code, fingerprint ", el("span", "mono", short(s.engine_sha256)), ". Earlier runs replay their saved Muse replies."));
-  }
+  if (e) head.append(el("p", "soft", `Earlier frozen test, NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number, and from tables our PDF conversion split. Code now uses the box differently, and web filings keep tables whole. We did not rerun this filing.`));
   frag.append(head);
   const tiles = el("div", "tiles");
   tiles.append(
@@ -2387,18 +2607,18 @@ async function loadScore() {
     tile(exact.match, s.true_numbers, "true numbers matched"),
     tile(exact.refused, s.true_numbers, "true numbers refused"));
   frag.append(tiles);
-  frag.append(barBlock("True numbers: what happened", s.true_numbers, [
+  frag.append(barBlock("True numbers", s.true_numbers, [
     {n: exact.match, label: "matched", cls: "match"},
     {n: exact.refused, label: "refused", cls: "refused"},
     {n: exact.wrong, label: "called wrong", cls: "wrong"},
   ]));
-  frag.append(el("p", "note", "The true-number count includes the refusals. A refused number was not passed: code would not vouch for it, so a person has to look."));
-  frag.append(barBlock("Altered numbers: what happened", s.false_numbers, [
+  frag.append(el("p", "note", "The count includes refusals. A refused number did not pass. Code would not vouch for it, so a person has to look."));
+  frag.append(barBlock("Altered numbers", s.false_numbers, [
     {n: s.false_called_wrong, label: "called wrong", cls: "wrong"},
     {n: s.false_refused, label: "refused", cls: "refused"},
     {n: s.false_passed, label: "passed as true", cls: "passed"},
   ]));
-  frag.append(el("p", "note", "We took true numbers and changed them. Called wrong or refused is the right result for an altered number."));
+  frag.append(el("p", "note", "We took true numbers and changed them. Called wrong or refused is the right result."));
   const by = s.by_filing && typeof s.by_filing === "object" ? Object.entries(s.by_filing) : [];
   if (by.length) {
     const t = el("table", "t");
@@ -2413,7 +2633,8 @@ async function loadScore() {
     t.append(b);
     frag.append(tcard("By filing", t));
   }
-  frag.append(el("p", "foot", "These are public filings we chose, and the answers were checked by hand. This measures the method. It is not a guarantee."));
+  frag.append(el("p", "foot", "We chose these public filings and checked the answers by hand. This measures the method. It is not a guarantee."));
+  if (s.engine_sha256) frag.append(moreBox("Details", kv([["Code hash", el("span", "hash", String(s.engine_sha256))]]), el("p", "note", "All of these are scored with one version of the code. Earlier runs replay their saved Muse replies.")));
   body.replaceChildren(frag);
 }
 
@@ -2468,9 +2689,9 @@ function focusHeading() {
 
 /* ---------- start ---------- */
 async function boot() {
-  check.bench = makeBench($("checkMemoSlot"), $("checkResult"), $("checkDesk"));
+  check.bench = makeBench($("checkMemoSlot"), $("checkResult"), $("checkDesk"), {labelSlot: $("checkLabels")});
   ask.desk = makeDesk($("askDesk"));
-  create.desk = makeDesk($("createDesk"));
+  create.desk = makeDesk($("createDesk"), {steps: CREATE_STEPS, values: createStepValues, title: "How a plugin is made", activeTitle: "How this cell was read"});
   runBench.bench = makeBench($("recordRunMemoSlot"), $("recordRunResult"), $("recordRunDesk"));
   $("skip").onclick = e => { e.preventDefault(); focusHeading(); };
   $("menuBtn").onclick = () => {
@@ -2498,10 +2719,10 @@ async function boot() {
 async function startData() {
   const state = $("checkState");
   $("checkRun").disabled = $("askRun").disabled = true;
-  state.className = "state"; state.textContent = "Loading the filings.";
+  state.className = "state"; state.textContent = "Loading filings.";
   try { await loadStart(); }
   catch (e) {
-    state.className = "state bad"; state.textContent = `The page could not load. ${e.message}`;
+    state.className = "state bad"; state.textContent = `The page did not load. ${e.message}`;
     const again = el("button", "linkish", "Try again"); again.type = "button"; again.style.marginLeft = "8px";
     again.onclick = startData; state.append(again);
     return;
@@ -2509,7 +2730,7 @@ async function startData() {
   state.textContent = "";
   $("checkRun").disabled = $("askRun").disabled = false;
   if (!START.filings || !START.filings.length) {
-    state.className = "state bad"; state.textContent = "No filings are loaded on this server.";
+    state.className = "state bad"; state.textContent = "No filings on this server.";
     $("checkRun").disabled = $("askRun").disabled = true;
     return;
   }

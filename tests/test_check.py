@@ -375,7 +375,7 @@ def test_a_whole_run_is_on_the_record_and_holds(s1, run, muse_with):
 def test_a_failed_call_refuses_and_assumes_nothing(s1, run, muse_with):
     muse, _ = muse_with({"claims": [EXTRACTED]}, MuseError("timeout", "slow"))
     r = check_memo(MEMO, s1, muse, run)[0]
-    assert r.verdict == REFUSED and "timeout" in r.why
+    assert r.verdict == REFUSED and "too long" in r.why
 
 
 def test_a_skipped_number_shows_in_the_run(s1, run, muse_with):

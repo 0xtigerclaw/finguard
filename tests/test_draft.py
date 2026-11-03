@@ -234,13 +234,13 @@ def test_a_garbled_reply_is_a_plain_failure(ctx, reply):
 def test_muse_being_down_is_a_plain_failure(ctx):
     ctx.transport = ScriptedDraft(draft_reply=MuseError("unavailable", "http://secret.example/raw provider words"))
     out = ask(ctx)
-    assert out.status == "failed" and "unavailable" in out.why and "secret" not in out.why
+    assert out.status == "failed" and "could not be reached" in out.why and "secret" not in out.why
 
 
 def test_a_check_that_cannot_list_claims_is_a_plain_failure_with_the_draft_kept(ctx):
     ctx.transport = ScriptedDraft(extract_reply=MuseError("timeout", "slow"))
     out = ask(ctx)
-    assert out.status == "failed" and "the check could not finish: timeout" in out.why
+    assert out.status == "failed" and "the check could not finish: Muse took too long" in out.why
     assert next(e for e in record_of(ctx, out) if e["kind"] == "draft")["memo"] == CORRECTED_MEMO
 
 

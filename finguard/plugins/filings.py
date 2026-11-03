@@ -158,7 +158,7 @@ def register(registry: Registry) -> None:
     ))
     registry.add(Capability(
         name="filings.page",
-        summary="One page image.",
+        summary="One page of a filing, as an image.",
         kind="read",
         approval="none",
         verifies="Code renders the page from the fingerprinted PDF, and page numbers are bounds checked.",

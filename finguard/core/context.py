@@ -176,7 +176,7 @@ class Context:
         if self.transport is not None:
             return self.transport
         if not os.environ.get("MODEL_API_KEY"):
-            raise Refused("Live checks are off here. The saved memos still work.")
+            raise Refused("Live checks are off here. Saved examples still work.")
         if not self.live.take():
-            raise Refused("Live checks have reached today's limit. The saved memos still work.")
+            raise Refused("Live checks have reached their limit on this server. Saved examples still work.")
         return LiveTransport(timeout=240)

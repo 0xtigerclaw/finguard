@@ -13,7 +13,7 @@ from decimal import Decimal
 
 import pymupdf
 
-from .errors import MuseError
+from .errors import MuseError, plainly
 from .figures import Figure, currency_in, money, numbers_in_memo, read_figure, same_size, too_rough
 from .muse import Muse, image_part
 from .page import DPI, GRID, PDF_LOCK, QUALIFIERS, Filing, row_names
@@ -546,8 +546,8 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int], memo: 
     row_label = located.get("row_label") or ""
     near = filing.numbers_near(page, box, row_label)
     if len(near) != 1:
-        return refuse(f'Muse pointed to the row "{row_label}", and {len(near)} numbers there fit its box, '
-                      "so the source is not clear.", page=page, muse_box=box)
+        return refuse(f'Muse\'s box did not land on one clear number in the row "{row_label}": {len(near)} numbers fit it. '
+                      "Nothing was assumed.", page=page, muse_box=box)
     cell = filing.cell(page, near[0])
     if cell is None:
         return refuse("The number in the box could not be read.", page=page, muse_box=box)
@@ -713,7 +713,7 @@ def _check_one(memo: str, claim: Claim, filing: Filing, pages: list[int], muse: 
                 pass  # the failed call is on the record, and the first box still gets its refusal from decide
         return decide(claim, filing, located, pages, memo)
     except MuseError as e:
-        return Receipt(REFUSED, f"The check could not finish: {e.code}. Nothing was assumed.", *base)
+        return Receipt(REFUSED, f"The check could not finish: {plainly(e)}. Nothing was assumed.", *base)
 
 
 def check_memo(memo: str, filing: Filing, muse: Muse, run: Run) -> list[Receipt]:

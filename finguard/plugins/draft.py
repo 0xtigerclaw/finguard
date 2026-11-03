@@ -18,7 +18,7 @@ from .. import house
 from ..check import Claim, candidate_pages
 from ..core.context import MAX_MEMO, Context, draft_replies, saved_conversation
 from ..core.plugin import Capability, Failed, Refused, Registry
-from ..errors import MuseError
+from ..errors import MuseError, plainly
 from ..muse import Muse, ReplayTransport, Transport, image_part
 from ..page import PDF_LOCK, Filing
 from ..record import Run
@@ -227,7 +227,7 @@ def write_draft(question: str, name: str, filing: Filing, pages: list[int], turn
     try:
         reply = muse.ask(DRAFT_SYSTEM, content, "DraftMemo", DRAFT_SCHEMA)
     except MuseError as e:
-        raise Failed(f"Muse could not write a draft: {e.code}. Nothing was assumed.") from e
+        raise Failed(f"Muse could not write a draft: {plainly(e)}. Nothing was assumed.") from e
     memo = reply.get("memo") if isinstance(reply, dict) else None
     if not isinstance(memo, str):
         raise Failed("Muse's reply did not hold a memo. Nothing was assumed.")
@@ -267,7 +267,7 @@ def _draft(ctx: Context, params: dict) -> dict:
     try:
         result = checked(ctx, memo, name, filing, transport, run, saved)
     except MuseError as e:
-        raise Failed(f"Muse wrote a draft, but the check could not finish: {e.code}. Nothing was assumed.") from e
+        raise Failed(f"Muse wrote a draft, but the check could not finish: {plainly(e)}. Nothing was assumed.") from e
     turn = len(turns) + 1
     _save_turn(ctx, thread_id, name, {
         "turn": turn, "question": question, "memo": memo, "run_id": ctx.run_id, "counts": result["counts"],

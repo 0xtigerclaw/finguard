@@ -271,7 +271,7 @@
     "matched": 16
    }
   },
-  "engine_sha256": "bc6864e894758b52b21288ee2717fb8bd6dd596e825c9e552c69afb5655979d4",
+  "engine_sha256": "6548edc9d4058f1d357136b83242a97b1b3ba1a7b8d6639031cdd20f8b983b7c",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -599,7 +599,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Other operating and administrative\", and 0 numbers there fit its box, so the source is not clear.",
+   "why": "Muse's box did not land on one clear number in the row \"Other operating and administrative\": 0 numbers fit it. Nothing was assumed.",
    "right_cell": false,
    "muse_box": [
     602,
@@ -1073,7 +1073,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Net loss per share attributable to common stockholders, basic and diluted\", and 0 numbers there fit its box, so the source is not clear.",
+   "why": "Muse's box did not land on one clear number in the row \"Net loss per share attributable to common stockholders, basic and diluted\": 0 numbers fit it. Nothing was assumed.",
    "right_cell": false,
    "muse_box": [
     830,
@@ -1972,7 +1972,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Revenues\", and 2 numbers there fit its box, so the source is not clear.",
+   "why": "Muse's box did not land on one clear number in the row \"Revenues\": 2 numbers fit it. Nothing was assumed.",
    "right_cell": false,
    "muse_box": [
     740,

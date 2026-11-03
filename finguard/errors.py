@@ -24,3 +24,20 @@ def code_for_status(status: int) -> str:
     if status >= 500:
         return "unavailable"
     return "bad_request"
+
+
+_PLAIN = {
+    "auth": "the Muse key was not accepted",
+    "rate_limited": "Muse is busy right now",
+    "too_large": "the request was too large for Muse",
+    "timeout": "Muse took too long",
+    "unavailable": "Muse could not be reached",
+    "bad_request": "Muse did not accept the request",
+    "bad_reply": "Muse's reply could not be read",
+    "no_recording": "no saved reply matches this request",
+}
+
+
+def plainly(error: MuseError) -> str:
+    """A failure in plain words, for a person to read. The code itself stays on the record."""
+    return _PLAIN.get(error.code, "Muse could not answer")
