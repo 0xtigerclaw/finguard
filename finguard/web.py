@@ -5,8 +5,8 @@ Limits, all plain code and all set by env vars with safe defaults:
 - Rate: FINGUARD_RATE_LIMIT POST calls (default 60) per
   FINGUARD_RATE_WINDOW_SECONDS (default 60) from one IP. Over that, a POST
   gets 429 and a Retry-After header, and nothing reaches the door. The IP
-  is the connection IP. Forwarded headers are not trusted, since a caller
-  could write any value in them.
+  is the connection IP. Behind Cloud Run, FINGUARD_BEHIND_PROXY uses the last
+  forwarded address, which the proxy adds. Earlier ones are the caller's own.
 - Runs: FINGUARD_MAX_RUNS (default 1000) runs stored on the ledger. At the
   cap, POST /api/do gets 503 and nothing reaches the door.
 - Threads: FINGUARD_MAX_THREADS (default 200) stored approval requests.

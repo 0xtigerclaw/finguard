@@ -7,8 +7,12 @@ and only a person can release.
 
 Muse lists the claims in a memo and points to where a filing reports each metric. It is never
 told the memo's number while pointing, so it cannot lean toward it. Plain code then reads the
-PDF's own text at that spot, checks the row, column, units, currency, direction and period, and
-gives the verdict. Muse can also write a draft, which is checked like any other memo.
+PDF's own text at that spot, checks the row, column, units, currency, direction, period and the words
+around the number, and gives the verdict. Muse can also write a draft, which is checked like any other
+memo.
+
+If Muse's box picks out no number or several, Muse gets one second look, at an enlarged crop of that part
+of the page. It gets one retry, never more, and it is still not told the number.
 
 | Verdict | Meaning |
 |---|---|
@@ -19,63 +23,94 @@ gives the verdict. Muse can also write a draft, which is checked like any other 
 
 ## The score
 
-Measured on live `muse-spark-1.3`, against numbers hand-checked on the filing pages.
+Measured on live `muse-spark-1.3`, against printed values read on the rendered filing pages. Results
+are in `eval/`. Read the first row.
 
 | Test | Altered numbers passed | Invented metrics passed | True numbers matched |
 |---|---|---|---|
-| **Held out: three filings first used after the code was frozen** | **0 of 273** | **0 of 3** | **23 of 31**, 8 refused, 0 called wrong |
-| Repeat run: fresh replies on the filings used to build it | 0 of 575 | 0 of 5 | 58 of 62, 4 refused, 0 called wrong |
+| **Final test: Alphabet's Q3 2026 earnings release, an issuer and layout first used after the engine was frozen at commit bf56ab0** | **0 of 216, and 0 of 428 in the new classes** | **0 of 2** | **19 of 25**, 6 refused, 0 called wrong |
+| Frozen test: NVIDIA Q1 fiscal 2027 (commit 6a5cb87), kept as measured | 0 of 144, and 0 of 20 in the new classes | 0 of 2 | 1 of 20, 19 refused, 0 called wrong |
+| Older held-out round: three filings. No longer a fresh test, because an audit used them | 0 of 273, and 0 of 558 in the new classes | 0 of 3 | 25 of 31, 6 refused, 0 called wrong |
+| Repeat run on the filings used to build it. This flatters the code | 0 of 575, and 0 of 1,295 in the new classes | 0 of 5 | 59 of 62, 3 refused, 0 called wrong |
 
-Read the held-out row. The other filings were used to fix bugs, so their result flatters the code.
-Finguard is cautious: about a quarter of true numbers in the held-out test were refused for a
-person to check. These are public filings we chose, so this measures the method on them and is
+The final test is one public filing and 25 true numbers. It measures the method on that filing and is
 no guarantee on others.
+
+### What happened, in order
+
+1. **The held-out round.** Three filings, first used after the code was frozen, gave 23 of 31 true
+   numbers matched, 8 refused, and 0 of 273 altered numbers passed (commit 83c047e).
+2. **The audit.** A separate audit then proved 20 ways a false number could pass. The old score did not
+   test any of them, which is how it could say 0 passed while they existed. All 20 are closed with tests
+   in `tests/test_audit.py`, and the score gained new classes of altered number (commit aff6b9e). The
+   audit used the held-out filings, so that round is no longer a fresh test. Rescoring its saved replies
+   under today's code gives 25 of 31.
+3. **The NVIDIA test.** Code frozen, on a filing first used then, though its issuer's layout was already
+   known. 1 of 20 true numbers matched and 19 were refused. No false number passed (commit 6a5cb87). There
+   were two causes. Our own PDF conversion split a table across pages, which lost its units or headings. And
+   Muse's box landed beside the number.
+4. **The fixes.** Code now uses the box to find the row and reads the closest number there, unless two are
+   about as close. The column heading is still checked. Web filings keep statements whole (commit
+   bf56ab0). The NVIDIA PDF was left as it was, so rescoring that round still gives 1 of 20.
+5. **The final test.** Engine frozen at bf56ab0, on an issuer and layout not used before. The first run
+   printed 18 matched and 1 called wrong, because the scorer wrote a per-share claim as $2.12m. That was a
+   bug in the scorer, not the engine. The scorer was fixed and the saved replies rescored, with no new
+   calls (commit 1d8e77a). That gives the first row. The engine's hash did not change. The commit
+   message says 404 for the new classes. The results file says 428, and a replay reproduces 428.
 
 ### What the score tests
 
-The score tests particular kinds of altered number. It is a measure of those, not of every
-possible error. An altered number is a true one changed in one of these ways:
+The score measures these attacks, not every possible error. Each altered number is a true one changed.
 
-| Kind of change | Held-out count |
+Old classes, with final test counts:
+
+| Change | Count |
 |---|---|
-| Ten times too big | 31 |
-| 10% more | 31 |
-| Last digit one higher | 31 |
-| The year before | 31 |
-| Another kind of period, such as a quarter for six months | 31 |
-| The other currency, dollars for euros or euros for dollars | 31 |
-| Another column's value from the same row | 75 |
-| A loss called a profit, or a profit called a loss | 12 |
+| Ten times too big | 25 |
+| 10% more | 25 |
+| Last digit one higher | 25 |
+| The year before | 25 |
+| Another kind of period, such as a quarter for six months | 25 |
+| The other currency, dollars or euros | 25 |
+| Another column's value from the same row | 59 |
+| A loss called a profit, or a profit called a loss | 7 |
 
-Of the 273, code called 161 wrong and refused 112. None passed. An invented metric is one the
-filing does not report, such as Adjusted EBITDA on an ASML filing. The score does not test:
+New classes, from `new_false_by_class`, with final test counts. They start only from numbers that
+matched, so 19 of the 25 here:
 
-- Muse's listing of claims. The scorer starts from an answer key, so only the pointing step and
-  the verdict are measured.
-- A number taken from another row, or a wrong word in the prose around a number.
-- A live question about the wrong period. Muse's reply for the true period is reused for each
-  altered version, so the year and period tests ask whether code spots the mismatch.
-- The period rule, follow-up questions, house rules or Creator Mode.
+| Attack | Classes and counts |
+|---|---|
+| The memo's words say another period | `memo_says_fiscal` 18, `memo_says_other_quarter` 13, `memo_says_other_date` 6 |
+| The words say it is not a plain level | `memo_says_growth` 19, `memo_says_a_bound` 19, `memo_says_a_forecast` 19 |
+| Another row's name | `another_row_name` 19, `qualifier_added` 19, `opposite_word` 5 |
+| Another currency, or none | `currency_pound` 19, `currency_yen` 19, `currency_canadian` 19, `currency_code` 19, `no_currency` 19 |
+| Units and size | `money_as_percent` 19, `thousands_for_millions` 18, `rough_rounding` 1 |
+| Sign and direction | `sign_flipped` 18, `loss_on_a_positive_row` 14 |
+| The box moved to the next cell, with the true row's name | `wrong_cell_next_column` 12, `wrong_cell_previous_column` 16, `wrong_cell_next_row` 19, `wrong_cell_previous_row` 16 |
+| The box moved, with that cell's own row name | `wrong_cell_next_column_own_label` 12, `wrong_cell_previous_column_own_label` 16, `wrong_cell_next_row_own_label` 19, `wrong_cell_previous_row_own_label` 16 |
 
-### Changes after the held-out run
+Five more classes apply only to other rows and appear in other rounds: `memo_says_other_half`, `zero`,
+`percent_as_money`, `qualifier_dropped` and `unsigned_on_a_negative_row`.
 
-These came after the held-out run:
+On the final test, code called 122 of the 216 wrong and refused 94. It called 124 of the 428 wrong and
+refused 304. None passed. An invented metric is one the filing does not report, such as Adjusted EBITDA
+on Alphabet's release. A separate memo path runs the four saved memos through Muse's claim list and the
+period rule, then tries 16 memos built to slip through. None passed.
 
-- A negative percentage now reads as a percentage.
-- The sign check: a memo's sign must agree with the filing's on a percentage or a figure the memo
-  writes as negative.
-- The column heading fix: a heading is read from the year above the number, even where two
-  columns' headings almost touch.
-- The period rule: a memo that never states a number's period is refused. The scorer does not
-  reach this rule, so it cannot change the score.
-- Labels were tidied, and an altered number that rounds back to the true one no longer counts as
-  false.
+Wording checks now require the word before a number to plainly state it. So harmless wording can be
+refused too, and a person must then read it. That is a real cost of closing these attacks.
 
-Rescoring the same saved replies with the corrected code gave the numbers now in the files. No
-call to Muse was made. On the held-out filings no verdict changed, so these fixes did not lift that
-result. On the repeat run one true number moved from called wrong to matched, a negative percentage.
-Results are in `eval/`, and `python eval/score.py --round heldout` rescores the saved replies with
-no API. A fresh claim about accuracy would need a filing the code has never seen.
+The score does not test:
+
+- Muse's listing of claims on new memos. The main counts start from an answer key.
+- A live question about the wrong period. One saved reply serves a true number and its altered versions.
+  The moved box attacks are written by the scorer, not by Muse.
+- Follow-up questions, house rules or Creator Mode.
+- An error of a kind not listed above.
+
+To rescore with no API, run `python eval/score.py --round final`. Other rounds are `2`, `heldout` and
+`fresh`. `--round fresh` writes its results and then exits with an error: 9 saved second looks from the
+frozen run are no longer asked for under the fixed code.
 
 ## Follow-up questions
 
@@ -89,9 +124,12 @@ passes it back.
 - Muse offers up to 3 next questions. They are text for a person to pick from, and none runs by itself.
 - A conversation stays on one filing and stops at 8 turns.
 
-Each built-in filing has a saved conversation that replays with no key. The Anthropic one has three
-turns, with 3 matched and 1 refused, then 2 matched and 1 refused, then 6 of 6 matched. A question
-off the saved path needs a live key.
+Each built-in filing has a saved conversation that replays with no key, second looks included. Anthropic
+has three turns: 3 matched and 1 refused, then 2 matched and 1 refused, then 6 of 6. Nebius has two: 5 of
+5, then 5 matched and 1 refused. ASML has two: 4 of 4, then an answer that says the pages do not explain
+it and gives no number. A question off the saved path needs a live key.
+
+The page keeps the conversation's id in the browser, so a conversation comes back after a reload.
 
 ## House rules
 
@@ -146,8 +184,8 @@ A definition is data: row names, a formula, a unit and one period. Plain code in
   itself and never runs it as code.
 - Code reads each row from the filing by position and does the sum in Decimal. If a row is missing or
   unclear, it says so and estimates nothing.
-- `plugins.install` needs a person's approval, tied to the definition's hash. The new capability is
-  `custom.<name>`, and it can only read.
+- `plugins.install` refuses a definition that no `plugins.create` run produced. It needs a person's
+  approval, tied to the definition's hash. The new capability is `custom.<name>`, and it can only read.
 - `plugins.list` shows what is installed. A definition file that no longer matches its approved hash
   is not loaded.
 
@@ -168,6 +206,9 @@ acting capability has no approval rule.
 - **Approvals** are tied to the exact content a person saw, and work once. A model cannot give one.
 - **The ledger** is append only and hash chained. Each Muse request can be rebuilt byte for byte.
 - **A release** is refused in code unless every number matches, then sealed as a bundle of hashes.
+- **Rate limits and caps** protect the web API. By default, one IP gets 60 POST calls a minute. New work is
+  refused at 1,000 stored runs or 200 stored approval requests. Each can be set by an env var.
+- **CI** runs the tests on each push and pull request, in `.github/workflows/tests.yml`, with no API key.
 
 See `docs/architecture.md`.
 
@@ -186,15 +227,22 @@ Approving on the web needs `FINGUARD_OPERATOR_TOKEN`. Tests never call the API.
 
 ## Known limits
 
-- Tables only. A number in running prose is refused, not read.
-- It checks numbers, not the words around them. "A business turning the corner" gets no receipt.
-- A held-out refusal rate of 8 in 31. In 6 of the 8, Muse's box did not land on exactly one number
-  in the row it named. In the other 2, code could not read the column heading.
-- Where two columns share a year, as on a balance sheet, the year alone cannot tell them apart.
-- A plain amount with no sign matches a negative cell unless the memo calls it a profit, because
-  filings print costs in brackets.
-- A saved run replays recorded replies, and the page labels it as saved.
-- Anyone who can write to the state folder could forge it whole. The chain catches edits, not that.
+- **It refuses true numbers.** 6 of 25 on the final test. Four were the right cell under a heading code
+  would not accept. Two "Year To Date" headings were not read as nine months, and two cash flow columns
+  were read as just "2026". The other two landed on the 2025 column, one of them also under "Year To Date".
+- **Fiscal periods.** A memo that says "fiscal" is refused when the column is a calendar date that does
+  not end in December. Code does not map fiscal years to calendar dates.
+- **Tables only, for numbers.** A number in running prose is refused, not read.
+- **One filing per check.** A memo that draws on two filings cannot be checked as one.
+- **Wording.** The word before a number must plainly state it, so harmless wording can be refused. Beyond
+  that, it checks numbers, not the sense of a sentence. "A business turning the corner" gets no receipt.
+- **Signs.** A plain amount with no sign still matches a bracketed cost or loss row, because filings print
+  those in brackets.
+- **Shared years.** Where two columns share a year, as on a balance sheet, the year alone cannot tell them
+  apart.
+- **Saved runs** replay recorded replies, and label themselves saved.
+- **Forgery.** Anyone who can write to the state folder could forge it whole. The chain catches edits, not
+  that.
 
 ## Where this came from
 
@@ -202,4 +250,5 @@ Built during the Meta Global AI Developer Hackathon. All code in this repository
 
 - The idea, the look and the house rule idea come from Finrail (github.com/0xtigerclaw/finrail), the owner's earlier project. No Finrail code is used.
 - The record and replay design is inspired by DeepSeek Harness (github.com/deepseek-ai/deepseek-harness, MIT). No DeepSeek Harness code is used.
+- The code is under the Apache-2.0 licence, in `LICENSE`.
 - The filings in `data/` are public documents. `data/sources.json` lists each source and hash. The Anthropic and NVIDIA web filings are turned into PDFs, and each keeps its own hash.

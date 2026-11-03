@@ -23,7 +23,6 @@ verified. The CLI and the web page call the same door, so they cannot differ.
       house.py            house rules: load them, apply them to cells, answer in code. No model
       plugins/rules.py    rules.list, rules.apply, rules.change
       plugins/creator.py  plugins.create, plugins.install, plugins.list, custom.<name>
-      plugins/creator.py  plugins.create, plugins.install, plugins.list
       cli.py              the `finguard` command
       web.py              the API and the page
       static/             the page
@@ -105,9 +104,6 @@ State lives in `FINGUARD_STATE`, defaulting to `./state`, which git ignores. It 
 | plugins.install | act | person | Install a definition a plugins.create run produced. The subject is its sha256 |
 | plugins.list | read | none | The gallery prompts, the installed plugins, and whether each is loaded |
 | custom.<name> | read | none | Run an installed definition on a filing. Plain code does the sum |
-| plugins.create | read | none | Muse writes a definition from a plain request, and code tries it on a filing. Nothing is installed |
-| plugins.install | act | person | Install a definition as a read capability, `custom.<name>`. The subject is the sha256 of the definition |
-| plugins.list | read | none | The gallery prompts, the installed plugins, and whether each one is loaded |
 
 `memo.release` takes `check_run_id`. Code refuses it, before asking for approval and again
 when running, unless that run's record holds and every receipt is `match`, with none
@@ -115,6 +111,27 @@ when running, unless that run's record holds and every receipt is `match`, with 
 bundle goes in `state/releases/<id>/`: `memo.txt`, `receipts.json`, `run.jsonl` and
 `manifest.json` holding every file's hash, and a release id. `finguard release verify <id>`
 checks it.
+
+## Pointing and the second look
+
+`check.locate` sends Muse up to 6 page images, a metric and a period. It sends no value and no quote.
+Muse replies with a page, a box on a 0-1000 grid, and a row label copied as printed.
+
+`Filing.numbers_near` treats the box as a pointer. It keeps numbers on a row printed with that label,
+within 32 grid units up or down of the box. A number inside the box's left and right edges wins. If none
+is inside, the closest within 130 grid units is taken, unless the next is about as close: the closest
+must be under 0.8 of the next one's distance. `decide` then checks the column heading against the claim's period,
+so a wrong column is refused.
+
+If that picks out no number or several, `check._locate_again` makes one second look, never more. It sends
+one image: the box's band across the full width, with 80 grid units above and below, at twice the DPI. The
+words and schema are the same. The reply's box is put back on the page's grid. If that reply cannot be
+used, or the call fails, the first box goes on to its refusal.
+
+`decide` also reads the words before the number. The last word must be on a short list that plainly
+states a level, such as "was" or "reached", or the number must start its sentence or follow a colon.
+Anything else is refused for a person to read, even when it is
+harmless.
 
 ## Threads
 
@@ -233,7 +250,21 @@ JSON unless stated. Errors use FastAPI's `{"detail": "plain words"}`.
 
 In `/api/start`, each filing's `memo` is its saved memo, `corrected` is the same memo with its errors
 fixed, and `conversation` is the list of saved questions, in order. Each is empty or null if the
-filing has none. `score` is the held-out summary, with the repeat run inside it as `repeat`.
+filing has none. `score` is the final test's summary, with the repeat run inside it as `repeat` and the
+NVIDIA test as `earlier`.
+
+The page keeps the current thread's id in `localStorage` and rebuilds the conversation after a reload,
+from `/api/threads/{thread_id}` and `/api/runs/{run_id}`.
+
+Limits on the web API, each set by an env var:
+
+- `FINGUARD_RATE_LIMIT` POST calls, 60 by default, per `FINGUARD_RATE_WINDOW_SECONDS`, 60 by default, from
+  one caller's address. Over that, a POST gets 429 with `Retry-After`, and nothing reaches the door.
+- `FINGUARD_MAX_RUNS`, 1,000 by default. At the cap, `POST /api/do` gets 503.
+- `FINGUARD_MAX_THREADS`, 200 by default. Despite its name, this caps stored approval requests. A POST
+  that would ask for a new one at the cap gets 503.
+
+Caps refuse new work and never evict, since a deleted run would leave ledger lines pointing at nothing.
 
 `memo.check` result:
 
@@ -250,15 +281,25 @@ calls need `MODEL_API_KEY` and stop at `FINGUARD_LIVE_LIMIT` per instance, 20 by
 
 ## The score
 
-`eval/score.py` measures the pointing step and the verdict. For each row in an answer key, it finds
-candidate pages, asks Muse where the metric is, and passes the true number and its altered versions
-to `check.decide()`. Muse is never told the number, so one reply serves them all.
+`eval/score.py --round <name>` works from an answer key. Rounds are `final`, `fresh`, `heldout`, `2` and
+`1`. For each row, it finds candidate pages, asks Muse where the metric is, makes one second look if needed,
+and passes the true number and its altered versions to `check.decide()`. Muse is never told the number, so
+one reply serves them all.
 
-It does not call `list_claims` or `period_stated`, so it does not measure Muse's listing of claims
-or the rule that refuses a memo with no stated period. It does not touch threads, house rules or
-plugins.
+The results keep two sets apart. `old_false_by_class` holds the first classes, unchanged, so rounds stay
+comparable. `new_false_by_class` holds the classes from the audit. They run only on numbers that matched.
+They say the number with a memo's wording, or move the box to a neighbouring cell.
 
-With no `--live`, it replays `eval/recordings/round<N>/` with no API and fails if a saved reply goes
-unused. `engine_sha256` in each results file is the hash of `check.py`, `page.py` and `figures.py`.
-The held-out results now in the repo come from rescoring the saved replies with the corrected code.
-That changed no held-out verdict, and two label words in the `why` text. See the README.
+`memo_path` runs the four saved memos through `list_claims`, `skipped_numbers`, `period_stated` and the
+check, then tries 16 memos built to slip through. The score does not touch threads, house rules or plugins.
+
+With no `--live`, it replays `eval/recordings/round<name>/` with no API. It writes the results file, then
+fails if a saved reply went unused. `--round fresh` fails that last step, because the frozen run's 9 extra
+second looks are no longer asked for under the fixed code. Its results still match the file.
+
+`engine_sha256` is the hash of `check.py`, `page.py` and `figures.py`. It is the same for every round now,
+and the same as at commit bf56ab0, where the final test was frozen. See the README for the order of events.
+
+## CI
+
+`.github/workflows/tests.yml` runs `pytest` on each push and pull request, with `MODEL_API_KEY` empty.

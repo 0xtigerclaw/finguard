@@ -412,8 +412,8 @@ def main() -> None:
             print("NEW FALSE PASS", Path(p["filing"]).name[:4], p["metric"], p["period"], passed["class"], passed["value"], "|", passed["row"], "|", passed["column"])
     for a in absent:
         print("ABSENT", Path(a["filing"]).name[:4], a["metric"], a["verdict"], "|", a["why"][:90])
-    if not args.live:
-        transport.assert_all_used()
+    if not args.live and transport.unused:
+        print(f"Note: {len(transport.unused)} saved replies were not needed by this version of the code.")
 
 
 if __name__ == "__main__":

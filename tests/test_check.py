@@ -1,5 +1,6 @@
 """The verdicts, on real filings. Muse's replies are scripted: right, wrong and hostile ones."""
 import json
+from pathlib import Path
 
 import pytest
 
@@ -256,6 +257,12 @@ def test_a_box_landing_on_the_wrong_year_cannot_pass(s1):
     x0, y0, x1, y1 = box_for(s1, BRIDGE, "(1,849)")
     loc = {"found": True, "page": 0, "box": [x0 - 20, y0, x0 - 4, y1], "row_label": "Adjusted Operating Income (Loss)"}
     assert decide(claim("$1.8bn"), s1, loc, [BRIDGE]).verdict != MATCH
+
+
+def test_a_pinned_page_image_is_used_as_saved(s1):
+    """Page 371 renders differently on Linux, and a saved reply is keyed to the exact image."""
+    pin = Path(__file__).parent.parent / "data" / "pinned_pages" / s1.sha256[:16] / "371.png"
+    assert s1.image(371) == pin.read_bytes()
 
 
 def test_candidate_pages_include_the_statements(s1):

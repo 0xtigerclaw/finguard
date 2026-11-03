@@ -92,8 +92,12 @@ class Filing:
 
     def image(self, page: int) -> bytes:
         if page not in self.images:
-            with PDF_LOCK:
-                self.images[page] = self.doc[page].get_pixmap(dpi=DPI).tobytes("png")
+            pinned = self.path.parents[0 if self.path.parent.name == "data" else 1] / "pinned_pages" / self.sha256[:16] / f"{page}.png"
+            if pinned.exists():  # a page that renders differently across systems would not match its saved reply
+                self.images[page] = pinned.read_bytes()
+            else:
+                with PDF_LOCK:
+                    self.images[page] = self.doc[page].get_pixmap(dpi=DPI).tobytes("png")
         return self.images[page]
 
     def words(self, page: int) -> list[Word]:
