@@ -157,7 +157,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .t th:last-child,.t td:last-child,.ledger th:last-child,.ledger td:last-child{padding-right:18px}
 .t .m{font-family:var(--mono);font-size:12.5px}
 .t a.open{display:inline-flex;align-items:center;min-height:30px;font-size:13.5px;font-weight:600;text-underline-offset:3px}
-.ledger tbody tr{cursor:pointer}
+.ledger tbody tr[data-i]{cursor:pointer}
 .ledger tbody tr:hover{background:var(--bg)}
 .ledger tr[aria-current=true]{background:var(--tint)}
 .pick{background:none;border:0;padding:6px 0;min-height:36px;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -371,9 +371,15 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .model{display:none}
   .menu{margin-left:auto}
 }
+/* Keyboard focus must stay visible even where a container clips its children. */
+.tabs button:focus-visible,.viewer:focus-visible{outline-offset:-3px}
+button.fig:focus-visible{outline-offset:4px}
+.field:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
 @media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .fig .ring path,.fig .tick path{stroke-dashoffset:0}
+  .fig .ring path,.fig .tick path{stroke-dashoffset:0;animation-delay:0s!important}
 }
 @media (forced-colors:active){
   .nav a[aria-current=page]{outline:2px solid CanvasText}
@@ -481,6 +487,12 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
           </div>
         </div>
         <div class="clock" id="draftClock" hidden></div>
+        <div class="go" id="draftThreadBar" hidden>
+          <button class="btn" id="draftNew" type="button">Start a new conversation</button>
+          <p class="state" id="draftThreadState" role="status"></p>
+        </div>
+        <div id="draftHistory" style="margin-top:18px" hidden></div>
+        <div class="chips" id="draftNext" role="group" aria-label="Suggested follow-up questions" style="margin-top:14px" hidden></div>
         <div id="draftMemoSlot" style="margin-top:18px"></div>
         <div id="draftResult"></div>
       </div>
@@ -579,6 +591,7 @@ const VERDICT = {match: "Matches the filing", wrong: "Wrong", refused: "Refused"
 const VERDICT_SHORT = {match: "match", wrong: "wrong", refused: "refused", unchecked: "not checked"};
 const verdictOf = r => VERDICTS.includes(r.verdict) ? r.verdict : "unchecked";
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrollBehavior = () => reduced() ? "auto" : "smooth";
 const stacked = () => matchMedia("(max-width: 1099px)").matches;
 const short = (s, n = 12) => (s == null ? "" : String(s).slice(0, n));
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
@@ -853,7 +866,7 @@ function makeBench(memoSlot, resultSlot, desk) {
     proof.hidden = false;
     desk.classList.add("has-proof");
     drawCard(r); drawPage(r); drawSteps(r);
-    if (byUser && stacked()) proof.scrollIntoView({block: "start"});
+    if (byUser && stacked()) proof.scrollIntoView({block: "start", behavior: scrollBehavior()});
   }
   function drawCard(r) {
     const v = verdictOf(r), f = filingById(filingId);
@@ -867,7 +880,7 @@ function makeBench(memoSlot, resultSlot, desk) {
     const back = el("button", "btn back", "Back to the memo"); back.type = "button";
     back.onclick = () => {
       const fig = memoSlot.querySelector(`.fig[data-i="${selected}"]`) || resultSlot.querySelector(`tr[data-i="${selected}"] .pick`);
-      if (fig) { fig.focus({preventScroll: true}); fig.scrollIntoView({block: "center"}); }
+      if (fig) { fig.focus({preventScroll: true}); fig.scrollIntoView({block: "center", behavior: scrollBehavior()}); }
     };
     card.append(back);
   }
@@ -913,6 +926,7 @@ function makeBench(memoSlot, resultSlot, desk) {
       viewer.scrollTo({
         top: viewer.scrollTop + t.top - o.top - viewer.clientHeight * .42,
         left: zoomFit ? 0 : viewer.scrollLeft + t.left - o.left - viewer.clientWidth * .62,
+        behavior: scrollBehavior(),
       });
     };
     viewer._reveal = reveal;
@@ -921,7 +935,7 @@ function makeBench(memoSlot, resultSlot, desk) {
       zoomFit = !zoomFit;
       p.classList.toggle("fit", zoomFit);
       zoom.textContent = zoomFit ? "Zoom to the number" : "See the whole page";
-      if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else reveal();
+      if (zoomFit) viewer.scrollTo({top: 0, left: 0, behavior: scrollBehavior()}); else reveal();
     };
   }
   function drawTable(box) {
@@ -1154,13 +1168,128 @@ function setCheckBusy(busy) {
 }
 
 /* ---------- 2. Draft ---------- */
-const draft = {bench: null, filing: null, running: false};
+const draft = {bench: null, filing: null, running: false, threadId: null, turns: [], restoring: false, restoreTried: false};
 const EXAMPLES = {
   anthropic: "Did Anthropic make money in the first half of 2026?",
   nebius: "How did Nebius do in the second quarter of 2026?",
   asml: "How did ASML do in the third quarter of 2026?",
 };
+/* A thread id is not a token. It names one conversation, so this page may keep it across a reload. */
+const THREAD_KEY = "finguard.draft.thread";
+const THREAD_ID = /^thr_[0-9a-f]{16}$/;
+function readStoredThreadId() {
+  try {
+    const id = localStorage.getItem(THREAD_KEY);
+    if (id && THREAD_ID.test(id)) return id;
+    if (id) localStorage.removeItem(THREAD_KEY);
+  } catch { /* storage may be off; a fresh conversation still works */ }
+  return null;
+}
+function storeThreadId(id) {
+  draft.threadId = id && THREAD_ID.test(id) ? id : null;
+  try {
+    if (draft.threadId) localStorage.setItem(THREAD_KEY, draft.threadId);
+    else localStorage.removeItem(THREAD_KEY);
+  } catch { /* storage may be off; the conversation still works until a reload */ }
+  drawThreadBar();
+}
+function drawThreadBar(words) {
+  const bar = $("draftThreadBar");
+  if (!bar) return;
+  bar.hidden = !draft.threadId;
+  if (words != null) $("draftThreadState").textContent = words;
+  else if (draft.threadId && !$("draftThreadState").textContent) $("draftThreadState").textContent = "This conversation is saved on this page. A reload brings it back.";
+}
+function clearDraftThreadUi() {
+  $("draftHistory").replaceChildren(); $("draftHistory").hidden = true;
+  $("draftNext").replaceChildren(); $("draftNext").hidden = true;
+}
+function forgetThread() {
+  draft.turns = [];
+  clearDraftThreadUi();
+  $("draftThreadState").textContent = "";
+  storeThreadId(null);
+}
+function drawDraftHistory(turns) {
+  const box = $("draftHistory");
+  box.replaceChildren();
+  box.hidden = !turns.length;
+  if (!turns.length) return;
+  box.append(el("h2", "", "Earlier in this conversation"));
+  for (const turn of turns) {
+    const card = el("div", "msg");
+    if (turn.question) card.append(el("p", "soft small", "Question: ", el("em", "", String(turn.question))));
+    card.append(markedMemo(turn.memo || "", [], null));
+    box.append(card);
+  }
+}
+function drawDraftNext(questions) {
+  const box = $("draftNext");
+  box.replaceChildren();
+  const list = (Array.isArray(questions) ? questions : []).filter(q => typeof q === "string" && q.trim()).slice(0, 3);
+  box.hidden = !list.length;
+  for (const q of list) {
+    const b = el("button", "chip", q); b.type = "button";
+    b.onclick = () => { $("draftInput").value = q; drawDraftHint(); $("draftRun").focus(); };
+    box.append(b);
+  }
+}
+function showDraftQuestion(question) {
+  const heading = el("p", "soft small", "Question: ", el("em", "", String(question || "")));
+  heading.style.marginBottom = "8px";
+  $("draftMemoSlot").prepend(heading);
+}
+/* Bring back the conversation named in storage. Any failure starts fresh, once, with no retry loop. */
+async function restoreDraftThread() {
+  if (draft.restoreTried) return;
+  draft.restoreTried = true;
+  const id = readStoredThreadId();
+  if (!id) return;
+  draft.restoring = true;
+  try {
+    const data = await api(`/api/threads/${enc(id)}`);
+    const turns = data && Array.isArray(data.turns) ? data.turns : null;
+    if (!turns || !turns.length || (data.thread_id && data.thread_id !== id)) throw new ApiError("That conversation is gone.", 404);
+    draft.threadId = id;
+    const f = filingById(data.filing);
+    if (f && draft.filing && f.id !== draft.filing.id) chooseDraftFiling(f);
+    draft.turns = turns;
+    drawDraftHistory(turns.slice(0, -1));
+    const last = turns[turns.length - 1] || {};
+    let shown = false;
+    if (last.run_id) {
+      try {
+        const run = await api(`/api/runs/${enc(last.run_id)}`);
+        if (run.result && Array.isArray(run.result.receipts)) {
+          draft.bench.render({memo: last.memo || run.result.memo || "", result: run.result, id: run.run_id || last.run_id, filing: data.filing || (draft.filing && draft.filing.id), labels: [["Restored", "ink", "This conversation came back after a reload."], ...savedLabels(run.result, false)]});
+          shown = true;
+        }
+      } catch { /* the thread itself holds the memo, so show that instead */ }
+    }
+    if (!shown) {
+      draft.bench.clear();
+      const slot = $("draftMemoSlot");
+      slot.append(markedMemo(last.memo || "", [], null));
+      if (last.counts && typeof last.counts === "object") {
+        const words = VERDICTS.filter(v => last.counts[v]).map(v => `${last.counts[v]} ${VERDICT_SHORT[v]}`).join(", ");
+        if (words) slot.append(el("p", "note", `Last answer: ${words}.`));
+      }
+    }
+    if (last.question) showDraftQuestion(last.question);
+    drawDraftNext(last.next_questions);
+    drawThreadBar("Conversation restored. Ask a follow-up, or start a new one.");
+  } catch {
+    forgetThread();
+    $("draftState").textContent = "That saved conversation is gone, so a new one is ready.";
+    $("draftState").className = "state";
+  } finally {
+    draft.restoring = false;
+    drawThreadBar();
+  }
+}
 function chooseDraftFiling(f) {
+  /* A conversation is about one filing, so picking another filing starts a new one. */
+  if (draft.filing && f.id !== draft.filing.id && !draft.restoring) forgetThread();
   draft.filing = f;
   markTabs($("draftTabs"), f.id);
   $("draftDoc").textContent = docLine(f);
@@ -1207,17 +1336,23 @@ async function runDraft() {
     savedQuestion ? null : {after: 180, words: "Stage: Muse is writing, then code checks. Slower than usual."});
   const unwatch = savedQuestion ? () => {} : watchRun("memo.draft", clock, "Stage: Muse is writing, then code checks.");
   try {
-    const out = await door("memo.draft", {question, filing: f.id});
+    const params = {question, filing: f.id};
+    if (draft.threadId) params.thread_id = draft.threadId;
+    const out = await door("memo.draft", params);
     if (out.status !== "done" || !out.result) {
       const why = outcomeWords(out);
-      if (out.status === "refused" && /unknown|no such|not exist|not found/i.test(why)) throw new ApiError("Draft is not on this server yet. The capability memo.draft does not exist.");
+      if (draft.threadId && /thread/i.test(why) && /unknown|no such|not exist|not found|gone|another filing/i.test(why)) forgetThread();
+      if (out.status === "refused" && /unknown|no such|not exist|not found/i.test(why) && !/thread/i.test(why)) throw new ApiError("Draft is not on this server yet. The capability memo.draft does not exist.");
       throw new ApiError(why);
     }
     clock.stage("Stage: marking the memo.");
-    const heading = el("p", "soft small", "Question: ", el("em", "", out.result.question || question));
-    heading.style.marginBottom = "8px";
+    if (out.result.thread_id && THREAD_ID.test(out.result.thread_id)) storeThreadId(out.result.thread_id);
+    draft.turns = [...draft.turns, {question: out.result.question || question, memo: out.result.memo || "", run_id: out.run_id, next_questions: out.result.next_questions}];
+    drawDraftHistory(draft.turns.slice(0, -1));
     draft.bench.render({memo: out.result.memo || "", result: out.result, id: out.run_id, filing: f.id, labels: savedLabels({...out.result, drafted_by_muse: true}, false), focusAfter: true});
-    $("draftMemoSlot").prepend(heading);
+    showDraftQuestion(out.result.question || question);
+    drawDraftNext(out.result.next_questions);
+    drawThreadBar();
     refreshPending();
   } catch (e) {
     state.textContent = e.status === 404 ? "Draft is not on this server yet. The capability memo.draft does not exist." : e.message;
@@ -1784,6 +1919,13 @@ async function boot() {
   });
   $("checkRun").onclick = runCheck;
   $("draftRun").onclick = runDraft;
+  $("draftNew").onclick = () => {
+    forgetThread();
+    draft.bench.clear();
+    $("draftState").textContent = "A new conversation is ready.";
+    $("draftState").className = "state";
+    $("draftInput").focus();
+  };
   $("draftInput").addEventListener("input", drawDraftHint);
   $("memoInput").addEventListener("input", updateMemoHint);
   $("memoEdit").onclick = () => { const f = $("memoInput").value; showCheckInput(f); $("memoInput").focus(); };
@@ -1816,6 +1958,7 @@ async function startData() {
   if (isNum(START.max_memo)) $("memoInput").maxLength = START.max_memo;
   chooseCheckFiling(START.filings[0]);
   chooseDraftFiling(START.filings[0]);
+  restoreDraftThread();
   drawDraftAvailable();
   refreshPending();
   drawOperatorNote();
