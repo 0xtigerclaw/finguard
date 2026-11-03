@@ -228,7 +228,7 @@
     "matched": 19
    }
   },
-  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
+  "engine_sha256": "bc6864e894758b52b21288ee2717fb8bd6dd596e825c9e552c69afb5655979d4",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -743,7 +743,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"Quarter Ended September 30, 2025\" is not quarter 2026.",
+   "why": "Muse pointed to the column \"Quarter Ended September 30, 2025\", which is not the quarter of 2026 the memo means, so this was not accepted.",
    "right_cell": false,
    "muse_box": [
     534.0,
@@ -1101,7 +1101,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"Year To Date September 30, 2026\" is not nine_months 2026.",
+   "why": "Muse pointed to the column \"Year To Date September 30, 2026\", which is not the nine months of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     835,
@@ -1140,7 +1140,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"Year To Date September 30, 2026\" is not nine_months 2026.",
+   "why": "Muse pointed to the column \"Year To Date September 30, 2026\", which is not the nine months of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     839,
@@ -1180,7 +1180,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"Year To Date September 30, 2025\" is not nine_months 2026.",
+   "why": "Muse pointed to the column \"Year To Date September 30, 2025\", which is not the nine months of 2026 the memo means, so this was not accepted.",
    "right_cell": false,
    "muse_box": [
     744.0,
@@ -1577,7 +1577,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"2026\" is not quarter 2026.",
+   "why": "Muse pointed to the column \"2026\", which is not the quarter of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     638,
@@ -1616,7 +1616,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"2026\" is not quarter 2026.",
+   "why": "Muse pointed to the column \"2026\", which is not the quarter of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     602.0,

@@ -189,7 +189,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .zoom{margin-left:auto;background:var(--white);border:1px solid var(--line-2);border-radius:7px;color:var(--navy);font-size:12.5px;font-weight:600;padding:4px 10px;min-height:30px;cursor:pointer}
 .zoom:hover{border-color:var(--navy)}
 .viewer{flex:1;overflow:auto;padding:14px;background:#eef2f7;min-height:200px}
-.page{position:relative;background:#fff;box-shadow:0 4px 18px rgba(23,43,70,.16);width:max(100%,1000px);line-height:0;animation:rise .28s ease-out}
+.page{position:relative;background:#fff;box-shadow:0 4px 18px rgba(23,43,70,.16);width:max(100%,760px);line-height:0;animation:rise .28s ease-out}
 .page.fit{width:100%}
 .page img{width:100%;height:auto;display:block}
 @keyframes rise{from{transform:translateY(6px)}}
@@ -1171,7 +1171,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false} = {}) {
       const li = el("li", `line ${v}`); li.dataset.i = i;
       const pick = el("button", "pick line-pick",
         el("span", "line-row", r.row || r.metric || r.value_text || "A number"),
-        el("span", "line-val", el("span", "line-money", r.source_money || "no source read"),
+        el("span", "line-val", el("span", "line-money", r.source_money || (r.source_text ? `Read ${r.source_text}, not accepted` : "no source read")),
           Number.isInteger(r.page) ? el("span", "line-page", `PDF page ${r.page + 1}`) : null,
           el("span", `tag ${v}`, VERDICT_SHORT[v])));
       pick.type = "button";
@@ -2372,9 +2372,9 @@ async function loadScore() {
   if (frozen) head.append(el("p", "", el("strong", "", "Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
   head.append(el("p", "", `${trueWords(s)} ${falseWords(s)}`));
   const r = s.repeat;
-  if (r) head.append(el("p", "soft", `Repeat run on the first filings: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
+  if (r) head.append(el("p", "soft", `Repeat run on the filings the code was built on, which flatters it: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
   const e = s.earlier;
-  if (e) head.append(el("p", "soft", `An earlier frozen test on NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number and from tables our PDF conversion split. Both were fixed before the final test.`));
+  if (e) head.append(el("p", "soft", `An earlier frozen test on NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number and from tables our PDF conversion split. Code then changed how it uses the box, and web filings now keep tables whole. This filing was not run again.`));
   if (s.engine_sha256) {
     head.append(el("p", "small soft", "All of these are scored with one version of the code, fingerprint ", el("span", "mono", short(s.engine_sha256)), ". Earlier runs replay their saved Muse replies."));
   }

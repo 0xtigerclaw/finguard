@@ -183,7 +183,7 @@
     "matched": 1
    }
   },
-  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
+  "engine_sha256": "bc6864e894758b52b21288ee2717fb8bd6dd596e825c9e552c69afb5655979d4",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -703,7 +703,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     712,
@@ -740,7 +740,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     705,
@@ -777,7 +777,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     702,
@@ -814,7 +814,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     702,
@@ -851,7 +851,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     732,
@@ -888,7 +888,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     740,
@@ -925,7 +925,7 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "The column \"\" is not as_of 2026.",
+   "why": "Muse pointed to the column \"\", which is not the as of of 2026 the memo means, so this was not accepted.",
    "right_cell": true,
    "muse_box": [
     705,

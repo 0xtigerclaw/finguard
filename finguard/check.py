@@ -567,7 +567,7 @@ def decide(claim: Claim, filing: Filing, located: dict, pages: list[int], memo: 
     if not _plainly_names(claim.metric, f"{cell.section} {row_label}"):
         return refuse(f'The row "{cell.row}" does not plainly name "{claim.metric}".', **where)
     if not _period_fits(cell.column, claim):
-        return refuse(f'The column "{cell.column}" is not {claim.period_kind} {claim.period_year}.', **where)
+        return refuse(f'Muse pointed to the column "{cell.column}", which is not the {claim.period_kind.replace("_", " ")} of {claim.period_year} the memo means, so this was not accepted.', **where)
     period = _period_problem(claim, cell.column, memo) or (memo and _unclear_column(claim, filing, page, memo))
     if period:
         return refuse(period, **where)

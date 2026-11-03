@@ -87,3 +87,7 @@ The score does not test:
 
 To rescore with no API, run `python eval/score.py --round final`. Other rounds are `2`, `heldout` and
 `fresh`. `--round fresh` notes 9 saved second looks from the frozen run that the fixed code no longer asks for.
+
+## After the final test
+
+Three later changes touched the engine files, and none changes a verdict. A refusal's wording was reworded, a scorer note replaced an exit error, and saved-demo page images are pinned, so replays match across systems and open faster. Rescoring the saved replies gave the same counts in every round. The engine's fingerprint in `eval/results_*.json` is the code that did the rescoring. The live final test itself ran on commit bf56ab0.
