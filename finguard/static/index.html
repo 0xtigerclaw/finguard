@@ -2362,17 +2362,19 @@ async function loadScore() {
   setModel(s.model);
   const frag = document.createDocumentFragment();
   const exact = s.true_exact || {};
-  const heldOut = s.round === "heldout";
+  const frozen = s.round === "final";
   const labels = el("div", "labels row");
-  if (heldOut) labels.append(stamp("Held-out result", "ink"));
+  if (frozen) labels.append(stamp("Final test", "ink"));
   else if (s.round != null) labels.append(stamp(`Round ${s.round}`, "soft"));
   if (s.model) labels.append(stamp(`Model ${s.model}`, "slate"));
   frag.append(labels);
   const head = el("div", "headline");
-  if (heldOut) head.append(el("p", "", el("strong", "", "Filings first used after the code was frozen.")));
+  if (frozen) head.append(el("p", "", el("strong", "", "Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
   head.append(el("p", "", `${trueWords(s)} ${falseWords(s)}`));
   const r = s.repeat;
   if (r) head.append(el("p", "soft", `Repeat run on the first filings: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
+  const e = s.earlier;
+  if (e) head.append(el("p", "soft", `An earlier frozen test on NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number and from tables our PDF conversion split. Both were fixed before the final test.`));
   if (s.engine_sha256) {
     const same = r && r.engine_sha256 === s.engine_sha256;
     head.append(el("p", "small soft", same ? "Both runs used the same code, fingerprint " : "Code fingerprint ", el("span", "mono", short(s.engine_sha256)), "."));
@@ -2381,6 +2383,7 @@ async function loadScore() {
   const tiles = el("div", "tiles");
   tiles.append(
     tile(s.false_passed, s.false_numbers, "altered numbers passed as true"),
+    ...(isNum(s.new_false_numbers) ? [tile(s.new_false_passed, s.new_false_numbers, "harder altered numbers passed as true")] : []),
     tile(s.absent_passed, s.absent_metrics, "metrics not in the filing passed as true"),
     tile(exact.match, s.true_numbers, "true numbers matched"),
     tile(exact.refused, s.true_numbers, "true numbers refused"));

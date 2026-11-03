@@ -71,10 +71,10 @@ def test_start_reads_the_score_if_present(monkeypatch, tmp_path):
     (tmp_path / "eval").mkdir()
     monkeypatch.setattr(web, "ROOT", tmp_path)
     assert client.get("/api/start").json()["score"] is None
-    (tmp_path / "eval" / "results_roundheldout.json").write_text("half written")
+    (tmp_path / "eval" / "results_roundfinal.json").write_text("half written")
     assert client.get("/api/start").json()["score"] is None
-    (tmp_path / "eval" / "results_roundheldout.json").write_text(json.dumps({"summary": {"round": "heldout"}}))
-    assert client.get("/api/start").json()["score"] == {"round": "heldout", "repeat": None}
+    (tmp_path / "eval" / "results_roundfinal.json").write_text(json.dumps({"summary": {"round": "final"}}))
+    assert client.get("/api/start").json()["score"] == {"round": "final", "repeat": None, "earlier": None}
 
 
 def test_page_images_are_served_with_bounds():

@@ -4,9 +4,9 @@
    "question": "How did Nebius do in the second quarter of 2026?",
    "memo": "Nebius grew revenue sharply while staying unprofitable on a GAAP basis. Revenues were $582.3m for the three months ended June 30, 2026. Loss from operations was $175.9m for the three months ended June 30, 2026. Net loss from continuing operations was $190.4m for the three months ended June 30, 2026. Adjusted EBITDA was $236.2m for the three months ended June 30, 2026. Adjusted net loss was $33.2m for the three months ended June 30, 2026.",
    "counts": {
-    "match": 4,
+    "match": 5,
     "wrong": 0,
-    "refused": 1,
+    "refused": 0,
     "unchecked": 0
    },
    "next_questions": [
@@ -17,17 +17,17 @@
   },
   {
    "question": "What drove operating cost growth?",
-   "memo": "Total operating costs and expenses were $758.2m for the three months ended June 30, 2026. The largest component was depreciation and amortization of $259.7m for the three months ended June 30, 2026. Product development was $191.0m for the three months ended June 30, 2026. Sales, general and administrative was $173.9m for the three months ended June 30, 2026. Cost of revenues was $133.6m for the three months ended June 30, 2026. Within those costs, total share-based compensation expense was $102.5m for the three months ended June 30, 2026.",
+   "memo": "Operating cost growth in the quarter reflected increases across all lines. Total operating costs and expenses were $758.2m for the three months ended June 30, 2026. Depreciation and amortization was $259.7m for the three months ended June 30, 2026. Product development was $191.0m for the three months ended June 30, 2026. Sales, general and administrative was $173.9m for the three months ended June 30, 2026. Cost of revenues was $133.6m for the three months ended June 30, 2026. Total share-based compensation expense included in those costs was $102.5m for the three months ended June 30, 2026.",
    "counts": {
-    "match": 6,
+    "match": 5,
     "wrong": 0,
-    "refused": 0,
+    "refused": 1,
     "unchecked": 0
    },
    "next_questions": [
-    "How did revenue growth compare to cost growth?",
-    "Why did share-based pay rise?",
-    "What is driving capacity expansion?"
+    "How did revenue growth compare with cost growth?",
+    "What drove the rise in share-based compensation?",
+    "How did cash spending on equipment trend?"
    ]
   }
  ]

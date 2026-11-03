@@ -175,16 +175,17 @@ class DecideRequest(BaseModel):
 
 
 def _load_score() -> dict | None:
-    """The held-out result is the headline. The repeat run travels with it."""
+    """The final frozen test is the headline. The earlier frozen test and the repeat run travel with it."""
     def summary(name: str) -> dict | None:
         try:
             return json.loads((ROOT / "eval" / f"results_{name}.json").read_text())["summary"]
         except (OSError, ValueError, KeyError):
             return None
 
-    score = summary("roundheldout")
+    score = summary("roundfinal")
     if score:
         score["repeat"] = summary("round2")
+        score["earlier"] = summary("roundfresh")
     return score
 
 
