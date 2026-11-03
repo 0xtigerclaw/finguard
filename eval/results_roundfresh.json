@@ -2,11 +2,11 @@
  "summary": {
   "round": "fresh",
   "model": "muse-spark-1.3",
-  "calls": 32,
+  "calls": 23,
   "failed_calls": 0,
   "second_looks": {
-   "asked": 10,
-   "replied": 10,
+   "asked": 1,
+   "replied": 1,
    "not_saved": 0,
    "failed": 0
   },
@@ -21,7 +21,7 @@
    "refused": 19,
    "wrong": 0
   },
-  "right_cell": 13,
+  "right_cell": 20,
   "false_numbers": 144,
   "false_passed": 0,
   "false_called_wrong": 5,
@@ -176,14 +176,14 @@
   },
   "absent_metrics": 2,
   "absent_passed": 0,
-  "estimated_cost_usd": 0.67,
+  "estimated_cost_usd": 0.61,
   "by_filing": {
    "heldout/NVDA-Q1-FY2027.pdf": {
     "true": 20,
     "matched": 1
    }
   },
-  "engine_sha256": "ebe34ac154960ace1a845105140ade211f284d71468184eda3a0be20e36dff38",
+  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
   "memo_path_false_passed": 0
  },
  "present": [
@@ -383,15 +383,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Total operating expenses\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
    "muse_box": [
-    704.0,
-    281.688,
-    763.0,
-    293.97
+    722,
+    309,
+    783,
+    327
    ],
-   "box": [],
+   "box": [
+    782,
+    307,
+    826,
+    322
+   ],
    "page": 5,
    "false": {
     "ten_times": "refused",
@@ -453,15 +458,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Interest income\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
    "muse_box": [
-    695.0,
-    358.96,
-    755.0,
-    371.42
+    744,
+    382,
+    785,
+    400
    ],
-   "box": [],
+   "box": [
+    796,
+    364,
+    826,
+    379
+   ],
    "page": 5,
    "false": {
     "ten_times": "refused",
@@ -485,15 +495,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Income tax expense\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
    "muse_box": [
     682.0,
     487.85,
     758.0,
     500.31
    ],
-   "box": [],
+   "box": [
+    772,
+    478,
+    826,
+    493
+   ],
    "page": 5,
    "false": {
     "ten_times": "refused",
@@ -555,15 +570,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Revenue\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
    "muse_box": [
-    828.0,
-    164.215,
-    908.0,
-    177.49
+    838,
+    192,
+    904,
+    209
    ],
-   "box": [],
+   "box": [
+    892,
+    172,
+    946,
+    187
+   ],
    "page": 5,
    "false": {
     "ten_times": "refused",
@@ -683,15 +703,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Accounts receivable, net\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
    "muse_box": [
-    692.0,
-    74.8,
-    773.0,
-    90.64
+    712,
+    79,
+    774,
+    96
    ],
-   "box": [],
+   "box": [
+    780,
+    76,
+    833,
+    91
+   ],
    "page": 6,
    "false": {
     "ten_times": "refused",
@@ -715,15 +740,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Inventories\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
    "muse_box": [
-    704.0,
-    101.841,
-    786.0,
-    115.266
+    705,
+    114,
+    771,
+    133
    ],
-   "box": [],
+   "box": [
+    780,
+    95,
+    833,
+    110
+   ],
    "page": 6,
    "false": {
     "ten_times": "refused",
@@ -750,10 +780,10 @@
    "why": "The column \"\" is not as_of 2026.",
    "right_cell": true,
    "muse_box": [
-    708.0,
-    138.32999999999998,
-    808.0,
-    154.35
+    702,
+    132,
+    792,
+    150
    ],
    "box": [
     770,
@@ -787,10 +817,10 @@
    "why": "The column \"\" is not as_of 2026.",
    "right_cell": true,
    "muse_box": [
-    702.0,
-    308.58,
-    808.0,
-    322.82
+    702,
+    280,
+    791,
+    298
    ],
    "box": [
     770,
@@ -821,15 +851,20 @@
     "exact": "refused",
     "natural": "refused"
    },
-   "why": "Muse pointed to the row \"Total liabilities\", and 0 numbers there fit its box, so the source is not clear.",
-   "right_cell": false,
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
    "muse_box": [
-    705.0,
-    560.1,
-    785.0,
-    572.7
+    732,
+    542,
+    795,
+    562
    ],
-   "box": [],
+   "box": [
+    780,
+    553,
+    833,
+    568
+   ],
    "page": 6,
    "false": {
     "ten_times": "refused",
@@ -893,10 +928,10 @@
    "why": "The column \"\" is not as_of 2026.",
    "right_cell": true,
    "muse_box": [
-    705.0,
-    615.5,
-    805.0,
-    629.9
+    705,
+    592,
+    790,
+    612
    ],
    "box": [
     770,

@@ -41,5 +41,11 @@
     "document": "Q1 fiscal 2027 results press release, turned into a PDF",
     "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-First-Quarter-Fiscal-2027/default.aspx",
     "sha256": "49fca4cc45e1c7514b01804faf48533061afa531b98b6ad1bf556df487476397"
+  },
+  "heldout/GOOG-Q3-2026.pdf": {
+    "company": "Alphabet",
+    "document": "Q3 2026 earnings release",
+    "url": "https://s206.q4cdn.com/479360582/files/doc_financials/2026/q3/2026q3-alphabet-earnings-release.pdf",
+    "sha256": "2f9b94e9194ea4b462bf754c4b651615ab53518b314550f3402b27aabf0735e9"
   }
 }

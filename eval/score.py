@@ -200,7 +200,7 @@ def score_item(item: dict, filing: Filing, pages: list[int], reply: dict | None,
     amount, digits, percent = plain(item["printed"])
     places = len(digits.split(".")[1]) if "." in digits else 0
     step = Decimal(1).scaleb(-places)
-    per_share = "per share" in item["metric"].lower() or "per ordinary share" in item["metric"].lower()
+    per_share = bool(re.search(r"\bper\b.*\bshare\b", item["metric"].lower()))
     currency = "€" if "ASML" in item["filing"] else "$"
     make = lambda value, **kw: Claim(f"The figure was {value}.", value, item["metric"], kw.get("kind", item["period_kind"]),
                                      kw.get("year", item["period_year"]), kw.get("direction", item["direction"]))
@@ -298,9 +298,9 @@ def memo_path() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true")
-    parser.add_argument("--round", default="1", help="1, 2, heldout or fresh: names the saved replies and the results file")
+    parser.add_argument("--round", default="1", help="1, 2, heldout, fresh or final: names the saved replies and the results file")
     args = parser.parse_args()
-    key_file = {"heldout": "answer_key_heldout.json", "fresh": "answer_key_fresh.json"}.get(args.round, "answer_key.json")
+    key_file = {"heldout": "answer_key_heldout.json", "fresh": "answer_key_fresh.json", "final": "answer_key_final.json"}.get(args.round, "answer_key.json")
     key = json.loads((HERE / key_file).read_text())
     saved = HERE / "recordings" / f"round{args.round}"
     folder = Path(tempfile.mkdtemp(prefix="finguard-score-"))

@@ -1,0 +1,221 @@
+{
+ "note": "Final test: an issuer and layout first used after the engine was frozen at commit bf56ab0. Each printed value was read against the rendered page image.",
+ "present": [
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "127,577",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Cost of revenues",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "51,419",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Research and development",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "20,640",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Sales and marketing",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "8,804",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "General and administrative",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "6,138",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Total costs and expenses",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "87,001",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Income from operations",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "40,576",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Other income (expense), net",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(8,221)",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Income before income taxes",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "32,355",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Provision for income taxes",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "5,887",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "26,468",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Diluted net income per common share",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "2.12",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "quarter",
+   "period_year": 2025,
+   "printed": "102,346",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2025,
+   "printed": "34,979",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Revenues",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "357,269",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Net income",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "201,239",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Income from operations",
+   "period_kind": "nine_months",
+   "period_year": 2026,
+   "printed": "121,042",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Cash and cash equivalents",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "56,334",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Total current assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "374,665",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "1,003,312",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Long-term debt",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "125,102",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "325,763",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2025,
+   "printed": "595,281",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Net cash provided by operating activities",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "42,290",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Purchases of property and equipment",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "(51,355)",
+   "direction": "neutral"
+  }
+ ],
+ "absent": [
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$1.0bn"
+  },
+  {
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "metric": "Net system sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$100.0m"
+  }
+ ]
+}

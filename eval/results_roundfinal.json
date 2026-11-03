@@ -1,0 +1,1739 @@
+{
+ "summary": {
+  "round": "final",
+  "model": "muse-spark-1.3",
+  "calls": 31,
+  "failed_calls": 0,
+  "second_looks": {
+   "asked": 4,
+   "replied": 4,
+   "not_saved": 0,
+   "failed": 0
+  },
+  "true_numbers": 25,
+  "true_exact": {
+   "match": 19,
+   "refused": 6,
+   "wrong": 0
+  },
+  "true_natural": {
+   "match": 19,
+   "refused": 6,
+   "wrong": 0
+  },
+  "right_cell": 23,
+  "false_numbers": 216,
+  "false_passed": 0,
+  "false_called_wrong": 122,
+  "false_refused": 94,
+  "old_false_by_class": {
+   "flipped": {
+    "match": 0,
+    "refused": 3,
+    "wrong": 4
+   },
+   "last_digit": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 19
+   },
+   "other_column_0": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 19
+   },
+   "other_column_1": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 11
+   },
+   "other_column_2": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 11
+   },
+   "ten_percent_more": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 19
+   },
+   "ten_times": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 19
+   },
+   "wrong_currency": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 19
+   },
+   "wrong_period": {
+    "match": 0,
+    "refused": 25,
+    "wrong": 0
+   },
+   "wrong_year": {
+    "match": 0,
+    "refused": 24,
+    "wrong": 1
+   }
+  },
+  "new_false_numbers": 428,
+  "new_false_passed": 0,
+  "new_false_called_wrong": 124,
+  "new_false_refused": 304,
+  "new_false_by_class": {
+   "another_row_name": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "currency_canadian": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 19
+   },
+   "currency_code": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 19
+   },
+   "currency_pound": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 19
+   },
+   "currency_yen": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 19
+   },
+   "loss_on_a_positive_row": {
+    "match": 0,
+    "refused": 14,
+    "wrong": 0
+   },
+   "memo_says_a_bound": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "memo_says_a_forecast": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "memo_says_fiscal": {
+    "match": 0,
+    "refused": 18,
+    "wrong": 0
+   },
+   "memo_says_growth": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "memo_says_other_date": {
+    "match": 0,
+    "refused": 6,
+    "wrong": 0
+   },
+   "memo_says_other_quarter": {
+    "match": 0,
+    "refused": 13,
+    "wrong": 0
+   },
+   "money_as_percent": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 19
+   },
+   "no_currency": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "opposite_word": {
+    "match": 0,
+    "refused": 5,
+    "wrong": 0
+   },
+   "qualifier_added": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "rough_rounding": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "sign_flipped": {
+    "match": 0,
+    "refused": 18,
+    "wrong": 0
+   },
+   "thousands_for_millions": {
+    "match": 0,
+    "refused": 18,
+    "wrong": 0
+   },
+   "wrong_cell_next_column": {
+    "match": 0,
+    "refused": 12,
+    "wrong": 0
+   },
+   "wrong_cell_next_column_own_label": {
+    "match": 0,
+    "refused": 12,
+    "wrong": 0
+   },
+   "wrong_cell_next_row": {
+    "match": 0,
+    "refused": 5,
+    "wrong": 14
+   },
+   "wrong_cell_next_row_own_label": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 0
+   },
+   "wrong_cell_previous_column": {
+    "match": 0,
+    "refused": 16,
+    "wrong": 0
+   },
+   "wrong_cell_previous_column_own_label": {
+    "match": 0,
+    "refused": 16,
+    "wrong": 0
+   },
+   "wrong_cell_previous_row": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 15
+   },
+   "wrong_cell_previous_row_own_label": {
+    "match": 0,
+    "refused": 16,
+    "wrong": 0
+   }
+  },
+  "absent_metrics": 2,
+  "absent_passed": 0,
+  "estimated_cost_usd": 0.75,
+  "by_filing": {
+   "heldout/GOOG-Q3-2026.pdf": {
+    "true": 25,
+    "matched": 19
+   }
+  },
+  "engine_sha256": "0e8cf4ecda9453282b2599b138437e393dc55924006d272cd2ffc15f01be6d7f",
+  "memo_path_false_passed": 0
+ },
+ "present": [
+  {
+   "metric": "Revenues",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "127,577",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $127.6bn (printed as 127,577) in the row Revenues, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    834,
+    669,
+    908,
+    686
+   ],
+   "box": [
+    839,
+    676,
+    898,
+    690
+   ],
+   "page": 0,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Cost of revenues",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "51,419",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $51.4bn (printed as 51,419) in the row Cost of revenues, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    632,
+    194,
+    702,
+    210
+   ],
+   "box": [
+    639,
+    176,
+    689,
+    190
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Research and development",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "20,640",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $20.6bn (printed as 20,640) in the row Research and development, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    614,
+    214,
+    670,
+    228
+   ],
+   "box": [
+    639,
+    195,
+    689,
+    209
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Sales and marketing",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "8,804",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $8.8bn (printed as 8,804) in the row Sales and marketing, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    640,
+    238,
+    695,
+    255
+   ],
+   "box": [
+    649,
+    214,
+    689,
+    228
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "General and administrative",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "6,138",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $6.1bn (printed as 6,138) in the row General and administrative, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    637,
+    258,
+    695,
+    278
+   ],
+   "box": [
+    649,
+    233,
+    689,
+    247
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Total costs and expenses",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "87,001",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $87.0bn (printed as 87,001) in the row Total costs and expenses, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    614,
+    270,
+    692,
+    285
+   ],
+   "box": [
+    639,
+    252,
+    689,
+    266
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Income from operations",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "40,576",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $40.6bn (printed as 40,576) in the row Income from operations, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    630,
+    295,
+    695,
+    315
+   ],
+   "box": [
+    639,
+    271,
+    689,
+    285
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Other income (expense), net",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(8,221)",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows -$8.2bn (printed as (8,221)) in the row Other income (expense), net, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    862,
+    281,
+    919,
+    296
+   ],
+   "box": [
+    866,
+    277,
+    918,
+    291
+   ],
+   "page": 7,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Income before income taxes",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "32,355",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"Quarter Ended September 30, 2025\" is not quarter 2026.",
+   "right_cell": false,
+   "muse_box": [
+    534.0,
+    315.196,
+    618.0,
+    325.164
+   ],
+   "box": [
+    528,
+    309,
+    578,
+    323
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "wrong",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Provision for income taxes",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "5,887",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $5.9bn (printed as 5,887) in the row Provision for income taxes, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    590.0,
+    335.4,
+    660.0,
+    348.0
+   ],
+   "box": [
+    649,
+    328,
+    689,
+    342
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "26,468",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $26.5bn (printed as 26,468) in the row Net income, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    635,
+    360,
+    697,
+    377
+   ],
+   "box": [
+    639,
+    347,
+    689,
+    361
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Diluted net income per common share",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "2.12",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $2.12 (printed as 2.12) in the row Diluted net income per common share, under Quarter Ended September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    653,
+    462,
+    694,
+    478
+   ],
+   "box": [
+    658,
+    442,
+    689,
+    456
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "rough_rounding": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Revenues",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2025",
+   "printed": "102,346",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $102.3bn (printed as 102,346) in the row Revenues, under Quarter Ended September 30, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    512,
+    141,
+    601,
+    156
+   ],
+   "box": [
+    519,
+    138,
+    578,
+    152
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2025",
+   "printed": "34,979",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $35.0bn (printed as 34,979) in the row Net income, under Quarter Ended September 30, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    535,
+    362,
+    605,
+    380
+   ],
+   "box": [
+    528,
+    347,
+    578,
+    361
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "flipped": "wrong",
+    "other_column_0": "wrong",
+    "other_column_1": "wrong",
+    "other_column_2": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_quarter": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "opposite_word": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Revenues",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "357,269",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"Year To Date September 30, 2026\" is not nine_months 2026.",
+   "right_cell": true,
+   "muse_box": [
+    835,
+    141,
+    914,
+    156
+   ],
+   "box": [
+    853,
+    138,
+    912,
+    152
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "201,239",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"Year To Date September 30, 2026\" is not nine_months 2026.",
+   "right_cell": true,
+   "muse_box": [
+    839,
+    359,
+    914,
+    375
+   ],
+   "box": [
+    853,
+    347,
+    912,
+    361
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Income from operations",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "nine_months 2026",
+   "printed": "121,042",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"Year To Date September 30, 2025\" is not nine_months 2026.",
+   "right_cell": false,
+   "muse_box": [
+    744.0,
+    277.2,
+    822.0,
+    288.9
+   ],
+   "box": [
+    751,
+    271,
+    801,
+    285
+   ],
+   "page": 4,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "56,334",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $56.3bn (printed as 56,334) in the row Cash and cash equivalents, under As of September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    857,
+    163,
+    913,
+    180
+   ],
+   "box": [
+    862,
+    155,
+    912,
+    170
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Total current assets",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "374,665",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $374.7bn (printed as 374,665) in the row Total current assets, under As of September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    835,
+    274,
+    894,
+    288
+   ],
+   "box": [
+    853,
+    269,
+    912,
+    283
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Total assets",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "1,003,312",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $1,003.3bn (printed as 1,003,312) in the row Total assets, under As of September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    830,
+    414,
+    915,
+    430
+   ],
+   "box": [
+    840,
+    421,
+    912,
+    435
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Long-term debt",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "125,102",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $125.1bn (printed as 125,102) in the row Long-term debt, under As of September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    835,
+    588,
+    913,
+    605
+   ],
+   "box": [
+    853,
+    591,
+    912,
+    605
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "wrong",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2026",
+   "printed": "325,763",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $325.8bn (printed as 325,763) in the row Total liabilities, under As of September 30, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    830,
+    678,
+    895,
+    694
+   ],
+   "box": [
+    853,
+    686,
+    912,
+    700
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_previous_column": "refused",
+    "wrong_cell_previous_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Total assets",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "as_of 2025",
+   "printed": "595,281",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $595.3bn (printed as 595,281) in the row Total assets, under As of December 31, 2025 December 31, 2025.",
+   "right_cell": true,
+   "muse_box": [
+    654,
+    414,
+    740,
+    432
+   ],
+   "box": [
+    701,
+    421,
+    760,
+    435
+   ],
+   "page": 3,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_next_row": "refused",
+    "wrong_cell_next_row_own_label": "refused",
+    "wrong_cell_previous_row": "wrong",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Net cash provided by operating activities",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "42,290",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"2026\" is not quarter 2026.",
+   "right_cell": true,
+   "muse_box": [
+    638,
+    437,
+    698,
+    452
+   ],
+   "box": [
+    645,
+    444,
+    690,
+    456
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Purchases of property and equipment",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "period": "quarter 2026",
+   "printed": "(51,355)",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"2026\" is not quarter 2026.",
+   "right_cell": true,
+   "muse_box": [
+    602.0,
+    479.25,
+    683.0,
+    490.82
+   ],
+   "box": [
+    640,
+    482,
+    695,
+    494
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused",
+    "other_column_1": "refused",
+    "other_column_2": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  }
+ ],
+ "absent": [
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "heldout/GOOG-Q3-2026.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  }
+ ],
+ "memo_path": {
+  "saved": {
+   "anthropic_memo": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "wrong",
+     "$8.7bn": "wrong",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "anthropic_memo_corrected": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "match",
+     "$80.7bn": "match",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "asml_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "€11.7bn": "match",
+     "€6.7bn": "match",
+     "$5.0bn": "wrong",
+     "€1.2bn": "match",
+     "€10.8bn": "wrong"
+    }
+   },
+   "nebius_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "$582.3m": "match",
+     "$175.9m": "match",
+     "$190.4m": "wrong",
+     "$2.8bn": "wrong",
+     "$8.0bn": "match"
+    }
+   }
+  },
+  "built_to_slip_through": {
+   "number_hidden_from_the_finder": {
+    "cases": 13,
+    "passed": 0,
+    "examples": []
+   },
+   "quote_twice_second_copy_not_flagged": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "value_slice_kept": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "period_from_a_later_sentence": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   }
+  }
+ }
+}
