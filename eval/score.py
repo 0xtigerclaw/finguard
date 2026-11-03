@@ -298,9 +298,9 @@ def memo_path() -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--live", action="store_true")
-    parser.add_argument("--round", default="1", help="1, 2 or heldout: names the saved replies and the results file")
+    parser.add_argument("--round", default="1", help="1, 2, heldout or fresh: names the saved replies and the results file")
     args = parser.parse_args()
-    key_file = "answer_key_heldout.json" if args.round == "heldout" else "answer_key.json"
+    key_file = {"heldout": "answer_key_heldout.json", "fresh": "answer_key_fresh.json"}.get(args.round, "answer_key.json")
     key = json.loads((HERE / key_file).read_text())
     saved = HERE / "recordings" / f"round{args.round}"
     folder = Path(tempfile.mkdtemp(prefix="finguard-score-"))

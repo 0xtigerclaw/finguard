@@ -1,0 +1,1011 @@
+{
+ "summary": {
+  "round": "fresh",
+  "model": "muse-spark-1.3",
+  "calls": 32,
+  "failed_calls": 0,
+  "second_looks": {
+   "asked": 10,
+   "replied": 10,
+   "not_saved": 0,
+   "failed": 0
+  },
+  "true_numbers": 20,
+  "true_exact": {
+   "match": 1,
+   "refused": 19,
+   "wrong": 0
+  },
+  "true_natural": {
+   "match": 1,
+   "refused": 19,
+   "wrong": 0
+  },
+  "right_cell": 13,
+  "false_numbers": 144,
+  "false_passed": 0,
+  "false_called_wrong": 5,
+  "false_refused": 139,
+  "old_false_by_class": {
+   "flipped": {
+    "match": 0,
+    "refused": 4,
+    "wrong": 0
+   },
+   "last_digit": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 1
+   },
+   "other_column_0": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 1
+   },
+   "ten_percent_more": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 1
+   },
+   "ten_times": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 1
+   },
+   "wrong_currency": {
+    "match": 0,
+    "refused": 19,
+    "wrong": 1
+   },
+   "wrong_period": {
+    "match": 0,
+    "refused": 20,
+    "wrong": 0
+   },
+   "wrong_year": {
+    "match": 0,
+    "refused": 20,
+    "wrong": 0
+   }
+  },
+  "new_false_numbers": 20,
+  "new_false_passed": 0,
+  "new_false_called_wrong": 5,
+  "new_false_refused": 15,
+  "new_false_by_class": {
+   "another_row_name": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "currency_canadian": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 1
+   },
+   "currency_code": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 1
+   },
+   "currency_pound": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 1
+   },
+   "currency_yen": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 1
+   },
+   "loss_on_a_positive_row": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "memo_says_a_bound": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "memo_says_a_forecast": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "memo_says_fiscal": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "memo_says_growth": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "memo_says_other_date": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "money_as_percent": {
+    "match": 0,
+    "refused": 0,
+    "wrong": 1
+   },
+   "no_currency": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "qualifier_added": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "sign_flipped": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "thousands_for_millions": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "wrong_cell_next_column": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "wrong_cell_next_column_own_label": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "wrong_cell_previous_row": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   },
+   "wrong_cell_previous_row_own_label": {
+    "match": 0,
+    "refused": 1,
+    "wrong": 0
+   }
+  },
+  "absent_metrics": 2,
+  "absent_passed": 0,
+  "estimated_cost_usd": 0.67,
+  "by_filing": {
+   "heldout/NVDA-Q1-FY2027.pdf": {
+    "true": 20,
+    "matched": 1
+   }
+  },
+  "engine_sha256": "ebe34ac154960ace1a845105140ade211f284d71468184eda3a0be20e36dff38",
+  "memo_path_false_passed": 0
+ },
+ "present": [
+  {
+   "metric": "Revenue",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "81,615",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    744,
+    174,
+    808,
+    192
+   ],
+   "box": [
+    772,
+    172,
+    826,
+    187
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Cost of revenue",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "20,458",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    745,
+    202,
+    828,
+    222
+   ],
+   "box": [
+    772,
+    191,
+    826,
+    206
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Gross profit",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "61,157",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    727,
+    222,
+    806,
+    240
+   ],
+   "box": [
+    772,
+    211,
+    826,
+    226
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Research and development",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "6,321",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    774,
+    276,
+    830,
+    292
+   ],
+   "box": [
+    782,
+    268,
+    826,
+    283
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Sales, general and administrative",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "1,300",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    757,
+    293,
+    807,
+    309
+   ],
+   "box": [
+    782,
+    287,
+    826,
+    302
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Total operating expenses",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "7,621",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Total operating expenses\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    704.0,
+    281.688,
+    763.0,
+    293.97
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Operating income",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "53,536",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    745,
+    350,
+    830,
+    370
+   ],
+   "box": [
+    772,
+    345,
+    826,
+    360
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Interest income",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "540",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Interest income\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    695.0,
+    358.96,
+    755.0,
+    371.42
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Income tax expense",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "11,582",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Income tax expense\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    682.0,
+    487.85,
+    758.0,
+    500.31
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2026",
+   "printed": "58,321",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    724,
+    467,
+    823,
+    488
+   ],
+   "box": [
+    772,
+    498,
+    826,
+    513
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Revenue",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2025",
+   "printed": "44,062",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Revenue\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    828.0,
+    164.215,
+    908.0,
+    177.49
+   ],
+   "box": [],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Net income",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "quarter 2025",
+   "printed": "18,775",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The page does not say what units its table is in.",
+   "right_cell": true,
+   "muse_box": [
+    842,
+    494,
+    928,
+    514
+   ],
+   "box": [
+    892,
+    498,
+    946,
+    513
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "flipped": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Cash and cash equivalents",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "13,237",
+   "error": null,
+   "true": {
+    "exact": "match",
+    "natural": "match"
+   },
+   "why": "The filing shows $13.2bn (printed as 13,237) in the row Cash and cash equivalents, under April 26, 2026.",
+   "right_cell": true,
+   "muse_box": [
+    755,
+    925,
+    833,
+    943
+   ],
+   "box": [
+    780,
+    944,
+    833,
+    959
+   ],
+   "page": 5,
+   "false": {
+    "ten_times": "wrong",
+    "ten_percent_more": "wrong",
+    "last_digit": "wrong",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "wrong",
+    "other_column_0": "wrong"
+   },
+   "new_false": {
+    "memo_says_other_date": "refused",
+    "memo_says_fiscal": "refused",
+    "memo_says_growth": "refused",
+    "memo_says_a_bound": "refused",
+    "memo_says_a_forecast": "refused",
+    "another_row_name": "refused",
+    "qualifier_added": "refused",
+    "money_as_percent": "wrong",
+    "currency_pound": "wrong",
+    "currency_yen": "wrong",
+    "currency_canadian": "wrong",
+    "currency_code": "wrong",
+    "no_currency": "refused",
+    "thousands_for_millions": "refused",
+    "sign_flipped": "refused",
+    "loss_on_a_positive_row": "refused",
+    "wrong_cell_next_column": "refused",
+    "wrong_cell_next_column_own_label": "refused",
+    "wrong_cell_previous_row": "refused",
+    "wrong_cell_previous_row_own_label": "refused"
+   },
+   "new_passed": []
+  },
+  {
+   "metric": "Accounts receivable, net",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "40,710",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Accounts receivable, net\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    692.0,
+    74.8,
+    773.0,
+    90.64
+   ],
+   "box": [],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Inventories",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "25,797",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Inventories\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    704.0,
+    101.841,
+    786.0,
+    115.266
+   ],
+   "box": [],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Total current assets",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "150,995",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
+   "muse_box": [
+    708.0,
+    138.32999999999998,
+    808.0,
+    154.35
+   ],
+   "box": [
+    770,
+    134,
+    833,
+    149
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Total assets",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "259,474",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
+   "muse_box": [
+    702.0,
+    308.58,
+    808.0,
+    322.82
+   ],
+   "box": [
+    770,
+    305,
+    833,
+    320
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Total liabilities",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "64,000",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "Muse pointed to the row \"Total liabilities\", and 0 numbers there fit its box, so the source is not clear.",
+   "right_cell": false,
+   "muse_box": [
+    705.0,
+    560.1,
+    785.0,
+    572.7
+   ],
+   "box": [],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Long-term debt",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "7,470",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
+   "muse_box": [
+    740,
+    465,
+    810,
+    485
+   ],
+   "box": [
+    789,
+    495,
+    833,
+    510
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  },
+  {
+   "metric": "Shareholders' equity",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "period": "as_of 2026",
+   "printed": "195,474",
+   "error": null,
+   "true": {
+    "exact": "refused",
+    "natural": "refused"
+   },
+   "why": "The column \"\" is not as_of 2026.",
+   "right_cell": true,
+   "muse_box": [
+    705.0,
+    615.5,
+    805.0,
+    629.9
+   ],
+   "box": [
+    770,
+    591,
+    833,
+    606
+   ],
+   "page": 6,
+   "false": {
+    "ten_times": "refused",
+    "ten_percent_more": "refused",
+    "last_digit": "refused",
+    "wrong_year": "refused",
+    "wrong_period": "refused",
+    "wrong_currency": "refused",
+    "other_column_0": "refused"
+   },
+   "new_false": {},
+   "new_passed": []
+  }
+ ],
+ "absent": [
+  {
+   "metric": "Adjusted EBITDA",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  },
+  {
+   "metric": "Net system sales",
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "verdict": "refused",
+   "why": "The filing pages searched do not report this metric."
+  }
+ ],
+ "memo_path": {
+  "saved": {
+   "anthropic_memo": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "wrong",
+     "$8.7bn": "wrong",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "anthropic_memo_corrected": {
+    "claims": 6,
+    "period_stated": 6,
+    "skipped": [],
+    "verdicts": {
+     "$16.3bn": "match",
+     "$1.6bn": "match",
+     "$693m": "match",
+     "$80.7bn": "match",
+     "$2.2bn": "match",
+     "10%": "match"
+    }
+   },
+   "asml_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "€11.7bn": "match",
+     "€6.7bn": "match",
+     "$5.0bn": "wrong",
+     "€1.2bn": "match",
+     "€10.8bn": "wrong"
+    }
+   },
+   "nebius_memo": {
+    "claims": 5,
+    "period_stated": 5,
+    "skipped": [],
+    "verdicts": {
+     "$582.3m": "match",
+     "$175.9m": "match",
+     "$190.4m": "wrong",
+     "$2.8bn": "wrong",
+     "$8.0bn": "match"
+    }
+   }
+  },
+  "built_to_slip_through": {
+   "number_hidden_from_the_finder": {
+    "cases": 13,
+    "passed": 0,
+    "examples": []
+   },
+   "quote_twice_second_copy_not_flagged": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "value_slice_kept": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   },
+   "period_from_a_later_sentence": {
+    "cases": 1,
+    "passed": 0,
+    "examples": []
+   }
+  }
+ }
+}

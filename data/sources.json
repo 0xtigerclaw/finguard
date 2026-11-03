@@ -35,5 +35,11 @@
     "document": "Q2 fiscal 2027 results press release, turned into a PDF",
     "sha256": "06b4d43f227464aed166c9e53dba1812824a5c2e60164e43d64573dd57b445e5",
     "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Second-Quarter-Fiscal-2027/default.aspx"
+  },
+  "heldout/NVDA-Q1-FY2027.pdf": {
+    "company": "NVIDIA",
+    "document": "Q1 fiscal 2027 results press release, turned into a PDF",
+    "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-First-Quarter-Fiscal-2027/default.aspx",
+    "sha256": "49fca4cc45e1c7514b01804faf48533061afa531b98b6ad1bf556df487476397"
   }
 }

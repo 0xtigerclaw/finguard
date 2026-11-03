@@ -1,0 +1,181 @@
+{
+ "note": "Fresh test: this filing was first used after the audit fixes and second look were committed, with the code frozen. Each printed value was read against the rendered page image. Its issuer's other quarter was used in the earlier held-out test and the audit, so the layout was not new.",
+ "present": [
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Revenue",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "81,615",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Cost of revenue",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "20,458",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Gross profit",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "61,157",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Research and development",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "6,321",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Sales, general and administrative",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "1,300",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Total operating expenses",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "7,621",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Operating income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "53,536",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Interest income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "540",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Income tax expense",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "11,582",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "printed": "58,321",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Revenue",
+   "period_kind": "quarter",
+   "period_year": 2025,
+   "printed": "44,062",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Net income",
+   "period_kind": "quarter",
+   "period_year": 2025,
+   "printed": "18,775",
+   "direction": "gain"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Cash and cash equivalents",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "13,237",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Accounts receivable, net",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "40,710",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Inventories",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "25,797",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Total current assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "150,995",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Total assets",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "259,474",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Total liabilities",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "64,000",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Long-term debt",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "7,470",
+   "direction": "neutral"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Shareholders' equity",
+   "period_kind": "as_of",
+   "period_year": 2026,
+   "printed": "195,474",
+   "direction": "neutral"
+  }
+ ],
+ "absent": [
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Adjusted EBITDA",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$1.0bn"
+  },
+  {
+   "filing": "heldout/NVDA-Q1-FY2027.pdf",
+   "metric": "Net system sales",
+   "period_kind": "quarter",
+   "period_year": 2026,
+   "value": "$100.0m"
+  }
+ ]
+}
