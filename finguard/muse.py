@@ -23,7 +23,7 @@ class Transport(Protocol):
 
 class LiveTransport:
     def __init__(self, api_key: str | None = None, timeout: float = 120.0) -> None:
-        self.key = api_key or os.environ.get("MODEL_API_KEY", "")
+        self.key = (api_key or os.environ.get("MODEL_API_KEY", "")).strip()  # a pasted secret often ends in a newline
         self.timeout = timeout
 
     def send(self, body: bytes) -> bytes:

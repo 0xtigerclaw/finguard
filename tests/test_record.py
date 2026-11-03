@@ -85,3 +85,8 @@ def test_too_many_images_never_reaches_the_api(run):
     with pytest.raises(MuseError) as e:
         Muse(transport, run).ask("s", [image_part(PNG)] * 51, "S", {"type": "object"})
     assert e.value.code == "too_large" and transport.sent == []
+
+
+def test_a_key_with_a_trailing_newline_still_works():
+    from finguard.muse import LiveTransport
+    assert LiveTransport("abc\n").key == "abc"
