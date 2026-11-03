@@ -378,3 +378,16 @@ def test_the_corrected_memo_replays_with_every_number_matching(monkeypatch):
     out = client.post("/api/do/memo.check", json={"params": {"memo": memo, "filing": "anthropic"}}).json()
     assert out["status"] == "done" and out["result"]["saved"]
     assert out["result"]["counts"] == {"match": 6, "wrong": 0, "refused": 0, "unchecked": 0}
+
+
+def test_behind_a_proxy_only_the_last_forwarded_address_counts(monkeypatch):
+    monkeypatch.setenv("FINGUARD_BEHIND_PROXY", "1")
+    monkeypatch.setenv("FINGUARD_RATE_LIMIT", "2")
+    monkeypatch.setenv("FINGUARD_RATE_WINDOW_SECONDS", "60")
+    web._rate_hits.clear() if hasattr(web, "_rate_hits") else None
+    send = lambda forwarded: client.post("/api/do/filings.list", json={"params": {}},
+                                         headers={"x-forwarded-for": forwarded}).status_code
+    assert send("9.9.9.9, 203.0.113.7") != 429
+    assert send("8.8.8.8, 203.0.113.7") != 429
+    assert send("7.7.7.7, 203.0.113.7") == 429  # changing the part a caller controls does not help
+    assert send("203.0.113.8") != 429

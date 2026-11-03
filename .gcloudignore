@@ -1,0 +1,15 @@
+.git
+.venv
+.worktrees
+.claude
+.env.local
+.pytest_cache
+__pycache__
+state
+runs
+eval/recordings
+*.egg-info
+docs
+scripts
+AGENTS.md
+CLAUDE.md

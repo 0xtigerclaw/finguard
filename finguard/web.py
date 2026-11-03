@@ -139,7 +139,7 @@ async def rate_limit(request: Request, call_next):
         return await call_next(request)
     limit = _limit_from_env("FINGUARD_RATE_LIMIT", DEFAULT_RATE_LIMIT)
     window = _limit_from_env("FINGUARD_RATE_WINDOW_SECONDS", DEFAULT_RATE_WINDOW_SECONDS)
-    ip = request.client.host if request.client else "unknown"
+    ip = _client_ip(request)
     wait = _rate_limiter.check(ip, limit, window)
     if wait is not None:
         return JSONResponse({"detail": "Too many requests. Try again later."},
@@ -172,6 +172,16 @@ class DecideRequest(BaseModel):
     decision: str = ""
     reason: str = ""
     operator_token: str = ""
+
+
+def _client_ip(request: Request) -> str:
+    """Who is calling. Behind Cloud Run every request arrives from its proxy, which appends the real
+    address last. Earlier entries are whatever the caller sent, so they do not count."""
+    if os.environ.get("FINGUARD_BEHIND_PROXY"):
+        forwarded = [part.strip() for part in request.headers.get("x-forwarded-for", "").split(",") if part.strip()]
+        if forwarded:
+            return forwarded[-1]
+    return request.client.host if request.client else "unknown"
 
 
 def _load_score() -> dict | None:

@@ -2376,8 +2376,7 @@ async function loadScore() {
   const e = s.earlier;
   if (e) head.append(el("p", "soft", `An earlier frozen test on NVIDIA's Q1 release: ${trueWords(e).replace(/^Of /, "of ")} ${falseWords(e)} Most refusals came from Muse's box landing beside the number and from tables our PDF conversion split. Both were fixed before the final test.`));
   if (s.engine_sha256) {
-    const same = r && r.engine_sha256 === s.engine_sha256;
-    head.append(el("p", "small soft", same ? "Both runs used the same code, fingerprint " : "Code fingerprint ", el("span", "mono", short(s.engine_sha256)), "."));
+    head.append(el("p", "small soft", "All of these are scored with one version of the code, fingerprint ", el("span", "mono", short(s.engine_sha256)), ". Earlier runs replay their saved Muse replies."));
   }
   frag.append(head);
   const tiles = el("div", "tiles");
