@@ -10,9 +10,10 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from .ledger import Ledger, now
-from .plugin import Refused
+from .plugin import Refused, hash_of
 
 OPERATORS = frozenset({"terminal", "web_operator"})
+DEMO_REVIEWER = "demo_reviewer"  # not an operator: it can only approve a release of a saved memo, or install a saved example
 MAX_PENDING = 100  # anyone on the web can ask, so the queue must not grow without end
 MAX_REASON = 500
 _ID = re.compile(r"apr_[0-9a-f]{16}")
@@ -76,10 +77,48 @@ class Approvals:
             self._save(request)
             return request
 
+    def _kept_result(self, run_id: object, capabilities: tuple[str, ...]) -> dict | None:
+        """A finished run's kept result, if it is of these capabilities and still hashes to what the ledger holds."""
+        info = self.ledger.runs().get(run_id) if isinstance(run_id, str) else None  # only ids on the ledger reach the disk
+        if info is None or info["status"] != "done" or info["capability"] not in capabilities:
+            return None
+        try:
+            result = json.loads((self.ledger.runs_folder / run_id / "outcome.json").read_text(encoding="utf-8"))["result"]
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+        return result if hash_of(result) == info["result_sha256"] else None
+
+    def _checked_from_saved(self, run_id: object) -> bool:
+        """True when this run is a finished check whose kept result, as hashed on the ledger, says saved or saved pointers."""
+        result = self._kept_result(run_id, ("memo.check", "memo.draft"))
+        return result is not None and (result.get("saved") is True or result.get("saved_pointers") is True)
+
+    def drafted_from_saved(self, definition_sha256: str) -> bool:
+        """True when a finished plugins.create run replayed exactly this definition from a recorded gallery prompt."""
+        for entry in self.ledger.lines():
+            if entry.get("kind") == "plugin_drafted" and entry.get("definition_sha256") == definition_sha256:
+                result = self._kept_result(entry.get("run_id"), ("plugins.create",))
+                if result is not None and result.get("saved") is True and result.get("definition_sha256") == definition_sha256:
+                    return True
+        return False
+
+    def _demo_problem(self, request: dict) -> str | None:
+        if request["capability"] == "plugins.install":
+            if not self.drafted_from_saved(request["subject_sha256"]):
+                return "This plugin did not come from a saved example, so installing it needs an operator token."
+            return None
+        if request["capability"] != "memo.release":
+            return "The demo reviewer can only release a saved memo or install a saved example. This request needs an operator token."
+        if not self._checked_from_saved(request["params"].get("check_run_id")):
+            return "This memo was checked live, so releasing it needs an operator token."
+        return None
+
     def decide(self, approval_id: str, decision: str, by: str, reason: str = "") -> dict:
-        """Approve or reject a pending request. Only an operator gets past the first line."""
-        if by not in OPERATORS:
+        """Approve or reject a pending request. Only an operator, or the demo reviewer within its limits, gets past here."""
+        if by not in OPERATORS and by != DEMO_REVIEWER:
             raise NotOperator("Only an operator can decide.")
+        if by == DEMO_REVIEWER and decision != "approve":
+            raise NotOperator("The demo reviewer can only approve. Rejecting needs an operator token.")
         if decision not in ("approve", "reject"):
             raise CannotDecide('The decision must be "approve" or "reject".')
         reason = (reason or "").encode("utf-8", "replace").decode().strip()
@@ -91,6 +130,9 @@ class Approvals:
             request = self.get(approval_id)
             if request is None:
                 raise CannotDecide("No such approval.", missing=True)
+            problem = self._demo_problem(request) if by == DEMO_REVIEWER else None
+            if problem:
+                raise NotOperator(problem)
             if request["status"] != "pending":
                 raise CannotDecide(f"This request is already {request['status']}.")
             request.update(status="approved" if decision == "approve" else "rejected",

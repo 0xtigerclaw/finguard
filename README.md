@@ -4,15 +4,17 @@
 
 **A finance harness inspired by DeepSeek Harness, running on Meta Muse.**
 
-Finguard is an open-source harness for finance, built on the idea at the heart of DeepSeek Harness: everything is a plugin. It adds one rule that finance needs. Every plugin must state, in code, whether it reads or acts, whether a person must approve it, and how its result is verified. A plugin that acts with no approval rule stops the program at start.
+Finguard makes sure the numbers in an investment memo are right, and that is the floor. Its real potential is what a fund builds on top: its own rules, its valuation methods, the workflows that matter to it.
 
-Its first plugins do one job: every number in a memo gets a receipt from the filing, or a refusal. Muse proposes, code verifies, and a person releases. **Then you add your own:** describe a finance check in a sentence and Muse writes the plugin, or write one in Python. See [Add your own finance plugin](#add-your-own-finance-plugin).
+It is built on the idea at the heart of DeepSeek Harness: everything is a plugin. It adds one rule that finance needs. Every plugin must state, in code, whether it reads or acts, whether a person must approve it, and how its result is verified. A plugin that acts with no approval rule stops the program at start.
+
+The first plugins do the floor's job: every number in an investment memo gets a receipt from the filing, or a refusal. Muse proposes, code verifies, and a person releases. **Then you build yours:** describe a method in a sentence and it runs on every filing, or write one in Python. See [Build your fund's methods](#build-your-funds-methods).
 
 **Try it:** https://finguard-157951168487.asia-south1.run.app
 
 **Built with:** Meta Muse Spark 1.3 at runtime. Claude Opus 5.5 wrote and reviewed the code. See [How it was built](#how-it-was-built).
 
-![Finguard checking a memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read: the memo says a net loss of $8.7bn, and the filing shows -$80.7bn.](docs/img/check.png)
+![Finguard checking an investment memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read: the investment memo says a net loss of $8.7bn, and the filing shows -$80.7bn.](docs/img/check.png)
 
 ## Inspired by DeepSeek Harness
 
@@ -21,43 +23,45 @@ Finguard takes three ideas from DeepSeek Harness's public design, and carries ea
 | DeepSeek Harness established | Finguard adds, for finance |
 | --- | --- |
 | **Everything is a plugin.** | Every plugin also declares its trust rules: reads or acts, who must approve, how it is verified. The checks, follow-ups, house rules, releases and Creator Mode all run as plugins through one door. |
-| **If the model saw it, it is a record.** | Every Muse request can be rebuilt byte for byte from a hash-chained ledger, and a released memo is sealed with its record. |
+| **If the model saw it, it is a record.** | Every Muse request can be rebuilt byte for byte from a hash-chained ledger, and a released investment memo is sealed with its record. |
 | **Record and replay.** | Real Muse replies are saved and replayed in tests, so anyone can rerun the published score with no API key. |
 
 DeepSeek Harness is a general agent harness. Finguard is narrower on purpose: one domain, where a fluent wrong number is the most expensive kind.
 
-## Add your own finance plugin
+## Build your fund's methods
 
-A fund's edge is its own checks, so adding one is the point. There are two ways, and both run under the same rules.
+A fund's edge is its own methods: how it values a company, which numbers it trusts, what must happen before an investment memo leaves. In Finguard, each one is a plugin, and there are two ways to make one. Both run under the same rules.
 
 | | Describe it | Write it |
 | --- | --- | --- |
 | **Who** | An analyst, on the Create page | A developer, in Python |
-| **What you give** | A sentence, such as "Net debt as of June 30, 2026" | One file in `finguard/plugins/` |
-| **Who writes it** | Muse writes a definition: data, never code | You |
+| **What it covers** | A method that gives one number, with at most one number of yours | Anything: a full valuation model, a house metric, a whole workflow |
+| **What you give** | A sentence | One file in `finguard/plugins/` |
+| **Who writes it** | Muse writes the idea and maps it to each filing, as data, never code | You |
 | **What runs it** | Finguard's own code, which reads each cell and does the sum | Your code, with Finguard's filing reader and door |
-| **What must happen first** | A dry run on a real filing, then a person approves the install | It must declare its trust rules, or the program will not start |
-| **What you get** | `custom.<name>`, read only | Any name, such as `desk.net_debt` |
+| **Before it runs** | A person approves the install | It must declare its trust rules, or the program will not start |
 
 Either way, the plugin appears on the Rules page, every run goes on the ledger, and the page and the command line can both call it.
 
 ### Describe it
 
-Open **Create**, pick a prompt or type your own, and press **Write the plugin**. Five examples are saved, and each number below was worked out by code from the filing's cells:
+Open **Create**, pick a method or type your own, and press **Write the plugin**. There is no company to pick: one idea runs on every filing, and Muse maps it to each filing's own rows and period. Code reads every cell, and refuses if it cannot find them. These saved examples are real Muse mappings:
 
-| Prompt | Filing | Result |
-| --- | --- | --- |
-| Free cash flow | Anthropic, six months | $3.4bn |
-| Net debt | Nebius, June 30, 2026 | $503.6m |
-| Gross margin check | ASML, nine months | 55.05%, tying to the printed 55.0% |
-| Capex intensity | Nebius, six months | 828.52% |
-| Adjusted vs reported gap | Anthropic, six months | $2.3bn |
+| Method | Anthropic | Nebius | ASML |
+| --- | --- | --- | --- |
+| **Equity value** at an enterprise value of 100bn that you enter | $103.8bn | $99.5bn | €106.1bn |
+| **Net debt** | -$3.8bn | $503.6m | -€6.1bn |
+| **Free cash flow** | $3.4bn | Refused: it prints purchases combined with intangibles | €10.2bn |
+| **Gross margin check** | Refused: no cost of revenue | Refused: no printed margin | 55.05%, tying to the printed 55.0% |
+| **Capex intensity** | Refused: revenue prints more than one number for that period | Refused: no separate property row | 3.75% |
 
-Muse never gives these values. A formula may hold only its input names, plain numbers, `+ - * /` and parentheses, and code parses it itself. If a row is missing or unclear, it says so and estimates nothing. These results are not part of the measured score.
+The refusals are the point: when a filing does not print what a method needs, Finguard says so and estimates nothing.
+
+Muse never gives these values, and it is never sent your number, so changing your number recalculates with no Muse call. The result is labelled "Arithmetic on your number, not advice". A formula may hold only input names, plain numbers, `+ - * /` and parentheses, and code parses it itself. Muse decides which rows a method uses, and the working shows them, so read it: for net debt, Anthropic's debt is its convertible notes, ASML's is long-term debt, and short-term investments are not counted as cash. A fund may draw those lines differently. These results are not part of the measured score.
 
 ### Write it
 
-Copy [`examples/plugins/net_debt.py`](examples/plugins/net_debt.py) into `finguard/plugins/` and restart. Any module there with a `register` function loads with no other change. The trust rules sit in the declaration, where anyone can read them:
+The Python route covers any method. Copy [`examples/plugins/net_debt.py`](examples/plugins/net_debt.py) into `finguard/plugins/` and restart. Any module there with a `register` function loads with no other change. The trust rules sit in the declaration, where anyone can read them:
 
 ```python
 def register(registry: Registry) -> None:
@@ -84,9 +88,11 @@ Run it from the terminal:
 
 That returns `503.6`, with each printed cell it read. A plugin that acts must set `approval="person"` and say what the approval binds to, or the program stops at start with a plain error. `tests/test_example_plugin.py` proves all of this on a real filing. `finguard rules` prints every plugin's rules from the live registry.
 
+**A workflow is a plugin too.** [`examples/plugins/memo_pack.py`](examples/plugins/memo_pack.py) checks an investment memo, applies a named method, and asks for release. Every step goes through the door, and it stops at "needs a person", because nothing in a plugin can approve itself. Muse does not write workflows in Create: a person writes them.
+
 ## The problem
 
-Memos are now drafted with AI, and they read well whether or not the numbers are right. The dangerous error is not the number that looks wrong. It is the true number from the wrong line, the wrong period or the wrong definition.
+Investment memos are now drafted with AI, and they read well whether or not the numbers are right. The dangerous error is not the number that looks wrong. It is the true number from the wrong line, the wrong period or the wrong definition.
 
 **Example 1: three true answers to one question.** Did Anthropic make money? Its S-1 gives three true lines for the same six months:
 
@@ -96,7 +102,7 @@ Memos are now drafted with AI, and they read well whether or not the numbers are
 | Operating loss | -$693m |
 | Adjusted operating income, as Anthropic presents it | +$1.6bn |
 
-A memo that picks one of these has made a call for the fund, without saying so.
+An investment memo that picks one of these has made a call for the fund, without saying so.
 
 **Example 2: a real number from the wrong quarter.** ASML's filings report these for total net sales:
 
@@ -105,7 +111,7 @@ A memo that picks one of these has made a call for the fund, without saying so.
 | June 28, 2026 | €9.3bn |
 | September 27, 2026 | €11.7bn |
 
-A memo saying second quarter sales were €11.7bn quotes a real figure from a real filing. Only a check of the row and the column catches it. Finguard refuses it.
+An investment memo saying second quarter sales were €11.7bn quotes a real figure from a real filing. Only a check of the row and the column catches it. Finguard refuses it.
 
 ## The approach
 
@@ -117,7 +123,7 @@ Each kind of step goes to the party able to guarantee it:
 | **Judgement** | Muse, called as a function | None, by design. It lists claims and points to cells. Code verifies what it says. |
 | **Approval** | A person | Tied to the exact content, and works once. A model cannot give one. |
 
-Which line belongs in the memo is the fund's method, and the method is data that code applies. Under the illustrative house rule HR-1, stock compensation is a cost, so the same cells give **-$567m** rather than +$1.6bn. A request to add it back is refused before any Muse call.
+Which line belongs in the investment memo is the fund's method, and the method is data that code applies. Under the illustrative house rule HR-1, stock compensation is a cost, so the same cells give **-$567m** rather than +$1.6bn. A request to add it back is refused before any Muse call.
 
 ## Three design principles
 
@@ -127,20 +133,20 @@ Muse proposes where a number is. Code decides whether it is true. A verdict come
 
 ### 2. Muse is never told the number
 
-When Muse points to a cell, it gets the metric and the period, and not the memo's value. It cannot lean toward the memo. If its box picks out no number or several, it gets one second look at an enlarged crop, never more.
+When Muse points to a cell, it gets the metric and the period, and not the investment memo's value. It cannot lean toward the investment memo. If its box picks out no number or several, it gets one second look at an enlarged crop, never more.
 
 ### 3. The interface is a plugin
 
 The checks, follow-ups, house rules and Creator Mode all go through one door, and the page and the command line both call it. Neither has authority of its own. In Creator Mode, Muse writes a new plugin as data and never as code, and a person approves the install.
 
-## How a memo flows
+## How an investment memo flows
 
 ```mermaid
 flowchart TB
-    M["Memo"]:::q
-    L["<b>Muse lists the claims</b><br/>each one must be word for word in the memo"]:::model
+    M["Investment memo"]:::q
+    L["<b>Muse lists the claims</b><br/>each one must be word for word in the investment memo"]:::model
     S["<b>Code finds any number left out</b><br/>and marks it not checked"]:::code
-    P["<b>Muse points to the cell</b><br/>from page images, never told the memo's number"]:::model
+    P["<b>Muse points to the cell</b><br/>from page images, never told the investment memo's number"]:::model
     C["<b>Code reads the PDF's own text</b><br/>row, column, units, currency, sign, period, wording"]:::code
     M2["<b>Match</b><br/>with the page and box as the receipt"]:::code
     W["<b>Wrong</b><br/>and the receipt says what the filing shows"]:::deny
@@ -161,19 +167,20 @@ flowchart TB
     classDef deny fill:#fdeeed,stroke:#b3261e,color:#15171c
 ```
 
-Purple is judgement, blue is code, green is a person, red is a verdict against the memo.
+Purple is judgement, blue is code, green is a person, red is a verdict against the investment memo.
 
 ## What to try in the demo
 
-Saved runs replay real Muse replies, and the page labels them. A new memo is a live check, limited per server.
+The switch in the top bar picks the mode. **Demo** uses recorded Muse replies, instant and free. **Live** calls Muse now, in about a minute, limited to 5 runs an hour per visitor. Changing only a number stays instant in Demo. Approving needs no token for recorded runs, as a labelled demo reviewer.
 
-1. **Check:** run the Anthropic test memo, which has errors planted on purpose. Two numbers get red rings. Pick one to see the cell code read and where Muse pointed.
-2. **Load the corrected memo.** All 6 match, and Request release appears.
-3. **Ask:** "Did Anthropic make money in the first half of 2026?" Muse writes an answer, and every number is checked like any memo. Follow its suggested next questions.
-4. **House rule:** on the corrected memo, flip **As reported** to **Our method**, and $1.6bn reads -$567m in place. In Ask, the "Our method" chip gives the same -$567m, worked out by code with no Muse call.
-5. **Refusal:** the "Add back stock compensation." chip is refused with the rule's text.
-6. **Create your own plugin:** pick Net debt. Muse writes a definition, and code works out $503.6m with each cell boxed. Approve it, and it becomes a plugin you can run.
-7. **Rules, Record, Score:** every capability's declared rules, the hash-chained ledger, and the measured results.
+1. **Check:** run the Anthropic test investment memo, which has errors planted on purpose. Two numbers get red rings. Pick one to see the cell code read and where Muse pointed.
+2. **Try to fool it:** change any number and check again. It is instant, because Muse never saw the number.
+3. **Load the corrected investment memo.** All 6 match, and Request release appears.
+4. **Ask:** "Did Anthropic make money in the first half of 2026?" Muse writes an answer, and every number is checked like any investment memo. Follow its suggested next questions.
+5. **House rule:** on the corrected investment memo, flip **As reported** to **Our method**, and $1.6bn reads -$567m in place. In Ask, the "Our method" chip gives the same -$567m, worked out by code with no Muse call.
+6. **Refusal:** the "Add back stock compensation." chip is refused with the rule's text.
+7. **Build a method:** in Create, pick Equity value and enter an enterprise value. It runs on all three companies, each with its cells boxed. Approve it as a demo reviewer, and it becomes a plugin you can run.
+8. **Rules, Record, Score:** every capability's declared rules, the hash-chained ledger, and the measured results.
 
 ## Screens
 
@@ -181,9 +188,9 @@ Saved runs replay real Muse replies, and the page labels them. A new memo is a l
 
 ![The Check page with two wrong numbers ringed in red and the filing cell boxed](docs/img/check.png)
 
-**Corrected.** Every number matches, so the memo can go to a person.
+**Corrected.** Every number matches, so the investment memo can go to a person.
 
-![The corrected memo with six ticks and a Request release button](docs/img/corrected.png)
+![The corrected investment memo with six ticks and a Request release button](docs/img/corrected.png)
 
 **Ask.** A conversation about a filing. Every turn is checked again from scratch.
 
@@ -191,13 +198,13 @@ Saved runs replay real Muse replies, and the page labels them. A new memo is a l
 
 **House rules.** Flip the method, and the same cell reads differently. The verdict stays true to the filing.
 
-![The corrected memo under Our method, with $1.6bn reading -$567m in place](docs/img/method.png)
+![The corrected investment memo under Our method, with $1.6bn reading -$567m in place](docs/img/method.png)
 
 ![The Ask page showing -$567m worked out by code under rule HR-1, with the cells it read](docs/img/house.png)
 
-**Create.** Describe a check in plain words. Muse writes a definition, and code does the sum.
+**Create.** Describe a method in a sentence. Muse maps it to each filing, and code reads the cells and does the sum.
 
-![The Create page with a gallery of finance plugins and a boxed filing cell](docs/img/create.png)
+![The Create page with a list of methods and a results table for each company](docs/img/create.png)
 
 **Rules.** Rendered from the live registry.
 
@@ -211,9 +218,9 @@ Saved runs replay real Muse replies, and the page labels them. A new memo is a l
 
 | Plugin | What it does | The rule it enforces |
 | --- | --- | --- |
-| `memo.check` | Every number in a memo gets a receipt | Code gives the verdict from the PDF's text. A number left off Muse's list shows as not checked. |
-| `memo.draft` | Muse answers a question from the filing, with follow-ups | Its memo is stored exactly as written and checked like any other. Nothing carries over as verified. |
-| `memo.release` | Seals a checked memo as a bundle of hashes | Refused unless every number matches. A person must approve, and a changed rule needs a new check. |
+| `memo.check` | Every number in an investment memo gets a receipt | Code gives the verdict from the PDF's text. A number left off Muse's list shows as not checked. |
+| `memo.draft` | Muse answers a question from the filing, with follow-ups | Its investment memo is stored exactly as written and checked like any other. Nothing carries over as verified. |
+| `memo.release` | Seals a checked investment memo as a bundle of hashes | Refused unless every number matches. A person must approve, and a changed rule needs a new check. |
 | `rules.list`, `rules.apply`, `rules.change` | House rules as data | Muse never sees a rule. A change needs a person's approval and goes on the ledger. |
 | `plugins.create`, `plugins.install`, `plugins.list`, `custom.*` | Creator Mode | Muse writes data, never code. Code parses the formula itself. Only a definition from a real Muse run can be installed, with approval. |
 | `filings.list`, `filings.page`, `filings.add` | The filings | Adding one needs approval. PDF only, with a size limit and a recorded hash. |
@@ -279,9 +286,9 @@ The score measures the attacks it lists, not every possible error, and the final
 - **HR-1 is illustrative.** A fund's real rules replace it.
 - **Fiscal periods are refused** when the column is a calendar date that does not end in December.
 - **Tables only, for numbers.** A number in running prose is refused, not read.
-- **One filing per check.** A memo drawing on two filings cannot be checked as one.
+- **One filing per check.** An investment memo drawing on two filings cannot be checked as one.
 - **Wording.** The word before a number must plainly state it, so harmless wording can be refused. It checks numbers, not the sense of a sentence.
-- **Shared years.** Where two columns share a year, a memo must say which date, or it is refused.
+- **Shared years.** Where two columns share a year, an investment memo must say which date, or it is refused.
 - **The demo keeps state on one instance.** A restart clears its runs. Saved runs replay recorded replies and say so.
 - **Forgery.** Anyone who can write to the state folder could forge it whole. The chain catches edits, not that.
 

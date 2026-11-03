@@ -104,7 +104,8 @@ def _release(ctx: Context, params: dict) -> dict:
     os.replace(spare, home / release_id)
     manifest_sha256 = hashlib.sha256(manifest_bytes).hexdigest()
     ctx.ledger.append("release_sealed", run_id=ctx.run_id, release_id=release_id, manifest_sha256=manifest_sha256,
-                      subject_sha256=subject, approval_id=ctx.approval["id"], rules_sha256=found["rules_sha256"])
+                      subject_sha256=subject, approval_id=ctx.approval["id"], approved_by=ctx.approval["decided_by"],
+                      rules_sha256=found["rules_sha256"])
     return {"release_id": release_id, "check_run_id": params["check_run_id"], "manifest": manifest,
             "manifest_sha256": manifest_sha256, "filing": found["filing"], "counts": found["counts"],
             "holds": not verify_release(ctx, release_id)}

@@ -5,585 +5,600 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check · Finguard</title>
 <meta name="description" content="Finguard is a finance harness running on Meta Muse. Muse proposes, code verifies, a person releases.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23214d83' d='M4 2.5h16a1 1 0 0 1 1 1V21l-3-1.8-3 1.8-3-1.8L9 21l-3-1.8L3 21V3.500a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M7.500 10.500l3 3 6-6'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2314233a' d='M4 2.5h16a1 1 0 0 1 1 1V21l-3-1.8-3 1.8-3-1.8L9 21l-3-1.8L3 21V3.500a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M7.500 10.500l3 3 6-6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* An annotated page on a calm desk. Colour means a verdict; navy means code. */
 :root{
-  --bg:#f6f8fb;--ink:#172b46;--soft:#52627a;--line:#e2e8f0;--line-2:#b9c5d4;--white:#fff;
-  --navy:#214d83;--navy-deep:#173a66;--tint:#eaf0f8;--kick:#a93226;
-  --cream:#fdfbf6;--cream-line:#eadfca;
-  --match:#17694a;--match-bg:#e6f3ed;--wrong:#b3261e;--wrong-bg:#fbeae8;--refused:#855508;--refused-bg:#faf0dc;--slate:#4f5a65;--slate-bg:#edf0f3;
+  --desk:#e6eaef;--desk-2:#dce1e8;--sheet:#fdfcf8;--sheet-2:#f4f3ee;
+  --ink:#14233a;--soft:#55637a;--faint:#74808f;--hair:rgba(20,35,58,.11);--hair-2:rgba(20,35,58,.24);
+  --navy:#1d3c66;--tint:rgba(29,60,102,.08);
+  --match:#17694a;--match-bg:rgba(23,105,74,.1);--wrong:#b02a1c;--wrong-bg:rgba(176,42,28,.09);--refused:#855508;--refused-bg:rgba(133,85,8,.11);--slate:#4f5a65;--slate-bg:rgba(79,90,101,.1);
   --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --top:56px;--focus:var(--navy);
+  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --t-title:38px;--t-head:23px;--t-sub:18px;--t-page:20px;--t-body:15px;--t-small:13px;--t-micro:11.5px;
+  --lift:0 1px 2px rgba(20,35,58,.06),0 10px 30px rgba(20,35,58,.07);
+  --top:60px;--focus:var(--navy);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px)}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+body{background:var(--desk);color:var(--ink);font-family:var(--sans);font-size:var(--t-body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 button,select,textarea,input{font:inherit;color:inherit}
 [hidden]{display:none!important}
 h1,h2,h3,p{margin:0}
-a{color:var(--navy)}
-:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+a{color:var(--navy);text-underline-offset:3px;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:2px}
 h1:focus{outline:none}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-70px;z-index:40;background:var(--sheet);padding:10px 14px;min-height:44px;border-radius:3px;box-shadow:var(--lift)}
+.skip:focus{top:8px}
 
-/* top bar */
-.skip{position:absolute;left:12px;top:-70px;z-index:40;background:var(--white);padding:10px 14px;min-height:44px;border:1px solid var(--line);border-radius:8px}
-.skip:focus{top:6px}
-.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:12px 22px;min-height:var(--top);padding:0 24px;background:var(--white);border-bottom:1px solid var(--line)}
-.brand{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:var(--ink);text-decoration:none;min-height:44px;letter-spacing:-.01em}
-.brand svg{width:22px;height:22px;flex:none}
-.nav{display:flex;gap:2px}
-.nav a{display:flex;align-items:center;gap:6px;min-height:34px;padding:0 11px;border-radius:7px;font-size:13px;font-weight:600;color:var(--soft);text-decoration:none}
-.nav a:hover{background:var(--bg);color:var(--ink)}
-.nav a[aria-current=page]{color:var(--navy);background:var(--tint)}
-.badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--kick);color:#fff;font-size:11px;font-weight:600}
-.model{margin-left:auto;font-size:12px;color:var(--soft);white-space:nowrap}
-.menu{display:none;margin-left:0;min-height:44px;padding:0 14px;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;font-size:13px;font-weight:600;color:var(--navy);cursor:pointer}
+/* the top of the desk */
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px 26px;min-height:var(--top);padding:0 32px;background:rgba(230,234,239,.92);backdrop-filter:blur(8px)}
+.brand{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:16px;color:var(--ink);text-decoration:none;min-height:44px;letter-spacing:-.005em}
+.brand svg{width:20px;height:20px;flex:none}
+.nav{display:flex;align-items:center;gap:2px;flex:1;min-width:0}
+.nav a{display:flex;align-items:center;gap:6px;min-height:36px;padding:0 10px;font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;border-bottom:2px solid transparent}
+.nav a:hover{color:var(--navy)}
+.nav a[aria-current=page]{border-bottom-color:var(--ink);font-weight:600}
+.nav a.quiet{color:var(--soft);font-size:13px;font-weight:400;padding:0 8px}
+.nav a.quiet[aria-current=page]{color:var(--ink);font-weight:500}
+.nav a.first-quiet{margin-left:auto}
+.badge{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 5px;border-radius:9px;background:var(--navy);color:#fff;font-size:11px;font-weight:600}
+.model{font-size:12px;color:var(--faint);white-space:nowrap}
+.menu{display:none;min-height:44px;padding:0 12px;align-items:center;gap:8px;background:none;border:0;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
 .menu svg{width:16px;height:16px}
+.top{flex-wrap:wrap;min-height:60px}
+body.live-mode{--top:88px}
+.mode{display:inline-flex;gap:1px;padding:2px;background:var(--desk-2);border-radius:4px;flex:none}
+.mode button{background:none;border:0;border-radius:3px;padding:3px 11px;min-height:28px;font-size:13px;font-weight:500;color:var(--soft);cursor:pointer}
+.mode button:hover{color:var(--ink)}
+.mode button[aria-pressed=true]{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(20,35,58,.12)}
+.mode button[aria-disabled=true]{color:var(--faint);cursor:not-allowed}
+.mode-note{flex-basis:100%;order:6;margin:-6px 0 6px;font-size:12.5px;line-height:1.4;color:var(--navy);text-align:right}
+.needs{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.needs .btn{min-height:36px;padding:6px 14px;font-size:13.5px}
 
-/* page */
-.wrap{max-width:1480px;margin:0 auto;padding:28px 24px 56px}
-.wrap.narrow{max-width:1120px}
-.kicker{font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--kick);margin-bottom:6px}
-h1{font-family:var(--serif);font-size:34px;font-weight:600;line-height:1.15;letter-spacing:-.01em}
-h2{font-family:var(--serif);font-size:22px;font-weight:600;line-height:1.25;margin:0 0 10px}
-.head{margin-bottom:20px}
+/* the page */
+.wrap{max-width:1500px;margin:0 auto;padding:30px 32px 56px}
+.wrap.narrow{max-width:1080px;display:flex;flex-direction:column}
+.wrap.narrow>*{width:100%}
+.kicker{font-size:var(--t-micro);font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+h1{font-family:var(--serif);font-size:var(--t-title);font-weight:500;line-height:1.12;letter-spacing:-.012em;font-optical-sizing:auto}
+h2{font-family:var(--serif);font-size:var(--t-head);font-weight:500;line-height:1.25;margin:0 0 10px;letter-spacing:-.005em}
+.head{margin-bottom:22px}
 .head>.linkish{display:inline-block;margin-bottom:10px}
-.lede{color:var(--soft);font-size:15.5px;line-height:1.45;margin-top:6px;max-width:64ch}
+.lede{font-family:var(--serif);color:var(--soft);font-size:var(--t-sub);line-height:1.4;margin-top:8px;max-width:60ch}
 .mono{font-family:var(--mono)}
 .small{font-size:14px;line-height:1.45}
 .soft{color:var(--soft)}
-.note{font-size:14px;color:var(--soft);line-height:1.45;margin-top:8px}
-.hash{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere;line-height:1.45}
-.section{margin-top:26px}
+.note{font-size:var(--t-small);color:var(--soft);line-height:1.5;margin-top:8px}
+.hash{font-family:var(--mono);font-size:12px;overflow-wrap:anywhere;line-height:1.5}
+.foot{font-size:var(--t-small);line-height:1.5;color:var(--soft);margin-top:18px}
+.site-foot{max-width:1500px;margin:0 auto;padding:20px 32px 34px;font-size:12.5px;color:var(--faint);line-height:1.6}
+.site-foot a{color:inherit}
+.site-foot .linkish{font-size:12.5px;font-weight:400;color:inherit;min-height:0}
 
 /* controls */
-.controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 12px}
-.tabs{display:flex;background:var(--white);border:1px solid var(--line-2);border-radius:8px;overflow:hidden;max-width:100%}
-.tabs button{background:none;border:0;border-right:1px solid var(--line);padding:6px 14px;font-size:13px;font-weight:600;color:var(--soft);cursor:pointer;min-height:38px}
-.tabs button:last-child{border-right:0}
-.tabs button:hover{color:var(--ink);background:var(--bg)}
-.tabs button[aria-pressed=true]{background:var(--tint);color:var(--navy)}
-.tabs button:focus-visible{outline-offset:-3px}
+.controls{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0 0 8px}
+.tabs{display:inline-flex;gap:2px;max-width:100%}
+.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:4px 10px;font-size:14px;font-weight:500;color:var(--soft);cursor:pointer;min-height:36px}
+.tabs button:first-child{padding-left:0}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
 .tabs button:disabled{cursor:not-allowed}
-.doc{font-size:12.5px;color:var(--soft);line-height:1.4}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
-.chip{background:var(--white);border:1px solid var(--line-2);border-radius:999px;padding:6px 14px;min-height:34px;font-size:13px;color:var(--ink);cursor:pointer;line-height:1.25;text-align:left}
-.chip:hover{border-color:var(--navy);color:var(--navy)}
-.chip[aria-pressed=true]{border-color:var(--navy);background:var(--tint);color:var(--navy);font-weight:600}
-.memo-label{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12.5px;font-weight:600;color:var(--soft);margin-bottom:8px;min-height:24px}
-.linkish{background:none;border:0;padding:0;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;color:var(--navy);min-height:28px;text-align:left}
-.prompt{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 28px rgba(23,43,70,.08);padding:18px 20px 16px}
-.prompt textarea{display:block;width:100%;min-height:210px;border:0;border-radius:8px;background:none;padding:2px 0;font-size:15.5px;line-height:1.65;resize:vertical}
-.prompt textarea:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
-.prompt textarea::placeholder{color:#6b7a90}
-.prompt-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:flex-end;margin-top:10px;padding-top:12px;border-top:1px solid var(--line)}
-.prompt-note{flex:1 1 220px;min-width:0}
-.field{width:100%;min-height:44px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;font-size:15px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;font-weight:600;font-size:14px;border-radius:8px;cursor:pointer;border:1px solid var(--line-2);background:var(--white);color:var(--ink);text-decoration:none;text-align:center;line-height:1.25}
-.btn:hover{border-color:var(--navy);color:var(--navy)}
-.btn.primary{background:var(--navy-deep);border-color:var(--navy-deep);color:#fff}
-.btn.primary:hover{background:#102c50;border-color:#102c50;color:#fff}
-.btn.danger{background:var(--white);border-color:var(--wrong);color:var(--wrong)}
-.btn.danger:hover{background:var(--wrong-bg);color:var(--wrong)}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.go{display:flex;gap:12px 16px;align-items:center;margin-top:14px;flex-wrap:wrap}
-.state{font-size:13.5px;line-height:1.45;color:var(--soft)}
+.doc{font-size:var(--t-small);color:var(--faint);line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:4px 8px;margin:0 0 14px}
+.chip{background:none;border:0;border-radius:3px;padding:4px 10px;min-height:32px;font-size:var(--t-small);color:var(--soft);cursor:pointer;line-height:1.3;text-align:left;box-shadow:inset 0 0 0 1px var(--hair)}
+.chip:hover{color:var(--ink);box-shadow:inset 0 0 0 1px var(--hair-2)}
+.chip[aria-pressed=true]{color:var(--ink);font-weight:500;background:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px var(--hair-2)}
+.chip-tag{font-weight:400;font-size:11px;color:var(--faint);margin-left:7px}
+.chips-kicker{font-size:12.5px;color:var(--soft);margin:14px 0 6px}
+.memo-label{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:var(--t-small);font-weight:500;color:var(--soft);margin-bottom:14px;min-height:24px}
+.memo-label #memoEdit{margin-left:auto}
+.linkish{background:none;border:0;padding:0;font-size:var(--t-small);font-weight:500;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;cursor:pointer;color:var(--navy);min-height:28px;text-align:left}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:42px;padding:9px 18px;font-weight:500;font-size:14.5px;border-radius:3px;cursor:pointer;border:0;background:none;box-shadow:inset 0 0 0 1px var(--hair-2);color:var(--ink);text-decoration:none;text-align:center;line-height:1.25;transition:background .12s}
+.btn:hover{background:var(--tint)}
+.btn.primary{background:var(--ink);box-shadow:none;color:#fff}
+.btn.primary:hover{background:var(--navy)}
+.btn.danger{color:var(--wrong);box-shadow:inset 0 0 0 1px rgba(176,42,28,.35)}
+.btn.danger:hover{background:var(--wrong-bg)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.field{width:100%;min-height:42px;background:rgba(255,255,255,.6);border:0;box-shadow:inset 0 0 0 1px var(--hair-2);border-radius:3px;padding:9px 12px;font-size:var(--t-body)}
+.state{font-size:var(--t-small);line-height:1.45;color:var(--soft)}
 .state.bad{color:var(--wrong)}
 .state:empty{display:none}
-.hint{font-size:13px;line-height:1.45;color:var(--soft)}
-.fixrow{margin-top:14px}
+.hint{font-size:var(--t-small);line-height:1.45;color:var(--soft)}
+.hint .linkish{margin-left:4px}
 
-/* a live clock */
-.clock{display:flex;gap:6px 16px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:12px 16px;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:10px}
-.clock-time{font-weight:600;font-size:26px;line-height:1;font-variant-numeric:tabular-nums;min-width:3em;color:var(--navy)}
-.clock-stage{font-size:14px;font-weight:600;line-height:1.4;display:block}
-.clock-hint{font-size:13px;line-height:1.4;color:var(--soft);display:block;margin-top:2px}
-.clock>div{flex:1;min-width:190px}
-
-/* labels */
-.stamp{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:6px;line-height:1.35;white-space:nowrap}
-.stamp.ink{color:var(--navy);background:var(--tint)}.stamp.soft{color:var(--soft);background:var(--slate-bg)}.stamp.red{color:var(--wrong);background:var(--wrong-bg)}.stamp.green{color:var(--match);background:var(--match-bg)}.stamp.amber{color:var(--refused);background:var(--refused-bg)}.stamp.slate{color:var(--slate);background:var(--slate-bg)}
-.stamp.big{font-size:12.5px;padding:5px 11px}
-.labels{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 10px;align-items:baseline;justify-items:start;margin:0 0 12px;font-size:13.5px;line-height:1.4;color:var(--soft)}
-.labels.row{display:flex;flex-wrap:wrap}
-
-/* a figure in the memo */
-.memo{font-size:16px;line-height:2.1;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px 18px;white-space:pre-wrap;max-width:100%}
-.prompt .memo{background:none;border:0;padding:0;border-radius:0}
+/* the sheet */
+.prompt,.proof,.answer,.tcard,.slip{background:var(--sheet);border-radius:4px;box-shadow:var(--lift)}
+.prompt{padding:30px 40px 24px}
+.prompt textarea{display:block;width:100%;min-height:230px;border:0;background:none;padding:0;font-family:var(--serif);font-size:var(--t-page);line-height:1.75;resize:vertical;color:var(--ink);border-radius:2px}
+#askInput,#createInput{min-height:64px}
+.prompt textarea::placeholder{color:var(--faint)}
+.prompt textarea:focus-visible{outline:2px solid var(--focus);outline-offset:6px}
+.prompt-foot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:flex-end;margin-top:16px}
+.prompt-note{flex:1 1 220px;min-width:0}
+.memo{font-family:var(--serif);font-size:var(--t-page);line-height:2.05;white-space:pre-wrap;max-width:100%}
+.memo.quiet{font-size:16px;line-height:1.9}
 .keep{white-space:nowrap}
-.fig{position:relative;display:inline-block;line-height:1.25;background:none;border:0;padding:0 2px;margin:0;font-family:inherit;font-size:1em;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;border-radius:3px}
+
+/* a number on the page */
+.fig{position:relative;display:inline-block;line-height:1.25;background:none;border:0;padding:0 2px;margin:0;font-family:var(--mono);font-size:.84em;font-weight:500;white-space:nowrap;border-radius:2px;transition:color .15s ease-out}
 button.fig{cursor:pointer}
-button.fig::after{content:"";position:absolute;inset:-13px -4px}
+button.fig::after{content:"";position:absolute;inset:-14px -4px}
 .fig.match{color:var(--match)}
-.fig.wrong{color:var(--wrong)}
-.fig.refused{color:var(--refused);border-bottom:2px dotted var(--refused)}
-.fig.unchecked{color:var(--slate);border-bottom:2px dashed var(--slate)}
+.fig.wrong{color:var(--wrong);margin:0 5px}
+.fig.refused{color:var(--refused);border-bottom:1.5px dotted var(--refused)}
+.fig.unchecked{color:var(--slate);border-bottom:1.5px dashed var(--slate)}
 .fig[aria-pressed=true]{background:var(--tint)}
-.fig .tick{position:absolute;right:-8px;top:-10px;width:15px;height:13px;pointer-events:none}
-.fig .tick path{stroke:var(--match);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .35s ease-out forwards;animation-delay:var(--d,0s)}
+.fig .tick{position:absolute;right:-7px;top:-9px;width:13px;height:11px;pointer-events:none}
+.fig .tick path{stroke:var(--match);stroke-width:2;fill:none;stroke-linecap:round;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .35s ease-out forwards}
 .fig .ring{position:absolute;left:-7px;top:-5px;width:calc(100% + 14px);height:calc(100% + 10px);pointer-events:none;overflow:visible}
-.fig .ring path{stroke:var(--wrong);stroke-width:1.8;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .55s cubic-bezier(.6,.1,.3,1) forwards;animation-delay:var(--d,0s)}
+.fig .ring path{stroke:var(--wrong);stroke-width:1.5;fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:draw .5s cubic-bezier(.6,.1,.3,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
-/* one by one: a number stays neutral until its turn */
-.fig{transition:color .15s ease-out}
 .fig.pending{color:var(--ink);border-bottom-color:transparent}
 .fig.pending svg{display:none}
-/* the method switch changes the display only */
 .fig-house{display:none}
-.memo.method-on .fig.has-house{font-size:.82em;font-weight:500;color:var(--soft);text-decoration:line-through}
-.memo.method-on .fig-house{display:inline-block;margin-left:5px;padding:0 4px;border-radius:3px;font-size:1.22em;font-weight:700;color:var(--navy);background:var(--tint);text-decoration:none;animation:house-in .2s ease-out}
-@keyframes house-in{from{opacity:0;transform:translateY(3px)}}
-.method{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 10px}
-.method .tabs button{min-height:34px;padding:4px 12px}
-.method-note{flex-basis:100%;font-size:13px;line-height:1.4;color:var(--soft)}
-.house-note{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px}
-.house-note>details,.house-note>p.mono{flex-basis:100%}
-.memo.quiet{font-size:15px;line-height:1.95}
+.memo.method-on .fig.has-house{font-size:.72em;font-weight:400;color:var(--soft);text-decoration:line-through}
+.memo.method-on .fig-house{display:inline-block;margin-left:6px;padding:0 3px;font-size:1.3em;font-weight:500;color:var(--navy);background:var(--tint);border-radius:2px;text-decoration:none;animation:house-in .18s ease-out}
+@keyframes house-in{from{opacity:0}}
+
+/* labels */
+.stamp{display:inline-block;font-size:11px;font-weight:500;letter-spacing:.03em;padding:2px 7px;border-radius:2px;line-height:1.4;white-space:nowrap}
+.stamp.ink{color:var(--navy);background:var(--tint)}.stamp.soft,.stamp.slate{color:var(--slate);background:var(--slate-bg)}.stamp.red{color:var(--wrong);background:var(--wrong-bg)}.stamp.green{color:var(--match);background:var(--match-bg)}.stamp.amber{color:var(--refused);background:var(--refused-bg)}
+.stamp.big{font-size:12.5px;padding:4px 10px}
+.labels{display:flex;flex-wrap:wrap;gap:6px 8px;margin:0 0 14px}
+.pills{margin:0 0 12px}
+.label-slot .pills{margin:0}
+.label-slot{display:flex;flex-wrap:wrap}
+.label-slot:empty{display:none}
+.pill-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pill{position:relative;border:0;cursor:help;font-family:inherit}
+.pill::after{content:"";position:absolute;inset:-13px -2px}
+.pill[aria-expanded=true]{box-shadow:inset 0 0 0 1px currentColor}
+.pill-detail{font-size:var(--t-small);font-weight:400;color:var(--soft);margin-top:6px;line-height:1.45;max-width:58ch}
+
+/* the Next guide */
+.next{display:flex;align-items:baseline;gap:8px;margin:12px 2px 0;font-size:14px;line-height:1.45;color:var(--ink)}
+.next-label{font-size:var(--t-micro);font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--faint);flex:none}
+.next-text{flex:1;min-width:0}
+.next-act{font-size:14px;font-weight:400;color:var(--ink)}
+.next-off{background:none;border:0;cursor:pointer;color:var(--faint);font-size:12.5px;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;flex:none;min-height:24px;padding:0}
+.next-off:hover{color:var(--ink)}
+.wrap.narrow .next{margin:0 2px 16px}
+
+/* a live clock */
+.clock{display:flex;gap:6px 16px;align-items:center;flex-wrap:wrap;margin-top:14px;padding:4px 2px}
+.clock-time{font-family:var(--mono);font-size:22px;line-height:1;min-width:3em;color:var(--navy)}
+.clock-stage{font-size:14px;font-weight:500;line-height:1.4;display:block}
+.clock-hint{font-size:var(--t-small);line-height:1.4;color:var(--soft);display:block;margin-top:1px}
+.clock>div{flex:1;min-width:190px}
 
 /* tally and release */
-.tally{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 8px;font-size:13.5px;color:var(--soft)}
-.tally b{font-size:24px;font-weight:600;margin-right:5px;font-variant-numeric:tabular-nums}
+.tally{display:flex;flex-wrap:wrap;gap:6px 22px;margin:18px 0 0;font-size:var(--t-small);color:var(--soft)}
+.tally b{font-family:var(--mono);font-size:21px;font-weight:500;margin-right:6px;color:var(--ink)}
 .tally .match b{color:var(--match)}.tally .wrong b{color:var(--wrong)}.tally .refused b{color:var(--refused)}.tally .unchecked b{color:var(--slate)}
-.release{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:10px 0 4px;padding:12px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px}
-.release p{flex:1 1 240px;font-size:14.5px;line-height:1.4}
-.release.ok{border-color:#b5d6c6}
+.release{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin:18px 2px}
+.release p{flex:1 1 220px;font-size:14px;line-height:1.45}
+.release .fixrow{margin:0}
 
-/* table cards */
-.tcard{background:var(--white);border:1px solid var(--line);border-radius:12px;margin-top:14px;overflow:hidden}
-.tcard-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:14px 18px;border-bottom:1px solid var(--line)}
-.tcard-top h2,.tcard-top h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0;line-height:1.3}
-.tcard-aside{font-size:13px;color:var(--soft);margin-left:auto}
-.tcard-body{padding:14px 18px;font-size:14.5px}
-.tcard-body .kv{margin:0}
+/* tables */
+.tcard{margin-top:18px;overflow:hidden}
+.tcard-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:16px 22px 10px}
+.tcard-top h2{font-size:var(--t-sub);margin:0;line-height:1.3}
+.tcard-aside{font-size:var(--t-small);color:var(--soft);margin-left:auto}
+.tcard-body{padding:4px 22px 18px;font-size:14.5px}
+.tcard .more{padding:0 22px 14px}
 .t,.ledger{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.4}
-.t th,.ledger th{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--soft);padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:bottom}
-.t td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top}
-.ledger td{padding:5px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.t th,.ledger th{font-size:var(--t-micro);font-weight:500;letter-spacing:.04em;text-align:left;color:var(--faint);padding:8px 12px;border-bottom:1px solid var(--hair)}
+.t td{padding:11px 12px;border-bottom:1px solid var(--hair);vertical-align:top}
+.ledger td{padding:4px 12px;border-bottom:1px solid var(--hair);vertical-align:middle}
 .t tr:last-child td,.ledger tr:last-child td{border-bottom:0}
-.t th:first-child,.t td:first-child,.ledger th:first-child,.ledger td:first-child{padding-left:18px}
-.t th:last-child,.t td:last-child,.ledger th:last-child,.ledger td:last-child{padding-right:18px}
+.t th:first-child,.t td:first-child,.ledger th:first-child,.ledger td:first-child{padding-left:22px}
+.t th:last-child,.t td:last-child,.ledger th:last-child,.ledger td:last-child{padding-right:22px}
 .t .m{font-family:var(--mono);font-size:12.5px}
-.t a.open{display:inline-flex;align-items:center;min-height:30px;font-size:13.5px;font-weight:600;text-underline-offset:3px}
-.ledger tbody tr[data-i]{cursor:pointer}
-.ledger tbody tr:hover{background:var(--bg)}
+.t a.open{display:inline-flex;align-items:center;min-height:28px;font-size:13.5px;font-weight:500}
+.ledger tbody tr{cursor:pointer}
+.ledger tbody tr:hover{background:var(--sheet-2)}
 .ledger tr[aria-current=true]{background:var(--tint)}
-.pick{background:none;border:0;padding:6px 0;min-height:36px;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ledger tr.has-note td{border-bottom:0}
+.note-row{cursor:pointer}
+.note-row td{padding-top:0!important;padding-bottom:10px!important}
+.pick{background:none;border:0;padding:6px 0;min-height:34px;font-family:var(--mono);font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap}
 .num{font-family:var(--mono);font-size:13px;white-space:nowrap}
-.sub{display:none;font-size:13px;color:var(--soft);line-height:1.25;padding-bottom:6px}
-.tag{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.sub{display:none;font-size:var(--t-small);color:var(--soft);line-height:1.25;padding-bottom:6px;font-family:var(--sans)}
+.tag{font-size:12px;font-weight:600}
 .tag.match{color:var(--match)}.tag.wrong{color:var(--wrong)}.tag.refused{color:var(--refused)}.tag.unchecked{color:var(--slate)}
-.foot{font-size:13.5px;line-height:1.5;color:var(--soft);margin-top:18px}
-.foot.record{font-size:12.5px;overflow-wrap:anywhere}
+.more{margin-top:12px;font-size:var(--t-small)}
+.more>summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:26px;font-size:12.5px;font-weight:500;color:var(--soft);list-style:none}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::before{content:"";width:0;height:0;border-left:4.5px solid currentColor;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .12s}
+.more[open]>summary::before{transform:rotate(90deg)}
+.more>summary:hover{color:var(--ink)}
+.more .kv{margin-top:6px;font-size:13.5px}
+.more .t{margin-top:6px}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:5px 16px;margin:0;font-size:14.5px;line-height:1.45}
+.kv dt{font-size:var(--t-small);color:var(--soft)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.label{font-size:var(--t-micro);font-weight:500;letter-spacing:.04em;color:var(--faint);margin:16px 0 6px;display:block}
+.tiny-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;line-height:1.35}
+.tiny-table th{font-size:var(--t-micro);font-weight:500;text-align:left;color:var(--faint);padding:4px 8px 6px 0;border-bottom:1px solid var(--hair)}
+.tiny-table td{padding:6px 8px 6px 0;border-bottom:1px solid var(--hair);font-family:var(--mono);font-size:12.5px;vertical-align:baseline}
+.tiny-table td .tag{font-family:var(--sans)}
+.plain-list{list-style:none;margin:0;padding:0}
 
-/* two columns */
-.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
-.side{position:sticky;top:calc(var(--top) + 16px);display:flex;flex-direction:column;gap:12px;min-width:0}
-.side.has-proof{height:calc(100dvh - var(--top) - 32px)}
+/* two sheets, once there is a result */
+.bench{display:grid;grid-template-columns:minmax(0,820px);justify-content:center;gap:24px;align-items:start}
+.bench.paired{grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);justify-content:stretch;gap:32px}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.bench.paired .side{position:sticky;top:calc(var(--top) + 8px)}
+.side.has-proof{height:calc(100dvh - var(--top) - 48px)}
 
-/* the proof card */
-.proof{background:var(--white);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;min-height:0;flex:1 1 auto;overflow:hidden;box-shadow:0 2px 10px rgba(23,43,70,.05);scroll-margin-top:calc(var(--top) + 8px)}
-.card{padding:14px 18px 12px;border-bottom:1px solid var(--line);flex:none}
-.card .kicker-v{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:2px}
-.kicker-v.read{color:var(--navy)}
-.kicker-v.match{color:var(--match)}.kicker-v.wrong{color:var(--wrong)}.kicker-v.refused{color:var(--refused)}.kicker-v.unchecked{color:var(--slate)}
-.card .why{font-size:14.5px;line-height:1.4;margin-bottom:6px}
-.facts{font-size:12.5px;line-height:1.5;color:var(--soft)}
+/* the proof sheet */
+.proof{display:flex;flex-direction:column;min-height:0;flex:1 1 0;overflow:hidden;scroll-margin-top:calc(var(--top) + 8px)}
+.card{padding:16px 22px 10px;flex:none;max-height:44%;overflow:auto}
+.kicker-v{font-size:var(--t-sub);font-family:var(--serif);font-weight:500;line-height:1.3;margin-bottom:2px}
+.kicker-v.read{color:var(--navy)}.kicker-v.match{color:var(--match)}.kicker-v.wrong{color:var(--wrong)}.kicker-v.refused{color:var(--refused)}.kicker-v.unchecked{color:var(--slate)}
+.card .why{font-size:14.5px;line-height:1.45;margin-bottom:4px}
+.card-foot{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 12px}
+.card-foot .more{margin-top:2px;flex:1 1 100%}
+.facts{font-size:var(--t-small);color:var(--soft)}
 .back{display:none;margin-top:10px}
-.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:12.5px;color:var(--ink);padding:7px 18px;border-bottom:1px solid var(--line);background:var(--white)}
+.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 16px;font-size:12.5px;color:var(--soft);padding:4px 22px 8px}
 .legend i{display:inline-block;width:18px;height:10px;margin-right:6px;vertical-align:-1px}
-.legend .n{border:2px solid var(--navy);background:rgba(33,77,131,.14)}
-.legend .c{border:2px solid var(--wrong);background:rgba(179,38,30,.14)}.legend .g{border:2px solid var(--match);background:rgba(23,105,74,.14)}.legend .d{border:2px dashed #2979c9}
-.zoom{margin-left:auto;background:var(--white);border:1px solid var(--line-2);border-radius:7px;color:var(--navy);font-size:12.5px;font-weight:600;padding:4px 10px;min-height:30px;cursor:pointer}
-.zoom:hover{border-color:var(--navy)}
-.viewer{flex:1;overflow:auto;padding:14px;background:#eef2f7;min-height:200px}
-.page{position:relative;background:#fff;box-shadow:0 4px 18px rgba(23,43,70,.16);width:max(100%,760px);line-height:0;animation:rise .28s ease-out}
+.legend .n{border:1.5px solid var(--navy)}
+.legend .c{border:1.5px solid var(--wrong)}.legend .g{border:1.5px solid var(--match)}.legend .d{border:1.5px dashed #5f7ea6}
+.zoom{margin-left:auto;background:none;border:0;color:var(--navy);font-size:12.5px;font-weight:500;padding:4px 0;min-height:28px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.viewer{flex:1 1 0;overflow:auto;padding:0;background:var(--sheet-2);min-height:200px}
+.viewer:focus-visible{outline-offset:-3px}
+.page{position:relative;background:#fff;width:max(100%,760px);line-height:0;animation:rise .25s ease-out}
 .page.fit{width:100%}
 .page img{width:100%;height:auto;display:block}
-@keyframes rise{from{transform:translateY(6px)}}
-.page-wait{font-size:13px;color:var(--soft);margin:0 0 10px;line-height:1.4}
+@keyframes rise{from{transform:translateY(4px)}}
+.page-wait{font-size:var(--t-small);color:var(--soft);margin:14px;line-height:1.4}
 .box{position:absolute;pointer-events:none}
-/* the crosshair: the page dims, the cell's row and column stay lit, and they meet at the solid box */
-.cross{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;animation:cross-in .22s ease-out}
+.page:not(.ready) .box{display:none}
+.box.code{border:1.5px solid var(--wrong);background:rgba(176,42,28,.08)}
+.box.code.match{border-color:var(--match);background:rgba(23,105,74,.08)}
+.box.code.read{border-color:var(--navy);background:rgba(29,60,102,.08)}
+.box.muse{border:1.5px dashed #5f7ea6}
+/* the spotlight: the page goes quiet, the cell's row and column stay in the light */
+.cross{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;animation:cross-in .25s ease-out}
 .page:not(.ready) .cross{display:none}
-.cross .band{fill:var(--wrong);opacity:.07}
+.cross .band{fill:var(--wrong);opacity:.045}
 .cross.match .band{fill:var(--match)}
 .cross.read .band{fill:var(--navy)}
 @keyframes cross-in{from{opacity:0}}
-.page:not(.ready) .box{display:none}
-.box.code{border:2px solid var(--wrong);background:rgba(179,38,30,.13);box-shadow:0 0 0 3px rgba(179,38,30,.16)}
-.box.code.match{border-color:var(--match);background:rgba(23,105,74,.13);box-shadow:0 0 0 3px rgba(23,105,74,.16)}
-.box.code.read{border-color:var(--navy);background:rgba(33,77,131,.14);box-shadow:0 0 0 3px rgba(33,77,131,.16)}
-.box.muse{border:2px dashed #2979c9}
 .empty{max-width:380px;margin:0 auto;text-align:center;color:var(--soft);padding:32px 16px;font-size:14.5px}
-.empty strong{display:block;font-family:var(--serif);font-size:19px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.empty strong{display:block;font-family:var(--serif);font-size:var(--t-sub);font-weight:500;color:var(--ink);margin-bottom:6px}
 
-/* the cream timeline */
-.panel{background:var(--cream);border:1px solid var(--cream-line);border-radius:10px;padding:18px 20px 16px;flex:0 1 auto;min-height:0;overflow:auto}
-.panel-title{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.25;margin:0;padding-bottom:9px;border-bottom:2px solid var(--navy)}
-.panel-for{font-size:13px;color:var(--soft);margin-top:8px}
-.steps{list-style:none;margin:14px 0 0;padding:0}
-.step{position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);gap:0 12px;padding-bottom:16px}
+/* the checking steps: a slim strip at first, then the active steps under the proof */
+.panel{flex:0 0 auto;min-height:0;overflow:auto;padding:0 4px}
+.panel-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.panel-title{font-family:var(--sans);font-size:var(--t-small);font-weight:500;color:var(--soft);margin:0;letter-spacing:0}
+.panel-toggle,.panel-all{font-size:12.5px;font-weight:500;color:var(--soft);min-height:22px}
+.panel-all{margin-top:4px}
+.steps{list-style:none;margin:8px 0 0;padding:0}
+.step{position:relative;display:grid;grid-template-columns:22px minmax(0,1fr);gap:0 8px;padding-bottom:6px}
 .step:last-child{padding-bottom:0}
-.step:not(:last-child)::before{content:"";position:absolute;left:14px;top:32px;bottom:2px;border-left:2px dotted #c9bda5}
-.step-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1.5px solid #c9bda5;background:var(--white);color:var(--soft);font-size:13px;font-weight:600}
-.step-name{font-weight:700;font-size:14.5px;line-height:1.3;padding-top:4px}
-.step-text{font-size:14px;line-height:1.4;color:var(--soft)}
-.step-value{font-size:13.5px;line-height:1.4;color:var(--ink);margin-top:2px}
-.step-value.code{font-family:var(--mono);font-size:12.5px;overflow-wrap:anywhere}
-.step.on .step-mark{background:var(--navy);border-color:var(--navy);color:#fff}
-.step.on.match .step-mark{background:var(--match);border-color:var(--match)}
-.step.on.wrong .step-mark{background:var(--wrong);border-color:var(--wrong)}
-.step.on.refused .step-mark{background:var(--refused);border-color:var(--refused)}
-.step.on.unchecked .step-mark{background:var(--slate);border-color:var(--slate)}
-.step.on.match .step-value{color:var(--match);font-weight:600}
-.step.on.wrong .step-value{color:var(--wrong);font-weight:600}
-.step.on.refused .step-value{color:var(--refused);font-weight:600}
-.step.on.unchecked .step-value{color:var(--slate);font-weight:600}
-.step.on:not(:last-child)::before{border-left-color:var(--navy)}
+.step-mark{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--hair-2);color:var(--soft);font-family:var(--mono);font-size:10.5px;margin-top:1px}
+.step-name{font-weight:500;font-size:13.5px;line-height:1.5}
+.step-text{font-size:var(--t-small);line-height:1.4;color:var(--soft)}
+.step-value{font-size:var(--t-small);line-height:1.4;color:var(--ink)}
+.step-value.code{font-family:var(--mono);font-size:12px;overflow-wrap:anywhere}
+.step.on .step-mark{background:var(--navy);box-shadow:none;color:#fff}
+.step.on.match .step-mark{background:var(--match)}.step.on.wrong .step-mark{background:var(--wrong)}.step.on.refused .step-mark{background:var(--refused)}.step.on.unchecked .step-mark{background:var(--slate)}
+.step.on.match .step-value{color:var(--match)}.step.on.wrong .step-value{color:var(--wrong)}.step.on.refused .step-value{color:var(--refused)}.step.on.unchecked .step-value{color:var(--slate)}
+.panel.collapsed .steps,.panel.collapsed .panel-all{display:none}
+.panel.active .step:not(.on){display:none}
+.panel.active .step.on .step-text{display:none}
+.side:not(.has-proof) .panel{padding:0 2px}
+.side:not(.has-proof) .steps{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:6px}
+.side:not(.has-proof) .step{display:flex;align-items:center;gap:6px;padding:0}
+.side:not(.has-proof) .step-text,.side:not(.has-proof) .step-value{display:none}
+.side:not(.has-proof) .step-name{color:var(--soft);font-weight:400;font-size:var(--t-small)}
+.side:not(.has-proof) .step-mark{width:17px;height:17px;font-size:9.5px;margin:0}
+
+/* method switch */
+.method{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin:0 0 14px}
+.method-note{flex-basis:100%;font-size:var(--t-small);line-height:1.45;color:var(--soft)}
 
 /* ask */
-.turns:not(:empty){margin-bottom:6px}
+.turns:not(:empty){margin-bottom:8px}
 .turn{margin-bottom:22px;scroll-margin-top:calc(var(--top) + 12px)}
 .bubble-row{display:flex;justify-content:flex-end;margin-bottom:10px}
-.bubble{background:var(--navy-deep);color:#fff;padding:10px 14px;border-radius:14px 14px 4px 14px;max-width:80%;font-size:15px;line-height:1.4}
-.answer{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-.answer .clock{margin:0;border-top:0;border-right:0;border-bottom:0;border-radius:0;padding:4px 0 4px 12px}
-.answer .memo{background:none;border:0;padding:0;border-radius:0}
-.answer-result .release{margin-bottom:0}
-.answer .tally{margin:14px 0 6px}
-.answer .labels{margin-bottom:10px}
-.lines-title{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin:16px 0 6px}
-.lines{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.line{border-bottom:1px solid var(--line);padding-left:10px;box-shadow:inset 3px 0 0 var(--slate)}
-.line.match{box-shadow:inset 3px 0 0 var(--match)}.line.wrong{box-shadow:inset 3px 0 0 var(--wrong)}.line.refused{box-shadow:inset 3px 0 0 var(--refused)}
+.bubble{background:var(--ink);color:#fff;padding:9px 14px;border-radius:3px;max-width:80%;font-size:15px;line-height:1.4}
+.answer{padding:24px 32px}
+.answer .clock{margin:0;padding:0}
+.answer .memo{font-size:18px;line-height:2}
+.answer-result .release{margin:14px 0 0}
+.answer-result .more{margin-top:10px}
+.lines-box{margin-top:14px}
+.lines-title{font-size:var(--t-micro);font-weight:500;letter-spacing:.04em;color:var(--faint);margin:16px 0 6px}
+.lines{list-style:none;margin:6px 0 0;padding:0}
+.line{border-top:1px solid var(--hair)}
 .line[aria-current=true]{background:var(--tint)}
-.line-pick{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;width:100%;white-space:normal;padding:8px 8px 8px 0;font-weight:600;font-size:14px;min-height:44px;align-items:center}
+.line-pick{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 12px;width:100%;white-space:normal;padding:8px 4px;font-family:var(--sans);font-weight:500;font-size:14px;min-height:42px;align-items:center}
 .line-val{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;font-weight:400}
 .line-money{font-family:var(--mono);font-size:13px}
-.line-page{font-size:12.5px;color:var(--soft)}
-.chips-kicker{margin:14px 0 6px}
-.chips-hint{margin:-6px 0 12px}
-.chip-tag{display:inline-block;margin-left:8px;font-size:11px;font-weight:600;color:var(--soft)}
-.ask-new{margin-top:10px;min-height:28px}
-.ask-new .linkish{min-height:44px}
+.line-page{font-size:12.5px;color:var(--faint)}
+.ask-new{margin-top:8px;min-height:28px}
+.turn.past .bubble{background:var(--desk-2);color:var(--ink)}
+.turn.past .answer{background:none;box-shadow:none;padding:2px 2px 0}
+.turn.past .memo{font-size:16px;line-height:1.95;color:var(--soft)}
+.turn.past .tally{margin:8px 0 2px;font-size:12.5px}
+.turn.past .tally b{font-size:14px}
+.turn.past .release.blocked,.turn.past .pill-bar .stamp.ink{display:none}
 /* house rules */
-.house-note{margin:6px 0 8px;padding:8px 12px;background:var(--cream);border:1px solid var(--cream-line);border-radius:8px;font-size:14px;line-height:1.4;white-space:normal}
-.house-line{font-weight:600}
-.house-working{font-size:14px;line-height:1.5;color:var(--ink);margin-top:6px}
-.house-note details summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--navy);margin-top:4px;min-height:28px;display:flex;align-items:center}
-.house-rule{font-size:14.5px;line-height:1.45}
-.house-sent{font-size:14.5px;font-weight:700;margin-top:6px}
-.house-money{font-family:var(--serif);font-size:38px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin:8px 0 2px;font-variant-numeric:tabular-nums}
+.house-note{display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;margin:6px 0 8px;padding:8px 12px;background:var(--tint);border-radius:3px;font-size:14px;line-height:1.45;white-space:normal}
+.house-note>details,.house-note>p.mono{flex-basis:100%}
+.house-line{font-weight:500}
+.house-working{font-size:14.5px;line-height:1.55;color:var(--ink);margin-top:6px}
+.house-note details summary{cursor:pointer;font-size:12.5px;font-weight:500;color:var(--navy);min-height:24px;display:flex;align-items:center}
+.house-rule{font-family:var(--serif);font-size:16px;line-height:1.5}
+.house-sent{font-size:14px;font-weight:500;margin-top:8px}
+.house-money{font-family:var(--mono);font-size:32px;font-weight:500;line-height:1.2;margin:10px 0 2px}
 .inputs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.input-btn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:44px;padding:6px 12px;background:var(--white);border:1px solid var(--line-2);border-radius:8px;font-size:13px;line-height:1.3;text-align:left;cursor:pointer}
-.input-btn:hover{border-color:var(--navy)}
-.input-btn[aria-pressed=true]{background:var(--tint);border-color:var(--navy)}
-.input-row{font-weight:600}
+.input-btn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;min-height:42px;padding:6px 12px;background:none;border:0;box-shadow:inset 0 0 0 1px var(--hair-2);border-radius:3px;font-size:var(--t-small);line-height:1.35;text-align:left;cursor:pointer}
+.input-btn:hover,.input-btn[aria-pressed=true]{background:var(--tint)}
+.input-row{font-weight:500}
+.input-printed{font-size:.86em;opacity:.7}
 .input-val{color:var(--soft)}
-.note-row{cursor:pointer}
-.note-row td{padding-top:0!important;padding-bottom:10px!important}
-.ledger tr.has-note td{border-bottom:0}
-.rule-state{font-family:var(--mono);font-size:12.5px;font-weight:600}
+.rule-state{font-family:var(--mono);font-size:12.5px;font-weight:500}
 .rule-state.on{color:var(--match)}.rule-state.off{color:var(--slate)}
 .rule-act{margin-top:6px;font-size:13.5px;line-height:1.4;color:var(--soft)}
 /* create */
-.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px}
-.gallery-card{display:block;text-align:left;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:14px;line-height:1.4;cursor:pointer;min-height:44px}
-.gallery-card:hover{border-color:var(--navy)}
-.gallery-card b{display:block;margin-bottom:2px}
-.plain-list{list-style:none;margin:0;padding:0}
-
-/* how it works */
-.how{margin-top:36px}
-.how-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-.how-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-.how-card b{display:block;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--kick);margin-bottom:6px}
-.how-card p{font-size:14.5px;line-height:1.45}
-
-/* messages */
-.msg{padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:10px;font-size:14.5px;line-height:1.45;margin:10px 0}
-.msg.bad{border-color:#e6b5b1;background:var(--wrong-bg);color:var(--wrong)}
-.msg .btn{margin-top:10px}
-.tcard .msg{border:0;border-radius:0;margin:0;background:none}
-
-/* approvals */
-.operator{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:end;max-width:640px;padding:14px 16px;background:var(--white);border:1px solid var(--line);border-radius:12px;margin-bottom:6px}
-.operator.off{display:block}
-.operator label{font-size:12.5px;font-weight:600;color:var(--soft);display:block;margin-bottom:4px}
-.operator p{grid-column:1/-1;font-size:13.5px;line-height:1.4;color:var(--soft)}
-.slip{background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(23,43,70,.05);padding:16px 18px;margin:12px 0 16px}
-.slip-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-bottom:8px}
-.slip-top .cap{font-weight:700;font-size:15px}
-.slip-top .when{font-size:13.5px;color:var(--soft);margin-left:auto}
-.label{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin:14px 0 6px;display:block}
-.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:0;font-size:14.5px;line-height:1.4}
-.kv dt{font-size:13px;color:var(--soft)}
-.kv dd{margin:0;overflow-wrap:anywhere}
-.bound{border-left:3px solid var(--navy);padding:2px 0 2px 12px;margin-top:6px}
-.decide{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
-.decide .field{flex:1 1 240px;width:auto}
-.tiny-table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px;line-height:1.35}
-.tiny-table th{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--soft);padding:4px 8px 6px 0;border-bottom:1px solid var(--line)}
-.tiny-table td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12.5px;vertical-align:baseline}
-.tiny-table td .tag{font-family:var(--sans)}
-
-/* record */
-.chain{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:4px 0}
-.tag-step{font-family:var(--mono);font-size:12.5px;font-weight:600}
-
-/* rules */
-.counts{display:flex;flex-wrap:wrap;gap:6px 24px;font-size:13px;color:var(--soft)}
-.counts b{font-size:20px;font-weight:600;margin-right:5px;color:var(--ink)}
-.rule-name{font-weight:700;font-size:14.5px;display:block}
-.rule-name.nowrap{white-space:nowrap}
-.t .btn{white-space:nowrap}
-.rule-area{font-family:var(--mono);font-size:12px;color:var(--soft);display:block;margin-top:2px}
-.rule-val{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
-.rule-val.yes{color:var(--wrong);font-weight:600}
-.rule-val.act{color:var(--wrong);font-weight:600}
-
-/* score */
-.headline{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--navy);border-radius:12px;padding:16px 18px;margin-bottom:14px}
-.headline p{font-size:15.5px;line-height:1.5}
-.headline p+p{margin-top:6px}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:0 0 8px}
-.tile{padding:14px 18px;background:var(--white);border:1px solid var(--line);border-radius:12px}
-.tile b{display:block;font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.01em;line-height:1.1;font-variant-numeric:tabular-nums}
-.tile b small{font-size:18px;font-weight:600;letter-spacing:0;color:var(--soft)}
-.tile span{display:block;font-size:14px;line-height:1.35;margin-top:4px;color:var(--soft)}
-.barblock{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin-top:14px}
-.barblock h3{font-family:var(--serif);font-size:18px;font-weight:600;margin:0}
-.bar{display:flex;gap:2px;height:12px;margin:10px 0 8px}
-.bar i{display:block;height:100%;min-width:3px}
-.bar i:first-child{border-radius:4px 0 0 4px}.bar i:last-child{border-radius:0 4px 4px 0}.bar i:only-child{border-radius:4px}
-.bar .match{background:var(--match)}.bar .wrong{background:var(--wrong)}.bar .refused{background:#c98f22}.bar .passed{background:var(--ink)}
-.barkey{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:14px;line-height:1.35}
-.barkey i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
-.barkey b{font-size:14px;font-weight:700;margin-right:4px;font-variant-numeric:tabular-nums}
-.barkey .match{background:var(--match)}.barkey .wrong{background:var(--wrong)}.barkey .refused{background:#c98f22}.barkey .passed{background:var(--ink)}
-.meter{height:7px;background:var(--line);border-radius:4px;overflow:hidden;min-width:70px;margin-top:6px}
-.meter i{display:block;height:100%;background:var(--match)}
-
-.skeleton{font-size:13.5px;color:var(--soft);padding:12px 0}
-.tcard .skeleton{padding:14px 18px}
-.skeleton::after{content:"";display:inline-block;width:7px;height:7px;background:var(--navy);border-radius:50%;margin-left:8px;animation:pulse 1.1s ease-in-out infinite}
-@keyframes pulse{50%{opacity:.25}}
-
-/* ---------- one quiet system: fewer boxes, one spacing scale, one button style ---------- */
-.wrap{padding-top:24px}
-.head{margin-bottom:18px}
-.head>.linkish{display:inline-block;margin-bottom:8px}
-.controls{margin-bottom:10px}
-.chips{gap:6px;margin:0 0 12px}
-.chip{border-color:var(--line);color:var(--soft);padding:5px 12px;min-height:32px}
-.chip-tag{font-weight:400;font-size:11px;color:#6b7a90;margin-left:6px}
-.chips-kicker{font-size:12.5px;color:var(--soft);margin:12px 0 6px;letter-spacing:0;text-transform:none;font-weight:400}
-.btn{min-height:40px;padding:8px 16px}
-.memo-label{flex-wrap:wrap;gap:6px 10px;justify-content:flex-start;margin-bottom:10px}
-.memo-label #memoEdit{margin-left:auto}
-.label-slot:empty{display:none}
-.prompt{box-shadow:0 6px 22px rgba(23,43,70,.07)}
-.prompt textarea{min-height:180px}
-#askInput,#createInput{min-height:64px}
-.prompt-foot{border-top:0;padding-top:0}
-/* labels */
-.pills{margin:0 0 10px}
-.label-slot .pills{margin:0}
-.pill-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.pill{position:relative;border:0;cursor:help;font-family:inherit}
-.pill::after{content:"";position:absolute;inset:-12px -2px}
-.pill[aria-expanded=true]{box-shadow:inset 0 0 0 1px currentColor}
-.pill-detail{font-size:13px;color:var(--soft);margin-top:6px;line-height:1.4;flex-basis:100%}
-.label-slot{display:flex;flex-wrap:wrap}
-/* details */
-.more{margin-top:10px;font-size:13.5px}
-.more>summary{cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:28px;font-size:12.5px;font-weight:600;color:var(--soft);list-style:none}
-.more>summary::-webkit-details-marker{display:none}
-.more>summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;border-top:4px solid transparent;border-bottom:4px solid transparent;transition:transform .12s}
-.more[open]>summary::before{transform:rotate(90deg)}
-.more>summary:hover{color:var(--navy)}
-.more .kv{margin-top:6px;font-size:13.5px}
-.more .t{margin-top:6px}
-.lines-box{margin-top:12px}
-/* result */
-.prompt .tally{margin:12px 0 0}
-.tally{margin:14px 0 6px}
-.release{background:none;border:0;padding:0;margin:14px 0}
-.release.ok{border:0}
-.release .fixrow{margin:0}
-.tcard{box-shadow:none}
-.tcard .more{padding:0 18px 12px}
-.msg{background:none;border:0;padding:6px 0;color:var(--soft)}
-.tcard .msg{padding:14px 18px}
-.msg.bad{background:var(--wrong-bg);border:0;padding:12px 14px;border-radius:8px}
-/* the right column */
-.proof{box-shadow:none;flex:1 1 0}
-.viewer{flex:1 1 0}
-.has-proof .panel{flex:0 0 auto;max-height:50%}
-.card{padding:12px 16px;max-height:44%;overflow:auto}
-.card .why{margin-bottom:4px}
-.card-foot{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 12px}
-.card-foot .more{margin-top:0;flex:1 1 100%}
-.facts{font-size:12.5px}
-.legend{padding:5px 16px}
-.panel{padding:14px 16px}
-.panel-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:2px solid var(--navy);padding-bottom:7px}
-.panel-title{border:0;padding:0;font-size:18px}
-.panel-toggle,.panel-all{font-size:12.5px;font-weight:600;color:var(--soft);min-height:24px}
-.panel-all{margin-top:6px}
-.steps{margin-top:12px}
-.step{padding-bottom:12px}
-.panel.collapsed .steps,.panel.collapsed .panel-all{display:none}
-.panel.collapsed .panel-top{border-bottom:0;padding-bottom:0}
-.panel.active .step:not(.on){display:none}
-.panel.active .step.on .step-text{display:none}
-.panel.active .step.on:not(:has(~ .step.on))::before{display:none}
-.panel.active .step{padding-bottom:7px;grid-template-columns:24px minmax(0,1fr)}
-.panel.active .step:not(:last-child)::before{left:11px;top:26px}
-.panel.active .step-mark{width:24px;height:24px;font-size:12px}
-.panel.active .step-name{padding-top:2px;font-size:13.5px}
-/* ask */
-.answer{border:0;padding:14px 16px}
-.turn.past .bubble{background:var(--tint);color:var(--navy)}
-.turn.past .answer{background:none;padding:2px 2px 0 2px}
-.turn.past .memo,.turn.past .pills,.turn.past .tally{opacity:.85}
-.turn.past .memo{font-size:14.5px;line-height:1.9;color:var(--soft)}
-.turn.past .tally{margin:8px 0 2px;font-size:12.5px}
-.turn.past .tally b{font-size:15px}
-.turn.past .release.blocked,.turn.past .pill-bar .stamp.ink{display:none}
-.turn{margin-bottom:18px}
-.lines{border-top:0}
-.house-note{border:0;margin:4px 0 8px}
-.house-money{font-size:34px;margin:6px 0 0}
-.ask-new{margin-top:6px}
-.answer-result .more{margin-top:8px}
-/* create */
-.gallery{gap:8px;margin-bottom:14px}
-.gallery-card{border-color:var(--line);padding:10px 12px;font-size:13.5px}
-.gallery-line{display:block;color:var(--soft);line-height:1.35}
-.gallery-tag{display:block;margin-top:4px;font-size:11.5px;color:#6b7a90}
-#createResult:not(:empty){margin-top:14px}
+.gallery{margin:0 0 22px;border-bottom:1px solid var(--hair)}
+.gallery-row{display:grid;grid-template-columns:215px minmax(0,1fr) auto;gap:0 14px;align-items:baseline;width:100%;min-height:44px;padding:11px 10px 10px;background:none;border:0;border-top:1px solid var(--hair);text-align:left;cursor:pointer;transition:background .12s}
+.gallery-row:hover{background:rgba(255,255,255,.4)}
+.gallery-row[aria-pressed=true]{background:rgba(255,255,255,.55);box-shadow:inset 3px 0 0 var(--navy)}
+.gallery-row:focus-visible{outline-offset:-2px}
+.gallery-name{font-family:var(--serif);font-size:16.5px;font-weight:500;line-height:1.3}
+.gallery-line{font-size:var(--t-small);color:var(--soft);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gallery-meta{display:inline-flex;justify-content:flex-end;align-items:baseline;gap:8px;min-width:72px}
+.gallery-filing{font-size:12px;color:var(--faint);white-space:nowrap}
+.gallery-tag{font-size:11px;font-weight:500;color:var(--navy)}
+.gallery-tag:empty{display:none}
+.gallery-group{font-size:var(--t-micro);font-weight:500;letter-spacing:.04em;color:var(--faint);margin:12px 0 4px}
+#createGallery{margin-bottom:18px}
+#createGallery .gallery{margin:0}
+#v-create .gallery-row{grid-template-columns:215px minmax(0,1fr) auto}
+.assumption{display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:4px 14px;align-items:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--hair)}
+.assumption label{font-size:14px;font-weight:500}
+.assumption input{font-family:var(--mono);text-align:right}
+.assumption .hint{grid-column:1/-1}
+#createResult:not(:empty){margin-top:18px}
+.plugin-title{font-family:var(--serif);font-size:var(--t-head);font-weight:500;line-height:1.25;margin:0}
+.plugin-summary{font-family:var(--serif);font-size:16px;line-height:1.5;margin-top:4px;color:var(--soft)}
+.plugin-card{padding:20px 26px}
+.results{background:var(--sheet);border-radius:4px;box-shadow:var(--lift);margin-top:16px;padding:18px 0 14px}
+.results-title{font-family:var(--serif);font-size:var(--t-sub);font-weight:500;margin:0;padding:0 26px}
+.advice{font-size:14px;font-weight:600;color:var(--refused);margin:6px 0 0;padding:0 26px}
+.advice.installed-advice{padding:0;margin:0 0 6px}
+.results-rows{margin-top:10px}
+.result-row{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.2fr) minmax(0,1.4fr) 64px;gap:0 14px;align-items:baseline;width:100%;min-height:58px;padding:12px 26px;background:none;border:0;border-top:1px solid var(--hair);text-align:left;cursor:pointer;transition:background .12s}
+.result-row:hover{background:var(--sheet-2)}
+.result-row[aria-pressed=true]{background:var(--tint);box-shadow:inset 3px 0 0 var(--navy)}
+.result-row:focus-visible{outline-offset:-2px}
+.result-company{font-family:var(--serif);font-size:17px;font-weight:500}
+.result-period{font-size:var(--t-small);color:var(--soft)}
+.result-value{font-family:var(--mono);font-size:25px;font-weight:500;line-height:1.15}
+.result-reason{font-size:14px;line-height:1.4;color:var(--refused)}
+.result-source{font-size:11.5px;color:var(--faint);text-align:right}
+.results-detail{padding:4px 26px 8px;border-top:1px solid var(--hair)}
+.results-detail:empty{display:none}
+.yours-line{font-size:14px;margin-top:10px;line-height:1.5}
+.installed{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 16px;align-items:center;padding:12px 0;border-top:1px solid var(--hair)}
+.installed:first-child{border-top:0}
+.installed-run{display:flex;flex-wrap:wrap;gap:8px;align-items:end;justify-content:flex-end}
+.installed-out{grid-column:1/-1}
+.installed-yours{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--soft)}
+.installed-yours .field{width:130px;font-family:var(--mono)}
+.company-choice{width:auto;min-width:130px}
+/* the right column here: how a plugin is made, until a cell is open */
+.explain{margin-top:10px}
+.explain p{font-family:var(--serif);font-size:18px;line-height:1.45;margin:0 0 8px;color:var(--ink)}
+#createDesk .steps,#createDesk .panel-all,#createDesk .panel-toggle{display:none}
+#createDesk.has-proof .panel{display:none}
+#v-create .bench{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:32px;justify-content:stretch}
+#v-create .bench.paired{grid-template-columns:minmax(0,1fr) minmax(0,1.04fr)}
 #v-create .kv{font-size:14px}
 /* approvals */
-.operator{max-width:none;padding:0 0 4px;background:none;border:0;grid-template-columns:minmax(0,320px) auto minmax(0,1fr);align-items:end}
-.operator p{grid-column:auto;font-size:13px;padding-bottom:10px}
-.slip{box-shadow:none;padding:14px 16px;margin:10px 0}
-.slip-top{margin-bottom:2px}
-.slip-top .cap{font-family:var(--serif);font-size:18px;font-weight:600;margin:0;line-height:1.3}
-.slip-summary{font-size:14.5px;color:var(--ink);margin:2px 0 0}
+.operator{display:grid;grid-template-columns:minmax(0,300px) auto minmax(0,1fr);gap:6px 12px;align-items:end;margin:0 0 10px}
+.operator.off{display:block}
+.operator label{font-size:var(--t-small);color:var(--soft);display:block;margin-bottom:4px}
+.operator p{font-size:var(--t-small);line-height:1.4;color:var(--soft);padding-bottom:11px}
+.demo-on .operator{order:5;margin-top:26px;padding-top:16px;border-top:1px solid var(--hair)}
+.slip{padding:20px 26px;margin:12px 0 16px}
+.slip-top{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
+.slip-top .cap{font-family:var(--serif);font-size:var(--t-sub);font-weight:500;margin:0;line-height:1.3}
+.slip-top .when{font-size:var(--t-small);color:var(--faint);margin-left:auto}
+.slip-summary{font-size:15px;margin:4px 0 0}
 .slip-summary:empty{display:none}
-.slip-decision{font-size:13.5px;color:var(--soft);margin-top:4px}
+.slip-decision{font-size:var(--t-small);color:var(--soft);margin-top:6px}
+.slip-body{margin-top:12px}
 .slip-body:empty{display:none}
-.slip-body{margin-top:10px}
-.decide{margin-top:10px;padding-top:0;border-top:0}
-.decide .field{order:3;flex:1 1 220px;max-width:420px}
 .slip .label:first-child{margin-top:0}
-.memo.quiet{padding:0;border:0;background:none}
-/* record, rules, score */
-.how{margin-top:32px}
-.how-lead{font-size:15px;color:var(--soft);max-width:70ch;margin:-4px 0 12px}
-.how-card{border:0}
-.how-card p{font-size:14px}
-.headline{border:0;border-left:3px solid var(--navy);border-radius:0;padding:2px 0 2px 14px;background:none}
-.tile{border:0}
-.barblock{border:0}
-.site-foot{max-width:1480px;margin:0 auto;padding:16px 24px 28px;font-size:12.5px;color:var(--soft);line-height:1.5}
-@media (min-width:1100px){
-  #v-check .bench{min-height:calc(100dvh - var(--top) - 48px)}
-}
+.decide{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:14px}
+.decide .field{order:3;flex:1 1 220px;max-width:420px;width:auto}
+.demo-row{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:14px}
+.demo-row p{flex:1 1 240px;font-size:var(--t-small);line-height:1.45;color:var(--soft)}
+.slip-route{font-size:var(--t-small);color:var(--soft);margin-top:10px}
+.token-route .decide{margin-top:8px}
+/* record */
+.chain{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:0 0 6px}
+.tag-step{font-family:var(--mono);font-size:12.5px;font-weight:500}
+/* rules */
+.counts{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:var(--t-small);color:var(--soft)}
+.counts b{font-family:var(--mono);font-size:16px;font-weight:500;margin-right:5px;color:var(--ink)}
+.rule-name{font-weight:600;font-size:14.5px;display:block}
+.rule-name.mono{font-weight:500;font-size:13.5px}
+.rule-name.nowrap{white-space:nowrap}
+.rule-area{font-family:var(--mono);font-size:11.5px;color:var(--faint);display:block;margin-top:2px}
+.rule-val{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.rule-val.yes,.rule-val.act{color:var(--ink);font-weight:500}
+.t .btn{white-space:nowrap}
+/* score */
+.headline{padding:0 0 4px;margin-bottom:16px}
+.headline p{font-family:var(--serif);font-size:var(--t-sub);line-height:1.5}
+.headline p+p{margin-top:8px}
+.headline p.soft{font-size:15.5px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:0 0 8px}
+.tile{padding:14px 18px;background:var(--sheet);border-radius:4px;box-shadow:var(--lift)}
+.tile b{display:block;font-family:var(--mono);font-size:27px;font-weight:500;line-height:1.15}
+.tile b small{font-size:14px;font-weight:400;color:var(--soft)}
+.tile span{display:block;font-size:var(--t-small);line-height:1.35;margin-top:5px;color:var(--soft)}
+.barblock{background:var(--sheet);border-radius:4px;box-shadow:var(--lift);padding:16px 22px;margin-top:14px}
+.barblock h3{font-family:var(--serif);font-size:var(--t-sub);font-weight:500;margin:0}
+.bar{display:flex;gap:2px;height:10px;margin:10px 0 8px}
+.bar i{display:block;height:100%;min-width:3px}
+.bar i:first-child{border-radius:2px 0 0 2px}.bar i:last-child{border-radius:0 2px 2px 0}.bar i:only-child{border-radius:2px}
+.bar .match{background:var(--match)}.bar .wrong{background:var(--wrong)}.bar .refused{background:#c28a20}.bar .passed{background:var(--ink)}
+.barkey{display:flex;flex-wrap:wrap;gap:4px 20px;font-size:14px;line-height:1.35}
+.barkey i{display:inline-block;width:9px;height:9px;border-radius:1px;margin-right:6px}
+.barkey b{font-family:var(--mono);font-size:13.5px;font-weight:500;margin-right:4px}
+.barkey .match{background:var(--match)}.barkey .wrong{background:var(--wrong)}.barkey .refused{background:#c28a20}.barkey .passed{background:var(--ink)}
+.meter{height:5px;background:var(--desk-2);border-radius:3px;overflow:hidden;min-width:70px;margin-top:6px}
+.meter i{display:block;height:100%;background:var(--match)}
+/* how it works, under the fold */
+.how{margin-top:40px}
+.how-lead{font-family:var(--serif);font-size:var(--t-sub);line-height:1.45;color:var(--ink);max-width:62ch;margin:0 0 20px}
+.how-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.how-card b{display:block;font-size:var(--t-micro);font-weight:500;letter-spacing:.13em;color:var(--soft);margin-bottom:6px}
+.how-card p{font-family:var(--serif);font-size:16px;line-height:1.5}
+.how-floor{margin-top:28px;padding-top:20px;border-top:1px solid var(--hair)}
+.how-floor-line{font-family:var(--serif);font-size:var(--t-sub);line-height:1.45;color:var(--ink);max-width:62ch;margin:0}
+.how-floor-link{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:500;color:var(--ink)}
+.how-floor-scope{font-size:var(--t-small);line-height:1.5;color:var(--soft);max-width:62ch;margin:0}
+.explain p.explain-note{font-family:var(--sans);font-size:var(--t-small);line-height:1.5;color:var(--soft);margin:14px 0 0;max-width:44ch}
+.msg{padding:6px 2px;font-size:14.5px;line-height:1.5;color:var(--soft);margin:8px 0}
+.msg.bad{background:var(--wrong-bg);color:var(--wrong);padding:12px 14px;border-radius:3px}
+.msg .btn{margin-top:10px}
+.tcard .msg{padding:4px 22px 18px;margin:0}
+.skeleton{font-size:var(--t-small);color:var(--soft);padding:12px 2px}
+.tcard .skeleton{padding:4px 22px 18px}
+.skeleton::after{content:"";display:inline-block;width:5px;height:5px;background:var(--navy);border-radius:50%;margin-left:8px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
 
+@media (min-width:1100px){
+  #v-check .bench{min-height:calc(100dvh - var(--top) - 40px)}
+  #v-check .bench.paired{min-height:0}
+}
 @media (max-width:1099px){
-  .bench{grid-template-columns:minmax(0,1fr);gap:20px}
-  .side{position:static}
+  .bench,.bench.paired,#v-create .bench,#v-create .bench.paired{grid-template-columns:minmax(0,1fr);gap:20px}
+  .bench.paired .side{position:static}
   .side.has-proof{height:auto}
   .proof{flex:none}
-  .viewer{flex:none;height:min(72vh,560px);max-height:none}
+  .viewer{flex:none;height:min(72vh,560px)}
   .card{max-height:none}
-  .has-proof .panel{max-height:none}
   .back{display:inline-flex}
   .how-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media (min-width:861px) and (max-width:1020px){
+@media (min-width:861px) and (max-width:1060px){
   .model{display:none}
-}
-@media (max-width:860px){
-  .top{flex-wrap:wrap;padding:6px 14px}
-  .menu{display:inline-flex;order:3}
-  .model{order:2}
-  .bubble{max-width:90%}
-  .nav{display:none;order:4;width:100%;flex-direction:column;padding:4px 0 8px}
-  .nav.open{display:flex}
-  .nav a{min-height:44px;font-size:14px}
 }
 @media (max-width:900px){
   .t thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
   .t,.t tbody{display:block}
-  .t tr{display:block;padding:10px 16px;border-bottom:1px solid var(--line)}
-  .t tr:last-child{border-bottom:0}
+  .t tr{display:block;padding:10px 22px;border-top:1px solid var(--hair)}
   .t td,.t td:first-child,.t td:last-child{display:grid;grid-template-columns:6.4em minmax(0,1fr);gap:0 10px;padding:3px 0;border:0}
   .t td.blank{display:none}
-  .t td::before{content:attr(data-label);font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);padding-top:2px}
+  .t td::before{content:attr(data-label);font-size:var(--t-micro);color:var(--faint);padding-top:2px}
+}
+@media (max-width:860px){
+  .top{flex-wrap:wrap;padding:6px 16px;gap:0 12px}
+  .menu{display:inline-flex;order:3;margin-left:0}
+  .mode{order:2;margin-left:auto}
+  .model{order:2}
+  .mode-note{text-align:left;order:5;margin:0 0 6px}
+  .nav{display:none;order:6;flex-basis:100%;flex-direction:column;align-items:stretch;padding:4px 0 10px}
+  .nav.open{display:flex}
+  .nav a,.nav a.quiet{min-height:44px;font-size:15px;padding:0 4px;border-bottom:0}
+  .nav a[aria-current=page]{font-weight:600}
+  .nav a.first-quiet{margin-left:0}
+  .bubble{max-width:90%}
 }
 @media (max-width:760px){
-  body{font-size:15px}
-  .wrap{padding:20px 16px 44px}
-  h1{font-size:30px}
+  :root{--t-title:31px;--t-page:18px}
+  .wrap{padding:18px 16px 40px}
+  .site-foot{padding:10px 16px 24px}
+  .site-foot a,.site-foot .linkish{display:inline-flex;align-items:center;min-height:44px}
   .tabs{width:100%}
   .tabs button{flex:1 1 0;min-height:44px;padding:5px 4px;min-width:0}
-  .chip{min-height:44px;padding:8px 14px}
-  .house-note details summary{min-height:44px}
-  .answer{padding:14px}
-  .linkish{min-height:44px}
-  .more>summary,.panel-toggle,.panel-all,.method .tabs button{min-height:44px}
-  .operator p{padding-bottom:0}
-  .site-foot a{display:inline-flex;align-items:center;min-height:44px}
-  .site-foot{padding:8px 16px 24px}
+  .tabs button:first-child{padding-left:4px}
+  .chip{min-height:44px;padding:8px 12px}
+  .linkish,.next-off{min-height:44px}
+  .mode button{min-height:44px;padding:3px 12px}
+  .mode{padding:0}
+  .needs .btn{min-height:44px;width:100%}
+  .gallery-row,#v-create .gallery-row{grid-template-columns:minmax(0,1fr) auto;gap:1px 12px;padding:10px 8px}
+  .assumption{grid-template-columns:minmax(0,1fr)}
+  .result-row{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 18px}
+  .result-period{grid-column:1;grid-row:2}
+  .result-value,.result-reason{grid-column:1 / -1;grid-row:3}
+  .result-source{grid-column:2;grid-row:1}
+  .results-title,.advice{padding:0 18px}
+  .advice.installed-advice{padding:0}
+  .results-detail{padding:4px 18px 8px}
+  .installed{grid-template-columns:minmax(0,1fr)}
+  .installed-run{justify-content:flex-start}
+  .installed-run .field,.installed-run .btn,.installed-yours{width:100%}
+  .installed-yours .field{width:100%}
+  .gallery-name{grid-column:1;grid-row:1}
+  .gallery-meta{grid-column:2;grid-row:1}
+  .gallery-line{grid-column:1 / -1;grid-row:2;white-space:normal}
+  .more>summary,.panel-toggle,.panel-all,.house-note details summary,.zoom{min-height:44px}
   .btn{min-height:44px}
-  .prompt{padding:14px 14px 12px}
-  .prompt textarea{font-size:16px}
+  .prompt{padding:18px 18px 16px}
+  .prompt textarea{min-height:190px}
   .prompt-foot .btn{width:100%}
-  .memo{font-size:16px;line-height:2.8}
-  .prompt .memo{line-height:2.8}
+  .memo{line-height:2.6}
   .memo.quiet{line-height:2.1;font-size:15px}
+  .answer{padding:16px 18px}
+  .answer .memo,.turn.past .memo{line-height:2.6;font-size:16.5px}
   .ledger td{padding:2px 8px}
-  .ledger th{padding:8px}
-  .ledger th:first-child,.ledger td:first-child{padding-left:14px}
-  .ledger th:last-child,.ledger td:last-child{padding-right:14px}
+  .ledger th{padding:6px 8px}
+  .ledger th:first-child,.ledger td:first-child{padding-left:16px}
+  .ledger th:last-child,.ledger td:last-child{padding-right:16px}
   .ledger .col-row{display:none}
   .pick{min-height:44px;min-width:44px;padding:10px 0 2px}
   .sub{display:block}
-  .zoom{min-height:44px}
-  .legend{padding:8px 14px}
-  .card{padding:14px}
+  .line-pick{min-height:44px}
+  .legend{padding:6px 16px}
+  .card{padding:14px 16px 8px}
+  .input-btn{min-height:44px}
+  .tcard-top{padding:14px 16px 8px}
+  .tcard-body{padding:4px 16px 16px}
+  .tcard .more{padding:0 16px 10px}
+  .t tr{padding:10px 16px}
+  .tcard-aside{margin-left:0;width:100%}
   .operator{grid-template-columns:minmax(0,1fr)}
-  .operator .btn,.decide .btn,.fixrow .btn,.release .btn{width:100%}
-  .decide .field{flex-basis:100%}
+  .operator p{padding-bottom:0}
+  .operator .btn,.decide .btn,.release .btn,.demo-row .btn{width:100%}
+  .decide .field{flex-basis:100%;max-width:none}
+  .slip{padding:16px 18px}
   .slip-top .when{margin-left:0;width:100%}
   .how-grid{grid-template-columns:minmax(0,1fr)}
   .t a.open{min-height:44px}
   main a:not(.btn):not(.open){display:inline-flex;align-items:center;min-height:44px}
-  .tcard-aside{margin-left:0;width:100%}
+  .next{flex-wrap:wrap}
 }
 @media (max-width:520px){
   .model{display:none}
-  .menu{margin-left:auto}
 }
-/* Keyboard focus must stay visible even where a container clips its children. */
-.tabs button:focus-visible,.viewer:focus-visible{outline-offset:-3px}
+.tabs button:focus-visible{outline-offset:-2px}
 button.fig:focus-visible{outline-offset:4px}
-.field:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-
+.field:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto!important}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .fig .ring path,.fig .tick path{stroke-dashoffset:0;animation-delay:0s!important}
+  .fig .ring path,.fig .tick path{stroke-dashoffset:0}
 }
 @media (forced-colors:active){
   .nav a[aria-current=page]{outline:2px solid CanvasText}
@@ -595,7 +610,7 @@ button.fig:focus-visible{outline-offset:4px}
 <div class="vh" id="announce" role="status"></div>
 <header class="top">
   <a class="brand" href="#/check">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#214d83" d="M4 2.500h16a1 1 0 0 1 1 1V21l-3-1.800-3 1.800-3-1.800L9 21l-3-1.800L3 21V3.500a1 1 0 0 1 1-1z"/><path fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" d="M7.500 10.500l3 3 6-6"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#14233a" d="M4 2.500h16a1 1 0 0 1 1 1V21l-3-1.800-3 1.800-3-1.800L9 21l-3-1.800L3 21V3.500a1 1 0 0 1 1-1z"/><path fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" d="M7.500 10.500l3 3 6-6"/></svg>
     Finguard
   </a>
   <button class="menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">
@@ -606,12 +621,17 @@ button.fig:focus-visible{outline-offset:4px}
     <a href="#/check" data-r="check">Check</a>
     <a href="#/ask" data-r="ask">Ask</a>
     <a href="#/create" data-r="create">Create</a>
-    <a href="#/approvals" data-r="approvals">Approvals<span class="badge" id="pendingBadge" hidden></span></a>
-    <a href="#/record" data-r="record">Record</a>
-    <a href="#/rules" data-r="rules">Rules</a>
-    <a href="#/score" data-r="score">Score</a>
+    <a class="quiet first-quiet" href="#/approvals" data-r="approvals">Approvals<span class="badge" id="pendingBadge" hidden></span></a>
+    <a class="quiet" href="#/record" data-r="record">Record</a>
+    <a class="quiet" href="#/rules" data-r="rules">Rules</a>
+    <a class="quiet" href="#/score" data-r="score">Score</a>
   </nav>
+  <div class="mode" id="modeSwitch" role="group" aria-label="Demo or Live">
+    <button id="modeDemo" type="button" title="Real Muse replies, recorded. Instant and free.">Demo</button>
+    <button id="modeLive" type="button" title="Muse answers now. About a minute.">Live</button>
+  </div>
   <span class="model" id="modelName" hidden></span>
+  <p class="mode-note" id="modeNote" role="status" hidden></p>
 </header>
 
 <main id="main">
@@ -623,21 +643,21 @@ button.fig:focus-visible{outline-offset:4px}
       <div class="col">
         <header class="head">
           <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
-          <h1 tabindex="-1">Check a memo</h1>
+          <h1 tabindex="-1">Check an investment memo</h1>
           <p class="lede">Every number gets a receipt from the filing, or a refusal.</p>
         </header>
         <div class="controls">
           <div class="tabs" id="checkTabs" role="group" aria-label="Filing to check against"></div>
           <span class="doc" id="checkDoc"></span>
         </div>
-        <div class="chips" id="checkChips" role="group" aria-label="Saved memos for this filing"></div>
+        <div class="chips" id="checkChips" role="group" aria-label="Sample memos for this filing"></div>
         <div class="prompt">
           <div class="memo-label">
-            <label for="memoInput" id="memoLabel">Memo</label>
+            <label for="memoInput" id="memoLabel">Investment memo</label>
             <div class="label-slot" id="checkLabels"></div>
-            <button class="linkish" id="memoEdit" type="button" hidden>Edit memo</button>
+            <button class="linkish" id="memoEdit" type="button" hidden>Try to fool it: edit the investment memo</button>
           </div>
-          <textarea id="memoInput" spellcheck="false" placeholder="Paste a memo that cites this filing."></textarea>
+          <textarea id="memoInput" spellcheck="false" placeholder="Paste an investment memo that cites this filing."></textarea>
           <div id="checkMemoSlot"></div>
           <div class="prompt-foot" id="checkGo">
             <div class="prompt-note">
@@ -647,6 +667,7 @@ button.fig:focus-visible{outline-offset:4px}
             <button class="btn primary" id="checkRun" type="button">Check every number <span aria-hidden="true">→</span></button>
           </div>
         </div>
+        <div data-guide-slot="check"></div>
         <div class="clock" id="checkClock" hidden></div>
         <div class="fix-home" id="checkFixHome"><div class="fixrow" id="checkFix" hidden></div></div>
         <div id="checkResult"></div>
@@ -658,9 +679,14 @@ button.fig:focus-visible{outline-offset:4px}
       <p class="how-lead">Everything is a plugin, and every plugin states its trust rules in code. Muse proposes, code verifies, a person releases.</p>
       <div class="how-grid">
         <div class="how-card"><b>LIST</b><p>Muse lists every claim, word for word. It fixes nothing.</p></div>
-        <div class="how-card"><b>POINT</b><p>Muse points to where the filing reports it. It never sees the memo's number.</p></div>
+        <div class="how-card"><b>POINT</b><p>Muse points to where the filing reports it. It never sees the investment memo's number.</p></div>
         <div class="how-card"><b>READ</b><p>Code reads the PDF's own text and gives the verdict. Muse has no vote.</p></div>
         <div class="how-card"><b>RELEASE</b><p>Every number must match. Then a person approves.</p></div>
+      </div>
+      <div class="how-floor">
+        <p class="how-floor-line">Checking is the floor. Build your fund's rules, valuation methods and workflows on top.</p>
+        <a class="how-floor-link" href="#/create">Create a plugin</a>
+        <p class="how-floor-scope">Create writes methods that give one number. Anything bigger is a Python plugin. A person writes workflows.</p>
       </div>
     </section>
   </div>
@@ -694,6 +720,7 @@ button.fig:focus-visible{outline-offset:4px}
             <button class="btn primary" id="askRun" type="button">Ask <span aria-hidden="true">→</span></button>
           </div>
         </div>
+        <div data-guide-slot="ask"></div>
         <p class="ask-new"><button class="linkish" id="askNew" type="button" hidden>Start a new conversation</button></p>
       </div>
       <aside class="side" id="askDesk" aria-label="How the number was checked, and the proof"></aside>
@@ -709,17 +736,18 @@ button.fig:focus-visible{outline-offset:4px}
         <header class="head">
           <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
           <h1 tabindex="-1">Create a plugin</h1>
-          <p class="lede">Describe a check. Muse writes the plugin as data. You approve it.</p>
+          <p class="lede">Your fund's methods, as plugins. Describe one once, and it runs on every filing.</p>
         </header>
         <div class="msg" id="createMissing" hidden></div>
         <div id="createGallery"></div>
-        <div class="controls">
-          <div class="tabs" id="createTabs" role="group" aria-label="Filing to try it on"></div>
-          <span class="doc" id="createDoc"></span>
-        </div>
         <div class="prompt">
-          <div class="memo-label"><label for="createInput">What should it check?</label></div>
-          <textarea id="createInput" spellcheck="false" placeholder="Pick an example above, or describe a check in your own words."></textarea>
+          <div class="memo-label"><label for="createInput">Describe the method</label></div>
+          <textarea id="createInput" spellcheck="false" placeholder="Pick an example above, or describe a method in your own words."></textarea>
+          <div class="assumption" id="createAssumption" hidden>
+            <label for="assumptionInput" id="assumptionLabel"></label>
+            <input class="field" id="assumptionInput" autocomplete="off" inputmode="decimal">
+            <p class="hint" id="assumptionMark"></p>
+          </div>
           <div class="prompt-foot">
             <div class="prompt-note">
               <p class="hint" id="createHint" hidden></p>
@@ -728,6 +756,7 @@ button.fig:focus-visible{outline-offset:4px}
             <button class="btn primary" id="createRun" type="button">Write the plugin <span aria-hidden="true">→</span></button>
           </div>
         </div>
+        <div data-guide-slot="create"></div>
         <div class="clock" id="createClock" hidden></div>
         <div id="createResult"></div>
         <div id="createInstalled"></div>
@@ -745,6 +774,7 @@ button.fig:focus-visible{outline-offset:4px}
       <h1 tabindex="-1">Approvals</h1>
       <p class="lede">Nothing leaves until a person says yes.</p>
     </header>
+    <div data-guide-slot="approvals"></div>
     <div class="operator" id="operatorBox">
       <div id="operatorField">
         <label for="operatorToken">Operator token</label>
@@ -771,6 +801,7 @@ button.fig:focus-visible{outline-offset:4px}
     <div id="recordLines"></div>
   </div>
   <div class="wrap narrow" id="recordRelease" hidden>
+    <div data-guide-slot="release"></div>
     <div id="recordReleaseBody"></div>
   </div>
   <div class="wrap" id="recordRun" hidden>
@@ -812,9 +843,14 @@ button.fig:focus-visible{outline-offset:4px}
 </section>
 
 </main>
+<div class="next" id="nextGuide" hidden>
+  <span class="next-label">Next</span>
+  <span class="next-text" id="nextText"></span>
+  <button class="next-off" id="nextOff" type="button">Hide</button>
+</div>
 <footer class="site-foot">
   <p>Built for the Meta Global AI Developer Hackathon. <a href="https://github.com/0xtigerclaw/finguard">Source</a>.</p>
-  <p>Inspired by DeepSeek Harness. No code shared.</p>
+  <p>Inspired by DeepSeek Harness. <button class="linkish" id="nextOn" type="button" hidden>Show the guide</button></p>
 </footer>
 
 <script>
@@ -889,6 +925,62 @@ function setModel(model) {
   box.textContent = m ? `Muse Spark ${m[1]} on Meta` : String(model);
   box.hidden = false;
 }
+/* Demo runs only what makes no call to Muse. Live sends live: true on every check, ask and create. */
+const MODE_KEY = "finguard.mode";
+let MODE = "demo";
+function modeLoad() {
+  try { if (localStorage.getItem(MODE_KEY) === "live") MODE = "live"; } catch (e) { /* no storage: Demo */ }
+}
+const liveOn = () => !!(START && START.live);
+const isLive = () => MODE === "live" && liveOn();
+const liveParam = () => isLive() ? {live: true} : {};
+function modeDraw(note) {
+  const live = isLive();
+  $("modeDemo").setAttribute("aria-pressed", String(!live));
+  $("modeLive").setAttribute("aria-pressed", String(live));
+  const off = !!START && !START.live;
+  if (off) $("modeLive").setAttribute("aria-disabled", "true"); else $("modeLive").removeAttribute("aria-disabled");
+  $("modeLive").title = off ? "Live is off on this server." : "Muse answers now. About a minute.";
+  document.body.classList.toggle("live-mode", live);
+  const words = note || (live ? "Live. Muse answers now. About a minute." : "");
+  $("modeNote").textContent = words;
+  $("modeNote").hidden = !words;
+}
+function setMode(mode) {
+  if (mode === "live" && !liveOn()) { modeDraw("Live is off on this server."); return false; }
+  MODE = mode;
+  try { localStorage.setItem(MODE_KEY, mode); } catch (e) { /* nothing to keep */ }
+  modeDraw();
+  clearNeeds();
+  if (check.filing) updateMemoHint();
+  if (ask.filing) { drawAskChips(); drawAskHint(); }
+  drawCreateHint();
+  drawGalleryTags();
+  return true;
+}
+/* The offer goes as soon as the mode or the text changes. */
+function clearNeeds() {
+  for (const id of ["checkState", "createState"]) {
+    const box = $(id);
+    if (box.querySelector(".needs")) { box.textContent = ""; box.className = "state"; }
+  }
+}
+/* What Demo says when a request would need Muse. Nothing is sent. */
+function needsMuse(run) {
+  const box = el("span", "needs", el("span", "", "This one needs Muse."));
+  if (liveOn()) {
+    const go = el("button", "btn primary", "Switch to Live and run"); go.type = "button";
+    go.onclick = () => { if (setMode("live")) run(); };
+    box.append(go);
+  } else box.append(el("span", "", "Live is off on this server."));
+  return box;
+}
+function backToDemo(then) {
+  const b = el("button", "linkish", "Back to Demo"); b.type = "button"; b.style.marginLeft = "6px";
+  b.onclick = () => { setMode("demo"); if (then) then(); };
+  return b;
+}
+const isLimit = words => /limit|live is off/i.test(words || "");
 const filingById = id => (START && START.filings || []).find(f => f.id === id) || null;
 
 /* ---------- small shared pieces ---------- */
@@ -1043,7 +1135,7 @@ function tcard(title, body, aside) {
 }
 const STEPS = [
   ["Claims", "Muse lists the numbers."],
-  ["Pointer", "Muse points to the cell. It is never told the memo's number."],
+  ["Pointer", "Muse points to the cell. It is never told the investment memo's number."],
   ["Code", "Code reads the PDF's own text."],
   ["Verdict", "Match, wrong or refused."],
   ["Method", "A house rule can read a true number differently. It never changes the verdict."],
@@ -1051,8 +1143,8 @@ const STEPS = [
 ];
 const CREATE_STEPS = [
   ["Request", "You describe the check."],
-  ["Definition", "Muse writes it as data, not code."],
-  ["Dry run", "Code reads each cell and does the sum."],
+  ["Plugin", "Muse writes it as data, not code."],
+  ["Run", "Code reads each cell and does the sum."],
   ["Person", "Nothing installs until a person approves."],
 ];
 const hasBox = b => Array.isArray(b) && b.length === 4;
@@ -1068,7 +1160,7 @@ function inputButtons(inputs, onPick) {
   const box = el("div", "inputs");
   (inputs || []).filter(i => Number.isInteger(i.page) && hasBox(i.box)).forEach(input => {
     const b = el("button", "input-btn", el("span", "input-row", input.row || input.key || "Cell"),
-      el("span", "input-val", el("span", "mono", String(input.printed ?? "")), input.money ? ` ${input.money}` : ""));
+      el("span", "input-val", input.money || String(input.printed ?? ""), input.money && input.printed != null ? el("span", "input-printed", ` printed as ${input.printed}`) : ""));
     b.type = "button";
     b.setAttribute("aria-pressed", "false");
     b.setAttribute("aria-label", `${input.row || input.key || "Cell"}, printed ${input.printed ?? ""}. Show it on the filing page.`);
@@ -1102,14 +1194,16 @@ function cellItem(input, {column, why, method} = {}) {
     codeRead: true, page: input.page, box: input.box, muse_box: [],
     value_text: input.row || input.key || "This cell",
     source_text: input.printed, source_money: input.money, row: input.row, column: input.column || column,
-    why: why || `Code read ${input.printed ?? "this cell"}${input.money ? ` (${input.money})` : ""}${where ? ` in ${where}` : ""}.`,
+    why: why || `Code read ${input.money ? `${input.money} (printed as ${input.printed ?? ""})` : (input.printed ?? "this cell")}${where ? ` in ${where}` : ""}.`,
     method,
   };
 }
 /* What each step can truly say. A step with no data stays null, and stays neutral. */
 function codeStep(r) {
   const where = [r.row, r.column].filter(Boolean).join(", ");
-  return r.source_text ? {text: `Printed ${r.source_text}${where ? ` in ${where}` : ""}`, code: true} : null;
+  if (!r.source_text) return null;
+  const read = r.source_money ? `${r.source_money}, printed as ${r.source_text}` : `Printed ${r.source_text}`;
+  return {text: `${read}${where ? `, in ${where}` : ""}`, code: true};
 }
 function stepValues(r, person) {
   const code = codeStep(r);
@@ -1130,9 +1224,9 @@ const createStepValues = r => [null, null, codeStep(r), null];
 function personWords(a) {
   const who = WHO[a.decided_by] || a.decided_by || "";
   if (a.status === "pending") return "Waiting for a person.";
-  if (a.status === "approved") return who ? `Approved by ${who.replace(/^The /, "the ")}.` : "Approved.";
-  if (a.status === "used") return who ? `Approved by ${who.replace(/^The /, "the ")}, and released.` : "Approved, and released.";
-  if (a.status === "rejected") return who ? `Rejected by ${who.replace(/^The /, "the ")}.` : "Rejected.";
+  if (a.status === "approved") return who ? `Approved by ${lowerWho(who)}.` : "Approved.";
+  if (a.status === "used") return who ? `Approved by ${lowerWho(who)}, and released.` : "Approved, and released.";
+  if (a.status === "rejected") return who ? `Rejected by ${lowerWho(who)}.` : "Rejected.";
   return null;
 }
 /* The right column: proof first, then the timeline, reduced to the steps with data. Several benches can share one desk. */
@@ -1144,7 +1238,7 @@ function crossNode(box, tone) {
   const [x0, y0, x1, y1] = box.map(Number);
   const L = Math.max(0, x0 - 8), R = Math.min(1000, x1 + 8), T = Math.max(0, y0 - 5), B = Math.min(1000, y1 + 5);
   const top = Math.max(0, T - 260), fade = Math.min(100, T - top);
-  const dim = "#172b46", dimAlpha = "0.3";
+  const dim = "#14233a", dimAlpha = "0.13";
   const cross = make("svg", {class: `cross ${tone}`, viewBox: "0 0 1000 1000", preserveAspectRatio: "none", "aria-hidden": "true"});
   const id = `cross-fade-${++crossCount}`;
   const defs = make("defs", {}), grad = make("linearGradient", {id, x1: "0", y1: "0", x2: "0", y2: "1"});
@@ -1156,7 +1250,7 @@ function crossNode(box, tone) {
   if (fade > 0) cross.append(make("rect", {x: L, y: top, width: R - L, height: fade, fill: `url(#${id})`}));
   return cross;
 }
-function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each number is checked", activeTitle = "How this number was checked"} = {}) {
+function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each number is checked", activeTitle = "How this number was checked", intro = null, introNote = null} = {}) {
   let current = null, opts = {}, owner = null, zoomFit = false, reveal = null, userCollapsed = null, showAll = false;
   const card = el("div", "card"); card.setAttribute("aria-live", "polite");
   const legend = el("div", "legend");
@@ -1168,13 +1262,14 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
   const rows = steps.map(([name, sentence], i) => {
     const value = el("p", "step-value");
     const li = el("li", "step", el("span", "step-mark", String(i + 1)), el("div", "", el("p", "step-name", name), el("p", "step-text", sentence), value));
+    li.title = sentence;
     list.append(li);
     return {li, value};
   });
   const heading = el("h2", "panel-title", title);
   const toggle = el("button", "linkish panel-toggle", "Hide steps"); toggle.type = "button";
   const allBtn = el("button", "linkish panel-all", "All steps"); allBtn.type = "button";
-  const panel = el("section", "panel", el("div", "panel-top", heading, toggle), list, allBtn);
+  const panel = el("section", "panel", el("div", "panel-top", heading, toggle), intro ? el("div", "explain", ...intro.map(w => el("p", "", w)), introNote ? el("p", "explain-note", introNote) : null) : null, list, allBtn);
   root.replaceChildren(proof, panel);
   toggle.onclick = () => { userCollapsed = !panel.classList.contains("collapsed"); drawPanel(); };
   allBtn.onclick = () => { showAll = !showAll; drawPanel(); };
@@ -1224,7 +1319,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
     tail.append(moreBox("Details", kv(detail)));
     card.append(tail);
     if (opts.back) {
-      const back = el("button", "btn back", "Back to the memo"); back.type = "button";
+      const back = el("button", "btn back", opts.backLabel || "Back to the investment memo"); back.type = "button";
       back.onclick = opts.back;
       card.append(back);
     }
@@ -1289,12 +1384,13 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
       if (zoomFit) viewer.scrollTo({top: 0, left: 0}); else if (reveal) reveal();
     };
   }
+  const pair = on => { root.classList.toggle("has-proof", on); const bench = root.closest(".bench"); if (bench) bench.classList.toggle("paired", on); };
   function clear() {
     current = null; opts = {}; showAll = false;
     if (owner && owner.deselect) owner.deselect();
     owner = null;
     proof.hidden = true;
-    root.classList.remove("has-proof");
+    pair(false);
     drawSteps(null);
   }
   clear();
@@ -1304,7 +1400,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
       owner = options.owner || null;
       current = item; opts = options;
       proof.hidden = false;
-      root.classList.add("has-proof");
+      pair(true);
       drawCard(item); drawPage(item); drawSteps(item);
       if (options.byUser && stacked()) { proof.scrollIntoView({block: "start"}); if (reveal) reveal(); }
     },
@@ -1355,13 +1451,14 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     me.deselect();
     selected = i;
     const r = receipts[i];
+    if (byUser && (verdictOf(r) === "wrong" || verdictOf(r) === "refused")) guideMark("fool");
     memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
     resultSlot.querySelectorAll("[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); });
     desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, ruleLabel, onInput: input => showCell(input, r.house)});
   }
   function drawTable(box) {
     const table = el("table", "ledger");
-    const head = el("tr", "", el("th", "", "Memo"), el("th", "", "Filing"), el("th", "col-row", "Row"), el("th", "", "Verdict"));
+    const head = el("tr", "", el("th", "", "Investment memo"), el("th", "", "Filing"), el("th", "col-row", "Row"), el("th", "", "Verdict"));
     table.append(el("thead", "", head));
     const rowsBody = el("tbody");
     receipts.forEach((r, i) => {
@@ -1436,6 +1533,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       try {
         const out = await door("memo.release", {check_run_id: runId});
         if (out.status === "needs_approval") {
+          guideMark("approve");
           row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent. Nothing leaves until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
           refreshPending();
           loadPerson();
@@ -1471,7 +1569,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       for (const {r, fig} of notes) fig.setAttribute("aria-label", method ? `${fig.dataset.reported}. ${houseLine(r.house)}` : fig.dataset.reported);
     };
     off.onclick = () => show(false);
-    on.onclick = () => { show(true); if (!notes.some(({i}) => i === selected)) select(notes[0].i, false); };
+    on.onclick = () => { show(true); guideMark("release"); if (!notes.some(({i}) => i === selected)) select(notes[0].i, false); };
     show(false);
     return box;
   }
@@ -1516,7 +1614,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     timer = setTimeout(next, 200);
   }
   /* labels: the plain words that say what kind of run this is */
-  function render({memo, result, id, filing, labels = [], release = true, focusAfter = false, reveal = false}) {
+  function render({memo, result, id, filing, labels = [], release = true, focusAfter = false, reveal = false, onSettled = null}) {
     if (stopReveal) stopReveal(false);
     receipts = Array.isArray(result.receipts) ? result.receipts : [];
     runId = id || null; filingId = filing || result.filing || null; selected = null; person = null; memoText = memo;
@@ -1540,7 +1638,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       if (release) drawRelease(resultSlot, holds);
       if (!lines) {
         if (receipts.length) drawTable(resultSlot);
-        else resultSlot.append(el("p", "msg", "No numbers found in this memo, so nothing to mark."));
+        else resultSlot.append(el("p", "msg", "No numbers found in this investment memo, so nothing to mark."));
       }
     }
     const rec = result.record;
@@ -1563,6 +1661,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       loadPerson();
       const free = !document.activeElement || document.activeElement === document.body;
       if (focusAfter && (free || !reveal)) { const fig = memoSlot.querySelector('.fig[aria-pressed="true"]'); if (fig) fig.focus({preventScroll: true}); }
+      if (onSettled) onSettled();
     };
     if (reveal && tally && memoBox.querySelector(".fig[data-i]") && !reduced()) {
       const later = [...resultSlot.children].filter(n => n !== tally);
@@ -1599,9 +1698,10 @@ function recheckMemo(memo, filingId) {
 function savedLabels(result, isTestMemo) {
   const labels = [];
   if (result.drafted_by_muse) labels.push(["Drafted by Muse", "ink", "Code checked it like any other memo."]);
-  if (isTestMemo) labels.push(["Errors planted", "amber", "A test memo. We planted these errors on purpose."]);
-  if (result.saved) labels.push(["Saved replay", "slate", "Real Muse replies, recorded earlier and played back. No API call."]);
-  else labels.push(["Live run", "green", result.model ? `Muse answered just now, on ${result.model}.` : "Muse answered just now."]);
+  if (isTestMemo) labels.push(["Errors planted", "amber", "A test investment memo. We planted these errors on purpose."]);
+  if (result.saved_pointers) labels.push(["Your number", "slate", "Muse never sees the number, so where it pointed still holds. Code read the same cell and compared yours."]);
+  else if (result.saved) labels.push(["Recorded", "slate", "Real Muse replies, recorded earlier. Code checks them fresh each time."]);
+  else labels.push(["Live", "green", result.model ? `Muse answered just now, on ${result.model}.` : "Muse answered just now."]);
   return labels;
 }
 /* what an outcome from the door means as plain words, for anything but "done" */
@@ -1638,8 +1738,8 @@ function drawCheckChips(f) {
     b.onclick = () => { showCheckInput(memo); $("checkRun").focus(); };
     box.append(b);
   };
-  add("Test memo, errors planted", f.memo);
-  add("Corrected memo", f.corrected);
+  add("Test investment memo, errors planted", f.memo);
+  add("Corrected investment memo", f.corrected);
   box.hidden = !box.children.length;
 }
 function chooseCheckFiling(f) {
@@ -1650,27 +1750,36 @@ function chooseCheckFiling(f) {
 }
 function memoLabelFor(text) {
   const f = check.filing;
-  if (f && f.memo && text.trim() === f.memo.trim()) return "Test memo. Errors planted on purpose.";
-  if (f && f.corrected && text.trim() === f.corrected.trim()) return "The same memo, corrected.";
-  return "Your memo";
+  if (f && f.memo && text.trim() === f.memo.trim()) return "Test investment memo. Errors planted on purpose.";
+  if (f && f.corrected && text.trim() === f.corrected.trim()) return "The same investment memo, corrected.";
+  return "Your investment memo";
 }
+/* A guess for the hint only: are the words the same, with just the numbers changed? The server's result is the truth. */
+const NUMBER = /[$€£]?\d[\d,.]*\s?(?:bn|billion|m|million|k|%)?/gi;
+const skeleton = t => String(t || "").trim().replace(NUMBER, "#").replace(/\s+/g, " ");
+const numbersOnly = (text, f) => !!f && [f.memo, f.corrected].some(base => base && text !== base.trim() && skeleton(text) === skeleton(base));
 function updateMemoHint() {
   const f = check.filing, text = $("memoInput").value.trim(), hint = $("memoHint");
   $("memoLabel").textContent = memoLabelFor($("memoInput").value);
   hint.replaceChildren();
   if (f) drawCheckChips(f);
+  guideDraw();
   if (!f || check.showingResult) { hint.hidden = true; return; }
-  if ((f.memo && text === f.memo.trim()) || (f.corrected && text === f.corrected.trim())) {
-    hint.append("Saved replay. No API call.");
-  } else if (START && !START.live) {
-    hint.append("Live checks are off here. ");
+  if (isLive()) {
+    hint.append("Live. Calls Muse now, about a minute.");
+  } else if ((f.memo && text === f.memo.trim()) || (f.corrected && text === f.corrected.trim())) {
+    hint.append("Recorded. Instant.");
+  } else if (numbersOnly(text, f)) {
+    hint.append("Your number, checked instantly.");
+  } else if (liveOn()) {
+    hint.append("This needs Muse. Switch to Live to run it.");
+  } else {
+    hint.append("This needs Muse. Live is off on this server.");
     if (f.memo) {
-      const back = el("button", "linkish", "Use the saved memo"); back.type = "button";
+      const back = el("button", "linkish", "Use the sample investment memo"); back.type = "button";
       back.onclick = () => showCheckInput(f.memo);
       hint.append(back);
     }
-  } else {
-    hint.append("A new memo is a live check. About two minutes.");
   }
   hint.hidden = false;
 }
@@ -1691,28 +1800,32 @@ async function runCheck() {
   const f = check.filing, memo = $("memoInput").value.trim(), state = $("checkState");
   state.className = "state"; state.textContent = "";
   if (!f) return;
-  if (!memo) { state.textContent = "Paste a memo first."; state.className = "state bad"; $("memoInput").focus(); return; }
+  if (!memo) { state.textContent = "Paste an investment memo first."; state.className = "state bad"; $("memoInput").focus(); return; }
   if (START && memo.length > START.max_memo) { state.textContent = `Keep the memo under ${START.max_memo.toLocaleString("en-GB")} characters.`; state.className = "state bad"; return; }
   const isSaved = (f.memo && memo === f.memo.trim()) || (f.corrected && memo === f.corrected.trim());
+  const pointers = numbersOnly(memo, f);
+  const live = isLive();
+  if (!live && !isSaved && !pointers) { state.replaceChildren(needsMuse(runCheck)); return; }
   homeFix();
   check.running = true;
   setCheckBusy(true);
   const clock = startClock($("checkClock"),
-    isSaved ? "Opening the saved replay." : "Muse is reading. Code checks next.",
-    isSaved ? "No API call." : "Usually about two minutes.",
-    isSaved ? null : {after: 180, words: "Still working. This one is slow."});
-  const unwatch = isSaved ? () => {} : watchRun("memo.check", clock, "Muse is reading. Code checks next.");
+    live ? "Muse is reading. Code checks next." : isSaved ? "Opening the recording." : "Checking your number.",
+    live ? "About a minute." : "Instant.",
+    live ? {after: 180, words: "Still working. This one is slow."} : null);
+  const unwatch = live ? watchRun("memo.check", clock, "Muse is reading. Code checks next.") : () => {};
   try {
-    const out = await door("memo.check", {memo, filing: f.id});
+    const out = await door("memo.check", {memo, filing: f.id, ...liveParam()});
     if (out.status !== "done" || !out.result) throw new ApiError(outcomeWords(out));
     clock.stage("Marking the memo.");
     check.showingResult = true;
     $("memoInput").hidden = true; $("memoEdit").hidden = false; $("checkGo").hidden = true; $("memoHint").hidden = true;
     const isCorrected = f.corrected && memo === f.corrected.trim();
-    $("memoLabel").textContent = isCorrected ? "Corrected memo" : isSaved ? "Test memo" : "Your memo";
-    check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true, reveal: true});
-    if (f.corrected && memo === f.memo.trim()) {
-      const fix = el("button", "btn primary", "Load the corrected memo ", arrow()); fix.type = "button";
+    $("memoLabel").textContent = isCorrected ? "Corrected investment memo" : isSaved ? "Test investment memo" : out.result.saved_pointers ? "Your edit" : "Your investment memo";
+    check.bench.render({memo: out.result.memo || memo, result: out.result, id: out.run_id, filing: f.id, labels: savedLabels(out.result, isSaved && !isCorrected), focusAfter: true, reveal: true, onSettled: guideDraw});
+    guideMark(isCorrected ? "method" : isSaved ? "red" : "corrected");
+    if (f.corrected && !isCorrected) {
+      const fix = el("button", "btn primary", "Load the corrected investment memo ", arrow()); fix.type = "button";
       fix.onclick = () => { showCheckInput(f.corrected); $("checkRun").focus(); };
       $("checkFix").replaceChildren(fix);
       $("checkFix").hidden = false;
@@ -1723,8 +1836,9 @@ async function runCheck() {
     refreshPending();
   } catch (e) {
     state.textContent = e.message; state.className = "state bad";
+    if (isLimit(e.message)) state.append(isLive() ? backToDemo() : "");
   } finally {
-    unwatch(); clock.stop(); check.running = false; setCheckBusy(false);
+    unwatch(); clock.stop(); check.running = false; setCheckBusy(false); guideDraw();
   }
 }
 function setCheckBusy(busy) {
@@ -1785,12 +1899,13 @@ function drawAskChips() {
   if (ask.suggested.length) {
     const saved = nextSaved();
     const row = el("div", "chips");
-    ask.suggested.forEach(q => row.append(questionChip(q, q === saved ? "saved reply" : "live check")));
+    const live = isLive();
+    ask.suggested.forEach(q => row.append(questionChip(q, live ? null : q === saved ? "Recorded" : "Live")));
     box.append(el("p", "chips-kicker", "Ask next. Suggested by Muse, and nothing runs until you click."), row);
   } else if (nextSaved()) {
     const row = el("div", "chips");
-    row.append(questionChip(nextSaved(), "saved reply"));
-    box.append(el("p", "chips-kicker", "Start with a saved question"), row);
+    row.append(questionChip(nextSaved(), isLive() ? null : "Recorded"));
+    box.append(el("p", "chips-kicker", isLive() ? "Start with this question" : "Start with a recorded question"), row);
   }
   const house = HOUSE_CHIPS[f.id];
   if (house) {
@@ -1802,10 +1917,10 @@ function drawAskChips() {
 function drawAskHint() {
   const h = $("askHint"), typed = $("askInput").value.trim();
   h.hidden = false;
-  if (typed && typed === nextSaved()) h.textContent = "Saved reply. No API call.";
-  else h.textContent = START && START.live
-    ? "A live check, unless a house rule answers it. About two minutes."
-    : "Live checks are off here. Saved replies and house rules still run.";
+  if (isLive()) h.textContent = "Live. Calls Muse now, about a minute.";
+  else if (typed && typed === nextSaved()) h.textContent = "Recorded. Instant.";
+  else if (typed) h.textContent = liveOn() ? "This needs Muse, unless a house rule answers it. Switch to Live to run it." : "This needs Muse, unless a house rule answers it. Live is off on this server.";
+  else h.textContent = "Recorded questions and house rules run in Demo.";
 }
 async function drawAskAvailable() {
   const yes = await hasCapability("memo.draft");
@@ -1876,6 +1991,7 @@ function drawRefusedTurn(answer, why) {
 }
 function drawNotRun(answer, why) {
   answer.append(pillRow([["Not run", "red"]]), el("p", "house-rule", why));
+  if (isLimit(why) && isLive()) answer.append(el("p", "", backToDemo(drawAskAvailable)));
   $("announce").textContent = why;
 }
 async function runAsk(text) {
@@ -1899,14 +2015,22 @@ async function runAsk(text) {
     if (rule && !noCapability && rule.status === "refused") { drawRefusedTurn(answer, rule.why); return; }
     if (rule && rule.status === "failed") throw new ApiError(rule.why || "The house rules could not be read.");
     if (rule && !noCapability && rule.result && rule.result.status !== "no_rule") { drawHouseTurn(answer, rule.result, f); return; }
-    const isSaved = question === nextSaved();
-    clock.stage(isSaved ? "Opening the saved replay." : "Muse is writing. Code checks next.");
-    clock.hint(isSaved ? "No API call." : "Usually about two minutes.");
+    const live = isLive(), isSaved = !live && question === nextSaved();
+    if (!live && !isSaved) {
+      // Demo sends nothing to Muse. Take the turn back and offer the switch where the person is looking.
+      const turn = answer.closest(".turn");
+      answer.append(needsMuse(() => { if (turn) turn.remove(); runAsk(question); }));
+      $("announce").textContent = "This one needs Muse.";
+      return;
+    }
+    clock.stage(isSaved ? "Opening the recording." : "Muse is writing. Code checks next.");
+    clock.hint(isSaved ? "Instant." : "About a minute.");
     if (!isSaved) unwatch = watchRun("memo.draft", clock, "Muse is writing. Code checks next.");
-    const params = {filing: f.id, question};
+    const params = {filing: f.id, question, ...liveParam()};
     if (ask.threadId) params.thread_id = ask.threadId;
     const out = await door("memo.draft", params);
     if (out.status !== "done" || !out.result) { drawNotRun(answer, outcomeWords(out)); return; }
+    guideMark("create");
     const r = out.result;
     ask.threadId = r.thread_id || ask.threadId;
     storeThread(ask.threadId);
@@ -1966,22 +2090,49 @@ async function restoreAsk(id) {
 }
 
 /* ---------- Create ---------- */
-const create = {desk: null, filing: null, running: false, last: null};
+const create = {desk: null, running: false, gallery: [], picked: null, spec: null, last: null, timer: null, seq: 0, edited: false};
 const CREATE_MISSING = "Create is not available on this server.";
-function chooseCreateFiling(f) {
-  create.filing = f;
-  markTabs($("createTabs"), f.id);
-  $("createDoc").textContent = docLine(f);
-}
-/* One short line for each gallery card. The full prompt goes in the box when picked. */
-const GALLERY_LINES = {
-  free_cash_flow: "Operating cash less capital spending.",
-  net_debt: "All debt less cash.",
-  gross_margin_check: "Rework margin from sales and costs.",
-  capex_intensity: "Capital spending as a share of revenue.",
-  adjusted_vs_reported_gap: "Adjusted income against the reported loss.",
-};
+const GROUPS = ["Metrics", "Valuation methods"];
 const galleryPrompt = g => typeof g === "string" ? g : (g && (g.prompt || g.text)) || "";
+/* The assumption a gallery row or a result asks for: a key, a label and perhaps an example value. */
+const GALLERY_LINES = {
+  net_debt: "All debt minus cash, on the latest balance sheet.",
+  free_cash_flow: "Cash from operations minus capital spending.",
+  gross_margin_check: "Checks gross margin against the printed one.",
+  capex_intensity: "Capital spending as a share of revenue.",
+  adjusted_gap: "How far an adjusted figure sits from the reported one.",
+  equity_value: "Your enterprise value, minus debt, plus cash.",
+};
+const GALLERY_LABELS = {equity_value: "Enterprise value"};
+const sentenceCase = t => { const s = String(t); return s.charAt(0).toUpperCase() + s.slice(1); };
+const specOf = g => {
+  if (!g) return null;
+  if (g.assumption && g.assumption.label) return {example: g.assumption_example, ...g.assumption};
+  if (!g.assumption_label && !g.assumption_example) return null;
+  return {label: g.assumption_label || GALLERY_LABELS[g.id] || "Your number", example: g.assumption_example};
+};
+function drawAssumption(spec, value) {
+  create.spec = spec || null;
+  create.edited = false;
+  const box = $("createAssumption");
+  box.hidden = !spec;
+  if (!spec) return;
+  $("assumptionLabel").textContent = sentenceCase(spec.label);
+  $("assumptionInput").value = String(value ?? spec.example ?? "");
+  drawAssumptionMark();
+}
+function drawAssumptionMark() {
+  const spec = create.spec;
+  const example = spec ? String(spec.example ?? "") : "";
+  const isExample = !!spec && example !== "" && $("assumptionInput").value.trim() === example.trim();
+  $("assumptionMark").textContent = isExample ? "Your number. This is an example, change it to yours." : "Your number.";
+}
+/* The example stays the server's example: only a number the person typed is sent as theirs. */
+const assumptionParam = () => {
+  const v = create.spec ? $("assumptionInput").value.trim() : "";
+  const example = create.spec ? String(create.spec.example ?? "").trim() : "";
+  return v && v !== example ? {assumption: v} : {};
+};
 async function loadCreate() {
   const gallery = $("createGallery"), installed = $("createInstalled"), missing = $("createMissing");
   const known = await hasCapability("plugins.list");
@@ -1999,81 +2150,122 @@ async function loadCreate() {
   catch (e) { showError(gallery, e.message, loadCreate); return; }
   if (out.status !== "done" || !out.result) { showError(gallery, outcomeWords(out), loadCreate); return; }
   const r = out.result;
-  const prompts = r.gallery || r.prompts || [];
+  create.gallery = r.gallery || r.prompts || [];
   gallery.replaceChildren();
-  if (prompts.length) {
-    const grid = el("div", "gallery");
-    prompts.forEach(g => {
-      const text = galleryPrompt(g);
-      if (!text) return;
-      const f0 = g.filing && filingById(g.filing);
-      const b = el("button", "gallery-card", g.title ? el("b", "", g.title) : null,
-        el("span", "gallery-line", GALLERY_LINES[g.id] || text),
-        el("span", "gallery-tag", [f0 && f0.company, g.saved === true ? "saved reply" : g.saved === false ? "live check" : ""].filter(Boolean).join(", ")));
-      b.type = "button"; b.title = text;
-      b.onclick = () => {
-        $("createInput").value = text;
-        const f = g.filing && filingById(g.filing);
-        if (f) chooseCreateFiling(f);
-        $("createInput").focus();
-        drawCreateHint(g);
-      };
-      grid.append(b);
-    });
-    gallery.append(grid);
+  if (create.gallery.length) {
+    gallery.append(el("p", "chips-kicker", "Start from an example"));
+    const groups = [...new Set([...GROUPS, ...create.gallery.map(g => g.group).filter(Boolean)])];
+    const draw = (rows, name) => {
+      if (!rows.length) return;
+      const box = el("div", "gallery");
+      if (name) gallery.append(el("p", "gallery-group", name));
+      rows.forEach(({g, i}) => {
+        const text = galleryPrompt(g);
+        if (!text) return;
+        const b = el("button", "gallery-row",
+          el("span", "gallery-name", String(g.title || g.name || text)),
+          el("span", "gallery-line", String(g.line || GALLERY_LINES[g.id] || g.summary || "")),
+          el("span", "gallery-meta", el("span", "gallery-tag")));
+        b.dataset.i = i; b.type = "button"; b.setAttribute("aria-pressed", "false");
+        b.onclick = () => {
+          const input = $("createInput");
+          input.value = text;
+          input.style.height = "auto";
+          input.style.height = `${input.scrollHeight}px`;
+          create.picked = g;
+          drawAssumption(specOf(g));
+          guideMark("pick");
+          $("createInput").focus();
+          drawCreateHint();
+        };
+        box.append(b);
+      });
+      gallery.append(box);
+    };
+    const all = create.gallery.map((g, i) => ({g, i}));
+    groups.forEach(name => draw(all.filter(({g}) => g.group === name), name));
+    draw(all.filter(({g}) => !g.group), null);
   }
+  drawGalleryTags();
   drawInstalled(r.installed || r.plugins || []);
 }
-function drawCreateHint(g) {
-  const h = $("createHint");
+/* A gallery prompt has a recording, on every filing it runs on. */
+const pickedFor = text => (create.gallery || []).find(g => galleryPrompt(g).trim() === text) || null;
+function createRecorded() {
+  const g = pickedFor($("createInput").value.trim());
+  return !!(g && g.saved);
+}
+function drawGalleryTags() {
+  const live = isLive(), typed = $("createInput").value.trim();
+  document.querySelectorAll("#createGallery .gallery-row").forEach(row => {
+    const g = (create.gallery || [])[+row.dataset.i];
+    if (!g) return;
+    row.querySelector(".gallery-tag").textContent = !live && !g.saved ? "Live" : "";
+    row.setAttribute("aria-pressed", String(galleryPrompt(g).trim() === typed));
+  });
+}
+function drawCreateHint() {
+  const h = $("createHint"), typed = $("createInput").value.trim();
   h.hidden = false;
-  h.textContent = g && g.saved ? "Saved reply. No API call."
-    : START && START.live ? "A live call to Muse. This can take a few minutes."
-    : "Live checks are off here. Only saved examples run.";
+  drawGalleryTags();
+  h.textContent = isLive() ? "Live. Calls Muse now, about a minute."
+    : createRecorded() ? "Recorded. Instant."
+    : !typed ? "Pick an example to run it in Demo."
+    : liveOn() ? "This needs Muse. Switch to Live to run it."
+    : "This needs Muse. Live is off on this server.";
+}
+function companyChoice() {
+  const sel = el("select", "field company-choice");
+  (START && START.filings || []).forEach(f => { const o = el("option", "", f.company); o.value = f.id; sel.append(o); });
+  sel.setAttribute("aria-label", "Company to run it on");
+  return sel;
 }
 function drawInstalled(list) {
   const box = $("createInstalled");
   if (!list.length) { box.replaceChildren(tcard("Installed plugins", el("p", "msg", "None yet. A plugin appears here once a person approves it."))); return; }
-  const t = el("table", "t");
-  t.append(el("thead", "", el("tr", "", el("th", "", "Plugin"), el("th", "", "What it works out"), el("th", "", "Status"), el("th", "", el("span", "vh", "Run")))));
-  const b = el("tbody");
-  const out = el("div", "tcard-body inputs-scope"); out.hidden = true;
+  const rows = el("div", "tcard-body");
   list.forEach(p => {
     if (!p.name) { // a file on disk with no approved name: the server says why, and it cannot run
-      b.append(el("tr", "", cell("Plugin", el("span", "rule-name", "Unknown file")), cell("Works out", String(p.reason || "")), cell("Status", el("span", "rule-val", String(p.status || ""))), cell("Run", "")));
+      rows.append(el("div", "installed", el("div", "", el("span", "rule-name", "Unknown file"), el("p", "rule-act", String(p.reason || "")))));
       return;
     }
     const capability = p.capability || `custom.${p.name}`;
-    const active = p.status === "active";
-    let action = "";
-    if (active) {
-      const run = el("button", "btn", "Run on this filing"); run.type = "button";
+    const row = el("div", "installed", el("div", "installed-name", el("span", "rule-name", sentenceCase(p.title || p.name)), el("span", "rule-area", capability),
+      p.summary ? el("p", "rule-act", String(p.summary)) : null));
+    const out = el("div", "installed-out"); out.hidden = true;
+    if (p.status === "active") {
+      const company = companyChoice();
+      const spec = specOf(p) || specOf(p.definition);
+      const yours = spec ? el("input", "field") : null;
+      if (yours) { yours.value = String(spec.example ?? ""); yours.setAttribute("aria-label", `${sentenceCase(spec.label)}. Your number.`); yours.placeholder = "Such as 100bn"; }
+      const run = el("button", "btn", "Run"); run.type = "button";
       run.onclick = async () => {
-        if (!create.filing) return;
-        run.disabled = true; out.hidden = false; loading(out, `Running ${capability}.`);
+        run.disabled = true; out.hidden = false; loading(out, "Running.");
         try {
-          const o = await door(capability, {filing: create.filing.id});
+          const params = {filing: company.value};
+          if (yours && yours.value.trim()) params.assumption = yours.value.trim();
+          const o = await door(capability, params);
           out.replaceChildren();
           if (o.status !== "done" || !o.result) out.append(el("p", "msg bad", outcomeWords(o)));
-          else drawDryRun(out, o.result, `${p.title || p.name} on ${create.filing.company}`);
+          else {
+            const f = filingById(company.value);
+            if (o.result.assumption_used) out.append(el("p", "advice installed-advice", "Arithmetic on your number, not advice"));
+            drawWorking(out, {...o.result, filing: o.result.filing || company.value, company: o.result.company || (f && f.company)}, spec, true);
+          }
         } catch (e) { out.replaceChildren(el("p", "msg bad", e.message)); }
         run.disabled = false;
       };
-      action = run;
+      row.append(el("div", "installed-run", company, yours ? el("label", "installed-yours", el("span", "", `${sentenceCase(spec.label)}, your number`), yours) : null, run));
+    } else {
+      row.append(el("div", "installed-run", el("span", "rule-val", String(p.status || "")), p.reason ? el("p", "rule-act", String(p.reason)) : null));
     }
-    b.append(el("tr", "",
-      cell("Plugin", el("span", "", el("span", "rule-name", String(p.title || p.name)), el("span", "rule-area", capability))),
-      cell("Works out", String(p.summary || "")),
-      cell("Status", el("div", "", el("span", "rule-val", String(p.status || "")), p.reason ? el("p", "rule-act", String(p.reason)) : null)),
-      cell("Run", action)));
+    row.append(out);
+    rows.append(row);
   });
-  t.append(b);
-  const card = tcard("Installed plugins", t, plural(list.length, "plugin", "plugins"));
-  card.append(out);
-  box.replaceChildren(card);
+  box.replaceChildren(tcard("Installed plugins", rows, plural(list.length, "plugin", "plugins")));
 }
 const plainValue = v => v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
-const PERIOD_WORDS = {quarter: "one quarter", six_months: "six months", nine_months: "nine months", full_year: "a full year", as_of: "as of a date"};
+const PERIOD_WORDS = {quarter: "one quarter", six_months: "six months", nine_months: "nine months", full_year: "a full year", as_of: "as of a date", latest: "the latest period"};
 function definitionCard(def) {
   const d = def || {};
   const inputs = Array.isArray(d.inputs) ? d.inputs : [];
@@ -2081,29 +2273,32 @@ function definitionCard(def) {
   inputs.forEach(i => inputList.append(el("li", "", el("span", "mono", String(i.key || "")), i.row ? `: ${i.row}` : "")));
   const period = [PERIOD_WORDS[d.period_kind] || d.period_kind, d.period_year].filter(v => v != null && v !== "").join(", ");
   return kv([
-    ["Name", d.title ? el("span", "", el("span", "rule-name", String(d.title)), el("span", "rule-area", String(d.name || ""))) : plainValue(d.name)],
+    ["Name", d.title ? el("span", "", el("span", "rule-name", sentenceCase(d.title)), el("span", "rule-area", String(d.name || ""))) : plainValue(d.name)],
     ["What it does", plainValue(d.summary)],
+    ["The idea", plainValue(d.idea)],
     ["Inputs", inputs.length ? inputList : ""],
     ["Formula", d.formula ? el("span", "mono", plainValue(d.formula)) : ""],
     ["Unit", plainValue(d.unit)],
     ["Period", period],
+    ["Your number", d.assumption ? plainValue(d.assumption.label) : ""],
     ["Compares with", plainValue(d.compare_row)],
     ["Muse's check note", plainValue(d.verifies)],
   ]);
 }
-/* A plugin's dry run. Only what the server computed. */
-function drawDryRun(box, run, title) {
-  const r = run || {};
-  box.append(el("h3", "lines-title", title));
-  if (r.status !== "computed") box.append(pillRow([["Nothing computed", "amber"]]));
-  const shown = r.display ?? r.money ?? r.value;
-  if (shown != null && shown !== "") box.append(el("p", "house-money", String(shown)));
-  if (r.working) box.append(el("p", "house-working", String(r.working)));
-  if (r.reason && r.reason !== r.working) box.append(el("p", "house-working", String(r.reason)));
-  (Array.isArray(r.warnings) ? r.warnings : []).forEach(w => box.append(el("p", "note", String(typeof w === "string" ? w : plainValue(w)))));
-  const filing = create.filing && create.filing.id;
+const resultShown = r => r.display ?? r.money ?? r.value;
+/* One company's working, its cells, and your number marked as yours. Only what the server computed. */
+function drawWorking(box, r, spec, withValue) {
   const owner = {deselect() { box.querySelectorAll(".input-btn").forEach(b => b.setAttribute("aria-pressed", "false")); }};
-  const open = (input, byUser) => create.desk.show(cellItem(input), {filing, owner, byUser});
+  const open = (input, byUser) => create.desk.show(cellItem(input), {filing: r.filing, owner, byUser, back: () => { box.scrollIntoView({block: "center"}); }, backLabel: "Back to the results"});
+  if (r.status !== "computed") { if (withValue) box.append(el("p", "house-working", String(r.reason || r.working || "Nothing computed."))); }
+  else if (withValue && resultShown(r) != null) box.append(el("p", "house-money", String(resultShown(r))));
+  const u = r.assumption_used;
+  if (u) {
+    const label = u.label || (spec && spec.label) || "Your number";
+    box.append(el("p", "yours-line", stamp(u.source === "example" ? "Example number" : "Your number", "ink"), ` ${sentenceCase(label)}: `, el("span", "mono", String(u.money || u.value || ""))));
+  }
+  if (r.status === "computed" && r.working) box.append(el("p", "house-working", String(r.working)));
+  (Array.isArray(r.warnings) ? r.warnings : []).forEach(w => box.append(el("p", "note", plainValue(w))));
   const scope = el("div", "inputs-scope");
   box.append(scope);
   const buttons = inputButtons(r.inputs, input => open(input, true));
@@ -2120,63 +2315,142 @@ function drawDryRun(box, run, title) {
     if (cb.children.length) scope.append(cb);
   }
 }
+/* The hero: one row per company. Selecting a row shows its working. */
+function drawResultsTable(slot, res) {
+  const results = Array.isArray(res.results) ? res.results : [];
+  const spec = res.definition && res.definition.assumption;
+  const box = el("section", "results");
+  box.append(el("h3", "results-title", "On every filing"));
+  if (results.some(r => r.assumption_used)) box.append(el("p", "advice", "Arithmetic on your number, not advice"));
+  const detail = el("div", "results-detail");
+  const table = el("div", "results-rows");
+  table.setAttribute("role", "list");
+  const pick = (i, btn) => {
+    table.querySelectorAll(".result-row").forEach(b => b.setAttribute("aria-pressed", "false"));
+    btn.setAttribute("aria-pressed", "true");
+    create.rowIndex = i;
+    detail.replaceChildren();
+    drawWorking(detail, results[i], spec, false);
+    // A refused row says why in the row itself. With no cell of its own, an older proof must not stay open beside it.
+    detail.hidden = !detail.textContent.trim();
+    if (!detail.querySelector(".input-btn")) create.desk.clear();
+  };
+  let first = null;
+  results.forEach((r, i) => {
+    const ok = r.status === "computed";
+    const recorded = r.saved ?? res.saved;
+    const b = el("button", `result-row ${ok ? "" : "unavailable"}`,
+      el("span", "result-company", String(r.company || r.filing || "")),
+      el("span", "result-period", r.status === "computed" ? String(r.period || "") : ""),
+      el("span", ok ? "result-value" : "result-reason", ok ? String(resultShown(r) ?? "") : String(r.reason || "Nothing computed.")),
+      el("span", "result-source", recorded ? "Recorded" : "Live"));
+    b.type = "button"; b.setAttribute("aria-pressed", "false");
+    b.onclick = () => pick(i, b);
+    const li = el("div", "result-item", b);
+    li.setAttribute("role", "listitem");
+    table.append(li);
+    if ((i === create.rowIndex) || (first == null && ok && create.rowIndex == null)) first = [i, b];
+  });
+  box.append(table, detail);
+  slot.append(box);
+  if (first) pick(first[0], first[1]);
+}
+function drawPluginCard(slot, res) {
+  const d = res.definition || {};
+  const card = el("article", "answer plugin-card");
+  const pills = [];
+  if (res.drafted_by_muse) pills.push(["Written by Muse", "ink", "Muse wrote this as data. Code checked every field, and does the math itself."]);
+  pills.push(res.saved ? ["Recorded", "slate", "A real Muse reply, recorded earlier. Code checks it fresh each time."] : ["Live", "green", res.model ? `Muse answered just now, on ${res.model}.` : "Muse answered just now."]);
+  pills.push(["Not part of the measured score", "amber"]);
+  card.append(pillRow(pills), el("h3", "plugin-title", sentenceCase(d.title || d.name || "The plugin")));
+  if (d.summary) card.append(el("p", "plugin-summary", String(d.summary)));
+  const details = [definitionCard(d)];
+  if (res.definition_sha256) details.push(el("p", "note", "Plugin hash ", el("span", "hash", String(res.definition_sha256)), ". An approval binds to exactly this."));
+  card.append(moreBox("Details", ...details));
+  slot.append(card);
+}
+function drawInstallRow(slot, res) {
+  const computed = (res.results || []).some(r => r.status === "computed");
+  const row = el("div", "release ok");
+  const go = el("button", "btn primary", "Request install ", arrow()); go.type = "button";
+  const note = el("p", "", computed ? "Nothing installs until a person approves." : "This cannot install, because it computed nothing on any filing.");
+  row.append(computed ? go : stamp("Blocked", "red"), note);
+  go.onclick = async () => {
+    go.disabled = true; note.textContent = "Sending.";
+    try {
+      const o = await door("plugins.install", {definition: res.definition});
+      if (o.status === "needs_approval") {
+        guideMark("installing");
+        row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent. Nothing installs until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
+        refreshPending();
+      } else if (o.status === "done") { row.replaceChildren(stamp("Installed", "green"), el("p", "", "Installed.")); loadCreate(); }
+      else { go.disabled = false; note.textContent = outcomeWords(o); }
+    } catch (e) { go.disabled = false; note.textContent = e.message; }
+  };
+  slot.append(row);
+}
+function drawCreateResult(res) {
+  const slot = $("createResult");
+  slot.replaceChildren();
+  drawPluginCard(slot, res);
+  drawResultsTable(slot, res);
+  drawInstallRow(slot, res);
+}
 async function runCreate() {
   if (create.running) return;
-  const f = create.filing, prompt = $("createInput").value.trim(), state = $("createState"), slot = $("createResult");
+  const prompt = $("createInput").value.trim(), state = $("createState"), slot = $("createResult");
   state.className = "state"; state.textContent = "";
-  if (!f) return;
   if (!prompt) { state.textContent = "Describe the check first."; state.className = "state bad"; $("createInput").focus(); return; }
+  if (!isLive() && !createRecorded()) { state.replaceChildren(needsMuse(runCreate)); return; }
   create.running = true; $("createRun").disabled = true;
-  [...$("createTabs").children].forEach(b => b.disabled = true);
-  slot.replaceChildren(); create.desk.clear();
-  const clock = startClock($("createClock"), "Muse is writing the plugin.", "As data, not code. Code then tries it on the filing.");
+  slot.replaceChildren(); create.desk.clear(); create.rowIndex = null;
+  const live = isLive();
+  const clock = startClock($("createClock"), live ? "Muse is writing the plugin." : "Opening the recording.", live ? "About a minute." : "Instant.");
   try {
-    const out = await door("plugins.create", {prompt, filing: f.id});
+    const out = await door("plugins.create", {prompt, ...assumptionParam(), ...liveParam()});
     if (out.status !== "done" || !out.result) throw new ApiError(/no such capability/i.test(out.why || "") ? CREATE_MISSING : outcomeWords(out));
-    const r = out.result;
-    const card = el("article", "answer");
-    const pills = [];
-    if (r.drafted_by_muse) pills.push(["Written by Muse", "ink", "Muse wrote this as data. Code checked every field, and does the sum itself."]);
-    pills.push(r.saved ? ["Saved replay", "slate", "A real Muse reply, recorded earlier and played back. No API call."] : ["Live run", "green", r.model ? `Muse answered just now, on ${r.model}.` : "Muse answered just now."]);
-    pills.push(["Not part of the measured score", "amber"]);
-    card.append(pillRow(pills));
-    card.append(el("h3", "lines-title", "The plugin"), definitionCard(r.definition));
-    drawDryRun(card, r.dry_run, `Dry run on ${f.company}`);
-    const row = el("div", "release ok");
-    const computed = r.dry_run && r.dry_run.status === "computed";
-    const go = el("button", "btn primary", "Request install ", arrow()); go.type = "button";
-    const note = el("p", "", computed ? "Nothing installs until a person approves." : "This cannot install here, because the dry run computed nothing.");
-    row.append(computed ? go : stamp("Blocked", "red"), note);
-    go.onclick = async () => {
-      go.disabled = true; note.textContent = "Sending.";
-      try {
-        const o = await door("plugins.install", {definition: r.definition, filing: f.id});
-        if (o.status === "needs_approval") {
-          row.replaceChildren(stamp("Waiting", "amber"), el("p", "", "Sent. Nothing installs until a person says yes. ", linkTo("#/approvals", "Open Approvals")));
-          refreshPending();
-        } else if (o.status === "done") { row.replaceChildren(stamp("Installed", "green"), el("p", "", "Installed.")); loadCreate(); }
-        else { go.disabled = false; note.textContent = outcomeWords(o); }
-      } catch (e) { go.disabled = false; note.textContent = e.message; }
-    };
-    card.append(row);
-    if (r.definition_sha256) card.append(moreBox("Details", kv([
-      ["Plugin hash", el("span", "hash", String(r.definition_sha256))],
-      ["Model", r.model ? el("span", "mono", String(r.model)) : ""],
-    ]), el("p", "note", "An approval binds to exactly this hash.")));
-    slot.append(card);
-    $("announce").textContent = "Muse wrote the plugin. Code tried it. A person approves before it installs.";
+    create.last = {prompt, live, result: out.result};
+    const spec = out.result.definition && out.result.definition.assumption;
+    if (spec) {
+      // The filing's own currency decides how the example reads, so keep what is in the box.
+      const had = create.spec ? $("assumptionInput").value : null;
+      const example = create.spec ? create.spec.example : (create.picked && create.picked.assumption_example);
+      drawAssumption({...spec, example}, had);
+    } else drawAssumption(null);
+    drawCreateResult(out.result);
+    slot.scrollIntoView({block: "start"});
+    guideMark("install");
+    $("announce").textContent = "Muse wrote the plugin. Code ran it on every filing. A person approves before it installs.";
   } catch (e) {
     state.textContent = e.status === 404 ? CREATE_MISSING : e.message; state.className = "state bad";
+    if (isLimit(e.message) && isLive()) state.append(backToDemo());
   } finally {
     clock.stop(); create.running = false; $("createRun").disabled = false;
-    [...$("createTabs").children].forEach(b => b.disabled = false);
+  }
+}
+/* A changed number only redoes the arithmetic. It goes back through plugins.create, and Muse is not called. */
+async function recalcCreate() {
+  const last = create.last;
+  if (!last || !create.spec) return;
+  const seq = ++create.seq;
+  try {
+    const params = {prompt: last.prompt, ...assumptionParam()};
+    const out = await door("plugins.create", params);
+    if (seq !== create.seq) return;
+    if (out.status !== "done" || !out.result) { $("createState").textContent = outcomeWords(out); $("createState").className = "state bad"; return; }
+    $("createState").textContent = ""; $("createState").className = "state";
+    create.last = {...last, result: out.result};
+    drawCreateResult(out.result);
+  } catch (e) {
+    if (seq === create.seq) { $("createState").textContent = e.message; $("createState").className = "state bad"; }
   }
 }
 
 /* ---------- 3. Approvals ---------- */
 let operatorToken = ""; // memory only: never storage, never the URL
 const statusTone = {pending: "amber", approved: "green", rejected: "red", used: "slate"};
-const WHO = {web_operator: "The operator, on the web", terminal: "The operator, at the terminal", web: "The web page"};
+const WHO = {web_operator: "The operator, on the web", terminal: "The operator, at the terminal", web: "The web page", demo_reviewer: "A demo reviewer"};
+const lowerWho = w => String(w).replace(/^(The|A) /, m => m.toLowerCase());
 const statusWord = {pending: "Waiting", approved: "Approved", rejected: "Rejected", used: "Used"};
 function decideError(e) {
   const code = typeof e.detail === "string" ? e.detail : "";
@@ -2184,6 +2458,7 @@ function decideError(e) {
   return e.message;
 }
 let approvalsSeq = 0;
+const recordedPlugins = new Set(); // plugins drafted from a recording, as the ledger says
 async function loadApprovals() {
   const seq = ++approvalsSeq, body = $("approvalsBody");
   if (!body.children.length) loading(body, "Loading approvals.");
@@ -2191,7 +2466,10 @@ async function loadApprovals() {
   try {
     data = await api("/api/approvals");
     const led = await api("/api/ledger?limit=500").catch(() => null);
-    for (const l of (led && led.lines) || []) if (l.kind === "release_sealed" && l.approval_id) sealed[l.approval_id] = l.release_id;
+    for (const l of (led && led.lines) || []) {
+      if (l.kind === "release_sealed" && l.approval_id) sealed[l.approval_id] = l.release_id;
+      if (l.kind === "plugin_drafted" && l.saved && l.definition_sha256) recordedPlugins.add(l.definition_sha256);
+    }
   } catch (e) {
     if (seq !== approvalsSeq) return;
     showError(body, e.status === 404 ? "Approvals are not available on this server." : e.message, loadApprovals);
@@ -2200,6 +2478,12 @@ async function loadApprovals() {
   if (seq !== approvalsSeq) return;
   const all = (data.approvals || []).slice().sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
   setPending(all.filter(a => a.status === "pending").length);
+  guide.waiting = all.filter(a => a.status === "pending" && a.capability === "memo.release").length;
+  guide.ready = all.filter(a => a.status === "approved" && a.capability === "memo.release").length;
+  guide.waitingInstall = all.filter(a => a.status === "pending" && a.capability === "plugins.install").length;
+  guide.readyInstall = all.filter(a => a.status === "approved" && a.capability === "plugins.install").length;
+  guide.loaded = true;
+  guideDraw();
   const live = all.filter(a => a.status === "pending" || a.status === "approved");
   const done = all.filter(a => a.status !== "pending" && a.status !== "approved");
   const frag = document.createDocumentFragment();
@@ -2211,26 +2495,28 @@ async function loadApprovals() {
   done.forEach(a => frag.append(slip(a, sealed[a.id])));
   body.replaceChildren(frag);
 }
-const SUBJECT_WORDS = {"memo.release": "Release a memo", "rules.change": "Change a house rule", "plugins.install": "Install a plugin", "filings.add": "Add a filing"};
+const SUBJECT_WORDS = {"memo.release": "Release an investment memo", "rules.change": "Change a house rule", "plugins.install": "Install a plugin", "filings.add": "Add a filing"};
 /* Summary and buttons first, then the content, then the hashes. */
 function slip(a, releaseId) {
   const s = el("article", "slip");
   const tone = statusTone[a.status] || "ink";
-  const asked = [a.requested_by ? `Asked by ${(WHO[a.requested_by] || a.requested_by).replace(/^The /, "the ")}` : "", when(a.created_at)].filter(Boolean).join(", ");
+  const asked = [a.requested_by ? `Asked by ${lowerWho(WHO[a.requested_by] || a.requested_by)}` : "", when(a.created_at)].filter(Boolean).join(", ");
   const summary = el("p", "slip-summary");
   s.append(el("div", "slip-top", stamp(statusWord[a.status] || String(a.status || "Unknown"), tone),
     el("h3", "cap", SUBJECT_WORDS[a.capability] || "A request"), el("span", "when", asked)), summary);
-  if (a.status === "pending") s.append(decideRow(a));
-  if (a.status === "approved") s.append(runRow(a));
+  const route = el("div", "slip-route-box");
+  if (a.status === "pending") route.append(decideRow(a));
+  if (a.status === "approved") route.append(runRow(a));
+  s.append(route);
   if (a.decided_by || a.reason || a.decided_at) {
     const who = WHO[a.decided_by] || a.decided_by;
-    const said = [who ? `Decided by ${who.replace(/^The /, "the ")}` : "Decided", when(a.decided_at)].filter(Boolean).join(", ");
+    const said = [who ? `Decided by ${lowerWho(who)}` : "Decided", when(a.decided_at)].filter(Boolean).join(", ");
     s.append(el("p", "slip-decision", `${said}.${a.reason ? ` Reason: ${a.reason}` : ""}`));
   }
   if (releaseId) s.append(el("p", "note", linkTo(`#/record/release/${enc(releaseId)}`, "Open the sealed release")));
   const what = el("div", "slip-body");
   const finished = a.status === "used" || a.status === "rejected";
-  s.append(finished ? moreBox(a.capability === "memo.release" ? "The memo and receipts" : "What this did", what) : what);
+  s.append(finished ? moreBox(a.capability === "memo.release" ? "The investment memo and receipts" : "What this did", what) : what);
   const hashes = el("div");
   hashes.append(kv([
     ["Plugin", a.capability ? el("span", "mono", a.capability) : ""],
@@ -2239,7 +2525,7 @@ function slip(a, releaseId) {
     ["Request hash", a.params_sha256 ? el("span", "hash", a.params_sha256) : ""],
   ]));
   s.append(moreBox("Details", hashes, el("p", "note", "If one word or receipt changes, these hashes change and the approval stops working.")));
-  drawSubject(a, what, summary, hashes);
+  drawSubject(a, what, summary, hashes, route);
   return s;
 }
 function decideRow(a) {
@@ -2292,7 +2578,9 @@ function runRow(a) {
         return;
       }
       RULES = null;
+      if (a.capability === "plugins.install") guideMark("done");
       const rid = releaseIdOf(out.result);
+      if (rid) guideMark("ask");
       if (rid) location.hash = `#/record/release/${enc(rid)}`; else await loadApprovals();
     } catch (e) { go.disabled = false; words.className = "state bad"; words.textContent = e.message; }
   };
@@ -2303,23 +2591,47 @@ function releaseIdOf(result) {
   if (!result || typeof result !== "object") return null;
   return result.release_id || result.id || (result.manifest && result.manifest.release_id) || null;
 }
-async function drawSubject(a, box, summary, hashes) {
+/* A demo stand-in, offered only where the server allows it. The token route stays, quieter, below it. */
+function offerDemo(a, route) {
+  if (!(START && START.demo_reviewer) || a.status !== "pending") return;
+  const go = el("button", "btn primary", "Approve as demo reviewer"); go.type = "button";
+  const words = el("p", "", "A demo stand-in for a real person. Real approvals need the operator's token.");
+  const row = el("div", "demo-row", go, words);
+  go.onclick = async () => {
+    go.disabled = true; words.textContent = "Sending.";
+    try {
+      await post(`/api/approvals/${enc(a.id)}/decide`, {decision: "approve", reason: "Approved as a demo reviewer.", demo: true});
+      await loadApprovals();
+    } catch (e) { go.disabled = false; words.textContent = e.message; }
+  };
+  const token = moreBox("Use the operator's token", ...route.childNodes);
+  token.classList.add("token-route");
+  route.replaceChildren(row, token);
+}
+function noDemo(a, route) {
+  if (!(START && START.demo_reviewer) || a.status !== "pending") return;
+  route.prepend(el("p", "slip-route", "This one needs the operator. A demo reviewer can only approve a recorded run, a your-number run, or a recorded plugin."));
+}
+async function drawSubject(a, box, summary, hashes, route) {
   const params = a.params || {};
   const runId = params.check_run_id;
   if (a.capability === "rules.change") {
     summary.textContent = `Turn ${params.rule_id} ${params.enabled ? "on" : "off"}.`;
     box.append(el("p", "note", "Memos checked under the old rules must be checked again before release."));
+    noDemo(a, route);
     return;
   }
   if (a.capability === "plugins.install" && params.definition) {
     const d = params.definition;
-    summary.textContent = `Install ${d.title || d.name || "this plugin"}. Not part of the measured score.`;
+    summary.textContent = `Install ${sentenceCase(d.title || d.name || "this plugin")}. Not part of the measured score.`;
     box.append(definitionCard(d));
+    if (recordedPlugins.has(a.subject_sha256)) offerDemo(a, route); else noDemo(a, route);
     return;
   }
   if (a.capability !== "memo.release" || !runId) {
     const keys = Object.keys(params);
     box.append(keys.length ? kv(keys.map(k => [k, typeof params[k] === "string" ? params[k] : JSON.stringify(params[k])])) : el("p", "note", "No details."));
+    noDemo(a, route);
     return;
   }
   summary.textContent = "Loading the memo.";
@@ -2334,9 +2646,11 @@ async function drawSubject(a, box, summary, hashes) {
       f ? `${f.company}, ${f.document}.` : (res.filing ? `${res.filing}.` : ""),
       allMatch ? `${plural(receipts.length, "number", "numbers")}, all match.` : `${countsWords(c)}.`,
       notes.length ? `${plural(notes.length, "house note", "house notes")}.` : "",
-      res.saved ? "Saved replay." : "",
+      res.saved_pointers ? "Your number." : res.saved ? "Recorded." : "Live.",
     ].filter(Boolean).join(" ");
-    box.append(el("span", "label", "The memo"), markedMemo(res.memo || "", receipts, null));
+    if (res.saved || res.saved_pointers) offerDemo(a, route);
+    else if (a.status === "pending") route.prepend(el("p", "slip-route", "A live run needs the operator's token to release."));
+    box.append(el("span", "label", "The investment memo"), markedMemo(res.memo || "", receipts, null));
     if (notes.length) drawHouseAgreement(box, notes);
     if (receipts.length) box.append(moreBox(`Receipts (${receipts.length})`, receiptTable(receipts)));
     hashes.append(kv([
@@ -2359,7 +2673,7 @@ function drawHouseAgreement(box, notes) {
 }
 function receiptTable(receipts) {
   const t = el("table", "tiny-table");
-  t.append(el("thead", "", el("tr", "", el("th", "", "Memo"), el("th", "", "Filing"), el("th", "", "Page"), el("th", "", "Verdict"))));
+  t.append(el("thead", "", el("tr", "", el("th", "", "Investment memo"), el("th", "", "Filing"), el("th", "", "Page"), el("th", "", "Verdict"))));
   const b = el("tbody");
   for (const r of receipts) {
     const v = verdictOf(r);
@@ -2385,6 +2699,7 @@ function drawOperatorNote() {
   $("operatorField").hidden = off;
   $("operatorForget").hidden = off;
   $("operatorBox").classList.toggle("off", off);
+  $("v-approvals").classList.toggle("demo-on", !!(START && START.demo_reviewer));
 }
 
 /* ---------- 4. Record ---------- */
@@ -2434,7 +2749,7 @@ async function loadRecord() {
     showError(runs, rn.reason.status === 404 ? "Past runs are not available on this server." : rn.reason.message, loadRecord);
   } else {
     const list = (rn.value.runs || []).slice().sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-    if (!list.length) runs.replaceChildren(tcard("Past runs", el("p", "msg", "Nothing yet. Check a memo to start.")));
+    if (!list.length) runs.replaceChildren(tcard("Past runs", el("p", "msg", "Nothing yet. Check an investment memo to start.")));
     else runs.replaceChildren(tcard("Past runs", runsTable(list), plural(list.length, "run", "runs")));
   }
 }
@@ -2488,7 +2803,7 @@ function drawReleases(box, lines) {
     ids.forEach(id => ul.append(el("li", "", linkTo(`#/record/release/${enc(id)}`, String(id), "hash"))));
     box.append(tcard("Releases", ul));
   } else {
-    box.append(tcard("Releases", el("p", "msg", "Nothing released yet. A memo gets here once every number matches and a person approves.")));
+    box.append(tcard("Releases", el("p", "msg", "Nothing released yet. An investment memo gets here once every number matches and a person approves.")));
   }
 }
 const runBench = {bench: null};
@@ -2536,6 +2851,7 @@ async function openRelease(id) {
     const m = r.manifest || {}, receipts = Array.isArray(r.receipts) ? r.receipts : [];
     body.replaceChildren();
     body.append(el("div", "chain", stamp(r.holds ? "The seal holds" : "The seal is broken", r.holds ? "green" : "red", true)));
+    if (m.approved_by === "demo_reviewer") body.append(el("div", "chain", stamp("Approved by a demo reviewer", "amber"), el("span", "small soft", "A demo stand-in for a real person. Real approvals need the operator's token.")));
     if (!r.holds) body.append(el("p", "msg bad", `Something here does not agree with its seal. Run: finguard release verify ${id}`));
     const f = filingById(m.filing);
     const pair = (label, key) => [label, m[key] ? el("span", "hash", String(m[key])) : ""];
@@ -2549,7 +2865,7 @@ async function openRelease(id) {
     body.append(tcard("The release", facts));
     const memoCard = el("div", "tcard-body");
     memoCard.append(markedMemo(r.memo || "", receipts, null));
-    body.append(tcard("The memo as released", memoCard));
+    body.append(tcard("The investment memo as released", memoCard));
     if (Array.isArray(m.house_notes) && m.house_notes.length) {
       const notes = el("div", "tcard-body");
       m.house_notes.forEach(h => { const b = houseBlock(h); if (b) { b.prepend(el("p", "mono small", String(h.value_text || ""))); notes.append(b); } });
@@ -2724,7 +3040,7 @@ async function loadScore() {
   if (s.model) labels.append(stamp(`Model ${s.model}`, "slate"));
   frag.append(labels);
   const head = el("div", "headline");
-  if (frozen) head.append(el("p", "", el("strong", "", "Final test: Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
+  if (frozen) head.append(el("p", "", el("strong", "", "Alphabet's Q3 2026 release, a company and layout first used after the code was frozen.")));
   head.append(el("p", "", `${trueWords(s)} ${falseWords(s)}`));
   const r = s.repeat;
   if (r) head.append(el("p", "soft", `Repeat run on the filings the code was built on, which flatters it: ${trueWords(r).replace(/^Of /, "of ")} ${falseWords(r)}`));
@@ -2766,8 +3082,92 @@ async function loadScore() {
     frag.append(tcard("By filing", t));
   }
   frag.append(el("p", "foot", "We chose these public filings and checked the answers by hand. This measures the method. It is not a guarantee."));
-  if (s.engine_sha256) frag.append(moreBox("Details", kv([["Code hash", el("span", "hash", String(s.engine_sha256))]]), el("p", "note", "All of these are scored with one version of the code. Earlier runs replay their saved Muse replies.")));
+  if (s.engine_sha256) frag.append(moreBox("Details", kv([["Code hash", el("span", "hash", String(s.engine_sha256))]]), el("p", "note", "All of these are scored with one version of the code. Earlier runs use their recorded Muse replies.")));
   body.replaceChildren(frag);
+}
+
+/* ---------- the Next guide ---------- */
+const GUIDE_STEPS = ["press", "red", "fool", "corrected", "method", "release", "approve", "ask", "create", "pick", "install", "installing", "done"];
+const GUIDE_KEY = "finguard.guide";
+const guide = {step: "press", off: false, view: "check", waiting: 0, ready: 0, loaded: false};
+function guideLoad() {
+  try {
+    const kept = JSON.parse(localStorage.getItem(GUIDE_KEY) || "{}");
+    if (GUIDE_STEPS.includes(kept.step)) guide.step = kept.step;
+    guide.off = kept.off === true;
+  } catch (e) { /* no storage: the guide just starts over */ }
+}
+function guideSave() {
+  try { localStorage.setItem(GUIDE_KEY, JSON.stringify({step: guide.step, off: guide.off})); } catch (e) { /* nothing to keep */ }
+}
+function guideMark(step) {
+  if (GUIDE_STEPS.indexOf(step) > GUIDE_STEPS.indexOf(guide.step)) { guide.step = step; guideSave(); }
+  guideDraw();
+}
+const FOOL_LINE = () => isLive() ? "Try to fool it: change a number and check again." : "Try to fool it: change a number. It checks instantly.";
+/* What to say here and now, as [words, link]. It reads the page, so a reload can never point at something that is not there. */
+function guideLine() {
+  const s = guide.step, at = i => GUIDE_STEPS.indexOf(s) >= GUIDE_STEPS.indexOf(i);
+  if (s === "done") return null;
+  if (guide.view === "create") {
+    if (create.last) return ["Install it.", null];
+    return s === "create" ? ["Pick a method.", null] : null;
+  }
+  if (s === "create") return ["Now create a plugin.", "#/create"];
+  const demo = !!(START && START.demo_reviewer), canToken = !START || START.operator_required !== false;
+  const approveWords = demo ? "Approve it as a demo reviewer." : "Approve it with the operator's token.";
+  // With no demo reviewer and no token here, only the terminal can approve, so the path moves on.
+  if (s === "approve" && !demo && !canToken && guide.view !== "ask") return ["Only the operator can approve on this server. Now ask the filing a question.", "#/ask"];
+  if (guide.view === "check") {
+    const f = check.filing, result = check.showingResult, text = $("memoInput").value.trim();
+    const onCorrected = f && f.corrected && text === f.corrected.trim();
+    if (s === "ask") return ["Sealed. Now ask the filing a question.", "#/ask"];
+    if (s === "approve") return [approveWords, "#/approvals"];
+    if (!f) return null;
+    if (at("corrected") && !f.corrected) return ["Pick Anthropic to load the corrected memo.", null];
+    if (!result) {
+      if (at("corrected")) return onCorrected ? ["Press Check every number.", null] : ["Load the corrected investment memo.", () => { showCheckInput(f.corrected); $("checkRun").focus(); }];
+      if (s === "fool") return [numbersOnly(text, f) || !(f.memo && text === f.memo.trim()) ? "Now press Check every number." : FOOL_LINE(), null];
+      return ["Press Check every number.", null];
+    }
+    const rows = $("checkResult");
+    const edit = () => { $("memoEdit").click(); };
+    const load = () => { showCheckInput(f.corrected); $("checkRun").focus(); };
+    if (s === "red") return rows.querySelector(".tag.wrong, .tag.refused") ? ["Click a red number to see the proof.", null] : [FOOL_LINE(), edit];
+    if (s === "fool") return [FOOL_LINE(), edit];
+    if (s === "corrected") return onCorrected ? ["Flip to Our method.", null] : ["Load the corrected investment memo.", load];
+    if (s === "method") return $("checkMemoSlot").querySelector(".method") && onCorrected ? ["Flip to Our method.", null] : ["Load the corrected investment memo.", load];
+    if (s === "release") return rows.querySelector(".release.ok button") ? ["Request release.", null] : ["Load the corrected investment memo.", load];
+    return null;
+  }
+  if (guide.view === "approvals" && s === "installing") {
+    if (!guide.loaded) return null;
+    return guide.readyInstall ? ["Press Install now.", null] : guide.waitingInstall ? ["Approve it as a demo reviewer.", null] : null;
+  }
+  if (guide.view === "approvals" && s === "approve") {
+    if (!guide.loaded) return null;
+    if (guide.ready) return ["Press Release now.", null];
+    if (guide.waiting) return [approveWords, null];
+    return ["Nothing waiting yet. Request release on the corrected memo.", "#/check"];
+  }
+  if (guide.view === "release" && s === "ask") return ["Sealed. Now ask the filing a question.", "#/ask"];
+  if (guide.view === "ask" && (s === "ask" || s === "approve")) return ["Ask the recorded question above.", null];
+  return null;
+}
+function guideDraw() {
+  const box = $("nextGuide");
+  if (!box) return;
+  const slot = document.querySelector(`[data-guide-slot="${guide.view}"]`);
+  const line = guide.off || !slot ? null : guideLine();
+  $("nextOn").hidden = !guide.off;
+  if (!line) { box.hidden = true; return; }
+  const text = $("nextText");
+  if (typeof line[1] === "function") {
+    const act = el("button", "linkish next-act", line[0]); act.type = "button"; act.onclick = line[1];
+    text.replaceChildren(act);
+  } else text.replaceChildren(line[1] ? linkTo(line[1], line[0]) : line[0]);
+  if (box.parentElement !== slot) slot.append(box);
+  box.hidden = false;
 }
 
 /* ---------- routes ---------- */
@@ -2787,10 +3187,12 @@ function route() {
   });
   document.title = `${TITLES[name]} · Finguard`;
   closeMenu();
+  guide.view = name === "record" ? (parts[1] === "release" ? "release" : "record") : name;
+  guideDraw();
   if (name === "check" && check.bench) check.bench.onShow();
   if (name === "ask" && ask.desk) { ask.desk.onShow(); if (START) { RULES = null; drawAskAvailable(); } }
   if (name === "create" && create.desk) { create.desk.onShow(); RULES = null; loadCreate(); }
-  if (name === "approvals") { drawOperatorNote(); loadApprovals(); }
+  if (name === "approvals") { guide.loaded = false; drawOperatorNote(); loadApprovals(); }
   if (name === "rules") loadRulesPage();
   if (name === "score") loadScore();
   if (name === "record") {
@@ -2823,8 +3225,17 @@ function focusHeading() {
 async function boot() {
   check.bench = makeBench($("checkMemoSlot"), $("checkResult"), $("checkDesk"), {labelSlot: $("checkLabels")});
   ask.desk = makeDesk($("askDesk"));
-  create.desk = makeDesk($("createDesk"), {steps: CREATE_STEPS, values: createStepValues, title: "How a plugin is made", activeTitle: "How this cell was read"});
+  create.desk = makeDesk($("createDesk"), {steps: CREATE_STEPS, values: createStepValues, title: "How a plugin is made", activeTitle: "How this cell was read",
+    intro: ["You describe it.", "Muse maps it to each filing.", "Code reads the cells and does the math.", "You approve it."],
+    introNote: "This writes methods that give one number. Anything bigger is a Python plugin, written by a person."});
   runBench.bench = makeBench($("recordRunMemoSlot"), $("recordRunResult"), $("recordRunDesk"));
+  guideLoad();
+  modeLoad();
+  modeDraw();
+  $("modeDemo").onclick = () => setMode("demo");
+  $("modeLive").onclick = () => setMode("live");
+  $("nextOff").onclick = () => { guide.off = true; guideSave(); guideDraw(); };
+  $("nextOn").onclick = () => { guide.off = false; guideSave(); guideDraw(); };
   $("skip").onclick = e => { e.preventDefault(); focusHeading(); };
   $("menuBtn").onclick = () => {
     const open = $("nav").classList.toggle("open");
@@ -2839,8 +3250,18 @@ async function boot() {
   $("askInput").addEventListener("input", drawAskHint);
   $("askNew").onclick = () => { newConversation(); $("askInput").focus(); };
   $("createRun").onclick = runCreate;
-  $("createInput").addEventListener("input", () => drawCreateHint());
-  $("memoInput").addEventListener("input", updateMemoHint);
+  $("createInput").addEventListener("input", () => {
+    clearNeeds();
+    drawCreateHint();
+    const g = pickedFor($("createInput").value.trim());
+    if (g !== create.picked) { create.picked = g; drawAssumption(specOf(g)); }
+  });
+  $("assumptionInput").addEventListener("input", () => {
+    drawAssumptionMark();
+    clearTimeout(create.timer);
+    create.timer = setTimeout(recalcCreate, 350);
+  });
+  $("memoInput").addEventListener("input", () => { clearNeeds(); updateMemoHint(); });
   $("memoEdit").onclick = () => { const f = $("memoInput").value; showCheckInput(f); $("memoInput").focus(); };
   $("operatorToken").addEventListener("input", e => { operatorToken = e.target.value; });
   $("operatorForget").onclick = () => { operatorToken = ""; $("operatorToken").value = ""; $("operatorToken").focus(); };
@@ -2866,20 +3287,21 @@ async function startData() {
     $("checkRun").disabled = $("askRun").disabled = true;
     return;
   }
+  modeDraw();
   fillTabs($("checkTabs"), null, chooseCheckFiling);
   fillTabs($("askTabs"), null, chooseAskFiling);
-  fillTabs($("createTabs"), null, chooseCreateFiling);
   if (isNum(START.max_memo)) $("memoInput").maxLength = START.max_memo;
   chooseCheckFiling(START.filings[0]);
   const lastThread = storedThread();  // choosing a filing starts a new conversation, so read this first
   chooseAskFiling(START.filings[0]);
   restoreAsk(lastThread);
-  chooseCreateFiling(START.filings[0]);
+  drawCreateHint();
   drawCreateHint();
   drawAskAvailable();
   refreshPending();
   drawOperatorNote();
   if (START.score) setModel(START.score.model);
+  guideDraw();
 }
 boot();
 </script>

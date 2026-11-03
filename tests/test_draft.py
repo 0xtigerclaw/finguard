@@ -287,7 +287,7 @@ def test_a_question_at_the_limit_goes_through(ctx):
 def test_a_new_question_needs_a_key(ctx):
     ctx.transport = None
     out = ask(ctx)
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_new_question_stops_at_the_limit(ctx, monkeypatch):
@@ -623,7 +623,7 @@ def test_a_follow_up_needs_a_key_when_it_is_not_saved(ctx):
     first = ask(ctx)
     ctx.transport = None
     out = ask(ctx, FOLLOW_UP, thread_id=first.result["thread_id"])
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 # Saved conversations replay real Muse replies
@@ -701,19 +701,19 @@ def test_a_saved_turn_sent_no_more_pages_than_the_bound(ctx, name):
 def test_a_question_that_differs_by_a_word_is_live_not_saved(ctx):
     ctx.transport = None
     out = ask(ctx, saved_questions("anthropic")[0].replace("money", "a profit"))
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_saved_question_on_another_filing_is_not_a_replay(ctx):
     ctx.transport = None
     out = ask(ctx, saved_questions("anthropic")[0], "nebius")
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_saved_follow_up_asked_first_is_live(ctx):
     ctx.transport = None
     out = ask(ctx, saved_questions("anthropic")[1])
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_saved_turn_out_of_order_is_live(ctx):
@@ -722,7 +722,7 @@ def test_a_saved_turn_out_of_order_is_live(ctx):
     first = ask(ctx, asked[0])
     assert first.result["saved"] is True
     out = ask(ctx, asked[2], thread_id=first.result["thread_id"])  # the third, skipping the second
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_saved_question_after_a_different_turn_is_live(ctx):
@@ -730,7 +730,7 @@ def test_a_saved_question_after_a_different_turn_is_live(ctx):
     live = ask(ctx, ASKED)  # scripted, so it stands in for a live turn
     ctx.transport = None
     out = ask(ctx, asked[1], thread_id=live.result["thread_id"])
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_saved_question_after_a_live_answer_to_the_same_question_is_live(ctx):
@@ -743,13 +743,13 @@ def test_a_saved_question_after_a_live_answer_to_the_same_question_is_live(ctx):
     (ctx.state / "threads" / f"{first.result['thread_id']}.json").write_text(json.dumps(thread), encoding="utf-8")
     ctx.transport = None
     out = ask(ctx, asked[1], thread_id=first.result["thread_id"])
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_a_turn_past_the_end_of_the_saved_conversation_is_live(ctx):
     outs = play(ctx, "nebius")
     out = ask(ctx, "One more?", "nebius", outs[-1].result["thread_id"])
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 # The routes

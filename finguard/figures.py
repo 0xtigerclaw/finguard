@@ -110,9 +110,16 @@ def money(amount: Decimal, currency: str, negative: bool = False) -> str:
     else:
         number, unit = size, ""
     text = f"{number:,f}"
-    if unit == "m" and text.endswith(".0"):
+    if text.endswith(".0") and (unit == "m" or not unit):
         text = text[:-2]
     return f"{'-' if negative else ''}{currency}{text}{unit}"
+
+
+def money_in_millions(amount: Decimal, currency: str, negative: bool = False) -> str:
+    """Money for a sum a person follows, where rounding would break it: $1,618m, -$693m, $46.7m."""
+    millions = abs(amount) / Decimal(10) ** 6
+    text = f"{millions.normalize():,f}" if millions != millions.to_integral_value() else f"{millions.to_integral_value():,f}"
+    return f"{'-' if negative else ''}{currency}{text}m"
 
 
 _PAGE_SCALE = re.compile(r"\bin\s+(?:(?:usd|eur|u\.s\.|us)\s+)?(?:dollars?\s+)?(?:[$€]\s*)?(thousands|millions|billions)\b",

@@ -1,34 +1,40 @@
 {
   "prompts": [
     {
-      "id": "free_cash_flow",
-      "title": "Free cash flow",
-      "prompt": "Free cash flow for the six months ended June 30, 2026: net cash from operating activities minus capital spending on property and equipment.",
-      "filing": "anthropic"
-    },
-    {
       "id": "net_debt",
+      "group": "Metrics",
       "title": "Net debt",
-      "prompt": "Net debt as of June 30, 2026: all debt, current and non-current, minus cash and cash equivalents on the balance sheet date.",
+      "prompt": "Net debt on the latest balance sheet date: all debt minus cash and cash equivalents.",
       "filing": "nebius"
     },
     {
+      "id": "free_cash_flow",
+      "group": "Metrics",
+      "title": "Free cash flow",
+      "prompt": "Free cash flow for the latest period the filing reports: net cash from operating activities minus capital spending on property and equipment.",
+      "filing": "anthropic"
+    },
+    {
       "id": "gross_margin_check",
+      "group": "Metrics",
       "title": "Gross margin check",
-      "prompt": "Gross margin check for the nine months ended September 27, 2026: recompute gross margin from total net sales and total cost of sales, and compare it with the printed gross margin.",
+      "prompt": "Gross margin check for the latest period the filing reports: recompute gross margin from revenue and cost of revenue, and compare it with the printed gross margin.",
       "filing": "asml"
     },
     {
       "id": "capex_intensity",
+      "group": "Metrics",
       "title": "Capex intensity",
-      "prompt": "Capex intensity for the six months ended June 30, 2026: capital spending on property and equipment as a share of revenues.",
+      "prompt": "Capex intensity for the latest period the filing reports: capital spending on property and equipment as a share of revenue.",
       "filing": "nebius"
     },
     {
-      "id": "adjusted_vs_reported_gap",
-      "title": "Adjusted vs reported gap",
-      "prompt": "Adjusted vs reported gap for the six months ended June 30, 2026: the difference between adjusted operating income and the reported operating loss it starts from.",
-      "filing": "anthropic"
+      "id": "equity_value",
+      "group": "Valuation methods",
+      "title": "Equity value from an enterprise value",
+      "prompt": "Equity value from an enterprise value the person enters, on the latest balance sheet date: enterprise value minus all debt plus cash and cash equivalents.",
+      "filing": "nebius",
+      "assumption_example": "100bn"
     }
   ]
 }

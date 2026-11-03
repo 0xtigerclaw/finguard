@@ -2,7 +2,7 @@ from decimal import Decimal
 
 import pytest
 
-from finguard.figures import money, numbers_in_memo, read_figure, same_size, scale_of_page
+from finguard.figures import money, money_in_millions, numbers_in_memo, read_figure, same_size, scale_of_page
 
 
 @pytest.mark.parametrize("text,amount,negative", [
@@ -57,3 +57,11 @@ def test_every_figure_in_a_memo_is_seen_but_dates_are_not():
 ])
 def test_one_way_to_write_money(amount, currency, negative, text):
     assert money(Decimal(amount), currency, negative) == text
+
+
+@pytest.mark.parametrize("amount,negative,text", [
+    (1_618_000_000, False, "$1,618m"), (693_000_000, True, "-$693m"), ("46700000", False, "$46.7m"),
+    (8_499_000_000, False, "$8,499m"), (126_000_000, False, "$126m"), (1_000_000_000, False, "$1,000m"),
+])
+def test_money_for_a_sum_keeps_every_digit(amount, negative, text):
+    assert money_in_millions(Decimal(amount), "$", negative) == text

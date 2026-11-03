@@ -15,7 +15,7 @@ from pathlib import Path
 
 from .check import MATCH, WRONG, Claim, Receipt, _page_currency, _period_fits
 from .core.plugin import Refused, hash_of
-from .figures import money
+from .figures import money, money_in_millions
 from .page import _HEADING, _KIND_SAID, PDF_LOCK, Filing, Word, _centre, _groups, _in_prose, _row_of, _same_line, squeeze
 
 FILE_NAME = "house_rules.json"
@@ -236,12 +236,6 @@ def _unmarked(row: str) -> str:
     return _FOOTNOTE.sub("", row)
 
 
-def _printed_list(cells: list[_Cell]) -> str:
-    parts = [f"{_unmarked(c.row)} {c.word.text}" if c.value is not None else f"{_unmarked(c.row)}, which prints a dash here"
-             for c in cells]
-    return ", and ".join(parts)
-
-
 # Applying a rule to one cell
 
 def _work(rule: dict, filing: Filing, page: int, word: Word) -> dict:
@@ -267,6 +261,9 @@ def _work(rule: dict, filing: Filing, page: int, word: Word) -> dict:
 
     def in_money(value: Decimal) -> str:
         return money(abs(value) * Decimal(10) ** scale, currency, value < 0)
+
+    def exact(value: Decimal) -> str:
+        return money_in_millions(abs(value) * Decimal(10) ** scale, currency, value < 0)
 
     def entry(cell_word: Word, printed_row: str, value: Decimal | None) -> dict:
         return {"row": printed_row, "printed": cell_word.text,
@@ -314,17 +311,20 @@ def _work(rule: dict, filing: Filing, page: int, word: Word) -> dict:
                "gap": _number(difference), "gap_money": in_money(difference), "ties": True,
                "from": entry(start.word, start.row, start.value),
                "items": [entry(c.word, c.row, c.value) for c in others]}
+        printed_start = f"{in_money(start.value)} (printed as {start.word.text})"
         if difference == 0:
-            gap_words = (f"That equals the printed {_unmarked(start.row)} of {start.word.text}, because nothing else is added "
-                         "back in this column.")
+            gap_words = f"That equals the {_unmarked(start.row)} of {printed_start}, because nothing else is added back here."
         else:
-            gap_words = (f"That is not the printed {_unmarked(start.row)} of {start.word.text}. The gap is {_number(difference)}: "
-                         f"{_printed_list(others)}. The filing adds these back too, and {rule['id']} leaves them in. "
-                         f"{_number(start.value)} + {_number(difference)} = {_number(result)}.")
+            items = ", and ".join(f"{_unmarked(c.row)}, {exact(c.value)}" if c.value is not None
+                                  else f"{_unmarked(c.row)}, which prints a dash here" for c in others)
+            gap_words = (f"That is not the {_unmarked(start.row)} of {printed_start}. The gap is {exact(difference)}: {items}. "
+                         f"The filing adds these back too, and {rule['id']} leaves them in. "
+                         f"{exact(start.value)} + {exact(difference)} = {exact(result)}.")
     return {**note, "status": DIFFERS, "house_money": in_money(result), "gap": gap, "working": (
-        f"Under {column}, {_unmarked(row)} is printed as {word.text} and {_unmarked(taken.row)} as {taken.word.text}. "
-        f"{rule['id']} does not add {rule['removes']['label']} back, so {_number(value)} - {_number(taken.value)} = "
-        f"{_number(result)}. The {rule['result_label']} is {in_money(result)} rather than {in_money(value)}. {gap_words}")}
+        f"Under {column}, {_unmarked(row)} is {in_money(value)} (printed as {word.text}) and {_unmarked(taken.row)} is "
+        f"{in_money(taken.value)} (printed as {taken.word.text}). {rule['id']} does not add {rule['removes']['label']} back, so "
+        f"{exact(value)} - {exact(taken.value)} = {exact(result)}. The {rule['result_label']} is {in_money(result)} rather than "
+        f"{in_money(value)}. {gap_words}")}
 
 
 def _word_at(filing: Filing, page: int, box: list, printed: str) -> Word | None:

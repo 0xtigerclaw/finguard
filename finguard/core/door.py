@@ -58,8 +58,9 @@ def _keep_result(ctx: Context, result: dict) -> None:
         (ctx.run_folder / "outcome.json").write_text(text, encoding="utf-8")
 
 
-def dispatch(name: str, params: dict | None, actor: str, ctx: Context, approval_id: str | None = None) -> Outcome:
-    """Refuse, ask for approval, or run. Every step goes on the ledger."""
+def dispatch(name: str, params: dict | None, actor: str, ctx: Context, approval_id: str | None = None,
+             caller: str = "") -> Outcome:
+    """Refuse, ask for approval, or run. Every step goes on the ledger. `caller` is who a live limit counts against."""
     run_id = f"run_{secrets.token_hex(8)}"
     name = str(name)[:MAX_NAME]
     params = {} if params is None else params
@@ -88,7 +89,7 @@ def dispatch(name: str, params: dict | None, actor: str, ctx: Context, approval_
     if problem:
         return refuse(problem)
 
-    call = replace(ctx, run_id=run_id, actor=actor, approval=None)
+    call = replace(ctx, run_id=run_id, actor=actor, approval=None, caller=caller)
     if cap.approval == "person":
         try:
             subject_now = cap.subject(call, params)

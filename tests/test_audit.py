@@ -469,7 +469,7 @@ def test_a_house_answer_is_not_given_to_another_measure(tmp_path, question):
 
 def test_the_house_working_stays_right(tmp_path):
     answer = answer_question(load_rules(tmp_path), filing(S1), "Under the house method, what is adjusted operating income for H1 2026?")
-    assert answer["house_money"] == "-$567m" and "1,618 - 2,185 = -567" in answer["working"]
+    assert answer["house_money"] == "-$567m" and "$1,618m - $2,185m = -$567m" in answer["working"]
 
 
 # The saved memos, end to end.

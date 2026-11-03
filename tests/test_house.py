@@ -78,12 +78,12 @@ def test_the_working_comes_from_the_real_page(ctx):
     assert answer["status"] == "differs" and answer["house_money"] == "-$567m"
     assert answer["column"] == "Six Months Ended June 30, 2026" and answer["page"] == BRIDGE
     assert answer["working"] == (
-        "Under Six Months Ended June 30, 2026, Adjusted Operating Income (Loss) is printed as 1,618 and "
-        "Stock-based compensation expense as 2,185. HR-1 does not add stock-based compensation back, so "
-        "1,618 - 2,185 = -567. The house operating result is -$567m rather than $1.6bn. "
-        "That is not the printed Operating loss of (693). The gap is 126: Non-cash charitable contributions 126, "
+        "Under Six Months Ended June 30, 2026, Adjusted Operating Income (Loss) is $1.6bn (printed as 1,618) and "
+        "Stock-based compensation expense is $2.2bn (printed as 2,185). HR-1 does not add stock-based compensation back, so "
+        "$1,618m - $2,185m = -$567m. The house operating result is -$567m rather than $1.6bn. "
+        "That is not the Operating loss of -$693m (printed as (693)). The gap is $126m: Non-cash charitable contributions, $126m, "
         "and Bartz settlement, which prints a dash here. The filing adds these back too, and HR-1 leaves them in. "
-        "-693 + 126 = -567.")
+        "-$693m + $126m = -$567m.")
     assert answer["drafted_by_muse"] is False and ctx.transport.calls == 0
 
 
@@ -108,17 +108,17 @@ def test_every_input_is_the_real_printed_cell_in_one_column(ctx, s1):
 
 
 @pytest.mark.parametrize("question, column, adjusted, removed, operating, result, money", [
-    ("six months 2025", "Six Months Ended June 30, 2025", "(1,849)", "286", "(2,135)", "-2,135", "-$2.1bn"),
-    ("the year ended December 31, 2025", "Year Ended December 31, 2025", "(4,854)", "1,165", "(8,060)", "-6,019", "-$6.0bn"),
-    ("FY2024", "Year Ended December 31, 2024", "(2,788)", "192", "(2,980)", "-2,980", "-$3.0bn"),
-    ("full year 2023", "Year Ended December 31, 2023", "(522)", "29", "(551)", "-551", "-$551m"),
+    ("six months 2025", "Six Months Ended June 30, 2025", "(1,849)", "286", "(2,135)", "-$2,135m", "-$2.1bn"),
+    ("the year ended December 31, 2025", "Year Ended December 31, 2025", "(4,854)", "1,165", "(8,060)", "-$6,019m", "-$6.0bn"),
+    ("FY2024", "Year Ended December 31, 2024", "(2,788)", "192", "(2,980)", "-$2,980m", "-$3.0bn"),
+    ("full year 2023", "Year Ended December 31, 2023", "(522)", "29", "(551)", "-$551m", "-$551m"),
 ])
 def test_another_column_uses_that_columns_own_cells(ctx, s1, question, column, adjusted, removed, operating, result, money):
     answer = apply(ctx, f"Under our rules, what is the operating result for {question}?").result
     assert (answer["status"], answer["column"], answer["house_money"]) == ("differs", column, money)
     assert [i["printed"] for i in answer["inputs"]] == [adjusted, removed]
     assert answer["gap"]["from"]["printed"] == operating
-    assert result in answer["working"] and "-567" not in answer["working"]
+    assert result in answer["working"] and "-$567m" not in answer["working"]
     for entry in answer["inputs"]:
         assert printed_at(s1, entry) == [entry["printed"]]
 
@@ -126,12 +126,12 @@ def test_another_column_uses_that_columns_own_cells(ctx, s1, question, column, a
 def test_the_full_year_gap_names_both_other_items(ctx):
     answer = apply(ctx, "Under our method, FY2025?").result
     assert answer["gap"]["gap"] == "2,041"
-    assert "Non-cash charitable contributions 541, and Bartz settlement 1,500" in answer["working"]
+    assert "Non-cash charitable contributions, $541m, and Bartz settlement, $1,500m" in answer["working"]
 
 
 def test_a_column_whose_operating_loss_is_the_answer_says_so(ctx):
     answer = apply(ctx, "Under our method, H1 2025?").result
-    assert answer["gap"]["gap"] == "0" and "That equals the printed Operating loss of (2,135)" in answer["working"]
+    assert answer["gap"]["gap"] == "0" and "That equals the Operating loss of -$2.1bn (printed as (2,135))" in answer["working"]
 
 
 @pytest.mark.parametrize("quarter, column, cells, money", [
@@ -245,7 +245,7 @@ def test_a_rule_is_data_so_other_data_gives_another_interpretation(s1, rules):
         "label": "the settlement", "names": ["Bartz settlement"]})
     answer = house.answer_question(other, s1, "Under our method, FY2025?")
     assert answer["status"] == "differs" and answer["inputs"][1]["printed"] == "1,500"
-    assert "-4,854 - 1,500 = -6,354" in answer["working"]
+    assert "-$4,854m - $1,500m = -$6,354m" in answer["working"]
 
 
 def test_a_printed_dash_is_not_treated_as_a_number(s1, rules):
@@ -280,10 +280,10 @@ def test_the_same_rule_works_on_a_filing_it_has_never_seen(tmp_path, rules):
     filing = _pdf(tmp_path, GOOD_ROWS)
     answer = house.answer_question(rules, filing, "Under our method, the year ended December 31, 2026?")
     assert answer["status"] == "differs" and answer["house_money"] == "-$45m"
-    assert "35 - 80 = -45" in answer["working"] and "-50 + 5 = -45" in answer["working"]
+    assert "$35m - $80m = -$45m" in answer["working"] and "-$50m + $5m = -$45m" in answer["working"]
     assert answer["gap"]["gap"] == "5"
     earlier = house.answer_question(rules, filing, "Under our method, the year ended December 31, 2025?")
-    assert earlier["house_money"] == "$100m" and "140 - 40 = 100" in earlier["working"]
+    assert earlier["house_money"] == "$100m" and "$140m - $40m = $100m" in earlier["working"]
 
 
 def test_a_table_that_does_not_add_up_gives_no_number(tmp_path, rules):
@@ -326,7 +326,7 @@ def test_money_is_worked_in_decimal(tmp_path, rules):
     filing = _pdf(tmp_path, [("Operating income", "0.1", "0.3"), ("Stock-based compensation", "0.2", "0.1"),
                              ("Adjusted Operating Income", "0.3", "0.4")])
     answer = house.answer_question(rules, filing, "Under our method, the year ended December 31, 2026?")
-    assert "0.4 - 0.1 = 0.3" in answer["working"] and answer["gap"]["gap"] == "0.0"  # binary floats would miss this
+    assert "$0.4m - $0.1m = $0.3m" in answer["working"] and answer["gap"]["gap"] == "0.0"  # binary floats would miss this
     assert Decimal(answer["gap"]["gap"]) == 0
 
 
@@ -342,7 +342,7 @@ def test_a_check_attaches_the_note_and_keeps_the_verdict(ctx, rules):
     assert (note["rule_id"], note["text"], note["status"], note["house_money"]) == ("HR-1", HR1_TEXT, "differs", "-$567m")
     assert [i["printed"] for i in note["inputs"]] == ["1,618", "2,185"]
     assert {"row", "printed", "box", "page"} <= set(note["inputs"][1])
-    assert "1,618 - 2,185 = -567" in note["working"]
+    assert "$1,618m - $2,185m = -$567m" in note["working"]
     assert [n["house_money"] for n in result["house_notes"]] == ["-$567m"]
     assert result["record"]["holds"] is True
 

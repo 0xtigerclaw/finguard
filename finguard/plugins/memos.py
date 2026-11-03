@@ -6,17 +6,21 @@ from pathlib import Path
 
 from .. import house
 from ..check import MATCH, REFUSED, UNCHECKED, WRONG, check_memo
-from ..core.context import MAX_MEMO, Context, corrected_memo, corrected_replies, saved_memo, saved_replies
+from ..core.context import MAX_MEMO, Context, corrected_memo, corrected_replies, saved_examples, saved_memo, saved_replies
 from ..core.ledger import record_problems
 from ..core.plugin import Capability, Refused, Registry
-from ..figures import numbers_in_memo
+from ..figures import numbers_in_memo, read_figure
 from ..muse import Muse, ReplayTransport, Transport
 from ..page import Filing
+from ..pointers import PointerMuse, SavedPointers, find_saved_pointers
 from ..record import Run
+
+MAX_DECIMALS = 12  # past this, comparing a figure with a cell runs out of decimal precision
 
 MEMO_PARAMS = {"type": "object", "additionalProperties": False, "required": ["memo", "filing"], "properties": {
     "memo": {"type": "string", "description": f"Up to {MAX_MEMO:,} characters."},
     "filing": {"type": "string", "pattern": "^[a-z0-9-]{1,40}$", "description": "A filing id from filings.list."},
+    "live": {"type": "boolean", "description": "Call Muse now, even for a memo that has a recording."},
 }}
 
 
@@ -59,6 +63,14 @@ def clean_memo(memo: str) -> str:
     return memo
 
 
+def _refuse_too_fine(memo: str) -> None:
+    """Refuse a number no comparison could finish on, before any call is spent on it."""
+    for _, _, text in numbers_in_memo(memo):
+        figure = read_figure(text)
+        if figure and figure.decimals > MAX_DECIMALS:
+            raise Refused(f"A number in this memo has more than {MAX_DECIMALS} decimal places. Shorten it and check again.")
+
+
 def _share_images(folder: Path, store: Path) -> None:
     """Keep each page image once across runs, so repeat checks of a saved memo cannot fill the disk."""
     store.mkdir(parents=True, exist_ok=True)
@@ -75,10 +87,11 @@ def _share_images(folder: Path, store: Path) -> None:
             continue  # a disk with no hard links just keeps the copies
 
 
-def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Transport, run: Run, saved: bool) -> dict:
+def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Transport, run: Run, saved: bool,
+            pointers: SavedPointers | None = None) -> dict:
     """Run the check on a run already open, and build the memo.check result. memo.draft uses this too."""
     rules = house.active_rules(ctx)  # before any Muse call, so rules that do not hold cost nothing
-    muse = Muse(transport, run)
+    muse = PointerMuse(transport, run, pointers) if pointers else Muse(transport, run)
     receipts = [r.to_dict() for r in check_memo(memo, filing, muse, run)]
     notes = house.apply_to_receipts(rules, filing, receipts)
     # On the run's own record, so a release reads which rules this check ran under from the hash chain.
@@ -88,6 +101,8 @@ def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Trans
     return {
         "receipts": place_receipts(memo, receipts),
         "saved": saved,
+        "saved_pointers": pointers is not None,
+        "base_memo": pointers.base_memo if pointers else None,
         "model": muse.model,
         "filing": name,
         "filing_sha256": filing.sha256,
@@ -103,12 +118,20 @@ def checked(ctx: Context, memo: str, name: str, filing: Filing, transport: Trans
 def _check(ctx: Context, params: dict) -> dict:
     memo = clean_memo(params["memo"])
     filing = ctx.filings.get(params["filing"])
+    if params.get("live"):
+        _refuse_too_fine(memo)
+        return checked(ctx, memo, params["filing"], filing, ctx.live_transport(), Run(ctx.run_folder), False)
     is_corrected = memo == corrected_memo(params["filing"])
     saved = is_corrected or memo == saved_memo(params["filing"])
-    # A memo identical to a saved example replays real replies, with no API call and no key.
-    replies = corrected_replies(params["filing"]) if is_corrected else saved_replies(params["filing"])
-    transport = ReplayTransport(replies) if saved else ctx.live_transport()
-    return checked(ctx, memo, params["filing"], filing, transport, Run(ctx.run_folder), saved)
+    if saved:  # A memo identical to a saved example replays real replies, with no API call and no key.
+        replies = corrected_replies(params["filing"]) if is_corrected else saved_replies(params["filing"])
+        return checked(ctx, memo, params["filing"], filing, ReplayTransport(replies), Run(ctx.run_folder), True)
+    _refuse_too_fine(memo)
+    pointers = find_saved_pointers(memo, saved_examples(params["filing"]))
+    if pointers:  # Only its numbers differ, so no live call is needed and none is spent.
+        return checked(ctx, memo, params["filing"], filing, ReplayTransport(pointers.replies), Run(ctx.run_folder), False, pointers)
+    transport = ctx.live_transport()
+    return checked(ctx, memo, params["filing"], filing, transport, Run(ctx.run_folder), False)
 
 
 def register(registry: Registry) -> None:

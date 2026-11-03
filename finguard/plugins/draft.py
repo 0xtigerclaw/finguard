@@ -67,6 +67,7 @@ DRAFT_PARAMS = {"type": "object", "additionalProperties": False, "required": ["f
     "question": {"type": "string", "maxLength": MAX_QUESTION, "description": f"Up to {MAX_QUESTION} characters."},
     "thread_id": {"type": "string", "pattern": "^thr_[0-9a-f]{16}$",
                   "description": "The conversation to continue. Leave it out to start a new one."},
+    "live": {"type": "boolean", "description": "Call Muse now, even for a question that has a recording."},
 }}
 
 _THREAD_ID = re.compile(r"thr_[0-9a-f]{16}")
@@ -258,7 +259,7 @@ def _draft(ctx: Context, params: dict) -> dict:
     pages = likely_pages(filing, question, [t["question"] for t in turns[-EARLIER_TURNS:]])
     if not pages:
         raise Refused("No page in this filing mentions that year, so there is nothing to draft from.")
-    saved = _replays(name, [t["question"] for t in turns] + [question], turns)
+    saved = not params.get("live") and _replays(name, [t["question"] for t in turns] + [question], turns)
     # A saved conversation replays real replies, with no API call and no key.
     transport = ReplayTransport(draft_replies(name)) if saved else ctx.live_transport()
     thread_id = params.get("thread_id") or f"thr_{secrets.token_hex(8)}"

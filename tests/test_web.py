@@ -56,7 +56,7 @@ def test_the_page_loads():
 
 def test_start_has_the_contract_shape(monkeypatch):
     start = client.get("/api/start").json()
-    assert set(start) == {"filings", "live", "max_memo", "operator_required", "score"}
+    assert set(start) == {"filings", "live", "max_memo", "operator_required", "demo_reviewer", "score"}
     assert {f["id"] for f in start["filings"]} == {"anthropic", "nebius", "asml"}
     row = next(f for f in start["filings"] if f["id"] == "anthropic")
     assert set(row) == {"id", "company", "document", "sha256", "pages", "memo", "corrected", "conversation"} and row["memo"] == MEMO
@@ -125,7 +125,7 @@ def test_the_saved_memo_replays_with_no_key():
 
 def test_a_new_memo_needs_a_key():
     body = do("memo.check", {"memo": "Revenue was $5m.", "filing": "anthropic"})
-    assert body["status"] == "refused" and "Live checks are off" in body["why"]
+    assert body["status"] == "refused" and "Live is off" in body["why"]
 
 
 def test_live_checks_stop_at_the_limit(ctx, monkeypatch):
@@ -393,9 +393,16 @@ def test_behind_a_proxy_only_the_last_forwarded_address_counts(monkeypatch):
     assert send("203.0.113.8") != 429
 
 
-def test_warming_reads_the_saved_pages_and_changes_no_verdict(monkeypatch):
+def test_warming_reads_the_saved_pages_without_making_start_up_wait(monkeypatch):
+    calls = []
     monkeypatch.setenv("FINGUARD_WARM", "1")
+    monkeypatch.setattr(web, "_read_saved_pages", lambda: calls.append("read"))
     web._warm_saved_pages()
+    import threading
+    for t in threading.enumerate():
+        if t.name == "warm-saved-pages":
+            t.join(5)
+    assert calls == ["read"]
+    web._read_saved_pages()  # the real one: it must run and cache a saved page
     from finguard.core.context import FILINGS, open_filing
-    filing = open_filing(web.ROOT / "data" / FILINGS["anthropic"][0])
-    assert 166 in filing.page_cells
+    assert 166 in open_filing(web.ROOT / "data" / FILINGS["anthropic"][0]).page_cells

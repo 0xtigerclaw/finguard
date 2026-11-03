@@ -256,7 +256,7 @@ def test_an_unknown_filing_is_refused(ctx):
 def test_a_new_memo_needs_a_key(ctx):
     ctx.transport = None
     out = dispatch("memo.check", {"memo": "Revenue was $5m.", "filing": "anthropic"}, "web", ctx)
-    assert out.status == "refused" and "Live checks are off" in out.why
+    assert out.status == "refused" and "Live is off" in out.why
 
 
 def test_live_checks_stop_at_the_limit(ctx, monkeypatch):

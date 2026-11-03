@@ -12,6 +12,10 @@ Limits, all plain code and all set by env vars with safe defaults:
 - Threads: FINGUARD_MAX_THREADS (default 200) stored approval requests.
   In this file a thread means one stored approval request file. A POST
   that would ask for a new approval at the cap gets 503.
+- Live: FINGUARD_LIVE_LIMIT (default 20) live memos per instance, and
+  FINGUARD_LIVE_PER_IP (default 5) per caller each hour, by the same address
+  as the rate limit. Over either, the door refuses. Saved examples and a
+  memo with only its numbers changed make no live call, so they do not count.
 
 Both caps refuse new work. They never evict. Deleting the oldest run or
 approval would leave ledger lines that point at a folder or request that
@@ -35,7 +39,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel, Field
 
-from .core.approvals import CannotDecide
+from .core.approvals import DEMO_REVIEWER, CannotDecide, NotOperator
 from .core.context import FILINGS, open_filing, MAX_MEMO, ROOT, Context
 from .core.door import dispatch
 from .core.ledger import record_problems
@@ -172,6 +176,7 @@ class DecideRequest(BaseModel):
     decision: str = ""
     reason: str = ""
     operator_token: str = ""
+    demo: object = False  # only a plain true counts, so nothing else about a request changes
 
 
 def _client_ip(request: Request) -> str:
@@ -199,16 +204,22 @@ def _load_score() -> dict | None:
     return score
 
 
-@app.on_event("startup")
-def _warm_saved_pages() -> None:
-    """Read the saved demos' tables once at start. The first read of a page is slow, then it is cached."""
-    if not os.environ.get("FINGUARD_WARM"):
-        return
+def _read_saved_pages() -> None:
     for pdf, *_ in FILINGS.values():
         filing = open_filing(ROOT / "data" / pdf)
         for pinned in sorted((ROOT / "data" / "pinned_pages" / filing.sha256[:16]).glob("*.png")):
             filing.text(int(pinned.stem))
             filing.cells_on(int(pinned.stem))
+
+
+@app.on_event("startup")
+def _warm_saved_pages() -> None:
+    """Read the saved demos' tables in the background. The first read of a page is slow, then it is cached.
+
+    The site answers at once. Waiting for this at start made a cold visit take about 90 seconds.
+    """
+    if os.environ.get("FINGUARD_WARM"):
+        threading.Thread(target=_read_saved_pages, name="warm-saved-pages", daemon=True).start()
 
 
 def _token_is_right(given: str) -> bool:
@@ -242,6 +253,7 @@ def start() -> dict:
         "live": bool(os.environ.get("MODEL_API_KEY")),
         "max_memo": MAX_MEMO,
         "operator_required": bool(os.environ.get("FINGUARD_OPERATOR_TOKEN")),
+        "demo_reviewer": bool(os.environ.get("FINGUARD_DEMO_REVIEWER")),
         "score": _load_score(),
     }
 
@@ -252,11 +264,11 @@ def rules() -> dict:
 
 
 @app.post("/api/do/{capability}")
-def do(capability: str, req: DoRequest) -> dict:
+def do(capability: str, req: DoRequest, request: Request) -> dict:
     refusal = _storage_refusal(capability, req.approval_id)
     if refusal is not None:
         raise HTTPException(503, refusal)
-    return dispatch(capability, req.params, "web", ctx, approval_id=req.approval_id).to_dict()
+    return dispatch(capability, req.params, "web", ctx, approval_id=req.approval_id, caller=_client_ip(request)).to_dict()
 
 
 @app.get("/api/runs")
@@ -303,10 +315,16 @@ def approvals() -> dict:
 
 @app.post("/api/approvals/{approval_id}/decide")
 def decide(approval_id: str, req: DecideRequest) -> dict:
-    if not _token_is_right(req.operator_token):
+    if _token_is_right(req.operator_token):
+        by = "web_operator"
+    elif req.demo is True and os.environ.get("FINGUARD_DEMO_REVIEWER"):
+        by = DEMO_REVIEWER  # the approvals code holds it to recorded runs: a memo release or a gallery plugin install
+    else:
         raise HTTPException(403, "Only an operator can decide, and that needs a valid operator token.")
     try:
-        return ctx.approvals.decide(approval_id, req.decision, "web_operator", req.reason)
+        return ctx.approvals.decide(approval_id, req.decision, by, req.reason)
+    except NotOperator as e:
+        raise HTTPException(403, str(e)) from None
     except CannotDecide as e:
         raise HTTPException(404 if e.missing else 409, str(e)) from None
 

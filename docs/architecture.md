@@ -11,6 +11,7 @@ verified. The CLI and the web page call the same door, so they cannot differ.
 
     finguard/
       figures.py page.py check.py muse.py record.py errors.py   the checking engine
+      pointers.py         changing a number: a saved example's claims with the memo's numbers in them
       core/plugin.py      Capability, Registry, plugin discovery, load-time rules
       core/door.py        dispatch(): the one door
       core/approvals.py   approval requests, bound to exact content
@@ -77,6 +78,30 @@ Only an operator can decide. The terminal is an operator. On the web, the decisi
 `FINGUARD_OPERATOR_TOKEN`, compared in constant time; if that variable is unset, the web
 cannot decide at all. A model can never decide. Every decision goes on the ledger.
 
+### The demo reviewer
+
+So a visitor to the public demo can see a release through, `FINGUARD_DEMO_REVIEWER`, when set to anything,
+lets `POST /api/approvals/{id}/decide` take `{"decision":"approve","reason":"...","demo":true}` with no token.
+Plain code in `core/approvals.py` allows this only when:
+
+- the request's capability is `memo.release`, and
+- its check run is a finished `memo.check` or `memo.draft` whose kept result has `saved` or `saved_pointers`
+  true, and that result's hash matches the ledger.
+
+Such a memo had no live call. Every number in it must still match, as for any release.
+
+It may also approve `plugins.install`, only for a definition a finished `plugins.create` run replayed from a recorded
+gallery prompt, with that kept result's hash matching the ledger. The plugin it installs can only read, its `verifies`
+and results say the demo reviewer approved it, and a restart checks the same limit again.
+
+Everything else still needs the real token: `rules.change`, `filings.add`, any other `plugins.install`, rejecting, and
+any release of a live run. Those get 403 in plain words. A valid token wins over `demo`, and a real operator
+stays `web_operator`. With the variable unset, `demo` does nothing.
+
+`decided_by` becomes `demo_reviewer`, which is not in `OPERATORS`. The ledger's `approval_decided` and
+`release_sealed` lines and the bundle's `manifest.json` (`approved_by`) all record it, so a release can never
+pass as a real person's.
+
 ## Ledger
 
 `state/ledger.jsonl`, append only and hash chained, with the same chain rule as
@@ -100,10 +125,10 @@ State lives in `FINGUARD_STATE`, defaulting to `./state`, which git ignores. It 
 | rules.list | read | none | The active house rules, their hash, and whether they are the ones a person approved |
 | rules.apply | read | none | Answer a method question from the filing's cells, or refuse a forbidden one. No Muse call |
 | rules.change | act | person | Turn a rule on or off. The subject is the sha256 of the proposed rules |
-| plugins.create | read | none | Muse writes a plugin definition, as data, and code tries it on a filing. Nothing is installed |
-| plugins.install | act | person | Install a definition a plugins.create run produced. The subject is its sha256 |
+| plugins.create | read | none | Muse writes a plugin's idea, as data, and maps it to each filing. Code does each sum. Nothing is installed |
+| plugins.install | act | person | Install a definition a plugins.create run produced. The subject is its sha256, which holds no row |
 | plugins.list | read | none | The gallery prompts, the installed plugins, and whether each is loaded |
-| custom.<name> | read | none | Run an installed definition on a filing. Plain code does the sum |
+| custom.<name> | read | none | Run an installed idea on any filing, with the person's number if it takes one. Plain code does the sum |
 
 `memo.release` takes `check_run_id`. Code refuses it, before asking for approval and again
 when running, unless that run's record holds and every receipt is `match`, with none
@@ -132,6 +157,30 @@ used, or the call fails, the first box goes on to its refusal.
 states a level, such as "was" or "reached", or the number must start its sentence or follow a colon.
 Anything else is refused for a person to read, even when it is
 harmless.
+
+## Changing a number
+
+A memo that differs from a saved example, including the corrected memo, only in its numbers needs no live
+call. `finguard/pointers.py` compares the two with `numbers_in_memo`: the same count of numbers, in the same
+order, and identical text between them. Any other edit, including one word or one space, is a normal live check.
+
+- **Claims.** Muse did not read this memo, so none is asked of it. The claims are the saved listing reply for
+  the example, with the new value and a quote rebuilt from the new memo. `list_claims` then holds them to the
+  usual tests against the new memo.
+- **Pointing.** The pointing request holds a metric, a period and page images, and never the memo's number, so
+  the example's saved replies still apply. They are read with `ReplayTransport`. No saved reply means a refusal,
+  as for any failed call.
+- **The check.** `check_memo` runs unchanged, with the second look and `decide`, on every number, changed or not.
+  A new number that cannot be read gets the normal refusal. A number no claim covers is `unchecked`.
+- **The result.** `saved` is false, `saved_pointers` is true and `base_memo` names the example, such as
+  `anthropic_memo_corrected`. `saved_pointers` is false and `base_memo` null on every other check.
+- **The record.** A `saved_pointers` line follows `start`. It holds `base_memo`, `base_memo_sha256`, `changes`
+  as `[{from, to}]`, the listing request's and reply's hashes, and a plain note. The saved listing call is not
+  written as a `muse_call`, since Muse was not called. Verdicts still come only from code.
+- **Cost.** No key and no live budget.
+
+A number with over 12 decimal places is refused for any new memo, before any call, because comparing it with a
+cell runs out of decimal precision.
 
 ## Threads
 
@@ -203,18 +252,49 @@ manifest records `rules_sha256` and `house_notes`.
 
 ## Creator Mode
 
-A person describes a finance plugin and Muse writes a definition. A definition is JSON data, never
-code: rows, simple arithmetic, a unit and a period. Every field is untrusted. `finguard/plugins/creator.py`
-checks it strictly, parses the formula with its own small parser, reads each row by position and works
-the sum out in Decimal. A row it cannot find, or cannot pin to one number, gives `unavailable`.
+A person describes a finance plugin once, and it runs on any filing. The plugin holds the idea. Muse maps the idea
+to each filing, code reads every cell and does the sum, and Muse never gives a value.
 
-`plugins.install` refuses a definition that no finished `plugins.create` run on the ledger produced. On
-approval it writes `state/plugins/<name>.json` and registers `custom.<name>`. At every start,
-`Registry.at_start` hooks run once the state folder is open, and each file must pass the checks again and
-match the approved hash on the ledger. One that fails stays out, and `plugins.list` says why.
+**Two kinds of Muse call.** The idea call turns the prompt into a definition: `{name, title, summary, verifies, unit,
+idea, assumption:{key,label}|null}`. It names no row. A mapping call then runs per filing, with that filing's likely
+pages as text and images, and returns the rows as printed, a formula over the input keys and the assumption key, and
+the period: kind, year and the month the column ends in. Or it says `mappable: false` and why. Everything Muse returns
+is untrusted, and page content is data. `finguard/plugins/creator.py` checks each definition and mapping strictly,
+parses the formula with its own small parser, reads each row by position and works in Decimal. A row it cannot find,
+or cannot pin to one number, gives `unavailable` with a plain reason, and one filing failing does not fail the others.
 
-Gallery prompts in `examples/creator_prompts.json`, with replies in `tests/recordings/creator_*`, replay
-with no API. These replies are keyed by the exact request, including the page text and images.
+**`plugins.create`** takes `{prompt, live?, assumption?, filing?}`, and runs on every built-in filing unless `filing`
+limits it. It returns `{definition, definition_sha256, results:[{filing, company, status, value, money, display, reason,
+working, period, inputs:[{key, row, printed, money, box, page, column}], assumption_used, compare, saved, warnings,
+one_table, unit}], drafted_by_muse, saved, scored:false, label, reused, assumption_ignored, model, prompt, record}`.
+`assumption_used` is `{key, label, value, money, source:"person"|"example"}` or null. `compare` is null with no compare row.
+
+**The person's number.** A plugin may take one money amount, such as an enterprise value. It is text like `$100bn`,
+read with `read_figure` and bounded. Muse is never sent it, so changing it makes no call: a gallery prompt replays,
+and any other prompt reuses its saved idea and mappings. With no number, a gallery prompt uses its `assumption_example`,
+labelled as an example, and any other gives `Enter the <label> to run this`. A number with no currency takes the
+filing's. One in another currency gives `unavailable`, since code does not convert. The working says plainly which
+number is the person's, and the result carries `label: "Arithmetic on your number, not advice"`.
+
+**Saved mappings** live in `state/plugin_mappings/<definition hash>/<filing>.json`, and a `plugin_mapped` ledger line
+holds each hash. One that disagrees with the ledger gives `unavailable`. It is never read as a mapping.
+
+**`plugins.install`** refuses a definition that no finished `plugins.create` run on the ledger produced. Its subject
+is the hash of the definition, so the approval binds to the idea and to no row. On approval it writes
+`state/plugins/<name>.json` and registers `custom.<name>`, which can only read. At every start, `Registry.at_start`
+hooks run once the state folder is open, and each file must pass the checks again and match the approved hash on the
+ledger. One that fails stays out, and `plugins.list` says why. If `filing` is named, its saved mapping must give a
+result there.
+
+**`custom.<name>`** takes `{filing, assumption?}`. It uses the saved mapping if there is one, then the gallery
+recording that wrote the definition, then live Muse under the live limits.
+
+**The gallery** in `examples/creator_prompts.json` has a `group`, Metrics or Valuation methods, and names no company
+or date. Replies in `tests/recordings/creator_*` replay with no API. They are keyed by the exact request, including
+the page text and images, so every page they use is pinned in `data/pinned_pages/`.
+
+**A written workflow.** `examples/plugins/memo_pack.py` is a plain Python plugin: it checks a memo through the door,
+applies a named method, and requests release, which stops at `needs_approval` until a person decides.
 
 ## CLI
 
@@ -234,7 +314,8 @@ JSON unless stated. Errors use FastAPI's `{"detail": "plain words"}`.
     GET  /                                     the page
     GET  /page/{filing}/{page}.png             a page image
     GET  /api/start                            {filings:[{id,company,document,sha256,pages,memo,corrected,
-                                                conversation}], live, max_memo, operator_required, score}
+                                                conversation}], live, max_memo, operator_required, demo_reviewer,
+                                                score}
     GET  /api/rules                            {capabilities:[{name,summary,kind,approval,verifies,params}]}
     POST /api/do/{capability}                  body {params:{}, approval_id?}
                                                -> {status, run_id, result, approval, why}
@@ -244,14 +325,16 @@ JSON unless stated. Errors use FastAPI's `{"detail": "plain words"}`.
                                                 next_questions}]}; 404 if there is no such thread
     GET  /api/approvals                        {approvals:[...]}
     POST /api/approvals/{id}/decide            body {decision:"approve"|"reject", reason, operator_token}
-                                               -> the approval; 403 with no valid token
+                                               or {decision:"approve", reason, demo:true}
+                                               -> the approval; 403 with no valid token, or past what the
+                                               demo reviewer may do
     GET  /api/ledger?limit=100                 {lines:[...], holds:true, problems:[]}
     GET  /api/releases/{id}                    {manifest, memo, receipts, holds}
 
 In `/api/start`, each filing's `memo` is its saved memo, `corrected` is the same memo with its errors
 fixed, and `conversation` is the list of saved questions, in order. Each is empty or null if the
-filing has none. `score` is the final test's summary, with the repeat run inside it as `repeat` and the
-NVIDIA test as `earlier`.
+filing has none. `demo_reviewer` says whether `FINGUARD_DEMO_REVIEWER` is set. `score` is the final test's
+summary, with the repeat run inside it as `repeat` and the NVIDIA test as `earlier`.
 
 The page keeps the current thread's id in `localStorage` and rebuilds the conversation after a reload,
 from `/api/threads/{thread_id}` and `/api/runs/{run_id}`.
@@ -263,6 +346,11 @@ Limits on the web API, each set by an env var:
 - `FINGUARD_MAX_RUNS`, 1,000 by default. At the cap, `POST /api/do` gets 503.
 - `FINGUARD_MAX_THREADS`, 200 by default. Despite its name, this caps stored approval requests. A POST
   that would ask for a new one at the cap gets 503.
+- `FINGUARD_LIVE_LIMIT` live calls per instance, 20 by default, and `FINGUARD_LIVE_PER_IP` per caller each hour,
+  5 by default. A caller is found as for the rate limit: the connection address, or the last forwarded address
+  with `FINGUARD_BEHIND_PROXY`. Over either, the door refuses in plain words. Only a memo, draft or plugin that
+  really goes to Muse counts. Saved examples and changing a number do not. The counts are per instance and held
+  in memory. The terminal has only the instance's limit.
 
 Caps refuse new work and never evict, since a deleted run would leave ledger lines pointing at nothing.
 
@@ -270,14 +358,14 @@ Caps refuse new work and never evict, since a deleted run would leave ledger lin
 
     {receipts:[{verdict, why, value_text, quote, metric, filing_sha256, page, box, muse_box,
                 source_text, source_money, row, column, start, end}],
-     saved: bool, model, filing, filing_sha256, memo, counts:{match,wrong,refused,unchecked},
-     record:{lines,last_hash,holds}}
+     saved: bool, saved_pointers: bool, base_memo: str|null, model, filing, filing_sha256, memo,
+     counts:{match,wrong,refused,unchecked}, record:{lines,last_hash,holds}}
 
 `memo.draft` result: the same, plus `question`, `drafted_by_muse: true`, `thread_id`, `turn` and
 `next_questions`.
 
-Saved memos in `examples/`, with replies in `tests/recordings/`, replay with no API. Live
-calls need `MODEL_API_KEY` and stop at `FINGUARD_LIVE_LIMIT` per instance, 20 by default.
+Saved memos in `examples/`, with replies in `tests/recordings/`, replay with no API, and so does the same memo
+with only its numbers changed. Live calls need `MODEL_API_KEY` and stop at the limits above.
 
 ## The score
 

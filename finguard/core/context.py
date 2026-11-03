@@ -5,6 +5,8 @@ import json
 import os
 import re
 import threading
+import time
+from collections import deque
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -19,6 +21,8 @@ from .plugin import LoadError, Refused, Registry, discover
 ROOT = Path(__file__).parent.parent.parent
 MAX_MEMO = 4000
 DEFAULT_LIVE_LIMIT = 20  # live memos per instance, to protect the credits
+DEFAULT_LIVE_PER_IP = 5  # live memos per caller, each hour, so one visitor cannot use them all
+LIVE_WINDOW_SECONDS = 3600
 
 FILINGS = {
     "anthropic": ("ANTH-S1-2026.pdf", "Anthropic", "Form S-1, filed 26 October 2026"),
@@ -59,6 +63,16 @@ def corrected_memo(name: str) -> str | None:
 
 def corrected_replies(name: str) -> Path:
     return ROOT / "tests" / "recordings" / CORRECTED[name][1]
+
+
+def saved_examples(name: str) -> list[tuple[str, str, Path]]:
+    """A filing's saved memos: each one's name, text and replies."""
+    found = []
+    if saved_memo(name):
+        found.append((SAVED[name][1], saved_memo(name), saved_replies(name)))
+    if corrected_memo(name):
+        found.append((CORRECTED[name][1], corrected_memo(name), corrected_replies(name)))
+    return found
 
 
 def draft_replies(name: str) -> Path:
@@ -124,18 +138,34 @@ class Filings:
 
 
 class LiveBudget:
-    """How many live memos this instance has left."""
+    """How many live memos this instance has left, and how many each caller has left this hour.
 
-    def __init__(self, limit: int) -> None:
+    An empty caller is the terminal, which only the instance's limit applies to. A caller is kept
+    only once it has spent one, so the map can never hold more callers than the instance's limit.
+    """
+
+    def __init__(self, limit: int, per_caller: int = DEFAULT_LIVE_PER_IP) -> None:
         self.limit, self.used = limit, 0
+        self.per_caller = per_caller
+        self.spent: dict[str, deque[float]] = {}
         self.lock = threading.Lock()
 
-    def take(self) -> bool:
+    def take(self, caller: str = "", now: float | None = None) -> str | None:
+        """Spend one live memo and return None, or return why not and spend nothing."""
+        now = time.monotonic() if now is None else now
         with self.lock:
+            hits = self.spent.get(caller, deque())
+            while hits and hits[0] <= now - LIVE_WINDOW_SECONDS:
+                hits.popleft()
+            if caller and len(hits) >= self.per_caller:
+                return "You've used your live runs for now. Demo still works, including changing a number."
             if self.used >= self.limit:
-                return False
+                return "Live has reached its limit on this server. Demo still works, including changing a number."
             self.used += 1
-            return True
+            if caller:
+                hits.append(now)
+                self.spent[caller] = hits
+            return None
 
 
 @dataclass
@@ -151,6 +181,7 @@ class Context:
     run_id: str = ""  # the door fills in these three for each call
     actor: str = ""
     approval: dict | None = None
+    caller: str = ""  # the web caller's address, for the per-caller live limit. Empty at the terminal
 
     @classmethod
     def build(cls, state: Path | str | None = None, package: str = "finguard.plugins", **extra) -> "Context":
@@ -160,9 +191,13 @@ class Context:
             limit = int(os.environ.get("FINGUARD_LIVE_LIMIT", DEFAULT_LIVE_LIMIT))
         except ValueError:
             raise LoadError("FINGUARD_LIVE_LIMIT must be a whole number.") from None
+        try:
+            per_caller = int(os.environ.get("FINGUARD_LIVE_PER_IP", DEFAULT_LIVE_PER_IP))
+        except ValueError:
+            raise LoadError("FINGUARD_LIVE_PER_IP must be a whole number.") from None
         ledger = Ledger(folder)
         ctx = cls(state=folder, registry=discover(package), ledger=ledger, approvals=Approvals(folder, ledger),
-                  filings=Filings(folder), live=LiveBudget(limit), **extra)
+                  filings=Filings(folder), live=LiveBudget(limit, per_caller), **extra)
         for start in ctx.registry.at_start:  # a plugin may add capabilities kept in the state folder
             start(ctx)
         return ctx
@@ -176,7 +211,8 @@ class Context:
         if self.transport is not None:
             return self.transport
         if not os.environ.get("MODEL_API_KEY"):
-            raise Refused("Live checks are off here. Saved examples still work.")
-        if not self.live.take():
-            raise Refused("Live checks have reached their limit on this server. Saved examples still work.")
+            raise Refused("Live is off on this server. Demo still works, including changing a number.")
+        over = self.live.take(self.caller)
+        if over:
+            raise Refused(over)
         return LiveTransport(timeout=240)
