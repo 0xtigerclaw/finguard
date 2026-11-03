@@ -157,7 +157,7 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
 .t th:last-child,.t td:last-child,.ledger th:last-child,.ledger td:last-child{padding-right:18px}
 .t .m{font-family:var(--mono);font-size:12.5px}
 .t a.open{display:inline-flex;align-items:center;min-height:30px;font-size:13.5px;font-weight:600;text-underline-offset:3px}
-.ledger tbody tr{cursor:pointer}
+.ledger tbody tr[data-i]{cursor:pointer}
 .ledger tbody tr:hover{background:var(--bg)}
 .ledger tr[aria-current=true]{background:var(--tint)}
 .pick{background:none;border:0;padding:6px 0;min-height:36px;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -436,9 +436,15 @@ button.fig::after{content:"";position:absolute;inset:-13px -4px}
   .model{display:none}
   .menu{margin-left:auto}
 }
+/* Keyboard focus must stay visible even where a container clips its children. */
+.tabs button:focus-visible,.viewer:focus-visible{outline-offset:-3px}
+button.fig:focus-visible{outline-offset:4px}
+.field:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
 @media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .fig .ring path,.fig .tick path{stroke-dashoffset:0}
+  .fig .ring path,.fig .tick path{stroke-dashoffset:0;animation-delay:0s!important}
 }
 @media (forced-colors:active){
   .nav a[aria-current=page]{outline:2px solid CanvasText}
@@ -682,6 +688,7 @@ const VERDICT = {match: "Matches the filing", wrong: "Wrong", refused: "Refused"
 const VERDICT_SHORT = {match: "match", wrong: "wrong", refused: "refused", unchecked: "not checked"};
 const verdictOf = r => VERDICTS.includes(r.verdict) ? r.verdict : "unchecked";
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrollBehavior = () => reduced() ? "auto" : "smooth";
 const stacked = () => matchMedia("(max-width: 1099px)").matches;
 const short = (s, n = 12) => (s == null ? "" : String(s).slice(0, n));
 const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
@@ -1424,8 +1431,17 @@ function chooseAskFiling(f) {
   $("askDoc").textContent = docLine(f);
   newConversation();
 }
+/* The thread id is a convenience, so storage may fail or be empty. The server still holds the conversation. */
+const THREAD_KEY = "finguard.thread", THREAD_ID = /^thr_[0-9a-f]{16}$/;
+function storedThread() {
+  try { const id = localStorage.getItem(THREAD_KEY); return id && THREAD_ID.test(id) ? id : null; } catch (e) { return null; }
+}
+function storeThread(id) {
+  try { if (id) localStorage.setItem(THREAD_KEY, id); else localStorage.removeItem(THREAD_KEY); } catch (e) { /* nothing to keep */ }
+}
 function newConversation() {
   ask.threadId = null; ask.asked = []; ask.savedOk = true; ask.suggested = [];
+  storeThread(null);
   $("askTurns").replaceChildren();
   $("askInput").value = "";
   $("askState").textContent = ""; $("askState").className = "state";
@@ -1567,6 +1583,7 @@ async function runAsk(text) {
     if (out.status !== "done" || !out.result) { drawNotRun(answer, outcomeWords(out)); return; }
     const r = out.result;
     ask.threadId = r.thread_id || ask.threadId;
+    storeThread(ask.threadId);
     ask.asked.push(question);
     ask.savedOk = ask.savedOk && !!r.saved;
     ask.suggested = Array.isArray(r.next_questions) ? r.next_questions : [];
@@ -1584,6 +1601,42 @@ async function runAsk(text) {
     drawAskHint();
     drawAskAvailable();
   }
+}
+
+/* After a reload, put the conversation back from the server. A thread that is gone just starts fresh. */
+async function restoreAsk(id) {
+  if (!id || !START) return;
+  let thread = null;
+  try { thread = await api(`/api/threads/${enc(id)}`); } catch (e) { thread = null; }
+  const f = thread && Array.isArray(thread.turns) && thread.turns.length && START.filings.find(x => x.id === thread.filing);
+  if (!f) {
+    storeThread(null);
+    $("askState").textContent = "That saved conversation is gone, so a new one is ready.";
+    return;
+  }
+  chooseAskFiling(f);  // this starts a new conversation, so the thread is set after it
+  ask.threadId = id;
+  storeThread(id);
+  for (const turn of thread.turns) {
+    const answer = addTurn(String(turn.question || ""));
+    let run = null;
+    try { run = await api(`/api/runs/${enc(turn.run_id)}`); } catch (e) { run = null; }
+    const r = run && run.result;
+    if (!r) {
+      answer.append(el("p", "state", "The proof for this answer is no longer on this server."), el("p", "", String(turn.memo || "")));
+      ask.savedOk = false;
+    } else {
+      const memoSlot = el("div", "answer-memo"), resultSlot = el("div", "answer-result");
+      answer.append(memoSlot, resultSlot);
+      makeBench(memoSlot, resultSlot, ask.desk, {lines: true}).render({memo: r.memo || "", result: r, id: turn.run_id, filing: f.id,
+        labels: savedLabels({...r, drafted_by_muse: true}, false), focusAfter: false});
+      ask.savedOk = ask.savedOk && !!r.saved;
+    }
+    ask.asked.push(String(turn.question || ""));
+    ask.suggested = Array.isArray(turn.next_questions) ? turn.next_questions : [];
+  }
+  drawAskChips();
+  drawAskHint();
 }
 
 /* ---------- Create ---------- */
@@ -2463,7 +2516,9 @@ async function startData() {
   fillTabs($("createTabs"), null, chooseCreateFiling);
   if (isNum(START.max_memo)) $("memoInput").maxLength = START.max_memo;
   chooseCheckFiling(START.filings[0]);
+  const lastThread = storedThread();  // choosing a filing starts a new conversation, so read this first
   chooseAskFiling(START.filings[0]);
+  restoreAsk(lastThread);
   chooseCreateFiling(START.filings[0]);
   drawCreateHint();
   drawAskAvailable();
