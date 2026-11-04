@@ -34,7 +34,7 @@ The switch in the top bar picks the mode. **Demo** replays recorded Muse replies
 
 Muse replies in schema-locked JSON. A bad reply can cause a refusal, but only code gives a verdict.
 
-## Build your own plugin
+## Build your own plugin (Finance Creator Mode)
 
 **Describe it.** Open **Create** and describe a method that gives one number. Muse writes the idea and maps it to each filing, as data and never as code. Code reads the cells and does the sum, and a person approves the install. It can use one number of yours, and changing that number makes no Muse call.
 
