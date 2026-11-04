@@ -8,11 +8,11 @@ Finguard makes sure the numbers in an investment memo are right, and that is the
 
 It is built on the idea at the heart of DeepSeek Harness: everything is a plugin. It adds one rule that finance needs. Every plugin must state, in code, whether it reads or acts, whether a person must approve it, and how its result is verified. A plugin that acts with no approval rule stops the program at start.
 
-The first plugins do the floor's job: every number in an investment memo gets a receipt from the filing, or a refusal. Muse proposes, code verifies, and a person releases. **Then you build yours:** describe a method in a sentence and it runs on every filing, or write one in Python. See [Build your fund's methods](#build-your-funds-methods).
+The first plugins do the floor's job: every number in an investment memo gets a receipt from the filing, or a refusal. Muse proposes, code verifies, and a person releases. **Then you build yours:** describe a method in a sentence and it runs on every filing, or write one in Python. See [Build your fund's methods](#build-your-funds-methods-as-a-plugin).
 
 **Try it:** https://finguard-157951168487.asia-south1.run.app
 
-**Built with:** Meta Muse Spark 1.3 at runtime. Claude Opus 5.5 wrote and reviewed the code. See [How it was built](#how-it-was-built).
+**Built with:** We used Meta Wonder and Claude Opus 5.5 to build this. Meta Muse Spark 1.3 runs inside it. See [How it was built](#how-it-was-built).
 
 ![Finguard checking an investment memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read: the investment memo says a net loss of $8.7bn, and the filing shows -$80.7bn.](docs/img/check.png)
 
@@ -316,7 +316,7 @@ The score measures the attacks it lists, not every possible error, and the final
 
 ## How it was built
 
-The code was written and reviewed by Claude Opus 5.5, working as several agents in parallel, with a separate audit agent trying to break the checks. Separately, at runtime, Finguard calls one model as a function: Meta Muse Spark 1.3 lists claims, points to cells, writes drafts and writes plugin definitions.
+We used Meta Wonder and Claude Opus 5.5 to build this. The code was written and reviewed by Claude Opus 5.5, working as several agents in parallel, with a separate audit agent trying to break the checks. Separately, at runtime, Finguard calls one model as a function: Meta Muse Spark 1.3 lists claims, points to cells, writes drafts and writes plugin definitions.
 
 ## A new project
 
