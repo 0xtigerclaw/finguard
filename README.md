@@ -97,6 +97,7 @@ The score measures the attacks it lists, on one public filing. It does not cover
 
 ## Limits
 
+- Creator plugins are simple arithmetic: one result, at most one number of yours, and only `+ - * /`. Muse picks the rows and no code checks that choice, so read the working.
 - It refuses true numbers: 6 of 25 on the final test.
 - HR-1 is an example. A fund's real rules replace it, and a reworded question can get past its refusal.
 - It reads numbers in tables only. A number in running prose is refused.
@@ -106,6 +107,8 @@ The score measures the attacks it lists, on one public filing. It does not cover
 - A live run can differ from a recorded one, because Muse's pointing varies.
 - The demo keeps state on one instance. A restart clears its runs and any flags not saved to `eval/misses/`.
 - Anyone who can write to the state folder could forge it whole. The ledger catches edits, not that.
+
+**Future enhancements:** several assumptions per method, a code check on Muse's row choice, describing whole workflows in Create, and more held-out filings.
 
 ## Run it locally
 
