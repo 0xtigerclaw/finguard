@@ -28,7 +28,7 @@ Finguard takes three ideas from DeepSeek Harness's public design, and carries ea
 
 DeepSeek Harness is a general agent harness. Finguard is narrower on purpose: one domain, where a fluent wrong number is the most expensive kind.
 
-## Build your fund's methods
+## Build your fund's methods as a Plugin
 
 A fund's edge is its own methods: how it values a company, which numbers it trusts, what must happen before an investment memo leaves. In Finguard, each one is a plugin, and there are two ways to make one. Both run under the same rules.
 
