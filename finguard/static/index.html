@@ -8,20 +8,23 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2314233a' d='M4 2.5h16a1 1 0 0 1 1 1V21l-3-1.8-3 1.8-3-1.8L9 21l-3-1.8L3 21V3.500a1 1 0 0 1 1-1z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M7.500 10.500l3 3 6-6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>(function(){var t=null;try{t=localStorage.getItem("finguard.theme")}catch(e){}if(t!=="dark")document.documentElement.dataset.theme="light"})()</script>
 <style>
 /* An annotated page on a calm desk. Colour means a verdict; navy means code. */
 :root{
-  --desk:#e6eaef;--desk-2:#dce1e8;--sheet:#fdfcf8;--sheet-2:#f4f3ee;
-  --ink:#14233a;--soft:#55637a;--faint:#74808f;--hair:rgba(20,35,58,.11);--hair-2:rgba(20,35,58,.24);
-  --navy:#1d3c66;--tint:rgba(29,60,102,.08);
-  --match:#17694a;--match-bg:rgba(23,105,74,.1);--wrong:#b02a1c;--wrong-bg:rgba(176,42,28,.09);--refused:#855508;--refused-bg:rgba(133,85,8,.11);--slate:#4f5a65;--slate-bg:rgba(79,90,101,.1);
-  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
-  --sans:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+  --desk:#000;--desk-2:#161616;--sheet:rgba(16,16,16,.66);--sheet-2:rgba(255,255,255,.06);
+  --ink:#f5f5f5;--soft:#a3a3a3;--faint:#7c7c7c;--hair:rgba(255,255,255,.09);--hair-2:rgba(255,255,255,.2);
+  --navy:#a9c0ff;--tint:rgba(169,192,255,.12);
+  --match:#55d494;--match-bg:rgba(85,212,148,.13);--wrong:#ff8070;--wrong-bg:rgba(255,128,112,.13);--refused:#f2b650;--refused-bg:rgba(242,182,80,.13);--slate:#aab3bd;--slate-bg:rgba(170,179,189,.12);
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --serif:var(--sans);
   --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --t-title:38px;--t-head:23px;--t-sub:18px;--t-page:20px;--t-body:15px;--t-small:13px;--t-micro:11.5px;
-  --lift:0 1px 2px rgba(20,35,58,.06),0 10px 30px rgba(20,35,58,.07);
-  --top:60px;--focus:var(--navy);
+  --t-title:46px;--t-head:23px;--t-sub:18px;--t-page:19px;--t-body:15px;--t-small:13px;--t-micro:11.5px;
+  --lift:inset 0 0 0 1px rgba(255,255,255,.08),0 24px 60px rgba(0,0,0,.45);
+  --r:18px;
+  --top:60px;--focus:#fff;--bloom:none;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px)}
@@ -687,6 +690,105 @@ button.fig:focus-visible{outline-offset:4px}
 @media (forced-colors:active){
   .nav a[aria-current=page]{outline:2px solid CanvasText}
 }
+
+/* Night theme with a bloom: black page, soft colour behind the top, dark glass cards. */
+html{overflow-x:clip}
+body::before{content:"";position:absolute;top:-60px;left:0;right:0;height:900px;z-index:-1;pointer-events:none;
+  background:var(--bloom) center/cover no-repeat,
+    radial-gradient(30% 40% at 16% 26%,rgba(255,128,190,.95),transparent 72%),
+    radial-gradient(24% 34% at 40% 12%,rgba(255,110,40,.9),transparent 72%),
+    radial-gradient(30% 42% at 80% 22%,rgba(96,150,255,.95),transparent 72%),
+    radial-gradient(22% 30% at 62% 46%,rgba(255,226,80,.7),transparent 72%),
+    radial-gradient(26% 34% at 30% 56%,rgba(168,116,255,.75),transparent 72%);
+  filter:blur(48px) saturate(1.25);opacity:.62;
+  -webkit-mask-image:linear-gradient(#000 0,rgba(0,0,0,.5) 32%,transparent 78%);mask-image:linear-gradient(#000 0,rgba(0,0,0,.5) 32%,transparent 78%);
+  animation:bloom 26s ease-in-out infinite alternate}
+@keyframes bloom{to{transform:translate3d(0,-24px,0) scale(1.07) rotate(-2deg)}}
+@media (prefers-reduced-motion:reduce){body::before{animation:none}}
+::selection{background:rgba(169,192,255,.35)}
+
+.top{background:rgba(0,0,0,.55);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid var(--hair)}
+.badge{color:#000}
+.mode{background:rgba(255,255,255,.06);border-radius:10px;padding:3px;box-shadow:inset 0 0 0 1px var(--hair)}
+.mode button{border-radius:7px}
+.mode button[aria-pressed=true]{background:#fff;color:#000;box-shadow:none}
+
+h1{font-weight:500;letter-spacing:-.025em;line-height:1.05}
+h2{font-weight:500;letter-spacing:-.015em}
+.lede{font-size:19px;line-height:1.45}
+
+.prompt,.proof,.answer,.tcard,.slip,.results,.lib-sec,.examples,.tile,.barblock{border-radius:var(--r);backdrop-filter:blur(22px) saturate(1.3);-webkit-backdrop-filter:blur(22px) saturate(1.3)}
+.how-card,.side .panel{border-radius:var(--r)}
+.btn{border-radius:10px}
+.btn:hover{background:rgba(255,255,255,.07)}
+.btn.primary{background:#fff;color:#000}
+.btn.primary:hover{background:#dcdcdc}
+.btn.danger{box-shadow:inset 0 0 0 1px rgba(255,128,112,.45)}
+.field{background:rgba(255,255,255,.04);border-radius:10px}
+.chip{border-radius:999px;padding:4px 13px}
+.chip[aria-pressed=true]{background:rgba(255,255,255,.1)}
+.reel-slide{background:rgba(255,255,255,.04);border-radius:14px}
+.crop{border-radius:9px}
+.page{border-radius:6px;overflow:hidden}
+.step.on .step-mark{color:#000}
+.bubble{color:#000;border-radius:14px}
+.gallery-row:hover{background:rgba(255,255,255,.05)}
+.gallery-row[aria-pressed=true]{background:rgba(255,255,255,.08)}
+.skip{background:#111}
+.bar .passed,.barkey .passed{background:#e5e5e5}
+
+
+/* proof cards wear a flower, darkened so the words stay readable */
+.reel-slide{position:relative;overflow:hidden;isolation:isolate;background:#111}
+.reel-slide::before{content:"";position:absolute;inset:-18px;z-index:-2;background:var(--art,none) center/cover;filter:blur(8px) saturate(1.35)}
+.reel-slide::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(0,0,0,.42),rgba(0,0,0,.05) 40%,rgba(0,0,0,.55))}
+.reel-val,.reel-row{text-shadow:0 1px 8px rgba(0,0,0,.55)}
+.reel-slide .tag{background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.reel-row{color:#fff}
+
+/* the brand mark follows the theme */
+.brand svg path:first-child{fill:var(--ink)}
+.brand svg path:last-child{stroke:var(--desk)}
+.theme{display:inline-grid;place-items:center;width:36px;height:36px;flex:none;border:0;border-radius:10px;background:none;color:var(--soft);cursor:pointer}
+.theme:hover{color:var(--ink);background:var(--sheet-2)}
+.theme svg{width:16px;height:16px}
+.theme .moon,:root[data-theme=light] .theme .sun{display:none}
+:root[data-theme=light] .theme .moon{display:block}
+.reel-slide{color:#fff}
+
+@media (max-width:860px){.theme{order:2}.top{gap:0 6px}.menu{padding:0 8px}}
+@media (max-width:440px){.menu-word{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+/* Light theme: white page, the same flowers, white glass cards. */
+:root[data-theme=light]{
+  color-scheme:light;
+  --desk:#fff;--desk-2:#f2f2f2;--sheet:rgba(255,255,255,.7);--sheet-2:rgba(0,0,0,.045);
+  --ink:#0a0a0a;--soft:#545454;--faint:#707070;--hair:rgba(0,0,0,.08);--hair-2:rgba(0,0,0,.2);
+  --navy:#2747a8;--tint:rgba(39,71,168,.08);
+  --match:#11703f;--match-bg:rgba(17,112,63,.1);--wrong:#b42318;--wrong-bg:rgba(180,35,24,.09);--refused:#875800;--refused-bg:rgba(135,88,0,.1);--slate:#4f5a65;--slate-bg:rgba(79,90,101,.1);
+  --lift:inset 0 0 0 1px rgba(0,0,0,.07),0 22px 50px rgba(30,20,60,.08);
+  --focus:#000;
+}
+:root[data-theme=light] body::before{opacity:.95;filter:blur(44px) saturate(1.35)}
+:root[data-theme=light] ::selection{background:rgba(39,71,168,.2)}
+:root[data-theme=light] .top{background:rgba(255,255,255,.6)}
+:root[data-theme=light] .badge{color:#fff}
+:root[data-theme=light] .mode{background:rgba(0,0,0,.04)}
+:root[data-theme=light] .mode button[aria-pressed=true]{background:#0a0a0a;color:#fff}
+:root[data-theme=light] .btn:hover{background:rgba(0,0,0,.05)}
+:root[data-theme=light] .btn.primary{background:#0a0a0a;color:#fff}
+:root[data-theme=light] .btn.primary:hover{background:#333}
+:root[data-theme=light] .btn.danger{box-shadow:inset 0 0 0 1px rgba(180,35,24,.4)}
+:root[data-theme=light] .field{background:rgba(255,255,255,.75)}
+:root[data-theme=light] .chip[aria-pressed=true]{background:rgba(0,0,0,.06)}
+:root[data-theme=light] .step.on .step-mark,:root[data-theme=light] .bubble{color:#fff}
+:root[data-theme=light] .gallery-row:hover{background:rgba(0,0,0,.03)}
+:root[data-theme=light] .gallery-row[aria-pressed=true]{background:rgba(0,0,0,.055)}
+:root[data-theme=light] .skip{background:#fff}
+:root[data-theme=light] .bar .passed,:root[data-theme=light] .barkey .passed{background:#1a1a1a}
+/* proof cards keep white words on the darkened flower, so their tags keep the bright colours */
+:root[data-theme=light] .reel-slide{--match:#55d494;--wrong:#ff8070;--refused:#f2b650;--slate:#d0d6dc;--ink:#fff;--hair-2:rgba(255,255,255,.3)}
+/* the filing itself stays a white page, so marks on it keep their print colours */
+.page,.crop{--ink:#14233a;--navy:#1d3c66;--tint:rgba(29,60,102,.08);--match:#17694a;--wrong:#b02a1c;--refused:#855508}
 </style>
 <!-- @blossom-carousel/web 1.6.1 (MIT), kept inline so the page loads nothing from other sites. -->
 <style>@layer blossom-carousel{[blossom-carousel]{white-space:nowrap;scroll-behavior:smooth;overscroll-behavior-x:contain;box-sizing:border-box;inline-size:100%;max-inline-size:100vw;list-style-type:none;display:inline-block;overflow:auto clip}[blossom-carousel]:is(ul){padding-inline-start:0}[blossom-carousel]{scrollbar-width:none}[blossom-carousel]::-webkit-scrollbar{display:none}[blossom-carousel][has-repeat=true]{padding-inline:50%!important;scroll-padding-inline:50%!important}[blossom-carousel][has-snap=true]{scroll-snap-type:var(--snap-type)!important}[blossom-carousel][has-overflow=true]{cursor:grab}[blossom-carousel][has-overflow=true]:active{cursor:grabbing}@media (pointer:fine){[blossom-carousel][has-overflow=true]:active{scroll-snap-type:none!important}}[blossom-carousel]>*{white-space:initial;vertical-align:top;display:inline-block}[blossom-carousel] *{-webkit-user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}}:where(blossom-dots),:where([data-blossom-dots]){gap:var(--blossom-dots-gap,.5rem);justify-content:center;align-items:center;display:flex}:where([data-blossom-dot]){color:inherit;font:inherit;cursor:pointer;touch-action:manipulation;background:0 0;border:0;justify-content:center;align-items:center;padding:0;display:inline-flex}:where(blossom-prev button),:where(blossom-next button){touch-action:manipulation}:where([data-blossom-dot-marker]){inline-size:var(--blossom-dot-size,.625rem);block-size:var(--blossom-dot-size,.625rem);border-radius:var(--blossom-dot-radius,50%);background:var(--blossom-dot-color,currentColor);opacity:var(--blossom-dot-opacity,.35);transition:opacity .2s;display:block}:where([data-blossom-dot]:hover [data-blossom-dot-marker]){opacity:var(--blossom-dot-hover-opacity,.6)}:where([data-blossom-dot][aria-current=true] [data-blossom-dot-marker]){opacity:var(--blossom-dot-active-opacity,1)}blossom-dots>blossom-dot{display:none}
@@ -698,12 +800,12 @@ button.fig:focus-visible{outline-offset:4px}
 <div class="vh" id="announce" role="status"></div>
 <header class="top">
   <a class="brand" href="#/check">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#14233a" d="M4 2.500h16a1 1 0 0 1 1 1V21l-3-1.800-3 1.800-3-1.800L9 21l-3-1.800L3 21V3.500a1 1 0 0 1 1-1z"/><path fill="none" stroke="#fff" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" d="M7.500 10.500l3 3 6-6"/></svg>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#f5f5f5" d="M4 2.500h16a1 1 0 0 1 1 1V21l-3-1.800-3 1.800-3-1.800L9 21l-3-1.800L3 21V3.500a1 1 0 0 1 1-1z"/><path fill="none" stroke="#000" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round" d="M7.500 10.500l3 3 6-6"/></svg>
     Finguard
   </a>
   <button class="menu" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">
     <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M2 4h12M2 8h12M2 12h12"/></svg>
-    Menu
+    <span class="menu-word">Menu</span>
   </button>
   <nav class="nav" aria-label="Pages" id="nav">
     <a href="#/check" data-r="check">Check</a>
@@ -718,6 +820,10 @@ button.fig:focus-visible{outline-offset:4px}
     <button id="modeDemo" type="button" title="Real Muse replies, recorded. Instant and free.">Demo</button>
     <button id="modeLive" type="button" title="Muse answers now. About a minute.">Live</button>
   </div>
+  <button class="theme" id="themeBtn" type="button" aria-label="Switch to light theme" title="Light or dark">
+    <svg class="sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" fill="currentColor"/><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.1 1.1M11.9 11.9 13 13M3 13l1.1-1.1M11.9 4.1 13 3"/></svg>
+    <svg class="moon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z"/></svg>
+  </button>
   <span class="model" id="modelName" hidden></span>
   <p class="mode-note" id="modeNote" role="status" hidden></p>
 </header>
@@ -1556,6 +1662,64 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
     onShow() { if (current && reveal) reveal(); },
   };
 }
+/* Petal art, drawn here in code so the page ships no image files. Soft macro-flower shapes:
+   a heart of colour, petals fanning out of it, each fading to a pale tip. Seeded, so each slide
+   keeps its flower across reloads. */
+const PETALS = [
+  {core: "#f5c010", mid: "#8fbaff", tip: "#f9f0ff", haze: "#d4c4ff"},
+  {core: "#ff4510", mid: "#ff9550", tip: "#fff4ec", haze: "#ffd2b8"},
+  {core: "#ff5a20", mid: "#5a9cff", tip: "#ffe0f0", haze: "#ffacd2"},
+  {core: "#b8de00", mid: "#f0f27a", tip: "#ffffff", haze: "#9ccc58"},
+  {core: "#e0103a", mid: "#ff88aa", tip: "#fff0d8", haze: "#ffc03a"},
+  {core: "#8656ff", mid: "#ff86cc", tip: "#f4ecff", haze: "#b4ccff"},
+];
+function petalRng(seed) {
+  return () => { seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+}
+function drawFlower(x, r, p, cx, cy, size) {
+  const count = 9 + Math.floor(r() * 5);
+  for (let i = 0; i < count; i++) {
+    const back = i < count / 2;
+    const L = size * (0.55 + r() * 0.65), W = L * (0.2 + r() * 0.22);
+    x.save();
+    x.translate(cx + (r() - 0.5) * size * 0.12, cy + (r() - 0.5) * size * 0.1);
+    x.rotate(-Math.PI / 2 + (r() - 0.5) * 2.8);
+    const g = x.createLinearGradient(0, 0, L, 0);
+    g.addColorStop(0, p.core); g.addColorStop(0.3 + r() * 0.25, back ? p.haze : p.mid); g.addColorStop(1, p.tip);
+    x.globalAlpha = back ? 0.6 : 0.72 + r() * 0.25;
+    x.fillStyle = g;
+    x.beginPath(); x.moveTo(0, 0);
+    x.bezierCurveTo(L * 0.3, -W, L * 0.85, -W * 0.9, L, 0);
+    x.bezierCurveTo(L * 0.85, W * 0.9, L * 0.3, W, 0, 0);
+    x.fill(); x.restore();
+  }
+  const glow = x.createRadialGradient(cx, cy, 0, cx, cy, size * 0.3);
+  glow.addColorStop(0, p.core); glow.addColorStop(1, p.core + "00");
+  x.globalAlpha = 0.85; x.fillStyle = glow; x.fillRect(cx - size, cy - size, size * 2, size * 2);
+  x.globalAlpha = 1;
+}
+const petalCache = {};
+function petalArt(n, w = 150, h = 200) {
+  const key = `${n}:${w}:${h}`;
+  if (petalCache[key]) return petalCache[key];
+  const p = PETALS[n % PETALS.length], r = petalRng(n * 977 + 13);
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d");
+  const wash = x.createRadialGradient(w * r(), h * r(), 0, w / 2, h / 2, Math.max(w, h));
+  wash.addColorStop(0, p.haze); wash.addColorStop(1, p.tip);
+  x.fillStyle = wash; x.fillRect(0, 0, w, h);
+  drawFlower(x, r, p, w * (0.25 + 0.5 * r()), h * (0.6 + 0.45 * r()), Math.max(w, h));
+  return (petalCache[key] = `url(${c.toDataURL("image/jpeg", 0.86)})`);
+}
+/* The backdrop: three flowers on black, faded out below the fold by CSS. */
+function paintBloom() {
+  try {
+    const w = 360, h = 200, c = document.createElement("canvas"); c.width = w; c.height = h;
+    const x = c.getContext("2d"), r = petalRng(2026);
+    [[0, 0.16, 0.75], [1, 0.5, 0.55], [2, 0.84, 0.8]].forEach(([n, fx, fy]) => drawFlower(x, r, PETALS[n * 2 % PETALS.length], w * fx, h * fy, h * 1.1));
+    document.documentElement.style.setProperty("--bloom", `url(${c.toDataURL("image/png")})`);
+  } catch { /* the CSS gradients stay */ }
+}
 function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = null} = {}) {
   const desk = deskOrEl instanceof Element ? makeDesk(deskOrEl) : deskOrEl;
   let reelCount = 0;
@@ -1613,6 +1777,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     receipts.forEach((r, i) => {
       const v = verdictOf(r);
       const slide = el("button", `reel-slide ${v}`); slide.type = "button"; slide.dataset.i = i;
+      slide.style.setProperty("--art", petalArt(i));
       slide.setAttribute("data-blossom-slide", "");
       slide.setAttribute("aria-label", `${r.value_text || "Number"}: ${VERDICT[v]}. Show the proof.`);
       slide.append(
@@ -3523,6 +3688,15 @@ async function startData() {
   if (START.score) setModel(START.score.model);
   guideDraw();
 }
+/* Light or dark. Light is the default; the choice stays in this browser only. */
+function setTheme(light) {
+  if (light) document.documentElement.dataset.theme = "light"; else delete document.documentElement.dataset.theme;
+  $("themeBtn").setAttribute("aria-label", light ? "Switch to dark theme" : "Switch to light theme");
+  try { localStorage.setItem("finguard.theme", light ? "light" : "dark"); } catch (e) { /* nothing to keep */ }
+}
+$("themeBtn").onclick = () => setTheme(document.documentElement.dataset.theme !== "light");
+setTheme(document.documentElement.dataset.theme === "light");
+paintBloom();
 boot();
 </script>
 </body>
