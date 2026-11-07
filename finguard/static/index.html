@@ -223,6 +223,28 @@ button.fig::after{content:"";position:absolute;inset:-14px -4px}
 .more>summary:hover{color:var(--ink)}
 .limits{margin-bottom:16px}
 .limits .kv{padding:0 30px 22px}
+.reel{display:grid;grid-auto-flow:column;grid-auto-columns:min(272px,80%);gap:12px;scroll-snap-type:inline mandatory;scroll-padding-inline:22px;padding:2px 22px 4px;white-space:normal}
+.reel-slide{scroll-snap-align:start;display:grid;gap:9px;align-content:start;text-align:left;font:inherit;color:inherit;background:rgba(255,255,255,.6);border:0;border-radius:4px;padding:12px;box-shadow:inset 0 0 0 1px var(--hair);cursor:pointer;user-select:none}
+.reel-slide:hover{box-shadow:inset 0 0 0 1px var(--hair-2)}
+.reel-slide[aria-current=true]{box-shadow:inset 0 0 0 2px var(--ink)}
+.reel-slide:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.reel-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.reel-val{font-family:var(--mono);font-size:15px}
+.reel-row{font-size:var(--t-small);color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crop{position:relative;display:block;height:96px;overflow:hidden;border-radius:3px;background:#fff;box-shadow:inset 0 0 0 1px var(--hair)}
+.crop img{position:absolute;left:0;top:0;max-width:none;opacity:0;transition:opacity .25s;pointer-events:none}
+.crop.ready img{opacity:1}
+.crop-mark{position:absolute;border:2px solid var(--match);border-radius:2px;pointer-events:none;opacity:0}
+.crop.ready .crop-mark{opacity:1}
+.reel-slide.wrong .crop-mark{border-color:var(--wrong)}
+.reel-slide.refused .crop-mark{border-color:var(--refused);border-style:dashed}
+.crop.none{display:grid;place-items:center;color:var(--faint);font-size:var(--t-small)}
+.reel-controls{display:flex;align-items:center;justify-content:center;gap:14px;padding:10px 22px 16px}
+.reel-controls button{display:inline-grid;place-items:center;min-width:34px;min-height:34px;border:0;border-radius:50%;background:none;color:var(--ink);box-shadow:inset 0 0 0 1px var(--hair-2);cursor:pointer;font:inherit}
+.reel-controls button:disabled{opacity:.35;cursor:default}
+.reel-controls blossom-dots{--blossom-dot-size:7px;--blossom-dot-color:var(--ink);--blossom-dot-opacity:.25;--blossom-dot-active-opacity:.9}
+.reel-controls blossom-dots button{min-width:0;min-height:0;box-shadow:none}
+@media (prefers-reduced-motion:reduce){.crop img{transition:none}}
 .flag{display:grid;gap:8px;margin-top:8px}
 .flag .btn{justify-self:start}
 .flag .note:empty{display:none}
@@ -414,6 +436,61 @@ button.fig::after{content:"";position:absolute;inset:-14px -4px}
 #v-create .bench{grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:32px;justify-content:stretch}
 #v-create .bench.paired{grid-template-columns:minmax(0,1fr) minmax(0,1.04fr)}
 #v-create .kv{font-size:14px}
+#v-create .studio{display:grid;grid-template-columns:256px minmax(0,1fr) 420px;grid-template-areas:"lib main rail";gap:32px;align-items:start}
+#v-create .studio-main{grid-area:main;min-width:0}
+#v-create .library,#v-create .rail{position:sticky;top:calc(var(--top) + 16px);max-height:calc(100vh - var(--top) - 32px);overflow:auto;display:flex;flex-direction:column;gap:16px;padding:2px 2px 8px;scrollbar-width:thin}
+#v-create .library{grid-area:lib}
+#v-create .rail{grid-area:rail}
+#v-create .bench,#v-create .bench.paired{grid-template-columns:minmax(0,1fr);justify-content:stretch}
+#createDesk:not(.has-proof){display:none}
+#v-create .library>*,#v-create .rail>*{flex-shrink:0}
+#createInstalled .results{margin-top:4px;box-shadow:inset 0 0 0 1px var(--hair);border-radius:4px;padding-top:10px}
+#createInstalled .results-title,#createInstalled .results .advice{padding:0 12px}
+#createInstalled .results-detail{padding:4px 12px 10px}
+#createInstalled .results-title{font-size:13px}
+#createInstalled .result-row{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:10px 12px;min-height:0}
+#createInstalled .result-company{font-size:15px}
+#createInstalled .result-period{grid-column:1;grid-row:2}
+#createInstalled .result-value{font-size:18px;grid-column:2;grid-row:1 / span 2;align-self:center}
+#createInstalled .result-reason{grid-column:1 / -1;font-size:12.5px}
+@media (max-width:1279px){#v-create .studio{grid-template-columns:228px minmax(0,1fr) 340px;gap:24px}}
+.library .examples{margin:0}
+.library .ex-head{display:block;padding:15px 18px 4px}
+.library .ex-head h2,.lib-head h2{font-size:16px;margin:0}
+.library .ex-note{display:block;margin-top:2px;font-size:12.5px}
+.library #createGallery .gallery-group{padding:12px 18px 3px}
+.library .gallery-row{padding:10px 18px}
+.library .gallery-name{font-size:14px}
+.library .gallery-line{font-size:12.5px}
+.library .gallery-go{font-size:12px}
+@media (hover:hover){.library .gallery-go{opacity:0}.library .gallery-row:hover .gallery-go,.library .gallery-row:focus-visible .gallery-go,.library .gallery-row[aria-pressed=true] .gallery-go{opacity:1}}
+.lib-sec{background:var(--sheet);border-radius:4px;box-shadow:var(--lift);padding:15px 18px 6px}
+.lib-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:6px}
+.lib-count{font-size:12.5px;color:var(--faint)}
+.lib-empty{font-size:12.5px;color:var(--soft);line-height:1.45;padding-bottom:10px}
+#createInstalled .installed{grid-template-columns:minmax(0,1fr);gap:8px;padding:12px 0}
+#createInstalled .installed-name .rule-area{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#createInstalled .installed-name .rule-act{font-size:12.5px}
+#createInstalled .installed-run{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;justify-content:stretch}
+#createInstalled .installed-run .field,#createInstalled .installed-run .btn,#createInstalled .installed-yours .field,#createInstalled .company-choice{width:100%;min-width:0}
+#v-create .prompt{margin-top:22px;padding:20px 24px 16px}
+#v-create .prompt textarea{font-family:var(--sans);font-size:16px;line-height:1.55;min-height:56px}
+#v-create .prompt-foot{margin-top:10px}
+.examples{margin-top:16px;background:var(--sheet);border-radius:4px;box-shadow:var(--lift);overflow:hidden}
+.ex-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 14px;padding:16px 24px 6px}
+.ex-head h2{font-size:17px;margin:0}
+.ex-note{font-size:var(--t-small);color:var(--faint)}
+#createGallery .gallery-group{margin:0;padding:12px 24px 4px;font-size:var(--t-micro);letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+#createGallery .gallery{display:block;border:0;margin:0}
+#v-create .gallery-row{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;gap:2px 16px;align-items:center;width:100%;min-height:0;padding:12px 24px;border:0;border-top:1px solid var(--hair);border-radius:0;background:none;text-align:left;cursor:pointer;transition:background .15s}
+#v-create .gallery-row:hover{background:var(--sheet-2)}
+#v-create .gallery-row[aria-pressed=true]{background:var(--sheet-2);box-shadow:inset 3px 0 0 var(--navy)}
+#v-create .gallery-name{grid-column:1;grid-row:1;font-family:var(--sans);font-size:15px;font-weight:500}
+#v-create .gallery-line{grid-column:1;grid-row:2;white-space:normal}
+#v-create .gallery-meta{grid-column:2;grid-row:1 / span 2;display:inline-flex;align-items:center;gap:10px;min-width:0}
+.gallery-go{font-size:var(--t-small);font-weight:500;color:var(--navy);opacity:.55;transition:opacity .15s,transform .15s;white-space:nowrap}
+#v-create .gallery-row:hover .gallery-go,#v-create .gallery-row:focus-visible .gallery-go{opacity:1;transform:translateX(2px)}
+@media (prefers-reduced-motion:reduce){#v-create .gallery-row,.gallery-go{transition:none}}
 /* approvals */
 .operator{display:grid;grid-template-columns:minmax(0,300px) auto minmax(0,1fr);gap:6px 12px;align-items:end;margin:0 0 10px}
 .operator.off{display:block}
@@ -497,7 +574,9 @@ button.fig::after{content:"";position:absolute;inset:-14px -4px}
 }
 @media (max-width:1099px){
   .bench,.bench.paired,#v-create .bench,#v-create .bench.paired{grid-template-columns:minmax(0,1fr);gap:20px}
-  .bench.paired .side{position:static}
+  #v-create .studio{grid-template-columns:minmax(0,1fr);grid-template-areas:"main" "rail" "lib";gap:24px}
+  #v-create .library,#v-create .rail{position:static;max-height:none;overflow:visible}
+    .bench.paired .side{position:static}
   .side.has-proof{height:auto}
   .proof{flex:none}
   .viewer{flex:none;height:min(72vh,560px)}
@@ -561,6 +640,10 @@ button.fig::after{content:"";position:absolute;inset:-14px -4px}
   .more>summary,.panel-toggle,.panel-all,.house-note details summary,.zoom{min-height:44px}
   .btn{min-height:44px}
   .prompt{padding:18px 18px 16px}
+  #v-create .prompt{padding:16px 16px 14px}
+  .ex-head{padding:14px 16px 4px}
+  #createGallery .gallery-group{padding:10px 16px 4px}
+  #v-create .gallery-row{padding:11px 16px}
   .prompt textarea{min-height:190px}
   .prompt-foot .btn{width:100%}
   .memo{line-height:2.6}
@@ -609,6 +692,10 @@ button.fig:focus-visible{outline-offset:4px}
   .nav a[aria-current=page]{outline:2px solid CanvasText}
 }
 </style>
+<!-- @blossom-carousel/web 1.6.1 (MIT), kept inline so the page loads nothing from other sites. -->
+<style>@layer blossom-carousel{[blossom-carousel]{white-space:nowrap;scroll-behavior:smooth;overscroll-behavior-x:contain;box-sizing:border-box;inline-size:100%;max-inline-size:100vw;list-style-type:none;display:inline-block;overflow:auto clip}[blossom-carousel]:is(ul){padding-inline-start:0}[blossom-carousel]{scrollbar-width:none}[blossom-carousel]::-webkit-scrollbar{display:none}[blossom-carousel][has-repeat=true]{padding-inline:50%!important;scroll-padding-inline:50%!important}[blossom-carousel][has-snap=true]{scroll-snap-type:var(--snap-type)!important}[blossom-carousel][has-overflow=true]{cursor:grab}[blossom-carousel][has-overflow=true]:active{cursor:grabbing}@media (pointer:fine){[blossom-carousel][has-overflow=true]:active{scroll-snap-type:none!important}}[blossom-carousel]>*{white-space:initial;vertical-align:top;display:inline-block}[blossom-carousel] *{-webkit-user-drag:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}}:where(blossom-dots),:where([data-blossom-dots]){gap:var(--blossom-dots-gap,.5rem);justify-content:center;align-items:center;display:flex}:where([data-blossom-dot]){color:inherit;font:inherit;cursor:pointer;touch-action:manipulation;background:0 0;border:0;justify-content:center;align-items:center;padding:0;display:inline-flex}:where(blossom-prev button),:where(blossom-next button){touch-action:manipulation}:where([data-blossom-dot-marker]){inline-size:var(--blossom-dot-size,.625rem);block-size:var(--blossom-dot-size,.625rem);border-radius:var(--blossom-dot-radius,50%);background:var(--blossom-dot-color,currentColor);opacity:var(--blossom-dot-opacity,.35);transition:opacity .2s;display:block}:where([data-blossom-dot]:hover [data-blossom-dot-marker]){opacity:var(--blossom-dot-hover-opacity,.6)}:where([data-blossom-dot][aria-current=true] [data-blossom-dot-marker]){opacity:var(--blossom-dot-active-opacity,1)}blossom-dots>blossom-dot{display:none}
+/*$vite$:1*/</style>
+<script>(function(e,t){typeof exports==`object`&&typeof module<`u`?t(exports):typeof define==`function`&&define.amd?define([`exports`],t):(e=typeof globalThis<`u`?globalThis:e||self,t(e.BlossomCarousel={}))})(this,function(e){Object.defineProperty(e,Symbol.toStringTag,{value:`Module`});var t;(function(e){e.VALUE_ONLY=`value_only`,e.OBJECT=`object`})(t||={});var n;(function(e){e.CHANGED_ONLY=`changed_only`,e.ALL=`all`})(n||={});var r=class{_observedElements=new Set;_cachedValues=new WeakMap;constructor(e,r={properties:[]}){this._callback=e,this._observedVariables=r.properties,this._notificationMode=r.notificationMode??n.CHANGED_ONLY,this._returnFormat=r.returnFormat??t.OBJECT}observe(e){this._observedElements.has(e)||(this._observedElements.add(e),this._cachedValues.set(e,{}),this._setTargetElementStyles(e),e.addEventListener(`transitionrun`,this._eventHandler),this._handleUpdate(e))}unobserve(e){let t;t=e?this._observedElements.has(e)?new Set([e]):new Set:this._observedElements,t.size&&t.forEach(e=>{this._unsetTargetElementStyles(e),e.removeEventListener(`transitionrun`,this._eventHandler),this._observedElements.delete(e),this._cachedValues.delete(e)})}_observedVariables;_callback;_eventHandler=this._handleUpdate.bind(this);_notificationMode;_returnFormat;_setTargetElementStyles(e){let t=this._observedVariables.map(e=>`${e} 0.001ms step-start`).join(`, `);e.style.setProperty(`transition`,t),e.style.setProperty(`transition-behavior`,`allow-discrete`)}_unsetTargetElementStyles(e){e.style.removeProperty(`transition`),e.style.removeProperty(`transition-behavior`)}_processComputedStyle(e,t){let r={},i=this._cachedValues.get(t)??{};return this._observedVariables.forEach(a=>{let o=e.getPropertyValue(a),s=i[a],c=o!==s;(this._notificationMode===n.ALL||c)&&(r[a]={value:o,previousValue:s,changed:c,element:t},i[a]=o)}),r}_getFormatter(e){switch(e){case t.OBJECT:return e=>e;case t.VALUE_ONLY:default:return e=>{let t={};return Object.keys(e).forEach(n=>{t[n]=e[n].value}),t}}}_handleUpdate(e){let t=e instanceof HTMLElement?e:e.target;if(this._observedElements.has(t)){let e=getComputedStyle(t),n=this._processComputedStyle(e,t);if(Object.keys(n).length===0)return;let r=this._getFormatter(this._returnFormat);this._callback(r(n))}}};function i(){return{scroller:null,end:300,isDragging:!1,scrollerScrollWidth:300,scrollerWidth:300,scrollerScrollHeight:300,scrollerHeight:300,padding:{start:0,end:0},scrollPadding:{start:0,end:0},slidePositions:[],hasSnap:!1,snapMandatory:!1,snapPositions:[],activeSnapPosition:{target:null,x:0,y:0},dir:1}}function a(e,t,n){return(1-n)*e+n*t}function o(e,t,n,r){return a(e,t,1-Math.exp(Math.log(1-n)*(r/(1e3/60))))}function s(e,t,n){return Math.max(t,Math.min(n,e))}function c(e,t=0){let n=10**t;return Math.round(e*n)/n}function l(e,t,n){return e+t/(1-n)}function u(e,t){let n=parseFloat(t);if(!isNaN(n)&&!t.includes(`calc`))return n;if(t===`auto`||t===`normal`||!t)return 0;let r=document.createElement(`div`);r.style.position=`absolute`,r.style.visibility=`hidden`,r.style.width=`${e.clientWidth}px`;let i=document.createElement(`div`);i.style.width=t,r.appendChild(i),document.body.appendChild(r);let a=i.getBoundingClientRect().width;return r.remove(),a}var d=.72,f=.12,p=(e,t,n)=>{let r=n?new CustomEvent(t,{bubbles:!0,cancelable:!0,detail:n}):new Event(t,{bubbles:!0,cancelable:!0});return e?.dispatchEvent(r),r},m=(e,t)=>p(e,`overscroll`,t),ee=e=>p(e,`scrollend`),h=(e,t)=>p(e,`scrollsnapchange`,t),g=(e,t)=>p(e,`scrollsnapchanging`,t);function _(e){for(let{el:t,value:n,priority:r}of e)n?t.style.setProperty(`position`,n,r):t.style.removeProperty(`position`)}function te(e,t){let n=[],r=[],i=document.createTreeWalker(e,NodeFilter.SHOW_ELEMENT),a=i.nextNode();for(;a;){let e=window.getComputedStyle(a),t=e.scrollSnapAlign,o=a;t!==`none`&&n.push({align:t,el:o}),e.position===`sticky`&&(r.push({el:o,value:o.style.getPropertyValue(`position`),priority:o.style.getPropertyPriority(`position`)}),o.style.setProperty(`position`,`static`,`important`)),a=i.nextNode()}let o;try{let r=e.getBoundingClientRect();o=n.map(({el:n,align:i})=>{let a=n,o=a.getBoundingClientRect(),s=a.clientWidth,c=o.left-r.left+e.scrollLeft,l=window.getComputedStyle(a),u=parseFloat(l.scrollMarginInlineStart)||0,d=parseFloat(l.scrollMarginInlineEnd)||0,f=c-u,p=c+s+d;switch(i){case`start`:return{target:a,x:f-t.scrollPadding.start,y:0};case`end`:return{target:a,x:p-t.scrollerWidth+t.scrollPadding.end,y:0};case`center`:return{target:a,x:(f+p)/2-t.scrollerWidth/2,y:0};default:return null}})}finally{_(r)}t.snapPositions=o.filter(e=>e!==null).reduce((e,t)=>((e.length===0||e[e.length-1].x!==t.x)&&e.push(t),e),[])}function ne(e,t,n,r){if(!r.hasSnap||!r.snapPositions.length)return!1;if(r.snapMandatory)return!0;let i=l(e,t,n),a=Math.max(r.scrollerWidth-r.scrollPadding.start-r.scrollPadding.end,0)/3;return r.snapPositions.reduce((e,t)=>Math.min(e,Math.abs(t.x-i)),1/0)<=a}function re(e,t,n,r){let i=v(e,t,n,r);return i.x!==r.activeSnapPosition.x&&g(r.scroller,{snapTargetInline:(i||r.activeSnapPosition).target,snapTargetBlock:(i||r.activeSnapPosition).target}),r.activeSnapPosition=i,(s(i.x,Math.min((r.scrollerScrollWidth-r.scrollerWidth)*r.dir,0),Math.max((r.scrollerScrollWidth-r.scrollerWidth)*r.dir,0))-e)*(1-d)*(1/d)}function v(e,t,n,r){let i=l(e,t,n);return r.snapPositions.length?r.snapPositions.reduce((e,t)=>Math.abs(t.x-i)<Math.abs(e.x-i)?t:e):{target:null,x:s(i,Math.min(r.end,0),Math.max(r.end,0)),y:0}}function ie(e){h(e.scroller,{snapTargetInline:e.activeSnapPosition.target,snapTargetBlock:e.activeSnapPosition.target})}function ae(e,t,n,r){let i=v(e,t,n,r);i.x!==r.activeSnapPosition.x&&(r.activeSnapPosition=i,g(r.scroller,{snapTargetInline:(i||r.activeSnapPosition).target,snapTargetBlock:(i||r.activeSnapPosition).target}))}var y={center:(e,t,n)=>e+t*.5-n.scrollerWidth/2,end:(e,t,n)=>e+t-n.scrollerWidth+n.scrollPadding.end,start:(e,t,n)=>e-n.scrollPadding.start};function b(e,t,n,r){if(r.hasSnap)return e;let i=y[n||`start`];return i(e,t,r)}function x(e,t,n){if(!n.scroller)return null;let r=n.scroller.scrollLeft,i=n.snapPositions.length?n.snapPositions:n.slidePositions;if(e===`prev`)for(let e=i.length-1;e>=0;e--){let a=b(i[e].x,i[e].width||0,t,n);if(a<r-1)return a}else for(let e=0;e<i.length;e++){let a=b(i[e].x,i[e].width||0,t,n);if(a>r+1)return a}return null}function oe(e,{align:t}={}){let n=x(`prev`,t,e);n!==null&&e.scroller.scrollTo({left:n,behavior:`smooth`})}function se(e,{align:t}={}){let n=x(`next`,t,e);n!==null&&e.scroller.scrollTo({left:n,behavior:`smooth`})}var S=new Map,C=null;function ce(e,t){return S.size===0&&(C=Element.prototype.scrollIntoView,Element.prototype.scrollIntoView=function(e){for(let e of S.values())e(this);return C.call(this,e)}),S.set(e,t),()=>{S.delete(e),S.size===0&&C&&(Element.prototype.scrollIntoView=C,C=null)}}var w=(e,n)=>{let a=i();a.scroller=e;let s=!0,l={x:0,y:0},p={x:0,y:0},h={x:0,y:0},g=new Proxy({x:0,y:0},{set(e,t,n){return e[t]===n||(e[t]=n,(e.x>=10||e.y>=10)&&(L.value=!0),!0)}}),_=new Proxy({x:!1,y:!1},{set(t,n,r){return t[n]===r||(t[n]=r,t.x||t.y?(e.setAttribute(`has-overflow`,`true`),e.addEventListener(`pointerdown`,j),e.addEventListener(`wheel`,P,{passive:!0})):(e.removeAttribute(`has-overflow`),e.removeEventListener(`pointerdown`,j),e.removeEventListener(`wheel`,P)),!0)}}),v=null,y=null,b=null,x=null,S,C=null,w=!1;function T(){e?.setAttribute(`blossom-carousel`,`true`),y=e?.querySelectorAll(`a[href]`)||null,y?.forEach(e=>{e.addEventListener(`click`,D)}),window.addEventListener(`keydown`,ue),e.addEventListener(`scroll`,k),b=new ResizeObserver(O),b.observe(e),x=new MutationObserver(le),x.observe(e,{attributes:!1,childList:!0,subtree:!0}),C=new r(e=>{_.x=!w&&a.scrollerScrollWidth>a.scrollerWidth&&[`auto`,`scroll`].includes(typeof e[`overflow-x`]==`string`?e[`overflow-x`]:e[`overflow-x`].value),_.y=!w&&a.scrollerScrollHeight>a.scrollerHeight&&[`auto`,`scroll`].includes(typeof e[`overflow-y`]==`string`?e[`overflow-y`]:e[`overflow-y`].value)},{properties:[`overflow-x`,`overflow-y`],returnFormat:t.OBJECT}),C.observe(e);let i=window.matchMedia(`(hover: hover) and (pointer: fine)`).matches;a.dir=e.closest(`[dir="rtl"]`)?-1:1;let{scrollSnapType:o}=window.getComputedStyle(e);a.hasSnap=o!==`none`,a.snapMandatory=o.includes(`mandatory`),e.style.setProperty(`--snap-type`,o),i&&e.style.setProperty(`scroll-snap-type`,`none`),e.setAttribute(`has-snap`,s?`true`:`false`),e.setAttribute(`has-repeat`,n?.repeat?`true`:`false`),S=ce(e,t=>{(t===e||e.contains(t))&&(L.value=!1)})}function E(){e.removeAttribute(`blossom-carousel`),b?.disconnect(),x?.disconnect(),C?.unobserve(e),v&&cancelAnimationFrame(v),window.removeEventListener(`keydown`,ue),e.removeEventListener(`scroll`,k),y?.forEach(e=>{e.removeEventListener(`click`,D)}),S?.(),e.scrollTo=de,e.scrollBy=W}function D(e){g.x>10&&e.preventDefault()}function O(){if(!e)return;w=`ontouchmove`in window,a.scrollerScrollWidth=e.scrollWidth,a.scrollerWidth=e.clientWidth,a.scrollerScrollHeight=e.scrollHeight,a.scrollerHeight=e.clientHeight;let t=window.getComputedStyle(e);_.x=!w&&a.scrollerScrollWidth>a.scrollerWidth&&[`auto`,`scroll`].includes(t.getPropertyValue(`overflow-x`)),_.y=!w&&a.scrollerScrollHeight>a.scrollerHeight&&[`auto`,`scroll`].includes(t.getPropertyValue(`overflow-y`)),a.padding.end=u(e,t.paddingInlineEnd),a.padding.start=u(e,t.paddingInlineStart),a.scrollPadding.start=u(e,t.scrollPaddingInlineStart),a.scrollPadding.end=u(e,t.scrollPaddingInlineEnd),a.dir=e.closest(`[dir="rtl"]`)?-1:1,a.end=(a.scrollerScrollWidth-a.scrollerWidth-4)*a.dir,a.hasSnap?te(e,a):a.slidePositions=Array.from(e.children).map(t=>{let n=t.getBoundingClientRect(),r=e.getBoundingClientRect();return{target:t,x:n.left-r.left+e.scrollLeft-a.scrollPadding.start,y:0,width:n.width,height:n.height}}),n?.repeat&&F(null,null)}function le(){O()}function k(){if(n?.repeat){F(null,null);return}if(a.isDragging||!e)return;let t=e.scrollLeft;t<0?m(e,{left:t*-1}):t>a.scrollerScrollWidth-a.scrollerWidth&&m(e,{left:t*-1+a.scrollerScrollWidth-a.scrollerWidth})}let A={x:0,y:0};function j(t){e&&(_.x&&(A.x=e.scrollLeft,p.x=e.scrollLeft,l.x=t.clientX,h.x=0),_.y&&(A.y=e.scrollTop,p.y=e.scrollTop,l.y=t.clientY,h.y=0),g.x=0,a.isDragging=!0,window.addEventListener(`pointermove`,M),window.addEventListener(`pointerup`,N))}function M(e){if(e.preventDefault(),_.x){let t=l.x-e.clientX;p.x+=t,h.x+=t,l.x=e.clientX,g.x+=Math.abs(t)}if(_.y){let t=l.y-e.clientY;p.y+=t,h.y+=t,l.y=e.clientY,g.y+=Math.abs(t)}}function N(){window.removeEventListener(`pointermove`,M),window.removeEventListener(`pointerup`,N),a.isDragging=!1,!(g.x<=10)&&(_.x&&(h.x*=2),_.y&&(h.y*=2),(ne(p.x,h.x,.72,a)||p.x<0||p.x>a.end)&&(h.x=re(p.x,h.x,d,a)),q())}function P(t){if(Math.abs(t.deltaX)>Math.abs(t.deltaY)){if(L.value=!1,a.isDragging||!e)return;_.x&&(A.x=e.scrollLeft),_.y&&(A.y=e.scrollTop)}}function ue(e){[`ArrowLeft`,`ArrowRight`,`ArrowUp`,`ArrowDown`].includes(e.key)&&(L.value=!1)}function F(t,n){if(!e)return;let r=n??e.scrollLeft,i=a.padding.start-r,o=r-(a.scrollerScrollWidth-a.scrollerWidth-a.padding.end),s=Array.from(e.children),c=(e,t,n,r)=>{let i=0,o=r?-1:1,c=r?-(a.scrollerScrollWidth-a.scrollerWidth):a.scrollerScrollWidth-a.scrollerWidth;for(let a=e;r?a>=t:a<t;a+=o){let e=i>n;s[a].style.translate=`${e?0:c}px 0`,i+=s[a].clientWidth}};if(c(s.length-1,s.length/2,i,!0),c(0,s.length/2,o,!1),a.isDragging)return;let l=r>a.end?4:r<4?a.end:null;l&&(U=!0,e.scrollTo({left:l,behavior:`instant`}))}function I(e){L.value&&e.stopPropagation()}let L=new Proxy({value:!1},{set(t,n,r){return s=!r,t[n]===r?!0:e?(e.setAttribute(`has-snap`,s?`true`:`false`),r&&!L.value?(z=performance.now(),_.x&&(p.x=e.scrollLeft),_.y&&(p.y=e.scrollTop),e.addEventListener(`scrollend`,I,{capture:!0,passive:!1}),v||=requestAnimationFrame(B)):r||(v&&cancelAnimationFrame(v),v=null,e.removeEventListener(`scrollend`,I)),t[n]=r,!0):!1}}),R=0,z=0;function B(t){v=requestAnimationFrame(B),R=t-z,e&&(_.x&&(h.x*=d,a.isDragging?A.x=o(A.x,p.x,d,R):(p.x+=h.x,A.x=o(A.x,p.x,f,R))),_.y&&(h.y*=d,a.isDragging?A.y=o(A.y,p.y,d,R):(p.y+=h.y,A.y=o(A.y,p.y,f,R))),n?.repeat&&(A.x>a.end&&(A.x=p.x=4),A.x<4&&(A.x=p.x=a.end)),U=!0,e.scrollTo({left:A.x,top:A.y,behavior:`instant`}),a.isDragging&&a.hasSnap&&ae(p.x,h.x,d,a),!a.isDragging&&c(h.x,12)===0&&(L.value=!1,ee(e),a.hasSnap&&ie(a)),n?.repeat?F(null,A.x):H(c(A.x,2)),z=t)}let V=0;function H(t){if(!e)return;let n=a.end,r=0;if(t*a.dir<=0?r=a.isDragging?t*-.2:0:t*a.dir>n*a.dir&&(r=a.isDragging?(t-n)*-.2:0),V=o(V,r,a.isDragging?.8:f,R),Math.abs(V)>.01){if(m(e,{left:V}).defaultPrevented)return;e.style.transform=`translateX(${c(V,3)}px)`;return}e.style.transform=``,V=0}let U=!1,de=e.scrollTo,W=e.scrollBy,G=e.scrollTo.bind(e);e.scrollTo=function(...e){U!==!0&&(L.value=!1),U=!1,G(...e)};let K=e.scrollBy.bind(e);e.scrollBy=function(...e){U!==!0&&(L.value=!1),U=!1,K(...e)};function q(){let e=t=>{t.preventDefault(),t.stopPropagation(),window.removeEventListener(`click`,e,!0)};window.addEventListener(`click`,e,!0)}return{snap:s,hasOverflow:_,init:T,destroy:E,prev:e=>oe(a,e),next:e=>se(a,e)}};function T(e){return getComputedStyle(e).direction===`rtl`}function E(e,t){return t?-e.scrollLeft:e.scrollLeft}function D(e){if(!e||e===`none`)return`none`;let t=e.trim().split(/\s+/),n=t.length===2?t[1]:t[0];return n===`center`||n===`end`?n:`start`}function O(e){let t=D(e);return t===`none`?`start`:t}function le(e,t,n,r,i,a,o,s=getComputedStyle(t)){let c=t.getBoundingClientRect(),l=(o?r.right-c.right:c.left-r.left)+E(e,o),u=parseFloat(s.scrollMarginInlineStart)||0,d=parseFloat(s.scrollMarginInlineEnd)||0,f=l-u,p=l+t.clientWidth+d,m=e.clientWidth;switch(n){case`end`:return p-m+a;case`center`:return(f+p)/2-m/2;default:return f-i}}function k(e){return e.map(e=>({el:e,align:O(getComputedStyle(e).scrollSnapAlign)}))}function A(e){let t=e.getBoundingClientRect(),n=getComputedStyle(e),r=n.direction===`rtl`,i=parseFloat(n.scrollPaddingInlineStart)||0,a=parseFloat(n.scrollPaddingInlineEnd)||0,o=Math.max(e.scrollWidth-e.clientWidth,0),s=document.createTreeWalker(e,NodeFilter.SHOW_ELEMENT),c=[],l=s.nextNode();for(;l;){let n=l,u=getComputedStyle(n),d=D(u.scrollSnapAlign);if(d!==`none`){let s=le(e,n,d,t,i,a,r,u);c.push({el:n,align:d,x:Math.min(Math.max(s,0),o)})}l=s.nextNode()}return c.sort((e,t)=>e.x-t.x),c.reduce((e,t)=>((e.length===0||Math.abs(e[e.length-1].x-t.x)>1)&&e.push(t),e),[])}var j=new WeakMap;function M(e,t){j.set(e,t)}function N(e){return j.get(e)}function P(e){j.delete(e)}var ue=.85,F=1;function I(e,t){let n=Math.max(e.scrollWidth-e.clientWidth,0),r=Math.abs(e.scrollLeft);return t===`prev`?r>F:r<n-F}function L(e,t,n){if(n===`next`){for(let n=0;n<e.length;n++)if(e[n].x>t+F&&e[n].el.isConnected)return e[n]}else for(let n=e.length-1;n>=0;n--)if(e[n].x<t-F&&e[n].el.isConnected)return e[n];return null}function R(e,t,n=`smooth`){let r=N(e),i=r?.pages??A(e),a=r?.rtl??T(e);if(i.length){let r=L(i,E(e,a),t);if(!r)return;r.el.scrollIntoView({block:`nearest`,inline:r.align,behavior:n});return}let o=e.clientWidth*ue*(t===`next`?1:-1);e.scrollBy({left:a?-o:o,behavior:n})}var z=`[data-blossom-slide]`,B=1;function V(e){return Array.from(e.querySelectorAll(z))}function H(e,t){let n=e.clientWidth,r=e.scrollWidth-n,i=e.getBoundingClientRect(),a=getComputedStyle(e),o=a.direction===`rtl`,s=parseFloat(a.scrollPaddingInlineStart)||0,c=parseFloat(a.scrollPaddingInlineEnd)||0,l=t.map(t=>{let n=getComputedStyle(t),r=D(n.scrollSnapAlign);return le(e,t,r===`none`?`start`:r,i,s,c,o,n)});if(r>0){let e=Math.min(n/8,r/2),t=l.filter(t=>t<e);if(t.length>0){let n=Math.min(...t),r=e-n;if(r>0)for(let t=0;t<l.length;t++)l[t]<e&&(l[t]=(l[t]-n)/r*e)}let i=r-e,a=l.filter(e=>e>i);if(a.length>0){let t=Math.max(...a)-i;if(t>0)for(let n=0;n<l.length;n++)l[n]>i&&(l[n]=(l[n]-i)/t*e+i)}}return l}function U(e,t,n,r=[...e].sort((e,t)=>e-t)){if(e.length===0)return-1;if(e.length===1)return 0;let i=n/2,a=null;for(let e=0;e<r.length;e++){let n=r[e],o=e>0?r[e-1]:-1/0;(n<=t+B||o<t-i&&n<t+i)&&(a=n)}a===null&&(a=r[0]);for(let t=0;t<e.length;t++)if(Math.abs(e[t]-a)<=B)return t;return 0}function de(e,t,n){if(t.length===0)return-1;if(t.length===1)return 0;let r=e.clientWidth;if(e.scrollWidth-r<=0)return 0;let i=n?.rtl??T(e);return U(n?.activePositions??H(e,t),E(e,i),r,n?.sortedActivePositions)}var W=`--blossom-`,G={prev:`${W}prev`,next:`${W}next`,gotoPrefix:`${W}goto-`},K=`data-blossom-behavior`;function q(e,t,n={}){e?.dispatchEvent(new CustomEvent(`command`,{bubbles:!1,detail:{command:t,...n}}))}function fe(e){return{prev:t=>q(e(),G.prev,t),next:t=>q(e(),G.next,t),goTo:(t,n)=>q(e(),`${G.gotoPrefix}${t}`,n)}}function pe(e){return e===`auto`||e===`smooth`||e===`instant`?e:void 0}function me(e){let t=e.detail;return pe(t?.behavior)||(pe((e.source??t?.source??null)?.getAttribute?.(`data-blossom-behavior`))??`smooth`)}var J=Symbol.for(`blossom-carousel.navigation.registry`);function he(e,t,n){if(t===G.prev)R(e,`prev`,n);else if(t===G.next)R(e,`next`,n);else if(t.startsWith(G.gotoPrefix)){let r=Number.parseInt(t.slice(G.gotoPrefix.length),10);if(Number.isNaN(r)||r<0)return;let i=N(e)?.markers[r],a=i?.el.isConnected?i:void 0,o=a?.el??V(e)[r];if(!o)return;let s=a?.align??O(getComputedStyle(o).scrollSnapAlign);o.scrollIntoView({block:`nearest`,inline:s,behavior:n})}}function ge(e){ye();let t=e,n=t[J];if(n)return n.count++,()=>_e(t);let r=t=>{let n=t.detail,r=t.command??n?.command;typeof r==`string`&&r.startsWith(W)&&he(e,r,me(t))};return e.addEventListener(`command`,r),t[J]={count:1,handler:r},()=>_e(t)}function _e(e){let t=e[J];t&&(t.count--,t.count<=0&&(e.removeEventListener(`command`,t.handler),delete e[J]))}var ve=!1;function ye(){ve||typeof document>`u`||(ve=!0,!(typeof HTMLButtonElement<`u`&&`commandForElement`in HTMLButtonElement.prototype)&&document.addEventListener(`click`,e=>{let t=e.target?.closest?.(`button[commandfor]`);if(!t)return;let n=t.getAttribute(`commandfor`),r=t.getAttribute(`command`);n&&r&&document.getElementById(n)?.dispatchEvent(new CustomEvent(`command`,{bubbles:!1,detail:{command:r,source:t}}))}))}function be(e){let t=N(e),n=t?.targets??V(e);return{count:n.length,activeIndex:de(e,n,t),canPrev:I(e,`prev`),canNext:I(e,`next`)}}function xe(e){let t=V(e),n=H(e,t);M(e,{targets:t,markers:k(t),pages:A(e),activePositions:n,sortedActivePositions:[...n].sort((e,t)=>e-t),rtl:T(e)})}var Y=Symbol.for(`blossom-carousel.navigation.observers`);function Se(e){let t=new Set,n=0,r=!0,i=()=>{cancelAnimationFrame(n),n=requestAnimationFrame(()=>{r&&(r=!1,xe(e));let n=be(e);for(let e of t)e(n)})},a=()=>i(),o=()=>{r=!0,i()};e.addEventListener(`scroll`,a,{passive:!0}),e.addEventListener(`scrollend`,a,{passive:!0});let s=new ResizeObserver(o);s.observe(e);let c=new MutationObserver(o);return c.observe(e,{childList:!0,subtree:!0}),{subscribers:t,flush:i,teardown:()=>{cancelAnimationFrame(n),e.removeEventListener(`scroll`,a),e.removeEventListener(`scrollend`,a),s.disconnect(),c.disconnect(),P(e)}}}function Ce(e,t){let n=e,r=n[Y]??Se(e);return n[Y]=r,r.subscribers.add(t),r.flush(),()=>{let e=n[Y];e&&(e.subscribers.delete(t),e.subscribers.size===0&&(e.teardown(),delete n[Y]))}}function X(e,t){if(!e)return()=>{};let n=document.getElementById(e);if(!n)return()=>{};let r=ge(n),i=Ce(n,t);return()=>{r(),i()}}function we(e){return e.getAttribute(`for`)??``}var Te=new WeakSet;function Ee(e,t){(!e.hasAttribute(`data-blossom-behavior`)||Te.has(e))&&(t?(e.setAttribute(K,t),Te.add(e)):(e.removeAttribute(K),Te.delete(e)))}var Z=`aria-label`,Q=new WeakMap;function $(e,t,n){if(t.hasAttribute(Z)&&!Q.has(t))return;let r=e.getAttribute(Z);if(r){t.setAttribute(Z,r),Q.set(t,`host`),e.removeAttribute(Z);return}Q.get(t)!==`host`&&(t.setAttribute(Z,n),Q.set(t,`default`))}function De(e){return e.nodeType===Node.ELEMENT_NODE||e.nodeType===Node.TEXT_NODE&&!!e.textContent?.trim()}function Oe(e,t){let n=e.querySelector(`:scope > button`);if(n instanceof HTMLButtonElement)return n;let r=document.createElement(`button`);r.type=`button`;let i=Array.from(e.childNodes).filter(De);return i.length>0?r.replaceChildren(...i):r.textContent=t,e.replaceChildren(r),r}var ke=`Previous slide`,Ae=typeof HTMLElement>`u`?class{}:HTMLElement,je=class extends Ae{static get observedAttributes(){return[`behavior`,`aria-label`]}cleanup;button;connectedCallback(){let e=we(this);this.button=Oe(this,`Previous`),this.button.setAttribute(`command`,G.prev),this.button.setAttribute(`commandfor`,e),this.button.setAttribute(`aria-controls`,e),$(this,this.button,ke),this.applyBehavior(),this.cleanup=X(e,e=>{this.button&&(this.button.disabled=!e.canPrev)})}attributeChangedCallback(e){if(e===`aria-label`){this.button&&$(this,this.button,ke);return}this.applyBehavior()}applyBehavior(){this.button&&Ee(this.button,this.getAttribute(`behavior`))}disconnectedCallback(){this.cleanup?.()}};typeof customElements<`u`&&!customElements.get(`blossom-prev`)&&customElements.define(`blossom-prev`,je);var Me=`Next slide`,Ne=typeof HTMLElement>`u`?class{}:HTMLElement,Pe=class extends Ne{static get observedAttributes(){return[`behavior`,`aria-label`]}cleanup;button;connectedCallback(){let e=we(this);this.button=Oe(this,`Next`),this.button.setAttribute(`command`,G.next),this.button.setAttribute(`commandfor`,e),this.button.setAttribute(`aria-controls`,e),$(this,this.button,Me),this.applyBehavior(),this.cleanup=X(e,e=>{this.button&&(this.button.disabled=!e.canNext)})}attributeChangedCallback(e){if(e===`aria-label`){this.button&&$(this,this.button,Me);return}this.applyBehavior()}applyBehavior(){this.button&&Ee(this.button,this.getAttribute(`behavior`))}disconnectedCallback(){this.cleanup?.()}};typeof customElements<`u`&&!customElements.get(`blossom-next`)&&customElements.define(`blossom-next`,Pe);function Fe(e,t,n,r){e.setAttribute(`command`,`${G.gotoPrefix}${t}`),e.setAttribute(`commandfor`,r),Ie(e,n),e.hasAttribute(`aria-label`)||e.setAttribute(`aria-label`,`Go to slide ${t+1}`),e.hasAttribute(`aria-controls`)||e.setAttribute(`aria-controls`,r)}function Ie(e,t){t?e.setAttribute(`aria-current`,`true`):e.removeAttribute(`aria-current`)}function Le(e){return e.querySelector(`:scope > blossom-dot`)}function Re(e){return e instanceof HTMLButtonElement?e:e.querySelector(`button`)}function ze(e,t,n,r){let i=Re(e);return i?(Fe(i,t,n,r),e):(console.warn(`[BlossomDot] Must contain a <button> element.`),e)}function Be(e,t,n,r){return ze(e.cloneNode(!0),t,n,r)}function Ve(e,t,n,r){return ze(e(t,n,r),t,n,r)}function He(e,t,n,r){ze(e,t,n,r)}function Ue(e,t,n){let r=document.createElement(`button`);return r.type=`button`,r.setAttribute(`data-blossom-dot`,``),Fe(r,e,t,n),r}function We(e,t,n){let r=Ue(e,t,n),i=document.createElement(`span`);return i.setAttribute(`data-blossom-dot-marker`,``),r.appendChild(i),r}var Ge=typeof HTMLElement>`u`?class{}:HTMLElement,Ke=class extends Ge{button;connectedCallback(){let e=this.querySelector(`:scope > button`);if(e instanceof HTMLButtonElement){this.button=e;return}for(this.button=document.createElement(`button`),this.button.type=`button`;this.firstChild;)this.button.appendChild(this.firstChild);this.appendChild(this.button)}applyNavigation(e,t,n){this.button||this.connectedCallback(),this.button&&Fe(this.button,e,t,n)}};typeof customElements<`u`&&!customElements.get(`blossom-dot`)&&customElements.define(`blossom-dot`,Ke);var qe=typeof HTMLElement>`u`?class{}:HTMLElement,Je=class extends qe{static get observedAttributes(){return[`behavior`]}cleanup;dotPrototype;forId=``;lastState;_renderDot;get renderDot(){return this._renderDot}set renderDot(e){this._renderDot=e,this.lastState&&this.render(this.lastState,this.forId,!0)}attributeChangedCallback(){this.lastState&&this.render(this.lastState,this.forId,!0)}connectedCallback(){this.forId=we(this),this.dotPrototype=Le(this),this.setAttribute(`data-blossom-dots`,``),this.setAttribute(`role`,`group`),this.setAttribute(`aria-label`,`Choose slide to display`),this.clearDots(),this.cleanup=X(this.forId,e=>{this.render(e,this.forId)})}getDotChildren(){return[...this.children].filter(e=>e!==this.dotPrototype)}clearDots(){for(let e of[...this.childNodes])e instanceof Element&&e===this.dotPrototype||e.remove()}render(e,t,n=!1){let r=this.lastState;if(this.lastState=e,!n&&r?.count===e.count&&r.activeIndex===e.activeIndex)return;let i=this.getDotChildren();if(!n&&r?.count===e.count&&i.length===e.count){this.patchActive(r.activeIndex,e,t,i);return}this.clearDots();for(let n=0;n<e.count;n++){let r=e.activeIndex===n;this.appendChild(this.renderDotAt(n,r,t))}}patchActive(e,t,n,r){let i=new Set([e,t.activeIndex]);for(let e=0;e<t.count;e++){let a=t.activeIndex===e,o=r[e];if(o){if(this._renderDot){if(!i.has(e))continue;o.replaceWith(this.renderDotAt(e,a,n));continue}He(o,e,a,n)}}}renderDotAt(e,t,n){let r=this._renderDot?Ve(this._renderDot,e,t,n):this.dotPrototype?Be(this.dotPrototype,e,t,n):We(e,t,n);return this.stampBehavior(r),r}stampBehavior(e){let t=(e instanceof Element?e.getAttribute(`behavior`):null)||this.getAttribute(`behavior`),n=e instanceof HTMLButtonElement?e:e instanceof Element?e.querySelector(`button`):null;n&&Ee(n,t)}disconnectedCallback(){this.cleanup?.()}};typeof customElements<`u`&&!customElements.get(`blossom-dots`)&&customElements.define(`blossom-dots`,Je);var Ye=typeof HTMLElement>`u`?class{}:HTMLElement,Xe=class extends Ye{carouselInstance;unregisterCommands;commands=fe(()=>this);constructor(){super();let e=this.attachShadow({mode:`open`});this.setAttribute(`blossom-carousel`,`true`);let t=document.createElement(`slot`);e.appendChild(t)}connectedCallback(){this.unregisterCommands=ge(this),this.carouselInstance=w(this,{repeat:this.hasAttribute(`repeat`)}),this.carouselInstance.init()}disconnectedCallback(){this.unregisterCommands?.(),this.carouselInstance.destroy()}prev(e){this.commands.prev(e)}next(e){this.commands.next(e)}goTo(e,t){this.commands.goTo(e,t)}};typeof customElements<`u`&&!customElements.get(`blossom-carousel`)&&customElements.define(`blossom-carousel`,Xe),e.BlossomCarousel=Xe,e.BlossomDot=Ke,e.BlossomDots=Je,e.BlossomNext=Pe,e.BlossomPrev=je});</script>
 </head>
 <body>
 <a class="skip" id="skip" href="#/">Skip to the page</a>
@@ -736,18 +823,19 @@ button.fig:focus-visible{outline-offset:4px}
 <!-- Create -->
 <section class="view" id="v-create" hidden>
   <div class="wrap">
+    <div class="studio">
+    <div class="studio-main">
     <div class="bench">
       <div class="col">
         <header class="head">
           <p class="kicker">Finance harness, inspired by DeepSeek Harness</p>
           <h1 tabindex="-1">Create a plugin</h1>
-          <p class="lede">Your fund's methods, as plugins. Describe one once, and it runs on every filing.</p>
+          <p class="lede">Describe a method once, and it runs on every filing. Muse maps it, code does the math, and you approve it.</p>
         </header>
         <div class="msg" id="createMissing" hidden></div>
-        <div id="createGallery"></div>
         <div class="prompt">
-          <div class="memo-label"><label for="createInput">Describe the method</label></div>
-          <textarea id="createInput" spellcheck="false" placeholder="Pick an example above, or describe a method in your own words."></textarea>
+          <div class="memo-label"><label for="createInput">Describe a method</label></div>
+          <textarea id="createInput" spellcheck="false" rows="2" placeholder="For example: net debt on the latest balance sheet, all debt minus cash."></textarea>
           <div class="assumption" id="createAssumption" hidden>
             <label for="assumptionInput" id="assumptionLabel"></label>
             <input class="field" id="assumptionInput" autocomplete="off" inputmode="decimal">
@@ -764,9 +852,16 @@ button.fig:focus-visible{outline-offset:4px}
         <div data-guide-slot="create"></div>
         <div class="clock" id="createClock" hidden></div>
         <div id="createResult"></div>
-        <div id="createInstalled"></div>
       </div>
-      <aside class="side" id="createDesk" aria-label="The proof from the filing"></aside>
+    </div>
+    </div>
+    <aside class="library" aria-label="Examples">
+      <div id="createGallery"></div>
+    </aside>
+    <aside class="rail" aria-label="Proof and installed plugins">
+      <div class="side" id="createDesk" aria-label="The proof from the filing"></div>
+      <div id="createInstalled"></div>
+    </aside>
     </div>
   </div>
 </section>
@@ -1132,6 +1227,36 @@ function watchRun(capability, clock, stageWords) {
 }
 
 /* ---------- the proof desk and the receipts: one bench for Check, Ask and Record ---------- */
+/* Blossom's elements set attributes as they start, which document.createElement refuses. Made in a spare
+   document, they start when the page adopts them instead. */
+const blossomShell = document.implementation.createHTMLDocument("");
+const blossomEl = tag => blossomShell.createElement(tag);
+/* A window on the filing page, centred on the cell code read, with the cell marked. */
+function cellCrop(r, filing) {
+  const frame = el("span", "crop");
+  if (!Number.isInteger(r.page) || !hasBox(r.box) || !filing) {
+    frame.classList.add("none");
+    frame.append(el("span", "", r.verdict === "unchecked" ? "No receipt" : "No cell to show"));
+    return frame;
+  }
+  const img = el("img"); img.alt = ""; img.loading = "lazy"; img.decoding = "async"; img.draggable = false;
+  const mark = el("span", "crop-mark");
+  img.onload = () => {
+    const W = frame.clientWidth || 248, H = frame.clientHeight || 96;
+    const [x0, y0, x1, y1] = r.box.map(Number);
+    const wide = W / 0.32, tall = wide * img.naturalHeight / img.naturalWidth;  // about a third of the page's width
+    const left = Math.min(0, Math.max(W - wide, W / 2 - (x0 + x1) / 2000 * wide));
+    const top = Math.min(0, Math.max(H - tall, H / 2 - (y0 + y1) / 2000 * tall));
+    img.style.width = `${wide}px`;
+    img.style.transform = `translate(${left}px, ${top}px)`;
+    Object.assign(mark.style, {left: `${left + x0 / 1000 * wide - 3}px`, top: `${top + y0 / 1000 * tall - 3}px`,
+      width: `${(x1 - x0) / 1000 * wide + 6}px`, height: `${(y1 - y0) / 1000 * tall + 6}px`});
+    frame.classList.add("ready");
+  };
+  img.src = `/page/${enc(filing)}/${r.page}.png`;
+  frame.append(img, mark);
+  return frame;
+}
 /* A person says a verdict is wrong. It becomes a case the score replays, and changes no verdict. */
 function flagBox(r, {run, index}) {
   const choices = Object.entries({match: "It matches the filing", wrong: "It is wrong", refused: "It should be refused"}).filter(([v]) => v !== verdictOf(r));
@@ -1442,6 +1567,7 @@ function makeDesk(root, {steps = STEPS, values = stepValues, title = "How each n
 }
 function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = null} = {}) {
   const desk = deskOrEl instanceof Element ? makeDesk(deskOrEl) : deskOrEl;
+  let reelCount = 0;
   let receipts = [], selected = null, filingId = null, runId = null, person = null, memoText = "", ruleLabel = "", stopReveal = null;
   const me = {
     deselect() {
@@ -1484,7 +1610,37 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
     if (byUser && (verdictOf(r) === "wrong" || verdictOf(r) === "refused")) guideMark("fool");
     memoSlot.querySelectorAll(".fig").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.i === i)));
     resultSlot.querySelectorAll("[data-i]").forEach(t => { if (+t.dataset.i === i) t.setAttribute("aria-current", "true"); });
+    const reel = resultSlot.querySelector("blossom-carousel");
+    if (reel && typeof reel.goTo === "function") reel.goTo(i, {behavior: scrollBehavior()});
     desk.show(r, {filing: filingId, person, owner: me, byUser, back: backToMemo, ruleLabel, flag: runId ? {run: runId, index: i} : null, onInput: input => showCell(input, r.house)});
+  }
+  /* Every number at its source: one slide per receipt, showing the filing cell code read. Drag, swipe or use the arrows. */
+  function drawReel(box) {
+    const id = `reel-${++reelCount}`;
+    const reel = blossomEl("blossom-carousel");
+    reel.id = id; reel.className = "reel";
+    receipts.forEach((r, i) => {
+      const v = verdictOf(r);
+      const slide = el("button", `reel-slide ${v}`); slide.type = "button"; slide.dataset.i = i;
+      slide.setAttribute("data-blossom-slide", "");
+      slide.setAttribute("aria-label", `${r.value_text || "Number"}: ${VERDICT[v]}. Show the proof.`);
+      slide.append(
+        el("span", "reel-top", el("span", "reel-val", r.value_text || "Number"), el("span", `tag ${v}`, VERDICT_SHORT[v])),
+        cellCrop(r, filingId),
+        el("span", "reel-row", r.row || r.metric || (v === "unchecked" ? "Not checked" : "No source")));
+      slide.onclick = () => select(i, true);
+      reel.append(slide);
+    });
+    const control = (tag, label, mark) => {
+      const c = blossomEl(tag); c.setAttribute("for", id);
+      if (label) { c.setAttribute("aria-label", label); c.append(el("span", "", mark)); }
+      return c;
+    };
+    const controls = el("div", "reel-controls",
+      control("blossom-prev", "Previous number", "←"), control("blossom-dots"), control("blossom-next", "Next number", "→"));
+    const card = tcard("Every number at its source", el("div", "", reel, controls), "Drag, swipe or use the arrows");
+    card.setAttribute("aria-label", "Every number at its source");
+    box.append(card);
   }
   function drawTable(box) {
     const table = el("table", "ledger");
@@ -1667,7 +1823,7 @@ function makeBench(memoSlot, resultSlot, deskOrEl, {lines = false, labelSlot = n
       const holds = result.record ? result.record.holds : undefined;
       if (release) drawRelease(resultSlot, holds);
       if (!lines) {
-        if (receipts.length) drawTable(resultSlot);
+        if (receipts.length) { drawReel(resultSlot); drawTable(resultSlot); }
         else resultSlot.append(el("p", "msg", "No numbers found in this investment memo, so nothing to mark."));
       }
     }
@@ -2183,19 +2339,23 @@ async function loadCreate() {
   create.gallery = r.gallery || r.prompts || [];
   gallery.replaceChildren();
   if (create.gallery.length) {
-    gallery.append(el("p", "chips-kicker", "Start from an example"));
+    const menu = el("section", "examples");
+    menu.setAttribute("aria-labelledby", "examplesTitle");
+    const title = el("h2", "", "Examples"); title.id = "examplesTitle";
+    menu.append(el("div", "ex-head", title, el("span", "ex-note")));
+    gallery.append(menu);
     const groups = [...new Set([...GROUPS, ...create.gallery.map(g => g.group).filter(Boolean)])];
     const draw = (rows, name) => {
       if (!rows.length) return;
       const box = el("div", "gallery");
-      if (name) gallery.append(el("p", "gallery-group", name));
+      if (name) menu.append(el("p", "gallery-group", name));
       rows.forEach(({g, i}) => {
         const text = galleryPrompt(g);
         if (!text) return;
         const b = el("button", "gallery-row",
           el("span", "gallery-name", String(g.title || g.name || text)),
           el("span", "gallery-line", String(g.line || GALLERY_LINES[g.id] || g.summary || "")),
-          el("span", "gallery-meta", el("span", "gallery-tag")));
+          el("span", "gallery-meta", el("span", "gallery-tag"), el("span", "gallery-go", "Run →")));
         b.dataset.i = i; b.type = "button"; b.setAttribute("aria-pressed", "false");
         b.onclick = () => {
           const input = $("createInput");
@@ -2205,12 +2365,13 @@ async function loadCreate() {
           create.picked = g;
           drawAssumption(specOf(g));
           guideMark("pick");
-          $("createInput").focus();
           drawCreateHint();
+          // A recorded example runs at once in Demo. Live waits for the button, since it spends a call.
+          if (!isLive() && g.saved) runCreate(); else $("createRun").focus();
         };
         box.append(b);
       });
-      gallery.append(box);
+      menu.append(box);
     };
     const all = create.gallery.map((g, i) => ({g, i}));
     groups.forEach(name => draw(all.filter(({g}) => g.group === name), name));
@@ -2226,11 +2387,13 @@ function createRecorded() {
   return !!(g && g.saved);
 }
 function drawGalleryTags() {
-  const live = isLive(), typed = $("createInput").value.trim();
+  const live = isLive(), typed = $("createInput").value.trim(), note = document.querySelector("#createGallery .ex-note");
+  if (note) note.textContent = live ? "Each one calls Muse, about a minute." : "Recorded, so each one runs at once.";
   document.querySelectorAll("#createGallery .gallery-row").forEach(row => {
     const g = (create.gallery || [])[+row.dataset.i];
     if (!g) return;
     row.querySelector(".gallery-tag").textContent = !live && !g.saved ? "Live" : "";
+    row.querySelector(".gallery-go").textContent = live || !g.saved ? "Use →" : "Run →";
     row.setAttribute("aria-pressed", String(galleryPrompt(g).trim() === typed));
   });
 }
@@ -2240,20 +2403,16 @@ function drawCreateHint() {
   drawGalleryTags();
   h.textContent = isLive() ? "Live. Calls Muse now, about a minute."
     : createRecorded() ? "Recorded. Instant."
-    : !typed ? "Pick an example to run it in Demo."
+    : !typed ? "Pick an example from the list to run it in Demo."
     : liveOn() ? "This needs Muse. Switch to Live to run it."
     : "This needs Muse. Live is off on this server.";
 }
-function companyChoice() {
-  const sel = el("select", "field company-choice");
-  (START && START.filings || []).forEach(f => { const o = el("option", "", f.company); o.value = f.id; sel.append(o); });
-  sel.setAttribute("aria-label", "Company to run it on");
-  return sel;
-}
 function drawInstalled(list) {
   const box = $("createInstalled");
-  if (!list.length) { box.replaceChildren(tcard("Installed plugins", el("p", "msg", "None yet. A plugin appears here once a person approves it."))); return; }
-  const rows = el("div", "tcard-body");
+  const section = (...kids) => el("section", "lib-sec", el("div", "lib-head", el("h2", "", "Installed"),
+    el("span", "lib-count", list.length ? String(list.length) : "")), ...kids);
+  if (!list.length) { box.replaceChildren(section(el("p", "lib-empty", "None yet. Approve a plugin and it lands here, ready to run."))); return; }
+  const rows = el("div", "lib-rows");
   list.forEach(p => {
     if (!p.name) { // a file on disk with no approved name: the server says why, and it cannot run
       rows.append(el("div", "installed", el("div", "", el("span", "rule-name", "Unknown file"), el("p", "rule-act", String(p.reason || "")))));
@@ -2264,35 +2423,34 @@ function drawInstalled(list) {
       p.summary ? el("p", "rule-act", String(p.summary)) : null));
     const out = el("div", "installed-out"); out.hidden = true;
     if (p.status === "active") {
-      const company = companyChoice();
       const spec = specOf(p) || specOf(p.definition);
       const yours = spec ? el("input", "field") : null;
       if (yours) { yours.value = String(spec.example ?? ""); yours.setAttribute("aria-label", `${sentenceCase(spec.label)}. Your number.`); yours.placeholder = "Such as 100bn"; }
-      const run = el("button", "btn", "Run"); run.type = "button";
+      const run = el("button", "btn", "Run on every filing"); run.type = "button";
       run.onclick = async () => {
-        run.disabled = true; out.hidden = false; loading(out, "Running.");
+        if (yours && !yours.value.trim()) { out.hidden = false; out.replaceChildren(el("p", "msg", `Enter the ${spec.label || "number"} to run this.`)); yours.focus(); return; }
+        run.disabled = true; out.hidden = false; loading(out, "Running on every filing.");
         try {
-          const params = {filing: company.value};
-          if (yours && yours.value.trim()) params.assumption = yours.value.trim();
-          const o = await door(capability, params);
+          const filings = START && START.filings || [];
+          const params = f => ({filing: f.id, ...(yours && yours.value.trim() ? {assumption: yours.value.trim()} : {})});
+          const runs = await Promise.all(filings.map(f => door(capability, params(f)).then(o => ({o, f}))));
           out.replaceChildren();
-          if (o.status !== "done" || !o.result) out.append(el("p", "msg bad", outcomeWords(o)));
-          else {
-            const f = filingById(company.value);
-            if (o.result.assumption_used) out.append(el("p", "advice installed-advice", "Arithmetic on your number, not advice"));
-            drawWorking(out, {...o.result, filing: o.result.filing || company.value, company: o.result.company || (f && f.company)}, spec, true);
-          }
+          const done = runs.filter(({o}) => o.status === "done" && o.result);
+          if (!done.length) out.append(el("p", "msg bad", runs.length ? outcomeWords(runs[0].o) : "No filings on this server."));
+          else drawResultsTable(out, {definition: {assumption: spec}, results: runs.map(({o, f}) => o.status === "done" && o.result
+            ? {...o.result, filing: o.result.filing || f.id, company: o.result.company || f.company}
+            : {status: "unavailable", filing: f.id, company: f.company, reason: outcomeWords(o)})}, {source: false});
         } catch (e) { out.replaceChildren(el("p", "msg bad", e.message)); }
         run.disabled = false;
       };
-      row.append(el("div", "installed-run", company, yours ? el("label", "installed-yours", el("span", "", `${sentenceCase(spec.label)}, your number`), yours) : null, run));
+      row.append(el("div", "installed-run", yours ? el("label", "installed-yours", el("span", "", `${sentenceCase(spec.label)}, your number`), yours) : null, run));
     } else {
       row.append(el("div", "installed-run", el("span", "rule-val", String(p.status || "")), p.reason ? el("p", "rule-act", String(p.reason)) : null));
     }
     row.append(out);
     rows.append(row);
   });
-  box.replaceChildren(tcard("Installed plugins", rows, plural(list.length, "plugin", "plugins")));
+  box.replaceChildren(section(rows));
 }
 const plainValue = v => v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v);
 const PERIOD_WORDS = {quarter: "one quarter", six_months: "six months", nine_months: "nine months", full_year: "a full year", as_of: "as of a date", latest: "the latest period"};
@@ -2346,7 +2504,7 @@ function drawWorking(box, r, spec, withValue) {
   }
 }
 /* The hero: one row per company. Selecting a row shows its working. */
-function drawResultsTable(slot, res) {
+function drawResultsTable(slot, res, {source = true} = {}) {
   const results = Array.isArray(res.results) ? res.results : [];
   const spec = res.definition && res.definition.assumption;
   const box = el("section", "results");
@@ -2373,7 +2531,7 @@ function drawResultsTable(slot, res) {
       el("span", "result-company", String(r.company || r.filing || "")),
       el("span", "result-period", r.status === "computed" ? String(r.period || "") : ""),
       el("span", ok ? "result-value" : "result-reason", ok ? String(resultShown(r) ?? "") : String(r.reason || "Nothing computed.")),
-      el("span", "result-source", recorded ? "Recorded" : "Live"));
+      source ? el("span", "result-source", recorded ? "Recorded" : "Live") : null);
     b.type = "button"; b.setAttribute("aria-pressed", "false");
     b.onclick = () => pick(i, b);
     const li = el("div", "result-item", b);
@@ -2448,7 +2606,8 @@ async function runCreate() {
       drawAssumption({...spec, example}, had);
     } else drawAssumption(null);
     drawCreateResult(out.result);
-    slot.scrollIntoView({block: "start"});
+    const top = slot.getBoundingClientRect().top;  // move only if the result starts out of sight, so the side panes stay put
+    if (top < 0 || top > innerHeight * 0.6) slot.scrollIntoView({block: "start"});
     guideMark("install");
     $("announce").textContent = "Muse wrote the plugin. Code ran it on every filing. A person approves before it installs.";
   } catch (e) {
