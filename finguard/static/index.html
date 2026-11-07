@@ -2388,7 +2388,7 @@ function createRecorded() {
 }
 function drawGalleryTags() {
   const live = isLive(), typed = $("createInput").value.trim(), note = document.querySelector("#createGallery .ex-note");
-  if (note) note.textContent = live ? "Each one calls Muse, about a minute." : "Recorded, so each one runs at once.";
+  if (note) note.textContent = live ? "Each one calls Muse, about a minute." : "Recorded, so no call to Muse. A few seconds each.";
   document.querySelectorAll("#createGallery .gallery-row").forEach(row => {
     const g = (create.gallery || [])[+row.dataset.i];
     if (!g) return;
@@ -2402,7 +2402,7 @@ function drawCreateHint() {
   h.hidden = false;
   drawGalleryTags();
   h.textContent = isLive() ? "Live. Calls Muse now, about a minute."
-    : createRecorded() ? "Recorded. Instant."
+    : createRecorded() ? "Recorded. No call to Muse."
     : !typed ? "Pick an example from the list to run it in Demo."
     : liveOn() ? "This needs Muse. Switch to Live to run it."
     : "This needs Muse. Live is off on this server.";
@@ -2593,7 +2593,7 @@ async function runCreate() {
   create.running = true; $("createRun").disabled = true;
   slot.replaceChildren(); create.desk.clear(); create.rowIndex = null;
   const live = isLive();
-  const clock = startClock($("createClock"), live ? "Muse is writing the plugin." : "Opening the recording.", live ? "About a minute." : "Instant.");
+  const clock = startClock($("createClock"), live ? "Muse is writing the plugin." : "Opening the recording.", live ? "About a minute." : "A few seconds.");
   try {
     const out = await door("plugins.create", {prompt, ...assumptionParam(), ...liveParam()});
     if (out.status !== "done" || !out.result) throw new ApiError(/no such capability/i.test(out.why || "") ? CREATE_MISSING : outcomeWords(out));
