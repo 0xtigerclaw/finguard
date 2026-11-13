@@ -3,12 +3,12 @@
 Finguard checks every number in a finance memo against the filing. Muse proposes, code
 verifies, and a person releases. Read `docs/architecture.md` before changing anything.
 
-## Rules that can disqualify the entry
+## Rules that must never be broken
 
-- **New work only.** This entry must contain only code written during the Meta hackathon.
+- **New work only.** This repository must contain only code written for Finguard.
   Never read, open, grep or copy anything from `../finrail`, `monte-agentkit`, DealLens or any
   other existing project. Ideas may be credited. Code may not be reused.
-- **Do not touch the Nebius entry.** Never deploy to or change the `finrail-demo` service, and
+- **Do not touch Finrail.** Never deploy to or change the `finrail-demo` service, and
   never change the `finrail` repo from here.
 - **Never fake a result.** Do not edit `eval/results_*.json` by hand, and do not re-record Muse
   replies to get a better verdict. Report what really happened.

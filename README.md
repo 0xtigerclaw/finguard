@@ -1,14 +1,14 @@
 # Finguard
 
-![No source. No sign-off. Muse retrieves. Code verifies. Person approves. Finance Harness Powered by Meta Muse. A real S-1 table with the net loss cell, (80,748), marked in red.](docs/img/thumbnail.png)
+![No source. No sign-off. Muse retrieves. Code verifies. Person approves. A real S-1 table with the net loss cell, (80,748), marked in red.](docs/img/thumbnail.png)
 
-**A finance harness inspired by DeepSeek Harness, running on Meta Muse.**
+**A finance harness inspired by DeepSeek Harness, running on Muse.**
 
 Finguard checks every number in an investment memo against the filing. A fund then builds its own rules, valuation methods and workflows on top, as plugins. Every plugin states in code whether it reads or acts, who must approve it, and how its result is verified.
 
 **Try it:** https://finguard-157951168487.asia-south1.run.app
 
-**Built with:** We used Meta Wonder and Claude Opus 5.5 to build this. Meta Muse Spark 1.3 runs inside it.
+**Built with:** We used Muse Wonder and Claude Opus 5.5 to build this. Muse Spark 1.3 runs inside it.
 
 ![Finguard checking an investment memo. Two numbers are ringed in red as wrong, and the filing page beside them shows the cell code read.](docs/img/check.png)
 
@@ -131,9 +131,9 @@ See [docs/architecture.md](docs/architecture.md) for how it is put together.
 
 ## How it was built
 
-We used Meta Wonder and Claude Opus 5.5 to build this. Claude Opus 5.5 wrote and reviewed the code. At runtime, Finguard calls one model, Meta Muse Spark 1.3.
+We used Muse Wonder and Claude Opus 5.5 to build this. Claude Opus 5.5 wrote and reviewed the code. At runtime, Finguard calls one model, Muse Spark 1.3.
 
-Built during the Meta Global AI Developer Hackathon, and all code in this repository is new. The idea, the look and the house rule idea come from [Finrail](https://github.com/0xtigerclaw/finrail), my earlier project, and no Finrail code is used. DeepSeek Harness ([repo](https://github.com/deepseek-ai/deepseek-harness), MIT) inspired the record and replay design. The filings in `data/` are public documents, listed with sources and hashes in `data/sources.json`.
+All code in this repository is new. The idea, the look and the house rule idea come from [Finrail](https://github.com/0xtigerclaw/finrail), my earlier project, and no Finrail code is used. DeepSeek Harness ([repo](https://github.com/deepseek-ai/deepseek-harness), MIT) inspired the record and replay design. The filings in `data/` are public documents, listed with sources and hashes in `data/sources.json`.
 
 ## Licence
 

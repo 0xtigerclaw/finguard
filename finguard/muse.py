@@ -1,4 +1,4 @@
-"""The one door to Meta's Muse. Calls are recorded, failures are named, nothing retries here."""
+"""The one door to Muse. Calls are recorded, failures are named, nothing retries here."""
 from __future__ import annotations
 
 import base64
@@ -14,7 +14,7 @@ from .record import Run, sha256
 
 BASE_URL = "https://api.meta.ai/v1"
 DEFAULT_MODEL = "muse-spark-1.3"
-MAX_IMAGES = 50  # Meta's limit per request
+MAX_IMAGES = 50  # the model API's limit per request
 
 
 class Transport(Protocol):
