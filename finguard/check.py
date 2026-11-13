@@ -685,6 +685,8 @@ def _locate_again(claim: Claim, filing: Filing, pages: list[int], first: dict, m
     """
     index, page, box = first["page"], pages[first["page"]], first["box"]
     bounds = _crop_bounds(box)
+    if bounds[3] <= bounds[1]:
+        return first  # the box is off the page, so there is nothing to crop
     reply = muse.ask(LOCATE_SYSTEM, [{"type": "text", "text": _locate_ask(claim)},
                                      image_part(_crop_image(filing, page, bounds))],
                      "MetricLocation", LOCATE_SCHEMA)

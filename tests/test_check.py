@@ -355,6 +355,17 @@ def test_a_failed_second_look_keeps_the_first_refusal(s1, run, muse_with):
     assert r.verdict == REFUSED and "0 numbers" in r.why and len(transport.sent) == 3
 
 
+def test_a_box_off_the_page_is_refused_without_a_second_look(s1, run, muse_with):
+    c = Claim(**EXTRACTED)
+    x0, _, x1, _ = box_for(s1, BRIDGE, "1,618")
+    for box in ([x0, 1100, x1, 1120], [x0, -200, x1, -150]):  # below the page, above it: nothing to crop
+        first = {"found": True, "page": _page_position(s1, c), "box": box, "row_label": "Adjusted Operating Income (Loss)"}
+        muse, transport = muse_with({"claims": [EXTRACTED]}, first)
+        r = check_memo(MEMO, s1, muse, run)[0]
+        assert r.verdict == REFUSED and "0 numbers" in r.why
+        assert len(transport.sent) == 2  # list the claims, point; no crop call
+
+
 def test_no_second_look_when_the_first_reply_found_nothing(s1, run, muse_with):
     muse, transport = muse_with({"claims": [EXTRACTED]}, {"found": False, "page": 0, "box": [], "row_label": ""})
     r = check_memo(MEMO, s1, muse, run)[0]
